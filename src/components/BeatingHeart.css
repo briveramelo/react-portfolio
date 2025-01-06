@@ -1,0 +1,42 @@
+.heart {
+    font-size: 45px;
+    animation: none; /* Default to none so we can trigger it dynamically in TSX */
+}
+
+@keyframes cardiacCycle {
+    0% {
+        transform: scale(1); /* Resting size */
+    }
+    14.53% {
+        transform: scale(1.05); /* P wave peak */
+        transition-timing-function: ease-in-out;
+    }
+    24.44% {
+        transform: scale(1); /* P wave end */
+    }
+    38.29% {
+        transform: scale(1); /* Q wave start */
+    }
+    43.25% {
+        transform: scale(0.9); /* Q wave */
+    }
+    47.69% {
+        transform: scale(1.5); /* R wave */
+    }
+    53.16% {
+        transform: scale(0.85); /* S wave */
+    }
+    57.44% {
+        transform: scale(1); /* S wave end */
+    }
+    76.24% {
+        transform: scale(1); /* T wave start */
+    }
+    90.09% {
+        transform: scale(1.15); /* T wave peak */
+        transition-timing-function: ease-in-out;
+    }
+    100% {
+        transform: scale(1); /* T wave end */
+    }
+}
