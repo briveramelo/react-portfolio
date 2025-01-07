@@ -3,6 +3,7 @@ import {
   Box,
   Typography,
   LinearProgress,
+  Grid,
   linearProgressClasses,
 } from "@mui/material";
 import { styled } from "@mui/system";
@@ -24,37 +25,75 @@ const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-const Skill: React.FC<SkillProps> = ({ skill }) => {
-  const { name, stat, src } = skill;
+const Skill: React.FC<SkillProps> = ({ skill}) => {
+  const { name, stat, src, year } = skill;
+  const size = "50px";
 
   return (
-    <Box display="flex" alignItems="center" mb={1} sx={{ height: 40 }}>
-      <Box sx={{ height: "100%", mr: 1 }}>
-        <img
-          src={`../assets/skills/${src}`}
-          alt={name}
-          style={{ height: "100%", objectFit: "contain" }}
-        />
-      </Box>
-      <Box flexGrow={1}>
-        <Box display="flex" justifyContent="space-between">
-          <Typography variant="body1">{name}</Typography>
-          <Typography variant="body2" sx={{ color: getProgressColor(stat) }}>
-            {stat}
-          </Typography>
-        </Box>
-        <ColorfulLinearProgress
-          variant="determinate"
-          value={stat}
+    <Grid
+      container
+      spacing={1.5}
+      alignItems="center"
+      sx={{ mb: 3 }}
+      wrap="nowrap"
+    >
+      {/* Icon Column */}
+      <Grid
+        item
+        sx={{
+          width: `${size}`,
+          height: `${size}`,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Box
           sx={{
-            [`& .${linearProgressClasses.bar}`]: {
-              backgroundColor: getProgressColor(stat),
-            },
-            maxWidth: 150,
+            width: `${size}`,
+            height: `${size}`,
           }}
-        />
-      </Box>
-    </Box>
+        >
+          <img
+            src={`/src/assets/skills/${src}`} // Ensure correct path
+            alt={name}
+            style={{
+              maxWidth: "100%",
+              maxHeight: "100%",
+              objectFit: "contain",
+            }}
+          />
+        </Box>
+      </Grid>
+
+      {/* Fill Bar Column */}
+      <Grid item xs sx={{ height: `${size}` }}>
+        <Box>
+          {/* Skill Name and Stat */}
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            mb={0.5}
+          >
+            <Typography variant="body1">{name}</Typography>
+            <Typography variant="body1" sx={{ color: getProgressColor(stat) }}>
+              {stat}
+            </Typography>
+          </Box>
+
+          {/* Progress Bar */}
+          <ColorfulLinearProgress
+            variant="determinate"
+            value={stat}
+            sx={{
+              [`& .${linearProgressClasses.bar}`]: {
+                backgroundColor: getProgressColor(stat),
+              },
+            }}
+          />
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 

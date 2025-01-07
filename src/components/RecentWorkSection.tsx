@@ -14,14 +14,14 @@ const projects: Project[] = [
     title: "The Pocket Optimist",
     description:
       "Your internal monologue determines much of your success. Bring a therapy transcript or a journal entry and try an experimental AI demo.",
-    image: "/assets/pessimistic-night_7xE-YHJLFyuFgT_pzuSoK.jpg",
+    image: "/src/assets/projects/pessimistic-night.jpg",
     link: "#",
   },
   {
     title: "SmartChart",
     description:
       "For small clinics, insurance reimbursement piles on admin work. See how SmartChart’s AI can do the heavy lifting.",
-    image: "/assets/DigitalHealth4x3_zuW_r0SW4ZGVQQHYVeG8Z.jpg",
+    image: "/src/assets/orgs/DigitalHealth4x3.jpg",
     link: "#",
   },
 ];

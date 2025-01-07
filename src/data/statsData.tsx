@@ -3,7 +3,7 @@ export const statsData = [
     category: "Game Development",
     stats: [
       { name: "Unity", stat: 85, year: 2014, src: "unity.svg" },
-      { name: "C#", stat: 90, year: 2014, src: "c#.svg" },
+      { name: "C#", stat: 90, year: 2014, src: "csharp.svg" },
     ],
   },
   {
@@ -11,7 +11,6 @@ export const statsData = [
     stats: [
       { name: "AWS", stat: 75, year: 2023, src: "aws.svg" },
       { name: "GCP", stat: 80, year: 2024, src: "google-cloud.svg" },
-      { name: "Linux", stat: 85, year: 2016, src: "linux.svg" },
       { name: "Docker", stat: 85, year: 2020, src: "docker.svg" },
     ],
   },
@@ -21,9 +20,7 @@ export const statsData = [
       { name: "HTML", stat: 75, year: 2016, src: "html5.svg" },
       { name: "CSS", stat: 75, year: 2016, src: "css3.svg" },
       { name: "JS", stat: 85, year: 2016, src: "javascript.svg" },
-      // TODO: missing react.svg or "react.png"
       { name: "React", stat: 75, year: 2024, src: "react.svg" },
-      // TODO: missing jQuery icon
       { name: "jQuery", stat: 85, year: 2016, src: "jquery.svg" },
     ],
   },
@@ -32,10 +29,9 @@ export const statsData = [
     stats: [
       { name: "Java", stat: 85, year: 2016, src: "java.svg" },
       { name: "Python", stat: 80, year: 2024, src: "python.svg" },
-      // TODO: missing Go icon
       { name: "Go", stat: 65, year: 2024, src: "go.svg" },
-      // TODO: missing SQL and NoSQL icons
       { name: "SQL", stat: 80, year: 2016, src: "sql.svg" },
+      // TODO: missing NoSQL icon
       { name: "NoSQL", stat: 90, year: 2024, src: "nosql.svg" },
     ],
   },
@@ -43,8 +39,8 @@ export const statsData = [
     category: "Other",
     stats: [
       { name: "C++", stat: 70, year: 2019, src: "c++.svg" },
-      // TODO: missing Bash, CI/CD, HIPAA icons
       { name: "Bash", stat: 85, year: 2019, src: "bash.svg" },
+      // TODO: missing CI/CD, HIPAA icons
       { name: "CI/CD", stat: 80, year: 2019, src: "cicd.svg" },
       { name: "HIPAA", stat: 90, year: 2019, src: "hipaa.svg" },
     ],
@@ -52,9 +48,9 @@ export const statsData = [
   {
     category: "Art",
     stats: [
-      { name: "Photoshop", stat: 50, year: 2011, src: "photoshop.svg" },
-      { name: "Illustrator", stat: 60, year: 2011, src: "illustrator.svg" },
-      { name: "Premier", stat: 40, year: 2017, src: "premiere.svg" },
+      { name: "Photoshop", stat: 15, year: 2011, src: "photoshop.svg" },
+      { name: "Illustrator", stat: 10, year: 2011, src: "illustrator.svg" },
+      { name: "Premier", stat: 5, year: 2017, src: "premiere.svg" },
     ],
   },
   {

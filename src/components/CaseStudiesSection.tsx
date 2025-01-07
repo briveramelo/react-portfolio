@@ -8,7 +8,7 @@ const caseStudies = [
     category: "HealthTech",
     description:
       "Tilt Tracker is like Fitbit for power wheelchairs; it’s an IoT sensor for people with spinal cord injury...",
-    image: "/assets/josh-tilt-2_CyadjYOz_TgISB_IAUC-6.jpg",
+    image: "/src/assets/projects/josh-tilt-2.jpg",
     link: "#",
     linkText: "View case study",
     color: "#e53935", // Red background
@@ -19,7 +19,7 @@ const caseStudies = [
     category: "EdTech",
     description:
       "ABCmouse is the #1 learning app for children ages 2–8, loved by kids and parents across the world.",
-    image: "/assets/abcmouse_Un_l1N89US7TJ0JTWyXsD.jpg",
+    image: "/src/assets/projects/abcmouse.jpg",
     link: "#",
     linkText: "View case study",
     color: "#1e88e5", // Blue background
@@ -30,7 +30,7 @@ const caseStudies = [
     category: "Design",
     description:
       "DFA is a national network of student-led teams using human-centered design to tackle big challenges like childhood obesity.",
-    image: "/assets/FruitBuddiKid_QFffZvqphT887REdEelFV.jpg",
+    image: "/src/assets/projects/FruitBuddiKid.jpg",
     link: "#",
     linkText: "View case study",
     color: "#43a047", // Green background

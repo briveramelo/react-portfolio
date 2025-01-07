@@ -77,11 +77,11 @@ export function Hero() {
           }}
         >
           <Avatar
-            src="../assets/people/brandon.jpg"
+            src="/src/assets/people/brandon.jpg"
             alt="Picture of Brandon"
             sx={{
-              width: 200,
-              height: 200,
+              width: 400,
+              height: 600,
               border: "4px solid",
               borderColor: "background.paper",
             }}

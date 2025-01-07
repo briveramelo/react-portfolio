@@ -16,14 +16,14 @@ const testimonialsData: Testimonial[] = [
     name: "Joshua Levenson",
     title: "Web Developer",
     company: "Charter School",
-    photo: "/assets/josh-levenson_PDN6BbxO6gDEQqXWuuPSL.jpeg",
+    photo: "/src/assets/people/josh-levenson.jpeg",
   },
   {
     quote: `He has a knack of approaching problems correctly and developing elegant solutions in a short amount of time... a pleasure working with him.`,
     name: "Abhinandan Sain",
     title: "Senior Software Engineering Manager",
     company: "Collins Aerospace",
-    photo: "/assets/andy_dJeUHV2Ht2KJjHQoDyuOR.jpeg",
+    photo: "/src/assets/people/andy.jpeg",
   },
   // Add more testimonials as needed
 ];
