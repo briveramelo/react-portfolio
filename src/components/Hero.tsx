@@ -24,21 +24,21 @@ export function Hero() {
       >
         {/* Text Section */}
         <Box sx={{ flex: 1 }}>
-            <Typography
-                variant="h2"
-                component="h1"
-                sx={{
-                    fontWeight: "bold",
-                    fontSize: { xs: "2.5rem", md: "3.5rem" },
-                    color: "text.light",
-                }}
-            >
-                Brandon
-                <br />
-                Rivera-Melo
-            </Typography>
+          <Typography
+            variant="h2"
+            component="h1"
+            sx={{
+              fontWeight: "bold",
+              fontSize: { xs: "2.5rem", md: "3.5rem" },
+              color: "text.light",
+            }}
+          >
+            Brandon
+            <br />
+            Rivera-Melo
+          </Typography>
 
-            <Typography
+          <Typography
             variant="body1"
             sx={{
               fontSize: "1.25rem",

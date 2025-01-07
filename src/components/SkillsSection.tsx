@@ -1,43 +1,44 @@
 import React, { useState } from "react";
 import SkillCategory from "./SkillCategory";
 import { statsData } from "../data/statsData";
-import {Box, Button, Switch, Typography} from "@mui/material";
+import { Box, Button, Typography, Grid} from "@mui/material";
 
 export const SkillsSection: React.FC = () => {
-  const [animate, setAnimate] = useState<boolean>(true);
+    const [animate, setAnimate] = useState<boolean>(true);
 
-  const toggleAnimation = () => {
-    setAnimate((prev) => !prev);
-  };
+    const toggleAnimation = () => {
+        setAnimate((prev) => !prev);
+    };
 
-  return (
-    <Box sx={{
-        p: 2,
-        backgroundColor: "background.dark",
-        color: "text.light",
-        py: 10,
-    }}>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mb={2}
-      >
-        <Typography variant="h4">Skills</Typography>
-        <Box display="flex" alignItems="center">
-          <Typography>Animate</Typography>
+    return (
+        <Box
+            sx={{
+                p: 2,
+                backgroundColor: "background.dark",
+                color: "text.light",
+                py: 10,
+                textAlign: "center", // Center all text content
+            }}
+        >
+            <Typography variant="h2" sx={{ mb: 2 }}>
+                Skills
+            </Typography>
             <Button
                 variant="contained"
                 onClick={toggleAnimation}
+                sx={{
+                    mb: 4,
+                }}
             >
                 {animate ? "See Years of Experience" : "See Stats"}
             </Button>
+            <Grid container spacing={4} justifyContent="center">
+                {statsData.map((category, index) => (
+                    <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={index}>
+                        <SkillCategory categoryData={category} animate={animate} />
+                    </Grid>
+                ))}
+            </Grid>
         </Box>
-      </Box>
-
-      {statsData.map((category, index) => (
-        <SkillCategory key={index} categoryData={category} animate={animate} />
-      ))}
-    </Box>
-  );
+    );
 };

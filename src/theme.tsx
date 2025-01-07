@@ -48,7 +48,7 @@ const theme = createTheme({
       red: "rgb(227,18,18)",
       orange: "rgb(255, 153, 0)",
       green: "rgb(30,206,30)",
-    }
+    },
   },
 
   typography: {

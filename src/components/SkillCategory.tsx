@@ -18,17 +18,25 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({ categoryData }) => {
   }, [stats]);
 
   return (
-    <Box sx={{ mb: 4 }}>
-      <Typography variant="h5" mb={2}>
-        {category}
-      </Typography>
-      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-        <SkillsRadialCategoryArc value={average} animate />
+      <Box sx={{ mb: 4, textAlign: "center" }}>
+          <Typography
+              variant="h5"
+              sx={{
+                  mb: 2,
+                  textTransform: "uppercase",
+                  fontWeight: "bold",
+              }}
+          >
+              {category}
+          </Typography>
+          <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+              <SkillsRadialCategoryArc value={average} animate />
+          </Box>
+          {stats.map((skill, idx) => (
+              <Skill key={idx} skill={skill} />
+          ))}
       </Box>
-      {stats.map((skill, idx) => (
-        <Skill key={idx} skill={skill} />
-      ))}
-    </Box>
+
   );
 };
 

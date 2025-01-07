@@ -1,4 +1,4 @@
-import {useTheme} from "@mui/material";
+import { useTheme } from "@mui/material";
 
 /**
  * Return a color (red / yellow / green) based on numeric value
