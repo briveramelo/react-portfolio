@@ -13,14 +13,14 @@ const projects: Project[] = [
   {
     title: "The Pocket Optimist",
     description:
-      "Your internal monologue determines much of your success. Bring a therapy transcript or a journal entry and try an experimental AI demo.",
+        "Your internal monologue determines much of your success in life. Bring a therapy transcript or a journal entry, and try an experimental AI demo to see what this means for you.",
     image: "/src/assets/projects/pessimistic-night.jpg",
     link: "#",
   },
   {
     title: "SmartChart",
     description:
-      "For small clinics, insurance reimbursement piles on admin work. See how SmartChart’s AI can do the heavy lifting.",
+        "For small clinics, insurance reimbursement piles on admin work. See how SmartChart's AI can do the heavy lifting.",
     image: "/src/assets/orgs/DigitalHealth4x3.jpg",
     link: "#",
   },
@@ -30,7 +30,7 @@ export const RecentWorkSection: React.FC = () => {
   return (
     <Box
       component="section"
-      id="projects"
+      id="recent"
       sx={{
         py: 10,
         backgroundColor: "background.paper",

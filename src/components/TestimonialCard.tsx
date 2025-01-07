@@ -36,21 +36,21 @@ export function TestimonialCard({ data }: { data: Testimonial }) {
             src={data.photo}
             alt={data.name}
             sx={{
-              width: 64,
-              height: 64,
+              width: 100,
+              height: 100,
             }}
           />
           <Box>
             <Typography
-              variant="subtitle1"
-              sx={{ fontWeight: "bold", color: "text.primary" }}
+              variant="h5"
+              sx={{ fontWeight: "bold", color: "text.secondary" }}
             >
               {data.name}
             </Typography>
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            <Typography variant="h6" sx={{ color: "text.secondary" }}>
               {data.title}
             </Typography>
-            <Typography variant="body2" sx={{ color: "text.disabled" }}>
+            <Typography variant="h7" sx={{ color: "text.disabled" }}>
               {data.company}
             </Typography>
           </Box>

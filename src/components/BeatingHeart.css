@@ -1,5 +1,5 @@
 .heart {
-  font-size: 45px;
+  font-size: 60px;
   animation: none; /* Default to none so we can trigger it dynamically in TSX */
 }
 

@@ -5,7 +5,7 @@ export function Hero() {
   return (
     <Box
       component="section"
-      id="hero"
+      id="brandon"
       sx={{
         backgroundColor: "background.dark",
         color: "text.secondary",

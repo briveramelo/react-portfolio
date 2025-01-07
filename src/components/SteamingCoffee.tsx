@@ -79,9 +79,10 @@ export const SteamingCoffee: React.FC = () => {
         width: "40px",
         height: "0px",
         zIndex: 1,
-        marginTop: "-20px", // Adjust as needed
+        marginTop: "-40px", // Adjust as needed
       }}
     >
+      <img src="/src/assets/coffee.png" alt="coffee" width={60}/>
       {steamRefs.map((steamRef, index) => (
         <Box
           key={index}
@@ -90,6 +91,8 @@ export const SteamingCoffee: React.FC = () => {
             position: "absolute",
             width: "4px",
             height: "33px",
+            marginTop: "-65px",
+            marginLeft: "28px",
             background:
               "radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 70%)",
             borderRadius: "50%",
