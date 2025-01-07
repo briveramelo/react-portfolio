@@ -3,107 +3,107 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
-import {LinkedIn} from "@mui/icons-material";
+import { LinkedIn } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 
 export function Header() {
-    return (
-        <AppBar
-            position="fixed"
-            sx={{
-                backgroundColor: "background.header",
-                color: "text.primary",
-                boxShadow: 3,
-            }}
+  return (
+    <AppBar
+      position="fixed"
+      sx={{
+        backgroundColor: "background.header",
+        color: "text.primary",
+        boxShadow: 3,
+      }}
+    >
+      <Box
+        sx={{
+          maxWidth: "calc(100% - 400px)", // 200px margins on each side
+          minWidth: "600px", // Minimum width of 600px
+          margin: "0 auto", // Centering horizontally
+        }}
+      >
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
         >
-            <Box
-                sx={{
-                    maxWidth: "calc(100% - 400px)", // 200px margins on each side
-                    minWidth: "600px", // Minimum width of 600px
-                    margin: "0 auto", // Centering horizontally
-                }}
+          {/* Navigation Links */}
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <Button
+              color="inherit"
+              href="/#brandon"
+              sx={{
+                textTransform: "none",
+                fontWeight: "bold",
+                "&:hover": { opacity: 0.8 },
+              }}
             >
-                <Toolbar
-                    sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                    }}
-                >
-                    {/* Navigation Links */}
-                    <Box sx={{display: "flex", gap: 2}}>
-                        <Button
-                            color="inherit"
-                            href="/#brandon"
-                            sx={{
-                                textTransform: "none",
-                                fontWeight: "bold",
-                                "&:hover": {opacity: 0.8},
-                            }}
-                        >
-                            Home
-                        </Button>
-                        <Button
-                            color="inherit"
-                            href="#casestudies"
-                            sx={{
-                                textTransform: "none",
-                                fontWeight: "bold",
-                                "&:hover": {opacity: 0.8},
-                            }}
-                        >
-                            Case Studies
-                        </Button>
-                        <Button
-                            color="inherit"
-                            href="#testimonials"
-                            sx={{
-                                textTransform: "none",
-                                fontWeight: "bold",
-                                "&:hover": {opacity: 0.8},
-                            }}
-                        >
-                            Testimonials
-                        </Button>
-                        <Button
-                            color="inherit"
-                            href="#recent"
-                            sx={{
-                                textTransform: "none",
-                                fontWeight: "bold",
-                                "&:hover": {opacity: 0.8},
-                            }}
-                        >
-                            Recent
-                        </Button>
-                        <Button
-                            color="inherit"
-                            href="#contact"
-                            sx={{
-                                textTransform: "none",
-                                fontWeight: "bold",
-                                "&:hover": {opacity: 0.8},
-                            }}
-                        >
-                            Contact
-                        </Button>
-                    </Box>
+              Home
+            </Button>
+            <Button
+              color="inherit"
+              href="#casestudies"
+              sx={{
+                textTransform: "none",
+                fontWeight: "bold",
+                "&:hover": { opacity: 0.8 },
+              }}
+            >
+              Case Studies
+            </Button>
+            <Button
+              color="inherit"
+              href="#testimonials"
+              sx={{
+                textTransform: "none",
+                fontWeight: "bold",
+                "&:hover": { opacity: 0.8 },
+              }}
+            >
+              Testimonials
+            </Button>
+            <Button
+              color="inherit"
+              href="#recent"
+              sx={{
+                textTransform: "none",
+                fontWeight: "bold",
+                "&:hover": { opacity: 0.8 },
+              }}
+            >
+              Recent
+            </Button>
+            <Button
+              color="inherit"
+              href="#contact"
+              sx={{
+                textTransform: "none",
+                fontWeight: "bold",
+                "&:hover": { opacity: 0.8 },
+              }}
+            >
+              Contact
+            </Button>
+          </Box>
 
-                    {/* LinkedIn Icon */}
-                    <IconButton
-                        component="a"
-                        href="https://www.linkedin.com/in/briveramelo"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        sx={{
-                            color: "text.primary",
-                            "&:hover": {opacity: 0.8},
-                        }}
-                    >
-                        <LinkedIn/>
-                    </IconButton>
-                </Toolbar>
-            </Box>
-        </AppBar>
-    );
+          {/* LinkedIn Icon */}
+          <IconButton
+            component="a"
+            href="https://www.linkedin.com/in/briveramelo"
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              color: "text.primary",
+              "&:hover": { opacity: 0.8 },
+            }}
+          >
+            <LinkedIn />
+          </IconButton>
+        </Toolbar>
+      </Box>
+    </AppBar>
+  );
 }

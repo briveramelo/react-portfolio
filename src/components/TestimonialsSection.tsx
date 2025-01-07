@@ -42,7 +42,6 @@ const testimonialsData: Testimonial[] = [
   },
 ];
 
-
 export const TestimonialsSection: React.FC = () => {
   return (
     <Box

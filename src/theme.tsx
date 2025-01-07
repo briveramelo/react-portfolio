@@ -36,7 +36,7 @@ const theme = createTheme({
       default: "rgb(24, 24, 24)",
       paper: "rgb(245, 245, 240)",
       dark: "rgb(24, 24, 24)",
-      light: "rgb(245, 245, 240)",
+      light: "rgb(255, 255, 255)",
       header: "rgb(84, 84, 84)",
     },
     text: {

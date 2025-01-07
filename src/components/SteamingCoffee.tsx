@@ -82,7 +82,7 @@ export const SteamingCoffee: React.FC = () => {
         marginTop: "-40px", // Adjust as needed
       }}
     >
-      <img src="/src/assets/coffee.png" alt="coffee" width={60}/>
+      <img src="/src/assets/coffee.png" alt="coffee" width={60} />
       {steamRefs.map((steamRef, index) => (
         <Box
           key={index}
