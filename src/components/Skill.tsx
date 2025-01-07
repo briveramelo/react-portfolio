@@ -25,7 +25,7 @@ const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-const Skill: React.FC<SkillProps> = ({ skill}) => {
+const Skill: React.FC<SkillProps> = ({ skill }) => {
   const { name, stat, src, year } = skill;
   const size = "50px";
 

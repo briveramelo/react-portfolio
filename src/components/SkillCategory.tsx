@@ -24,7 +24,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({ categoryData }) => {
         sx={{
           mb: 2,
           fontWeight: "bold",
-          color: "text.light",
+          color: "text.primary",
           position: "absolute",
           top: "0px",
           left: "57.5%",

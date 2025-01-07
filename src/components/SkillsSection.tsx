@@ -15,7 +15,7 @@ export const SkillsSection: React.FC = () => {
       sx={{
         p: 2,
         backgroundColor: "background.dark",
-        color: "text.light",
+        color: "text.primary",
         py: 10,
         textAlign: "center", // Center all text content
       }}

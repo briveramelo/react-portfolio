@@ -7,8 +7,7 @@ export function ContactSection() {
       component="section"
       id="contact"
       sx={{
-        backgroundColor: "background.dark",
-        color: "text.secondary",
+        backgroundColor: "background.primary",
         py: 10,
         textAlign: "center",
         display: "flex",
@@ -26,10 +25,9 @@ export function ContactSection() {
       >
         {/* Section Title */}
         <Typography
-          variant="h3"
+          variant="h1"
           sx={{
             fontWeight: "bold",
-            fontSize: { xs: "2rem", md: "2.5rem" },
             color: "text.primary",
           }}
         >
@@ -42,7 +40,7 @@ export function ContactSection() {
           sx={{
             fontSize: "1.125rem",
             lineHeight: 1.75,
-            color: "text.secondary",
+            color: "text.primary",
           }}
         >
           No smoke bombs here - just sharp solutions.
@@ -55,7 +53,7 @@ export function ContactSection() {
               textDecoration: "underline",
             }}
           >
-            hi@brm.ninja
+            hi@riveramelo.com
           </a>
         </Typography>
       </Container>

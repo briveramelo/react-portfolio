@@ -42,8 +42,7 @@ export const TestimonialsSection: React.FC = () => {
       <Container maxWidth="lg">
         <Box sx={{ textAlign: "center", mb: 4 }}>
           <Typography
-            variant="h3"
-            component="h2"
+            variant="h1"
             gutterBottom
             sx={{ fontWeight: "bold", color: "text.primary" }}
           >
@@ -56,9 +55,10 @@ export const TestimonialsSection: React.FC = () => {
               Testimonials
             </a>
           </Typography>
-          <Typography variant="body1">
-            I care about the quality of my work and the teams I support, but you
-            should hear it from them.
+          <Typography variant="body1" sx={{ color: "text.primary" }}>
+            I care about the quality of my work and the teams I support,
+            <br />
+            but you should hear it from them.
           </Typography>
         </Box>
 

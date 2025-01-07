@@ -45,7 +45,7 @@ export function CaseStudiesSection() {
       id="casestudies"
       sx={{
         py: 10,
-        backgroundColor: "background.default",
+        backgroundColor: "background.paper",
         color: "text.primary",
       }}
     >
@@ -53,11 +53,10 @@ export function CaseStudiesSection() {
         {/* Header */}
         <Box sx={{ textAlign: "center", mb: 6 }}>
           <Typography
-            variant="h3"
-            component="h2"
+            variant="h1"
             sx={{
               fontWeight: "bold",
-              color: "text.primary",
+              color: "text.secondary",
               mb: 2,
             }}
           >
@@ -84,8 +83,12 @@ export function CaseStudiesSection() {
             gap: 4,
           }}
         >
-          {caseStudies.map((cs) => (
-            <CaseStudyCard key={cs.title} data={cs} />
+          {caseStudies.map((caseStudy, index) => (
+            <CaseStudyCard
+              key={caseStudy.title}
+              data={caseStudy}
+              flipped={index % 2 === 0}
+            />
           ))}
         </Box>
       </Container>

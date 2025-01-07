@@ -30,7 +30,7 @@ export function Hero() {
             sx={{
               fontWeight: "bold",
               fontSize: { xs: "2.5rem", md: "3.5rem" },
-              color: "text.light",
+              color: "text.primary",
             }}
           >
             Brandon
@@ -43,7 +43,7 @@ export function Hero() {
             sx={{
               fontSize: "1.25rem",
               mt: 2,
-              color: "text.light",
+              color: "text.primary",
               maxWidth: "600px",
             }}
           >

@@ -24,7 +24,6 @@ export function ProjectCard({ project }: { project: Project }) {
         backgroundColor: "background.paper",
         boxShadow: 3,
         borderRadius: 2,
-        overflow: "hidden",
       }}
     >
       <CardMedia
@@ -47,10 +46,10 @@ export function ProjectCard({ project }: { project: Project }) {
         }}
       >
         <Typography
-          variant="h5"
+          variant="h3"
           sx={{
             fontWeight: "bold",
-            color: "text.primary",
+            color: "text.secondary",
           }}
         >
           {project.title}
@@ -63,19 +62,6 @@ export function ProjectCard({ project }: { project: Project }) {
         >
           {project.description}
         </Typography>
-        <Box mt="auto">
-          <Button
-            variant="contained"
-            color="primary"
-            href={project.link}
-            sx={{
-              textTransform: "none",
-              fontWeight: "bold",
-            }}
-          >
-            Learn more
-          </Button>
-        </Box>
       </CardContent>
     </Card>
   );

@@ -19,12 +19,18 @@ interface CaseStudy {
   textColor: string; // Text color for category
 }
 
-export function CaseStudyCard({ data }: { data: CaseStudy }) {
+export function CaseStudyCard({
+  data,
+  flipped = false,
+}: {
+  data: CaseStudy;
+  flipped?: boolean;
+}) {
   return (
     <Card
       sx={{
         display: "flex",
-        flexDirection: { xs: "column", md: "row" },
+        flexDirection: { xs: "column", md: flipped ? "row-reverse" : "row" },
         boxShadow: 3,
         backgroundColor: "background.paper",
         borderRadius: 2,
@@ -45,66 +51,77 @@ export function CaseStudyCard({ data }: { data: CaseStudy }) {
           width: { xs: "100%", md: "50%" },
           display: "flex",
           flexDirection: "column",
+          justifyContent: "space-between", // Space between top (category/title) and bottom (description)
           gap: 2,
           p: 3,
         }}
       >
-        {/* Category Tag */}
+        {/* Top Section: Category Tag and Title */}
         <Box
           sx={{
-            display: "inline-block",
-            px: 2,
-            py: 1,
-            borderRadius: "999px",
-            fontSize: "0.875rem",
-            fontWeight: "bold",
-            backgroundColor: data.color,
-            color: data.textColor,
-            width: "fit-content",
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
           }}
         >
-          {data.category}
+          {/* Category Tag and Title Row */}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 2,
+            }}
+          >
+            {/* Category Tag */}
+            <Box
+              sx={{
+                display: "inline-block",
+                px: 2,
+                py: 1,
+                borderRadius: "999px",
+                fontSize: "0.875rem",
+                fontWeight: "bold",
+                backgroundColor: data.color,
+                color: data.textColor,
+                whiteSpace: "nowrap", // Prevent wrapping
+              }}
+            >
+              {data.category}
+            </Box>
+
+            {/* Title */}
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: "bold",
+                color: "text.secondary",
+                flexGrow: 1, // Let the title take remaining space
+              }}
+            >
+              {data.title}
+            </Typography>
+          </Box>
         </Box>
 
-        {/* Title */}
-        <Typography
-          variant="h5"
+        {/* Bottom Section: Description */}
+        <Box
           sx={{
-            fontWeight: "bold",
-            color: "text.primary",
+            flexGrow: 1, // Push the description down if space allows
+            display: "flex",
+            alignItems: "center", // Center the description vertically
           }}
         >
-          {data.title}
-        </Typography>
-
-        {/* Description */}
-        <Typography
-          variant="body1"
-          sx={{
-            color: "text.secondary",
-          }}
-        >
-          {data.description}
-        </Typography>
-
-        {/* Link Button */}
-        <Button
-          href={data.link}
-          variant="contained"
-          sx={{
-            backgroundColor: data.color,
-            color: data.textColor,
-            textTransform: "none",
-            fontWeight: "bold",
-            width: "fit-content",
-            "&:hover": {
-              backgroundColor: data.color,
-              opacity: 0.9,
-            },
-          }}
-        >
-          {data.linkText}
-        </Button>
+          <Typography
+            variant="body1"
+            fontSize="1.5rem"
+            sx={{
+              color: "text.secondary",
+            }}
+          >
+            {data.description}
+          </Typography>
+        </Box>
       </CardContent>
     </Card>
   );

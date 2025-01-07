@@ -33,17 +33,15 @@ export const RecentWorkSection: React.FC = () => {
       id="projects"
       sx={{
         py: 10,
-        backgroundColor: "background.stone", // Alternating background color
-        color: "text.primary",
+        backgroundColor: "background.paper",
       }}
     >
       <Container maxWidth="lg">
         <Box sx={{ textAlign: "center", mb: 4 }}>
           <Typography
-            variant="h3"
-            component="h2"
+            variant="h1"
             gutterBottom
-            sx={{ fontWeight: "bold", color: "text.primary" }}
+            sx={{ fontWeight: "bold", color: "text.secondary" }}
           >
             Recent Work
           </Typography>
