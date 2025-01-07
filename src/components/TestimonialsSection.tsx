@@ -1,8 +1,16 @@
-import React from 'react'
-import { Container, Typography } from '@mui/material'
-import { TestimonialCard } from './TestimonialCard'
+import React from 'react';
+import { Container, Typography, Grid, Box } from '@mui/material';
+import { TestimonialCard } from './TestimonialCard';
 
-const testimonialsData = [
+interface Testimonial {
+    quote: string;
+    name: string;
+    title: string;
+    company: string;
+    photo: string;
+}
+
+const testimonialsData: Testimonial[] = [
     {
         quote: `Brandon is hard-working, motivated, and passionate about the projects he works on... I give him my highest recommendation.`,
         name: 'Joshua Levenson',
@@ -18,35 +26,49 @@ const testimonialsData = [
         photo: '/assets/andy_dJeUHV2Ht2KJjHQoDyuOR.jpeg',
     },
     // Add more testimonials as needed
-]
+];
 
-export function TestimonialsSection() {
+export const TestimonialsSection: React.FC = () => {
     return (
-        <section id="testimonials" className="py-20 bg-gray-900 text-gray-200">
-            <Container maxWidth="lg" className="space-y-10">
-                <div className="text-center space-y-4">
-                    <Typography variant="h3" className="font-bold text-4xl">
+        <Box
+            component="section"
+            id="testimonials"
+            sx={{
+                py: 10,
+                backgroundColor: 'background.dark', // Referencing theme.palette.background.dark
+                color: 'text.secondary', // Referencing theme.palette.text.secondary
+            }}
+        >
+            <Container maxWidth="lg">
+                <Box sx={{ textAlign: 'center', mb: 4 }}>
+                    <Typography
+                        variant="h3"
+                        component="h2"
+                        gutterBottom
+                        sx={{ fontWeight: 'bold', color: 'text.primary' }}
+                    >
                         <a
                             href="https://www.linkedin.com/in/briveramelo/details/recommendations/?detailScreenTabIndex=0"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-white underline"
+                            style={{ textDecoration: 'underline', color: 'inherit' }}
                         >
                             Testimonials
                         </a>
                     </Typography>
                     <Typography variant="body1">
-                        I care about the quality of my work and the teams I support, but you
-                        should hear it from them.
+                        I care about the quality of my work and the teams I support, but you should hear it from them.
                     </Typography>
-                </div>
+                </Box>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {testimonialsData.map((t) => (
-                        <TestimonialCard key={t.name} data={t} />
+                <Grid container spacing={4}>
+                    {testimonialsData.map((testimonial) => (
+                        <Grid item xs={12} md={6} key={testimonial.name}>
+                            <TestimonialCard data={testimonial} />
+                        </Grid>
                     ))}
-                </div>
+                </Grid>
             </Container>
-        </section>
-    )
-}
+        </Box>
+    );
+};

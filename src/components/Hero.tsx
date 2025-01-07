@@ -1,42 +1,91 @@
-import React from 'react'
-import { Container, Typography, Button } from '@mui/material'
+import React from 'react';
+import { Container, Typography, Button, Box, Avatar } from '@mui/material';
 
 export function Hero() {
     return (
-        <section className="bg-black text-white py-20" id="hero">
+        <Box
+            component="section"
+            id="hero"
+            sx={{
+                backgroundColor: 'background.dark', // Using the theme's dark background
+                color: 'text.secondary',
+                py: 10,
+            }}
+        >
             <Container
                 maxWidth="lg"
-                className="flex flex-col items-start md:flex-row md:items-center md:justify-between"
+                sx={{
+                    display: 'flex',
+                    flexDirection: { xs: 'column', md: 'row' },
+                    alignItems: { xs: 'flex-start', md: 'center' },
+                    justifyContent: 'space-between',
+                    gap: 4,
+                }}
             >
-                <div className="space-y-6">
-                    <Typography variant="h2" component="h1" className="text-5xl font-bold">
+                {/* Text Section */}
+                <Box sx={{ flex: 1 }}>
+                    <Typography
+                        variant="h2"
+                        component="h1"
+                        sx={{
+                            fontWeight: 'bold',
+                            fontSize: { xs: '2.5rem', md: '3.5rem' },
+                            color: 'text.primary',
+                        }}
+                    >
                         Brandon
                         <br />
                         Rivera-Melo
                     </Typography>
 
-                    <Typography variant="body1" className="max-w-xl text-xl">
+                    <Typography
+                        variant="body1"
+                        sx={{
+                            fontSize: '1.25rem',
+                            mt: 2,
+                            color: 'text.secondary',
+                            maxWidth: '600px',
+                        }}
+                    >
                         Healing through playful design <i>and science</i>
                     </Typography>
 
                     <Button
                         variant="contained"
                         color="primary"
-                        className="rounded-full shadow-lg text-white"
                         href="#contact"
+                        sx={{
+                            mt: 3,
+                            textTransform: 'none',
+                            fontWeight: 'bold',
+                            borderRadius: '999px',
+                            boxShadow: 3,
+                        }}
                     >
                         Let’s get started
                     </Button>
-                </div>
+                </Box>
 
-                <div className="hidden md:block mt-8 md:mt-0 md:ml-8">
-                    <img
+                {/* Image Section */}
+                <Box
+                    sx={{
+                        display: { xs: 'none', md: 'block' },
+                        mt: { xs: 4, md: 0 },
+                        ml: { md: 4 },
+                    }}
+                >
+                    <Avatar
                         src="../assets/people/brandon.jpg"
                         alt="Picture of Brandon"
-                        className="w-64 h-64 object-cover rounded-full border-2 border-white"
+                        sx={{
+                            width: 200,
+                            height: 200,
+                            border: '4px solid',
+                            borderColor: 'background.paper',
+                        }}
                     />
-                </div>
+                </Box>
             </Container>
-        </section>
-    )
+        </Box>
+    );
 }

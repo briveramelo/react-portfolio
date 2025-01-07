@@ -19,7 +19,3 @@
     border-radius: 50%;
     opacity: 0; /* Added initial opacity */
 }
-
-.flipped {
-    /* No extra styles needed, but used to flip X-axis movement in the JS */
-}

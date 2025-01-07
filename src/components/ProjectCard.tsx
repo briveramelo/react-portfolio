@@ -1,33 +1,75 @@
-import React from 'react'
-import { Card, CardContent, CardMedia, Typography, Button } from '@mui/material'
+import React from 'react';
+import { Card, CardContent, CardMedia, Typography, Button, Box } from '@mui/material';
 
 interface Project {
-    title: string
-    description: string
-    image: string
-    link: string
+    title: string;
+    description: string;
+    image: string;
+    link: string;
 }
 
 export function ProjectCard({ project }: { project: Project }) {
     return (
-        <Card className="flex flex-col md:flex-row bg-white shadow">
+        <Card
+            sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+                backgroundColor: 'background.paper',
+                boxShadow: 3,
+                borderRadius: 2,
+                overflow: 'hidden',
+            }}
+        >
             <CardMedia
                 component="img"
                 src={project.image}
                 alt={project.title}
-                className="w-full md:w-1/2 object-cover"
+                sx={{
+                    width: { xs: '100%', md: '50%' },
+                    height: 'auto',
+                    objectFit: 'cover',
+                }}
             />
-            <CardContent className="md:w-1/2 p-6 flex flex-col space-y-4">
-                <Typography variant="h5" className="font-bold text-gray-900">
+            <CardContent
+                sx={{
+                    width: { xs: '100%', md: '50%' },
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                    p: 3,
+                }}
+            >
+                <Typography
+                    variant="h5"
+                    sx={{
+                        fontWeight: 'bold',
+                        color: 'text.primary',
+                    }}
+                >
                     {project.title}
                 </Typography>
-                <Typography variant="body1" className="text-gray-700">
+                <Typography
+                    variant="body1"
+                    sx={{
+                        color: 'text.secondary',
+                    }}
+                >
                     {project.description}
                 </Typography>
-                <Button variant="contained" color="primary" href={project.link}>
-                    Learn more
-                </Button>
+                <Box mt="auto">
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        href={project.link}
+                        sx={{
+                            textTransform: 'none',
+                            fontWeight: 'bold',
+                        }}
+                    >
+                        Learn more
+                    </Button>
+                </Box>
             </CardContent>
         </Card>
-    )
+    );
 }

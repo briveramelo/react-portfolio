@@ -1,6 +1,6 @@
-import React from 'react'
-import { Container, Typography } from '@mui/material'
-import { CaseStudyCard } from './CaseStudyCard'
+import React from 'react';
+import { Container, Typography, Box } from '@mui/material';
+import { CaseStudyCard } from './CaseStudyCard';
 
 const caseStudies = [
     {
@@ -11,8 +11,8 @@ const caseStudies = [
         image: '/assets/josh-tilt-2_CyadjYOz_TgISB_IAUC-6.jpg',
         link: '#',
         linkText: 'View case study',
-        color: 'bg-red-600',
-        textColor: 'text-white',
+        color: '#e53935', // Red background
+        textColor: '#ffffff', // White text
     },
     {
         title: 'ABCmouse',
@@ -22,8 +22,8 @@ const caseStudies = [
         image: '/assets/abcmouse_Un_l1N89US7TJ0JTWyXsD.jpg',
         link: '#',
         linkText: 'View case study',
-        color: 'bg-blue-700',
-        textColor: 'text-white',
+        color: '#1e88e5', // Blue background
+        textColor: '#ffffff', // White text
     },
     {
         title: 'Design for America',
@@ -33,34 +33,62 @@ const caseStudies = [
         image: '/assets/FruitBuddiKid_QFffZvqphT887REdEelFV.jpg',
         link: '#',
         linkText: 'View case study',
-        color: 'bg-green-600',
-        textColor: 'text-white',
+        color: '#43a047', // Green background
+        textColor: '#ffffff', // White text
     },
-]
+];
 
 export function CaseStudiesSection() {
     return (
-        <section id="casestudies" className="py-20 bg-gray-100">
-            <Container maxWidth="lg" className="flex flex-col space-y-8">
-                <div className="mx-auto text-center max-w-xl space-y-4">
+        <Box
+            component="section"
+            id="casestudies"
+            sx={{
+                py: 10,
+                backgroundColor: 'background.default',
+                color: 'text.primary',
+            }}
+        >
+            <Container maxWidth="lg">
+                {/* Header */}
+                <Box sx={{ textAlign: 'center', mb: 6 }}>
                     <Typography
                         variant="h3"
-                        className="font-bold text-4xl text-gray-800"
+                        component="h2"
+                        sx={{
+                            fontWeight: 'bold',
+                            color: 'text.primary',
+                            mb: 2,
+                        }}
                     >
                         Case Studies
                     </Typography>
-                    <Typography variant="body1" className="text-gray-600">
+                    <Typography
+                        variant="body1"
+                        sx={{
+                            color: 'text.secondary',
+                            maxWidth: 600,
+                            margin: '0 auto',
+                        }}
+                    >
                         These projects highlight my technical expertise, innovation, and
                         empathy.
                     </Typography>
-                </div>
+                </Box>
 
-                <div className="flex flex-col space-y-8">
+                {/* Case Study Cards */}
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 4,
+                    }}
+                >
                     {caseStudies.map((cs) => (
                         <CaseStudyCard key={cs.title} data={cs} />
                     ))}
-                </div>
+                </Box>
             </Container>
-        </section>
-    )
+        </Box>
+    );
 }

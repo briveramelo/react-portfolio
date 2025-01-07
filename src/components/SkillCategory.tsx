@@ -9,31 +9,24 @@ interface SkillCategoryProps {
     animate: boolean;
 }
 
-const SkillCategory: React.FC<SkillCategoryProps> = ({ categoryData, animate }) => {
+const SkillCategory: React.FC<SkillCategoryProps> = ({ categoryData }) => {
     const { category, stats } = categoryData;
 
-    // Compute average
     const average = useMemo(() => {
         if (!stats || stats.length === 0) return 0;
-        const sum = stats.reduce((acc, s) => acc + s.stat, 0);
-        return Math.round(sum / stats.length);
+        return Math.round(stats.reduce((acc, s) => acc + s.stat, 0) / stats.length);
     }, [stats]);
 
     return (
         <Box sx={{ mb: 4 }}>
-            {/* Category name */}
             <Typography variant="h5" mb={2}>
                 {category}
             </Typography>
-
-            {/* Radial arc for category average */}
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <SkillsRadialCategoryArc value={average} animate={animate} />
+                <SkillsRadialCategoryArc value={average} animate />
             </Box>
-
-            {/* Skills list */}
             {stats.map((skill, idx) => (
-                <Skill key={idx} skill={skill} animate={animate} />
+                <Skill key={idx} skill={skill} />
             ))}
         </Box>
     );

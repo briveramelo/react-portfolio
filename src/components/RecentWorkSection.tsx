@@ -1,8 +1,15 @@
-import React from 'react'
-import { Container, Typography } from '@mui/material'
-import { ProjectCard } from './ProjectCard'
+import React from 'react';
+import { Container, Typography, Grid, Box } from '@mui/material';
+import { ProjectCard } from './ProjectCard';
 
-const projects = [
+interface Project {
+    title: string;
+    description: string;
+    image: string;
+    link: string;
+}
+
+const projects: Project[] = [
     {
         title: 'The Pocket Optimist',
         description:
@@ -17,27 +24,42 @@ const projects = [
         image: '/assets/DigitalHealth4x3_zuW_r0SW4ZGVQQHYVeG8Z.jpg',
         link: '#',
     },
-]
+];
 
-export function RecentWorkSection() {
+export const RecentWorkSection: React.FC = () => {
     return (
-        <section id="projects" className="bg-gray-100 py-20">
-            <Container maxWidth="lg" className="space-y-8">
-                <div className="text-center space-y-4 max-w-xl mx-auto">
-                    <Typography variant="h3" className="text-4xl font-bold text-gray-800">
+        <Box
+            component="section"
+            id="projects"
+            sx={{
+                py: 10,
+                backgroundColor: 'background.stone', // Alternating background color
+                color: 'text.primary',
+            }}
+        >
+            <Container maxWidth="lg">
+                <Box sx={{ textAlign: 'center', mb: 4 }}>
+                    <Typography
+                        variant="h3"
+                        component="h2"
+                        gutterBottom
+                        sx={{ fontWeight: 'bold', color: 'text.primary' }}
+                    >
                         Recent Work
                     </Typography>
-                    <Typography variant="body1" className="text-gray-600">
+                    <Typography variant="body1" sx={{ color: 'text.secondary' }}>
                         Innovative technology and a love of learning go hand-in-hand.
                     </Typography>
-                </div>
+                </Box>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {projects.map((p) => (
-                        <ProjectCard key={p.title} project={p} />
+                <Grid container spacing={4}>
+                    {projects.map((project) => (
+                        <Grid item xs={12} md={6} key={project.title}>
+                            <ProjectCard project={project} />
+                        </Grid>
                     ))}
-                </div>
+                </Grid>
             </Container>
-        </section>
-    )
-}
+        </Box>
+    );
+};

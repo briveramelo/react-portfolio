@@ -1,40 +1,67 @@
-import React from 'react'
-import { Card, CardContent, Typography } from '@mui/material'
+import React from 'react';
+import { Card, CardContent, Typography, Box, Avatar } from '@mui/material';
 
 interface Testimonial {
-    quote: string
-    name: string
-    title: string
-    company: string
-    photo: string
+    quote: string;
+    name: string;
+    title: string;
+    company: string;
+    photo: string;
 }
 
 export function TestimonialCard({ data }: { data: Testimonial }) {
     return (
-        <Card className="relative p-4 bg-gray-800 text-white shadow-xl">
-            <CardContent className="space-y-4">
-                <Typography variant="body1" className="italic">
-                    {data.quote}
+        <Card
+            sx={{
+                p: 2,
+                backgroundColor: 'background.paper',
+                color: 'text.primary',
+                boxShadow: 3,
+                borderRadius: 2,
+            }}
+        >
+            <CardContent>
+                <Typography
+                    variant="body1"
+                    sx={{
+                        fontStyle: 'italic',
+                        mb: 3,
+                        color: 'text.secondary',
+                    }}
+                >
+                    "{data.quote}"
                 </Typography>
-                <div className="flex items-center space-x-4">
-                    <img
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <Avatar
                         src={data.photo}
                         alt={data.name}
-                        className="w-16 h-16 rounded-full object-cover"
+                        sx={{
+                            width: 64,
+                            height: 64,
+                        }}
                     />
-                    <div className="space-y-1">
-                        <Typography variant="subtitle1" className="font-bold text-white">
+                    <Box>
+                        <Typography
+                            variant="subtitle1"
+                            sx={{ fontWeight: 'bold', color: 'text.primary' }}
+                        >
                             {data.name}
                         </Typography>
-                        <Typography variant="body2" className="text-gray-300">
+                        <Typography
+                            variant="body2"
+                            sx={{ color: 'text.secondary' }}
+                        >
                             {data.title}
                         </Typography>
-                        <Typography variant="body2" className="text-gray-500">
+                        <Typography
+                            variant="body2"
+                            sx={{ color: 'text.disabled' }}
+                        >
                             {data.company}
                         </Typography>
-                    </div>
-                </div>
+                    </Box>
+                </Box>
             </CardContent>
         </Card>
-    )
+    );
 }
