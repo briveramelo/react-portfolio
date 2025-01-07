@@ -1,5 +1,23 @@
 import { createTheme } from "@mui/material/styles";
 
+// Extend the Palette interface
+declare module "@mui/material/styles" {
+  interface Palette {
+    skills: {
+      red: string;
+      orange: string;
+      green: string;
+    };
+  }
+  interface PaletteOptions {
+    skills?: {
+      red: string;
+      orange: string;
+      green: string;
+    };
+  }
+}
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -23,7 +41,14 @@ const theme = createTheme({
     text: {
       primary: "rgb(8, 8, 8)",
       secondary: "rgb(117, 117, 117)",
+      dark: "rgb(0, 0, 0)",
+      light: "rgb(255, 255, 255)",
     },
+    skills: {
+      red: "rgb(227,18,18)",
+      orange: "rgb(255, 153, 0)",
+      green: "rgb(30,206,30)",
+    }
   },
 
   typography: {

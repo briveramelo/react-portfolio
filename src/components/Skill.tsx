@@ -40,7 +40,7 @@ const Skill: React.FC<SkillProps> = ({ skill }) => {
         <Box display="flex" justifyContent="space-between">
           <Typography variant="body1">{name}</Typography>
           <Typography variant="body2" sx={{ color: getProgressColor(stat) }}>
-            {stat}%
+            {stat}
           </Typography>
         </Box>
         <ColorfulLinearProgress
@@ -50,6 +50,7 @@ const Skill: React.FC<SkillProps> = ({ skill }) => {
             [`& .${linearProgressClasses.bar}`]: {
               backgroundColor: getProgressColor(stat),
             },
+            maxWidth: 150,
           }}
         />
       </Box>

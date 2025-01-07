@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SkillCategory from "./SkillCategory";
 import { statsData } from "../data/statsData";
-import { Box, Switch, Typography } from "@mui/material";
+import {Box, Button, Switch, Typography} from "@mui/material";
 
 export const SkillsSection: React.FC = () => {
   const [animate, setAnimate] = useState<boolean>(true);
@@ -11,17 +11,27 @@ export const SkillsSection: React.FC = () => {
   };
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box sx={{
+        p: 2,
+        backgroundColor: "background.dark",
+        color: "text.light",
+        py: 10,
+    }}>
       <Box
         display="flex"
         justifyContent="space-between"
         alignItems="center"
         mb={2}
       >
-        <Typography variant="h4">My Skills</Typography>
+        <Typography variant="h4">Skills</Typography>
         <Box display="flex" alignItems="center">
           <Typography>Animate</Typography>
-          <Switch checked={animate} onChange={toggleAnimation} />
+            <Button
+                variant="contained"
+                onClick={toggleAnimation}
+            >
+                {animate ? "See Years of Experience" : "See Stats"}
+            </Button>
         </Box>
       </Box>
 
