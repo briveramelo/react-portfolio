@@ -42,10 +42,18 @@ const SkillImage = React.memo(
 
 const Skill: React.FC<SkillProps> = ({ skill, isYearsOfExperience }) => {
   const { name, stat, src, year } = skill;
-  const value = isYearsOfExperience ? new Date().getFullYear() - year : stat;
-  const denominator = isYearsOfExperience ? 15 : 100;
+  const rawValue = isYearsOfExperience ? new Date().getFullYear() - year : stat;
+
+  // 1) Clamp the rawValue based on whether it’s years or stat
+  const maxExp = 15;
+  const maxStat = 100;
+  const clampedValue = isYearsOfExperience
+    ? Math.min(rawValue, maxExp)
+    : Math.min(rawValue, maxStat);
+
+  const denominator = isYearsOfExperience ? maxExp : maxStat;
+  const animatedValue = getAnimatedValue(clampedValue, animationDurationMs);
   const size = "50px";
-  const animatedValue = getAnimatedValue(value, animationDurationMs);
 
   return (
     <Grid
@@ -55,6 +63,7 @@ const Skill: React.FC<SkillProps> = ({ skill, isYearsOfExperience }) => {
       sx={{ mb: 3 }}
       wrap="nowrap"
     >
+      {/* Skill icon */}
       <Grid
         item
         sx={{
@@ -68,6 +77,8 @@ const Skill: React.FC<SkillProps> = ({ skill, isYearsOfExperience }) => {
           <SkillImage src={src} name={name} />
         </Box>
       </Grid>
+
+      {/* Skill name / numeric text / progress bar */}
       <Grid item xs sx={{ height: size }}>
         <Box>
           <Box

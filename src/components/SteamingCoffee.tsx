@@ -20,7 +20,11 @@ export const SteamingCoffee: React.FC = () => {
   /**
    * animatePuff replays the rising steam puff animation indefinitely
    */
-  const animatePuff = (element: HTMLDivElement, durationMs: number, flipDirection: boolean) => {
+  const animatePuff = (
+    element: HTMLDivElement,
+    durationMs: number,
+    flipDirection: boolean,
+  ) => {
     // Reset initial styles
     element.style.transform = "translate(0px, 0px)";
     element.style.opacity = "0";

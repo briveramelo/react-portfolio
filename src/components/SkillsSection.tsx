@@ -38,7 +38,7 @@ export const SkillsSection: React.FC = () => {
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={index}>
             <SkillCategory
               categoryData={category}
-              isYearsOfExperience={!isYearsOfExperience}
+              isYearsOfExperience={isYearsOfExperience}
             />
           </Grid>
         ))}
