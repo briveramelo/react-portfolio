@@ -8,16 +8,19 @@ export const SteamingCoffee: React.FC = () => {
     useRef<HTMLDivElement>(null!),
     useRef<HTMLDivElement>(null!),
     useRef<HTMLDivElement>(null!),
+    useRef<HTMLDivElement>(null!),
   ];
 
   // Animation constants
   const xAmpPx = 4; // Amplitude of X-axis movement in pixels
   const maxYPx = -60; // Maximum Y-axis movement in pixels
+  const durationMs = 6000;
+  const delayMs = 2000;
 
   /**
    * animatePuff replays the rising steam puff animation indefinitely
    */
-  const animatePuff = (element: HTMLDivElement, durationMs: number) => {
+  const animatePuff = (element: HTMLDivElement, durationMs: number, flipDirection: boolean) => {
     // Reset initial styles
     element.style.transform = "translate(0px, 0px)";
     element.style.opacity = "0";
@@ -31,9 +34,7 @@ export const SteamingCoffee: React.FC = () => {
       if (progressFraction < 1) {
         // Animate X (sine wave)
         const xPositionPx = Math.sin(progressFraction * Math.PI * 2) * xAmpPx;
-        const adjustedXPositionPx = element.classList.contains("flipped")
-          ? -xPositionPx
-          : xPositionPx;
+        const adjustedXPositionPx = flipDirection ? -xPositionPx : xPositionPx;
 
         // Animate Y (ease-in for first half, linear for second half)
         const yPositionPx =
@@ -47,14 +48,14 @@ export const SteamingCoffee: React.FC = () => {
             ? progressFraction * 2
             : (1 - progressFraction) * 2;
 
-        // Apply styles
         element.style.transform = `translate(${adjustedXPositionPx}px, ${yPositionPx}px)`;
         element.style.opacity = `${opacityFraction}`;
 
         requestAnimationFrame(frame);
       } else {
-        // Restart animation
-        animatePuff(element, durationMs);
+        setTimeout(() => {
+          animatePuff(element, durationMs, flipDirection);
+        }, delayMs);
       }
     };
 
@@ -66,8 +67,8 @@ export const SteamingCoffee: React.FC = () => {
     steamRefs.forEach((steamRef, index) => {
       if (steamRef.current) {
         setTimeout(() => {
-          animatePuff(steamRef.current!, 6000);
-        }, index * 2000);
+          animatePuff(steamRef.current!, durationMs, index % 2 === 1);
+        }, index * delayMs);
       }
     });
   }, []);
@@ -97,7 +98,6 @@ export const SteamingCoffee: React.FC = () => {
               "radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 70%)",
             borderRadius: "50%",
             opacity: 0,
-            transform: `scaleX(${index === 1 ? "-1" : "1"})`,
           }}
         />
       ))}
