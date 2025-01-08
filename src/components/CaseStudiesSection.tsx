@@ -45,7 +45,7 @@ export function CaseStudiesSection() {
       id="casestudies"
       sx={{
         py: 10,
-        backgroundColor: "background.light",
+        backgroundColor: "background.contrast",
         color: "text.primary",
       }}
     >

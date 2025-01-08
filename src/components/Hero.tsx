@@ -31,7 +31,7 @@ export function Hero() {
         id="brandon"
         sx={{
           py: 10,
-          backgroundColor: "background.dark",
+          backgroundColor: "background.default",
           color: "text.secondary",
         }}
       >

@@ -11,6 +11,7 @@ export const BeatingHeart: React.FC = () => {
   const minHeartRateBPM = 40.0;
   const maxHeartRateBPM = 160.0;
   const fixedAnimationSec = 0.5;
+  const maxDistance = 200; // 'safe' distance
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -36,7 +37,6 @@ export const BeatingHeart: React.FC = () => {
         Math.pow(mousePosition.y - heartCenter.y, 2),
     );
 
-    const maxDistance = 200; // 'safe' distance
     const heartRateBPM = Math.max(
       minHeartRateBPM,
       Math.min(

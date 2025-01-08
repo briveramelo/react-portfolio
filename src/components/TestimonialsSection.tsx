@@ -49,7 +49,7 @@ export const TestimonialsSection: React.FC = () => {
       id="testimonials"
       sx={{
         py: 10,
-        backgroundColor: "background.dark",
+        backgroundColor: "background.default",
         color: "text.secondary",
       }}
     >

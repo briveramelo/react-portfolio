@@ -33,7 +33,7 @@ export const RecentWorkSection: React.FC = () => {
       id="recent"
       sx={{
         py: 10,
-        backgroundColor: "background.light",
+        backgroundColor: "background.contrast",
       }}
     >
       <Container maxWidth="lg">

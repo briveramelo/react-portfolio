@@ -1,6 +1,7 @@
-// Extend the Palette interface
 declare module "@mui/material/styles" {
+  type CustomPaletteMode = "house" | "light" | "dark";
   interface Palette {
+    mode: CustomPaletteMode;
     skills: {
       red: string;
       orange: string;
@@ -12,6 +13,7 @@ declare module "@mui/material/styles" {
     };
   }
   interface PaletteOptions {
+    mode?: CustomPaletteMode;
     skills?: {
       red: string;
       orange: string;
@@ -22,8 +24,7 @@ declare module "@mui/material/styles" {
       secondary: string;
     };
   }
-
   interface TypeBackground {
-    fillbar?: string; // optional or required
+    fillbar?: string;
   }
 }

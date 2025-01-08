@@ -15,7 +15,7 @@ export const SkillsSection: React.FC = () => {
     <Box
       sx={{
         p: 6,
-        backgroundColor: "background.dark",
+        backgroundColor: "background.default",
         color: "text.primary",
         textAlign: "center",
       }}

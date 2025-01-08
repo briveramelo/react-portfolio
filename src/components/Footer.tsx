@@ -8,7 +8,7 @@ export function Footer() {
     <Box
       component="footer"
       sx={{
-        backgroundColor: "background.dark", // Using theme's dark background
+        backgroundColor: "background.default",
         color: "text.secondary",
         py: 4,
       }}
@@ -17,18 +17,18 @@ export function Footer() {
         maxWidth="lg"
         sx={{
           display: "flex",
-          flexDirection: "column", // Stack everything vertically for centering
+          flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center", // Centers content horizontally
+          justifyContent: "center",
           gap: 2,
-          textAlign: "center", // Ensures text alignment is centered
+          textAlign: "center",
         }}
       >
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
-            flexDirection: "row", // Align icons and text in a row
+            flexDirection: "row",
             gap: 0,
           }}
         >
