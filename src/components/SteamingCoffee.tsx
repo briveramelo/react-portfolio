@@ -1,9 +1,8 @@
 import React, { useRef, useEffect } from "react";
 import { Box } from "@mui/material";
-import "./SteamingCoffee.css";
 
 export const SteamingCoffee: React.FC = () => {
-  // Create refs for the three steam puffs with non-null assertion to avoid TypeScript errors
+  // Create refs for the steam puffs
   const steamRefs = [
     useRef<HTMLDivElement>(null!),
     useRef<HTMLDivElement>(null!),
@@ -12,67 +11,76 @@ export const SteamingCoffee: React.FC = () => {
   ];
 
   // Animation constants
-  const xAmpPx = 4; // Amplitude of X-axis movement in pixels
-  const maxYPx = -60; // Maximum Y-axis movement in pixels
-  const durationMs = 6000;
-  const delayMs = 2000;
+  const xAmpPx = 4;
+  const maxYPx = -60;
+  const numKeyframes = 30;
+  const animationTimeMs = 6000;
+  const delayMs = 2000; // Staggered delay between puffs
+  const extraDelayMs = 2000; // Additional delay after animation
+  const durationMs = animationTimeMs + extraDelayMs; // Total duration
 
   /**
-   * animatePuff replays the rising steam puff animation indefinitely
+   * generateSinusoidalKeyframes dynamically generates keyframes for sinusoidal X translation and linear Y motion.
+   */
+  const generateSinusoidalKeyframes = (flipDirection: boolean): Keyframe[] => {
+    const keyframes: Keyframe[] = [];
+
+    for (let i = 0; i <= numKeyframes; i++) {
+      const progress = i / numKeyframes;
+      const xPosition = Math.sin(progress * Math.PI * 2) * xAmpPx;
+      const adjustedXPosition = flipDirection ? -xPosition : xPosition;
+      const yPosition = progress * maxYPx; // Linear Y motion
+      const opacity =
+        progress < 0.5
+          ? progress * 2 // ease in
+          : (1 - progress) * 2; // ease out
+
+      keyframes.push({
+        transform: `translate(${adjustedXPosition}px, ${yPosition}px)`,
+        opacity: opacity,
+      });
+    }
+
+    // Add a final keyframe to pause the animation at the end
+    keyframes.push({
+      transform: `translate(0px, ${maxYPx}px)`,
+      opacity: 0,
+    });
+
+    return keyframes;
+  };
+
+  /**
+   * animatePuff creates and starts the rising steam puff animation.
    */
   const animatePuff = (
     element: HTMLDivElement,
     durationMs: number,
+    delayMs: number,
     flipDirection: boolean,
   ) => {
-    // Reset initial styles
-    element.style.transform = "translate(0px, 0px)";
-    element.style.opacity = "0";
+    const keyframes = generateSinusoidalKeyframes(flipDirection);
 
-    const startTimeMs = performance.now();
-
-    const frame = (currentTimeMs: number) => {
-      const elapsedTimeMs = currentTimeMs - startTimeMs;
-      const progressFraction = elapsedTimeMs / durationMs;
-
-      if (progressFraction < 1) {
-        // Animate X (sine wave)
-        const xPositionPx = Math.sin(progressFraction * Math.PI * 2) * xAmpPx;
-        const adjustedXPositionPx = flipDirection ? -xPositionPx : xPositionPx;
-
-        // Animate Y (ease-in for first half, linear for second half)
-        const yPositionPx =
-          progressFraction < 0.5
-            ? maxYPx * (Math.pow(progressFraction * 2, 2) / 2)
-            : maxYPx * progressFraction;
-
-        // Animate opacity (ease-in-out)
-        const opacityFraction =
-          progressFraction < 0.5
-            ? progressFraction * 2
-            : (1 - progressFraction) * 2;
-
-        element.style.transform = `translate(${adjustedXPositionPx}px, ${yPositionPx}px)`;
-        element.style.opacity = `${opacityFraction}`;
-
-        requestAnimationFrame(frame);
-      } else {
-        setTimeout(() => {
-          animatePuff(element, durationMs, flipDirection);
-        }, delayMs);
-      }
+    const options = {
+      duration: durationMs,
+      iterations: Infinity,
+      delay: delayMs,
+      easing: "linear",
     };
 
-    requestAnimationFrame(frame);
+    element.animate(keyframes, options);
   };
 
   // Start animations for all puffs with a staggered start
   useEffect(() => {
     steamRefs.forEach((steamRef, index) => {
       if (steamRef.current) {
-        setTimeout(() => {
-          animatePuff(steamRef.current!, durationMs, index % 2 === 1);
-        }, index * delayMs);
+        animatePuff(
+          steamRef.current,
+          durationMs,
+          index * delayMs, // Staggered delay
+          index % 2 === 1, // Flip direction for alternate puffs
+        );
       }
     });
   }, []);
@@ -84,7 +92,7 @@ export const SteamingCoffee: React.FC = () => {
         width: "40px",
         height: "0px",
         zIndex: 1,
-        marginTop: "-40px", // Adjust as needed
+        marginTop: "-40px",
       }}
     >
       <img src="/src/assets/coffee.png" alt="coffee" width={60} />
@@ -101,7 +109,7 @@ export const SteamingCoffee: React.FC = () => {
             background:
               "radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 70%)",
             borderRadius: "50%",
-            opacity: 0,
+            opacity: 0, // Initial opacity
           }}
         />
       ))}
