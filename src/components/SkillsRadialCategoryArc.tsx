@@ -21,6 +21,7 @@ const SkillsRadialCategoryArc: React.FC<SkillsRadialCategoryArcProps> = ({
   const denominator = isYearsOfExperience ? 15 : 100;
   const targetProgress = (value / denominator) * (circumference / 2);
   const animatedValue = getAnimatedValue(value, animationDurationMs);
+  const currentProgress = (animatedValue / denominator) * (circumference / 2);
 
   return (
     <Box
@@ -53,13 +54,12 @@ const SkillsRadialCategoryArc: React.FC<SkillsRadialCategoryArcProps> = ({
           strokeWidth={strokeWidth}
           stroke={getProgressColor(animatedValue, isYearsOfExperience)}
           pathLength={circumference}
-          strokeDasharray={`${targetProgress} ${circumference / 2 - targetProgress}`}
+          strokeDasharray={`${currentProgress} ${circumference / 2 - currentProgress + 5}`} // the added 5 ensures the linecap butt doesn't appear
           strokeDashoffset={0}
-          strokeLinecap="butt"
+          strokeLinecap="round"
           style={{
             transform: "rotate(180deg)",
             transformOrigin: "center",
-            transition: `stroke-dasharray ${animationDurationMs}ms ease`,
           }}
         />
       </svg>
