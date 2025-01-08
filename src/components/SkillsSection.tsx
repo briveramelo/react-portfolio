@@ -14,7 +14,7 @@ export const SkillsSection: React.FC = () => {
   return (
     <Box
       sx={{
-        p: 2,
+        p: 6,
         backgroundColor: "background.dark",
         color: "text.primary",
         py: 10,

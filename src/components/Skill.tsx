@@ -58,9 +58,9 @@ const Skill: React.FC<SkillProps> = ({ skill, isYearsOfExperience }) => {
   return (
     <Grid
       container
-      spacing={1.5}
+      spacing={2}
       alignItems="center"
-      sx={{ mb: 3 }}
+      sx={{ mb: 2 }}
       wrap="nowrap"
     >
       {/* Skill icon */}
