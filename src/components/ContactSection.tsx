@@ -46,15 +46,16 @@ export function ContactSection() {
           No smoke bombs here - just sharp solutions.
           <br />
           <br />
-          <a
-            href="mailto:hi@brm.ninja?subject=Introduction"
-            style={{
-              color: "#43a047", // Custom green color for the link
-              textDecoration: "underline",
-            }}
-          >
-            hi@riveramelo.com
-          </a>
+            <Typography
+                component="a"
+                href="mailto:hi@riveramelo.com?subject=Introduction"
+                sx={{
+                    color: "hyperlink.primary",
+                    textDecoration: "underline",
+                }}
+            >
+                hi@riveramelo.com
+            </Typography>
         </Typography>
       </Container>
     </Box>

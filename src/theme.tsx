@@ -26,6 +26,10 @@ const theme = createTheme({
       primary: "rgb(255, 255, 255)",
       secondary: "rgb(8, 8, 8)",
     },
+    hyperlink:{
+      primary: "rgb(98, 186, 27)",
+      secondary: "rgb(18,126,215)",
+    },
     skills: {
       red: "rgb(227,18,18)",
       orange: "rgb(255, 153, 0)",

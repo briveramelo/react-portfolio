@@ -31,7 +31,6 @@ export const statsData = [
       { name: "Python", stat: 80, year: 2024, src: "python.svg" },
       { name: "Go", stat: 65, year: 2024, src: "go.svg" },
       { name: "SQL", stat: 80, year: 2016, src: "sql.svg" },
-      // TODO: missing NoSQL icon
       { name: "NoSQL", stat: 90, year: 2024, src: "nosql.svg" },
     ],
   },
@@ -40,8 +39,7 @@ export const statsData = [
     stats: [
       { name: "C++", stat: 70, year: 2019, src: "c++.svg" },
       { name: "Bash", stat: 85, year: 2019, src: "bash.svg" },
-      // TODO: missing CI/CD, HIPAA icons
-      { name: "CI/CD", stat: 80, year: 2019, src: "cicd.svg" },
+      { name: "DevOps", stat: 80, year: 2019, src: "devops.png" },
       { name: "HIPAA", stat: 90, year: 2019, src: "hipaa.svg" },
     ],
   },

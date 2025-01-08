@@ -16,7 +16,7 @@ const caseStudies = [
   },
   {
     title: "ABCmouse",
-    category: "EdTech",
+    category: "Games",
     description:
       "ABCmouse is the #1 learning app for children ages 2–8, loved by kids and parents across the world.",
     image: "/src/assets/projects/abcmouse.jpg",
