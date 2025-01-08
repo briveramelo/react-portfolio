@@ -17,10 +17,10 @@ export const SkillsSection: React.FC = () => {
         backgroundColor: "background.dark",
         color: "text.primary",
         py: 10,
-        textAlign: "center", // Center all text content
+        textAlign: "center",
       }}
     >
-      <Typography variant="h2" sx={{ mb: 1 }}>
+      <Typography variant="h1" sx={{ mb: 1 }}>
         Skills
       </Typography>
       <Button
@@ -35,7 +35,11 @@ export const SkillsSection: React.FC = () => {
       <Grid container spacing={9} justifyContent="center">
         {statsData.map((category, index) => (
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={index}>
-            <SkillCategory categoryData={category} animate={animate} />
+            <SkillCategory
+              categoryData={category}
+              animate={animate}
+              isExperience={!animate}
+            />
           </Grid>
         ))}
       </Grid>
