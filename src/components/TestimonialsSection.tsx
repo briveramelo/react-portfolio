@@ -49,8 +49,8 @@ export const TestimonialsSection: React.FC = () => {
       id="testimonials"
       sx={{
         py: 10,
-        backgroundColor: "background.dark", // Referencing theme.palette.background.dark
-        color: "text.secondary", // Referencing theme.palette.text.secondary
+        backgroundColor: "background.dark",
+        color: "text.secondary",
       }}
     >
       <Container maxWidth="lg">

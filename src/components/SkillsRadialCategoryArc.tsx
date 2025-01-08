@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Typography } from "@mui/material";
 import { getProgressColor } from "../utils/utils";
 import { getAnimatedValue } from "../utils/getAnimatedValue";
 import { animationDurationMs } from "../utils/constants";
+import theme from "../theme";
 
 interface SkillsRadialCategoryArcProps {
   value: number;
@@ -34,7 +35,7 @@ const SkillsRadialCategoryArc: React.FC<SkillsRadialCategoryArcProps> = ({
           cy={size / 2}
           r={radius}
           fill="transparent"
-          stroke="#e0e0e0"
+          stroke={theme.palette.background.fillbar}
           strokeWidth={strokeWidth}
           pathLength={circumference}
           strokeDasharray={circumference / 2}

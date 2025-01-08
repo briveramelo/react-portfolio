@@ -63,7 +63,7 @@ process_file() {
     done
 }
 
-# If an optional file path is provided, process it and its dependencies
+# Main logic to process files
 if [[ -n "$1" ]]; then
     echo "[INFO] Processing specified file: $(basename "$1")"
     process_file "$1"
@@ -78,10 +78,9 @@ else
 
     # Process files in the ./src directory matching the specified extensions
     for ext in $extensions; do
-        find "$directories" -type f -name "$ext" -exec sh -c '
-            file="$1"
+        find "$directories" -type f -name "$ext" | while read -r file; do
             process_file "$file"
-        ' shell {} \;
+        done
     done
 fi
 
