@@ -53,6 +53,7 @@ const Skill: React.FC<SkillProps> = ({ skill, isYearsOfExperience }) => {
 
   const denominator = isYearsOfExperience ? maxExp : maxStat;
   const animatedValue = getAnimatedValue(clampedValue, animationDurationMs);
+  const animatedTextValue = getAnimatedValue(rawValue, animationDurationMs);
   const size = "50px";
 
   return (
@@ -94,7 +95,7 @@ const Skill: React.FC<SkillProps> = ({ skill, isYearsOfExperience }) => {
                 color: getProgressColor(animatedValue, isYearsOfExperience),
               }}
             >
-              {Math.round(animatedValue)}
+              {Math.round(animatedTextValue)}
               {isYearsOfExperience ? " yrs" : ""}
             </Typography>
           </Box>

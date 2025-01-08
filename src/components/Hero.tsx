@@ -85,7 +85,7 @@ export function Hero() {
                 mt: 6,
                 textAlign: "left",
             }}
-            maxWidth="md"
+            maxWidth="lg"
         >
             <Typography
                 variant="h4"
