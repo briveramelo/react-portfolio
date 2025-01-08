@@ -1,34 +1,28 @@
 import { useEffect, useState } from "react";
+import { animationDurationMs } from "./constants";
 
 /**
  * Hook to animate a value from its initial state to a target state.
  * @param targetValue The target value to animate towards.
- * @param animate Whether the animation is enabled.
- * @param duration The duration of the animation in milliseconds.
+ * @param durationMs The duration of the animation in milliseconds.
  * @returns The current animated value.
  */
-export const useAnimatedValue = (
+export const getAnimatedValue = (
   targetValue: number,
-  animate: boolean = true,
-  duration: number = 2000,
+  durationMs: number = animationDurationMs,
 ): number => {
   const [currentValue, setCurrentValue] = useState(0);
 
   useEffect(() => {
-    if (!animate) {
-      setCurrentValue(targetValue);
-      return;
-    }
-
-    let start = 0;
-    const startValue = currentValue;
+    let startTimeMs = 0;
+    const startValue = 0;
     const delta = targetValue - startValue;
 
-    const tick = (timestamp: number) => {
-      if (!start) start = timestamp;
-      const progress = Math.min((timestamp - start) / duration, 1);
+    const tick = (currentTimeMs: number) => {
+      if (!startTimeMs) startTimeMs = currentTimeMs;
+      const progress = Math.min((currentTimeMs - startTimeMs) / durationMs, 1);
       const easedProgress = easeOutQuad(progress);
-      setCurrentValue(Math.round(startValue + delta * easedProgress));
+      setCurrentValue(startValue + delta * easedProgress);
 
       if (progress < 1) {
         requestAnimationFrame(tick);
@@ -36,7 +30,7 @@ export const useAnimatedValue = (
     };
 
     requestAnimationFrame(tick);
-  }, [targetValue, animate]);
+  }, [targetValue]);
 
   const easeOutQuad = (t: number) => 1 - (1 - t) * (1 - t);
 

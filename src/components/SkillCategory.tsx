@@ -6,20 +6,18 @@ import { StatsCategory } from "../utils/types";
 
 interface SkillCategoryProps {
   categoryData: StatsCategory;
-  animate: boolean;
-  isExperience: boolean;
+  isYearsOfExperience: boolean;
 }
 
 const SkillCategory: React.FC<SkillCategoryProps> = ({
   categoryData,
-  animate,
-  isExperience,
+  isYearsOfExperience,
 }) => {
   const { category, stats } = categoryData;
 
   const average = useMemo(() => {
     if (!stats || stats.length === 0) return 0;
-    if (isExperience) {
+    if (isYearsOfExperience) {
       const currentYear = new Date().getFullYear();
       return Math.round(
         stats.reduce((acc, s) => acc + (currentYear - s.year), 0) /
@@ -27,7 +25,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
       );
     }
     return Math.round(stats.reduce((acc, s) => acc + s.stat, 0) / stats.length);
-  }, [stats, isExperience]);
+  }, [stats, isYearsOfExperience]);
 
   return (
     <Box sx={{ mb: 2, position: "relative", textAlign: "center" }}>
@@ -66,16 +64,20 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
           }}
         >
           <SkillsRadialCategoryArc
+            key={`${category}-${isYearsOfExperience ? "exp" : "stat"}`} // toggling the key unmounts the old, and mounts a new for a fresh animation start at 0
             value={average}
-            animate={animate}
-            isExperience={isExperience}
+            isYearsOfExperience={isYearsOfExperience}
           />
         </Box>
       </Box>
 
       <Box sx={{ pt: "100px" }}>
-        {stats.map((skill, idx) => (
-          <Skill key={idx} skill={skill} isExperience={isExperience} />
+        {stats.map((skill) => (
+          <Skill
+            key={`${skill.name}-${isYearsOfExperience ? "exp" : "stat"}`} // toggling the key unmounts the old, and mounts a new for a fresh animation start at 0
+            skill={skill}
+            isYearsOfExperience={isYearsOfExperience}
+          />
         ))}
       </Box>
     </Box>

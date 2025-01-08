@@ -1,28 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { getProgressColor } from "../utils/utils";
-import { useAnimatedValue } from "../utils/useAnimatedValue";
+import { getAnimatedValue } from "../utils/getAnimatedValue";
 import { animationDurationMs } from "../utils/constants";
 
 interface SkillsRadialCategoryArcProps {
   value: number;
-  animate: boolean;
-  isExperience: boolean;
+  isYearsOfExperience: boolean;
 }
 
 const SkillsRadialCategoryArc: React.FC<SkillsRadialCategoryArcProps> = ({
   value,
-  animate,
-  isExperience,
+  isYearsOfExperience,
 }) => {
   const size = 120;
   const strokeWidth = 10;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const denominator = isExperience ? 15 : 100;
+  const denominator = isYearsOfExperience ? 15 : 100;
   const targetProgress = (value / denominator) * (circumference / 2);
-
-  const animatedValue = useAnimatedValue(value, true, animationDurationMs);
+  const animatedValue = getAnimatedValue(value, animationDurationMs);
 
   return (
     <Box
@@ -53,7 +50,7 @@ const SkillsRadialCategoryArc: React.FC<SkillsRadialCategoryArcProps> = ({
           r={radius}
           fill="transparent"
           strokeWidth={strokeWidth}
-          stroke={getProgressColor(animatedValue, isExperience)}
+          stroke={getProgressColor(animatedValue, isYearsOfExperience)}
           pathLength={circumference}
           strokeDasharray={`${targetProgress} ${circumference / 2 - targetProgress}`}
           strokeDashoffset={0}
@@ -61,7 +58,7 @@ const SkillsRadialCategoryArc: React.FC<SkillsRadialCategoryArcProps> = ({
           style={{
             transform: "rotate(180deg)",
             transformOrigin: "center",
-            transition: `stroke-dasharray ${animationDurationMs}ms ease, stroke ${animationDurationMs}ms ease`,
+            transition: `stroke-dasharray ${animationDurationMs}ms ease`,
           }}
         />
       </svg>
@@ -71,7 +68,7 @@ const SkillsRadialCategoryArc: React.FC<SkillsRadialCategoryArcProps> = ({
         left="50%"
         sx={{
           transform: "translate(-50%, -50%)",
-          color: getProgressColor(animatedValue, isExperience),
+          color: getProgressColor(animatedValue, isYearsOfExperience),
         }}
       >
         <Typography
@@ -80,8 +77,8 @@ const SkillsRadialCategoryArc: React.FC<SkillsRadialCategoryArcProps> = ({
           fontWeight="bold"
           sx={{ whiteSpace: "nowrap" }}
         >
-          {animatedValue}
-          {isExperience ? " yrs" : ""}
+          {Math.round(animatedValue)}
+          {isYearsOfExperience ? " yrs" : ""}
         </Typography>
       </Box>
     </Box>

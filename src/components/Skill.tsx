@@ -9,12 +9,12 @@ import {
 import { styled } from "@mui/system";
 import { SkillData } from "../utils/types";
 import { getProgressColor } from "../utils/utils";
-import { useAnimatedValue } from "../utils/useAnimatedValue";
+import { getAnimatedValue } from "../utils/getAnimatedValue";
 import { animationDurationMs } from "../utils/constants";
 
 interface SkillProps {
   skill: SkillData;
-  isExperience: boolean;
+  isYearsOfExperience: boolean;
 }
 
 const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -28,12 +28,24 @@ const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-const Skill: React.FC<SkillProps> = ({ skill, isExperience }) => {
+const SkillImage = React.memo(
+  ({ src, name }: { src: string; name: string }) => {
+    return (
+      <img
+        src={`/src/assets/skills/${src}`}
+        alt={name}
+        style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
+      />
+    );
+  },
+);
+
+const Skill: React.FC<SkillProps> = ({ skill, isYearsOfExperience }) => {
   const { name, stat, src, year } = skill;
-  const value = isExperience ? new Date().getFullYear() - year : stat;
-  const denominator = isExperience ? 15 : 100;
+  const value = isYearsOfExperience ? new Date().getFullYear() - year : stat;
+  const denominator = isYearsOfExperience ? 15 : 100;
   const size = "50px";
-  const animatedValue = useAnimatedValue(value, true, animationDurationMs);
+  const animatedValue = getAnimatedValue(value, animationDurationMs);
 
   return (
     <Grid
@@ -53,15 +65,7 @@ const Skill: React.FC<SkillProps> = ({ skill, isExperience }) => {
         }}
       >
         <Box sx={{ width: size, height: size }}>
-          <img
-            src={`/src/assets/skills/${src}`}
-            alt={name}
-            style={{
-              maxWidth: "100%",
-              maxHeight: "100%",
-              objectFit: "contain",
-            }}
-          />
+          <SkillImage src={src} name={name} />
         </Box>
       </Grid>
       <Grid item xs sx={{ height: size }}>
@@ -75,10 +79,12 @@ const Skill: React.FC<SkillProps> = ({ skill, isExperience }) => {
             <Typography variant="body1">{name}</Typography>
             <Typography
               variant="body1"
-              sx={{ color: getProgressColor(animatedValue, isExperience) }}
+              sx={{
+                color: getProgressColor(animatedValue, isYearsOfExperience),
+              }}
             >
-              {animatedValue}
-              {isExperience ? " yrs" : ""}
+              {Math.round(animatedValue)}
+              {isYearsOfExperience ? " yrs" : ""}
             </Typography>
           </Box>
           <ColorfulLinearProgress
@@ -86,7 +92,10 @@ const Skill: React.FC<SkillProps> = ({ skill, isExperience }) => {
             value={(animatedValue / denominator) * 100}
             sx={{
               [`& .${linearProgressClasses.bar}`]: {
-                backgroundColor: getProgressColor(animatedValue, isExperience),
+                backgroundColor: getProgressColor(
+                  animatedValue,
+                  isYearsOfExperience,
+                ),
                 transition: `width ${animationDurationMs}ms ease`,
               },
             }}
