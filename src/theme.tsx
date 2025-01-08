@@ -26,7 +26,7 @@ const theme = createTheme({
       primary: "rgb(255, 255, 255)",
       secondary: "rgb(8, 8, 8)",
     },
-    hyperlink:{
+    hyperlink: {
       primary: "rgb(98, 186, 27)",
       secondary: "rgb(18,126,215)",
     },

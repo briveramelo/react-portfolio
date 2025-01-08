@@ -17,7 +17,6 @@ export const SkillsSection: React.FC = () => {
         p: 6,
         backgroundColor: "background.dark",
         color: "text.primary",
-        py: 10,
         textAlign: "center",
       }}
     >

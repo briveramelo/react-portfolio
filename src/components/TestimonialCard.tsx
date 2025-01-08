@@ -2,12 +2,37 @@ import React from "react";
 import { Card, CardContent, Typography, Box, Avatar } from "@mui/material";
 
 interface Testimonial {
-  quote: string;
+  quote: string; // Includes <h>...</h> tags for highlighting
   name: string;
   title: string;
   company: string;
   photo: string;
 }
+
+const HighlightedText: React.FC<{ text: string }> = ({ text }) => {
+  const parts = text.split(/(<h>.*?<\/h>)/g).map((part, index) => {
+    if (part.startsWith("<h>") && part.endsWith("</h>")) {
+      const content = part.slice(3, -4); // Remove <h> and </h>
+      return (
+        <span
+          key={index}
+          style={{
+            backgroundColor: "lightblue",
+            fontWeight: "bold",
+            padding: "0 4px",
+            borderRadius: "4px",
+            whiteSpace: "pre-wrap",
+          }}
+        >
+          {content}
+        </span>
+      );
+    }
+    return part; // Non-highlighted text
+  });
+
+  return <>{parts}</>;
+};
 
 export function TestimonialCard({ data }: { data: Testimonial }) {
   return (
@@ -29,7 +54,7 @@ export function TestimonialCard({ data }: { data: Testimonial }) {
             color: "text.secondary",
           }}
         >
-          "{data.quote}"
+          <HighlightedText text={data.quote} />
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Avatar

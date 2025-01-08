@@ -6,10 +6,10 @@ declare module "@mui/material/styles" {
       orange: string;
       green: string;
     };
-    hyperlink:{
+    hyperlink: {
       primary: string;
       secondary: string;
-    },
+    };
   }
   interface PaletteOptions {
     skills?: {
@@ -17,7 +17,7 @@ declare module "@mui/material/styles" {
       orange: string;
       green: string;
     };
-    hyperlink?:{
+    hyperlink?: {
       primary: string;
       secondary: string;
     };

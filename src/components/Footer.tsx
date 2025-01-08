@@ -29,14 +29,17 @@ export function Footer() {
             display: "flex",
             alignItems: "center",
             flexDirection: "row", // Align icons and text in a row
-            gap: 1,
+            gap: 0,
           }}
         >
-          <Typography variant="body1" sx={{ color: "text.primary" }}>
+          <Typography variant="body1" sx={{ mr: 1, color: "text.primary" }}>
             Made with
           </Typography>
           <BeatingHeart />
-          <Typography variant="body1" sx={{ mx: 1, color: "text.primary" }}>
+          <Typography
+            variant="body1"
+            sx={{ ml: 1, mr: 2, color: "text.primary" }}
+          >
             and
           </Typography>
           <SteamingCoffee />

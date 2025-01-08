@@ -46,16 +46,16 @@ export function ContactSection() {
           No smoke bombs here - just sharp solutions.
           <br />
           <br />
-            <Typography
-                component="a"
-                href="mailto:hi@riveramelo.com?subject=Introduction"
-                sx={{
-                    color: "hyperlink.primary",
-                    textDecoration: "underline",
-                }}
-            >
-                hi@riveramelo.com
-            </Typography>
+          <Typography
+            component="a"
+            href="mailto:hi@riveramelo.com?subject=Introduction"
+            sx={{
+              color: "hyperlink.primary",
+              textDecoration: "underline",
+            }}
+          >
+            hi@riveramelo.com
+          </Typography>
         </Typography>
       </Container>
     </Box>
