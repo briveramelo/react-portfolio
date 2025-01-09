@@ -27,4 +27,7 @@ declare module "@mui/material/styles" {
   interface TypeBackground {
     fillbar?: string;
   }
+  interface TypeText {
+    highlighting?: string;
+  }
 }

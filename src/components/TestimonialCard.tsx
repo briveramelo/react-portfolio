@@ -1,5 +1,12 @@
 import React from "react";
-import { Card, CardContent, Typography, Box, Avatar } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  Avatar,
+  useTheme,
+} from "@mui/material";
 
 interface Testimonial {
   quote: string; // Includes <h>...</h> tags for highlighting
@@ -10,6 +17,8 @@ interface Testimonial {
 }
 
 const HighlightedText: React.FC<{ text: string }> = ({ text }) => {
+  const theme = useTheme();
+  const highlightingColor = theme.palette.text.highlighting;
   const parts = text.split(/(<h>.*?<\/h>)/g).map((part, index) => {
     if (part.startsWith("<h>") && part.endsWith("</h>")) {
       const content = part.slice(3, -4); // Remove <h> and </h>
@@ -17,7 +26,7 @@ const HighlightedText: React.FC<{ text: string }> = ({ text }) => {
         <span
           key={index}
           style={{
-            backgroundColor: "lightblue",
+            backgroundColor: highlightingColor,
             fontWeight: "bold",
             padding: "0 4px",
             borderRadius: "4px",

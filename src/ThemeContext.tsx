@@ -1,7 +1,7 @@
 import React, { createContext, useState, useMemo, ReactNode } from "react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { themes, ThemeMode } from "./theme";
-import {CssBaseline} from "@mui/material";
+import { CssBaseline } from "@mui/material";
 
 interface ThemeContextProps {
   mode: ThemeMode;

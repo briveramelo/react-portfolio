@@ -43,6 +43,7 @@ const house = createTheme({
     text: {
       primary: "rgb(255, 255, 255)",
       secondary: "rgb(8, 8, 8)",
+      highlighting: "lightblue",
     },
     hyperlink: {
       primary: "rgb(98, 186, 27)",
@@ -71,13 +72,14 @@ const dark = createTheme({
     },
     background: {
       default: "rgb(24, 24, 24)",
-      paper: "rgb(245, 245, 240)",
-      contrast: "rgb(24, 24, 24)",
+      paper: "rgb(48, 48, 48)",
+      contrast: "rgb(0,29,84)",
       fillbar: "rgb(224, 224, 224)",
     },
     text: {
       primary: "rgb(255, 255, 255)",
-      secondary: "rgb(8, 8, 8)",
+      secondary: "rgb(236,236,236)",
+      highlighting: "lightblue",
     },
     hyperlink: {
       primary: "rgb(98, 186, 27)",
@@ -112,6 +114,7 @@ const light = createTheme({
     text: {
       primary: "rgb(8, 8, 8)",
       secondary: "rgb(255, 255, 255)",
+      highlighting: "lightblue",
     },
     hyperlink: {
       primary: "rgb(18,126,215)",
@@ -130,7 +133,7 @@ export const themes = {
 export type ThemeImage = {
   name: ThemeMode;
   src: string;
-}
+};
 
 export const themeNames = ["house", "light", "dark"] as const;
 export const themeImages: ThemeImage[] = [
@@ -145,6 +148,6 @@ export const themeImages: ThemeImage[] = [
   {
     name: "dark",
     src: "/src/assets/moustache.svg",
-  }
+  },
 ];
 export type ThemeMode = (typeof themeNames)[number];
