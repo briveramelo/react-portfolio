@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Typography, Box } from "@mui/material";
-import { CaseStudyCard } from "./CaseStudyCard";
+import { CaseStudyCard } from "../../components/CaseStudyCard";
 
 export function CaseStudiesSection({ backgroundColor, textColor }) {
   const caseStudies = [

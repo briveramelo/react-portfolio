@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Typography, Grid, Box } from "@mui/material";
-import { ProjectCard } from "./ProjectCard";
+import { ProjectCard } from "../../components/ProjectCard";
 
 interface Project {
   title: string;

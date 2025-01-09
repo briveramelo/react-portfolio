@@ -1,13 +1,13 @@
 import React from "react";
 import { Header } from "../components/Header";
-import { Hero } from "../components/Hero";
-import { SkillsSection } from "../components/SkillsSection";
-import { CaseStudiesSection } from "../components/CaseStudiesSection";
-import { TestimonialsSection } from "../components/TestimonialsSection";
-import { RecentWorkSection } from "../components/RecentWorkSection";
-import { ContactSection } from "../components/ContactSection";
-import { Footer } from "../components/Footer";
-import { WorkedWith } from "../components/WorkedWith";
+import { Hero } from "./sections/Hero";
+import { SkillsSection } from "./sections/SkillsSection";
+import { CaseStudiesSection } from "./sections/CaseStudiesSection";
+import { TestimonialsSection } from "./sections/TestimonialsSection";
+import { RecentWorkSection } from "./sections/RecentWorkSection";
+import { ContactSection } from "./sections/ContactSection";
+import { Footer } from "./sections/Footer";
+import { WorkedWith } from "./sections/WorkedWith";
 import { useTheme } from "@mui/material";
 
 export function HomePage() {

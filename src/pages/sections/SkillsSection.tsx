@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SkillCategory from "./SkillCategory";
+import SkillCategory from "../../components/SkillCategory";
 import { Box, Button, Typography, Grid } from "@mui/material";
 
 export function SkillsSection() {

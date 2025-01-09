@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Typography, Box } from "@mui/material";
-import { BeatingHeart } from "./BeatingHeart";
-import { SteamingCoffee } from "./SteamingCoffee";
+import { BeatingHeart } from "../../components/BeatingHeart";
+import { SteamingCoffee } from "../../components/SteamingCoffee";
 
 export function Footer({ backgroundColor, textColor }) {
   return (
