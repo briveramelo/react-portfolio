@@ -6,7 +6,7 @@ import { CaseStudiesSection } from "./sections/CaseStudiesSection";
 import { TestimonialsSection } from "./sections/TestimonialsSection";
 import { RecentWorkSection } from "./sections/RecentWorkSection";
 import { ContactSection } from "./sections/ContactSection";
-import { Footer } from "./sections/Footer";
+import { Footer } from "../components/Footer";
 import { WorkedWith } from "./sections/WorkedWith";
 import { useTheme } from "@mui/material";
 

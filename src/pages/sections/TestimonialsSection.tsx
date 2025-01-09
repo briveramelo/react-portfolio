@@ -44,10 +44,12 @@ export function TestimonialsSection({ backgroundColor, textColor }) {
   ];
   return (
     <Box
+      component="section"
       id="testimonials"
       sx={{
         py: 10,
         backgroundColor: backgroundColor,
+        color: textColor,
       }}
     >
       <Container maxWidth="lg">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { LinkedIn } from "@mui/icons-material";
 import ThemeSwitcher from "./ThemeSwitcher";
+import { ThemeContext } from "../ThemeContext";
 
 export function Header() {
   const navigationLinks = [
@@ -18,17 +19,50 @@ export function Header() {
     { href: "#recent", label: "Recent" },
     { href: "#contact", label: "Contact" },
   ];
-  const theme = useTheme();
-  const palette = theme.palette;
+  const [colors, setColors] = useState({
+    header: "background.paper",
+    text: "text.paper",
+  });
+  const { mode } = useContext(ThemeContext);
+
+  // header acts like a chameleon to match the colors of the section behind
+  const updateHeaderColors = () => {
+    const headerHeight = document.querySelector("header").offsetHeight;
+    const sections = Array.from(document.querySelectorAll("section"));
+
+    const activeSection = sections.find((section) => {
+      const rect = section.getBoundingClientRect();
+      return rect.top <= headerHeight && rect.bottom > headerHeight;
+    });
+
+    if (activeSection) {
+      const styles = window.getComputedStyle(activeSection);
+      setColors({
+        header: styles.backgroundColor,
+        text: styles.color,
+      });
+    }
+  };
+
+  // Update header on scroll
+  useEffect(() => {
+    window.addEventListener("scroll", updateHeaderColors);
+    return () => window.removeEventListener("scroll", updateHeaderColors);
+  }, []);
+
+  // Update header when theme changes
+  useEffect(() => {
+    updateHeaderColors();
+  }, [mode]);
 
   return (
-    <AppBar
+    <Box
+      component="header"
       position="fixed"
       sx={{
         position: "sticky",
         top: 0,
-        background: palette.background.paper,
-        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+        background: colors.header,
         zIndex: 9999, //force top
         overflow: "hidden", // ensure proper clipping
       }}
@@ -55,7 +89,7 @@ export function Header() {
               sx={{
                 textTransform: "none",
                 fontWeight: "bold",
-                color: "text.paper",
+                color: colors.text,
                 "&:hover": { opacity: 0.8 },
               }}
             >
@@ -71,7 +105,7 @@ export function Header() {
           target="_blank"
           rel="noopener noreferrer"
           sx={{
-            color: "text.paper",
+            color: colors.text,
             "&:hover": { opacity: 0.8 },
           }}
         >
@@ -80,6 +114,6 @@ export function Header() {
 
         <ThemeSwitcher />
       </Toolbar>
-    </AppBar>
+    </Box>
   );
 }

@@ -26,6 +26,8 @@ export function WorkedWith({ backgroundColor, textColor, useDarkImages }) {
   ];
   return (
     <Box
+      component="section"
+      id="employers"
       sx={{
         py: 5,
         backgroundColor: backgroundColor,

@@ -4,15 +4,17 @@ import { Container, Typography, Box } from "@mui/material";
 export function ContactSection({ backgroundColor, textColor }) {
   return (
     <Box
+      component="section"
       id="contact"
       sx={{
         backgroundColor: backgroundColor,
+        color: textColor,
         py: 10,
         textAlign: "center",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        mb: 41,
+        mb: 42,
       }}
     >
       <Container

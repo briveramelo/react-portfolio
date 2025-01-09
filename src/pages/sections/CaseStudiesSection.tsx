@@ -37,6 +37,7 @@ export function CaseStudiesSection({ backgroundColor, textColor }) {
   ];
   return (
     <Box
+      component="section"
       id="work"
       sx={{
         py: 10,

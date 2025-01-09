@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import SkillCategory from "../../components/SkillCategory";
 import { Box, Button, Typography, Grid } from "@mui/material";
 
-export function SkillsSection() {
+export function SkillsSection({ backgroundColor, textColor }) {
   const [isYearsOfExperience, setIsYearsOfExperience] =
     useState<boolean>(false);
 
@@ -174,11 +174,12 @@ export function SkillsSection() {
 
   return (
     <Box
+      component="section"
       id="skills"
       sx={{
         p: 6,
-        backgroundColor: "background.default",
-        color: "text.primary",
+        backgroundColor: backgroundColor,
+        color: textColor,
         textAlign: "center",
         py: 25,
       }}

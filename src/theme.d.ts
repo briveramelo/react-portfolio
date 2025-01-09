@@ -1,7 +1,9 @@
 declare module "@mui/material/styles" {
   type CustomPaletteMode = "house" | "light" | "dark";
+
   interface Palette {
     mode: CustomPaletteMode;
+    type: CustomPaletteMode;
     skills: {
       red: string;
       orange: string;
@@ -14,6 +16,7 @@ declare module "@mui/material/styles" {
   }
   interface PaletteOptions {
     mode?: CustomPaletteMode;
+    type?: CustomPaletteMode;
     skills?: {
       red: string;
       orange: string;
