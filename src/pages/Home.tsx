@@ -7,12 +7,14 @@ import { TestimonialsSection } from "../components/TestimonialsSection";
 import { RecentWorkSection } from "../components/RecentWorkSection";
 import { ContactSection } from "../components/ContactSection";
 import { Footer } from "../components/Footer";
+import { WorkedWith } from "../components/WorkedWith";
 
 export function HomePage() {
   return (
     <>
       <Header />
       <Hero />
+      <WorkedWith />
       <SkillsSection />
       <CaseStudiesSection />
       <TestimonialsSection />
