@@ -141,11 +141,11 @@ export const themeNames = ["house", "light", "dark"] as const;
 export const themeImages: ThemeImage[] = [
   {
     name: "house",
-    src: "/src/assets/moustache.svg",
+    src: "/src/assets/sun-l.svg",
   },
   {
     name: "light",
-    src: "/src/assets/moustache.svg",
+    src: "/src/assets/moon-l.svg",
   },
   {
     name: "dark",
