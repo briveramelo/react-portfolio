@@ -1,7 +1,7 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
 import React from "react";
 
-export function WorkedWith() {
+export function WorkedWith({ backgroundColor, textColor }) {
   const companies = [
     {
       whiteSrc: "/src/assets/orgs/uhealth-w.png",
@@ -30,8 +30,8 @@ export function WorkedWith() {
       id="brandon"
       sx={{
         py: 5,
-        backgroundColor: "background.paper",
-        color: "text.secondary",
+        backgroundColor: backgroundColor,
+        color: textColor,
       }}
     >
       <Container
@@ -44,7 +44,7 @@ export function WorkedWith() {
         <Typography
           variant="h4"
           sx={{
-            color: "text.secondary",
+            color: textColor,
             mt: 4,
           }}
         >

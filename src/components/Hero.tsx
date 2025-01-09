@@ -1,15 +1,15 @@
 import React from "react";
 import { Container, Typography, Box, Avatar, Grid } from "@mui/material";
 
-export function Hero() {
+export function Hero({ backgroundColor, textColor }) {
   return (
     <Box
       component="section"
       id="brandon"
       sx={{
         py: 10,
-        backgroundColor: "background.default",
-        color: "text.secondary",
+        backgroundColor: backgroundColor,
+        color: textColor,
       }}
     >
       <Container
@@ -31,7 +31,7 @@ export function Hero() {
             sx={{
               fontWeight: "bold",
               fontSize: { xs: "2.5rem", md: "3.5rem" },
-              color: "text.primary",
+              color: textColor,
             }}
           >
             Brandon
@@ -44,7 +44,7 @@ export function Hero() {
             sx={{
               fontSize: "1.25rem",
               mt: 2,
-              color: "text.primary",
+              color: textColor,
               maxWidth: "600px",
             }}
           >

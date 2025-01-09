@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { Box } from "@mui/material";
 
-export const SteamingCoffee: React.FC = () => {
+export function SteamingCoffee() {
   // Create refs for the steam puffs
   const steamRefs = [
     useRef<HTMLDivElement>(null!),
@@ -115,4 +115,4 @@ export const SteamingCoffee: React.FC = () => {
       ))}
     </Box>
   );
-};
+}

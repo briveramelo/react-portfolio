@@ -13,14 +13,35 @@ export function HomePage() {
   return (
     <>
       <Header />
-      <Hero />
-      <WorkedWith />
-      <SkillsSection />
-      <CaseStudiesSection />
-      <TestimonialsSection />
-      <RecentWorkSection />
-      <ContactSection />
-      <Footer />
+      <Hero backgroundColor={"background.default"} textColor={"text.primary"} />
+      <WorkedWith
+        backgroundColor={"background.contrast"}
+        textColor={"text.secondary"}
+      />
+      <SkillsSection
+        backgroundColor={"background.default"}
+        textColor={"text.primary"}
+      />
+      <CaseStudiesSection
+        backgroundColor={"background.contrast"}
+        textColor={"text.secondary"}
+      />
+      <TestimonialsSection
+        backgroundColor={"background.default"}
+        textColor={"text.primary"}
+      />
+      <RecentWorkSection
+        backgroundColor={"background.contrast"}
+        textColor={"text.secondary"}
+      />
+      <ContactSection
+        backgroundColor={"background.default"}
+        textColor={"text.primary"}
+      />
+      <Footer
+        backgroundColor={"background.contrast"}
+        textColor={"text.secondary"}
+      />
     </>
   );
 }

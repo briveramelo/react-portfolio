@@ -26,14 +26,14 @@ const projects: Project[] = [
   },
 ];
 
-export const RecentWorkSection: React.FC = () => {
+export function RecentWorkSection({ backgroundColor, textColor }) {
   return (
     <Box
       component="section"
       id="recent"
       sx={{
         py: 10,
-        backgroundColor: "background.contrast",
+        backgroundColor: backgroundColor,
       }}
     >
       <Container maxWidth="lg">
@@ -41,11 +41,11 @@ export const RecentWorkSection: React.FC = () => {
           <Typography
             variant="h1"
             gutterBottom
-            sx={{ fontWeight: "bold", color: "text.secondary" }}
+            sx={{ fontWeight: "bold", color: textColor }}
           >
             Recent Work
           </Typography>
-          <Typography variant="body1" sx={{ color: "text.secondary" }}>
+          <Typography variant="body1" sx={{ color: textColor }}>
             Innovative technology and a love of learning go hand-in-hand.
           </Typography>
         </Box>
@@ -60,4 +60,4 @@ export const RecentWorkSection: React.FC = () => {
       </Container>
     </Box>
   );
-};
+}

@@ -1,13 +1,13 @@
 import React from "react";
 import { Container, Typography, Box } from "@mui/material";
 
-export function ContactSection() {
+export function ContactSection({ backgroundColor, textColor }) {
   return (
     <Box
       component="section"
       id="contact"
       sx={{
-        backgroundColor: "background.primary",
+        backgroundColor: backgroundColor,
         py: 10,
         textAlign: "center",
         display: "flex",
@@ -28,7 +28,7 @@ export function ContactSection() {
           variant="h1"
           sx={{
             fontWeight: "bold",
-            color: "text.primary",
+            color: textColor,
           }}
         >
           Your Move
@@ -40,7 +40,7 @@ export function ContactSection() {
           sx={{
             fontSize: "1.125rem",
             lineHeight: 1.75,
-            color: "text.primary",
+            color: textColor,
           }}
         >
           No smoke bombs here - just sharp solutions.

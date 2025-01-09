@@ -38,15 +38,15 @@ const caseStudies = [
   },
 ];
 
-export function CaseStudiesSection() {
+export function CaseStudiesSection({ backgroundColor, textColor }) {
   return (
     <Box
       component="section"
       id="casestudies"
       sx={{
         py: 10,
-        backgroundColor: "background.contrast",
-        color: "text.primary",
+        backgroundColor: backgroundColor,
+        color: textColor,
       }}
     >
       <Container maxWidth="lg">
@@ -56,7 +56,7 @@ export function CaseStudiesSection() {
             variant="h1"
             sx={{
               fontWeight: "bold",
-              color: "text.secondary",
+              color: textColor,
               mb: 2,
             }}
           >
@@ -65,7 +65,7 @@ export function CaseStudiesSection() {
           <Typography
             variant="body1"
             sx={{
-              color: "text.secondary",
+              color: textColor,
               maxWidth: 600,
               margin: "0 auto",
             }}
