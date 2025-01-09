@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 
 export function SteamingCoffee() {
   // Create refs for the steam puffs
@@ -18,6 +18,8 @@ export function SteamingCoffee() {
   const delayMs = 2000; // Staggered delay between puffs
   const extraDelayMs = 2000; // Additional delay after animation
   const durationMs = animationTimeMs + extraDelayMs; // Total duration
+  const theme = useTheme();
+  const useDark = theme.palette.type === "light";
 
   /**
    * generateSinusoidalKeyframes dynamically generates keyframes for sinusoidal X translation and linear Y motion.
@@ -106,8 +108,9 @@ export function SteamingCoffee() {
             height: "33px",
             marginTop: "-65px",
             marginLeft: "28px",
-            background:
-              "radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 70%)",
+            background: useDark
+              ? "radial-gradient(circle, rgba(  0,   0,   0, 0.6) 0%, rgba(  0,   0,   0, 0) 70%)"
+              : "radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 70%)",
             borderRadius: "50%",
             opacity: 0, // Initial opacity
           }}

@@ -5,6 +5,7 @@ import {
   LinearProgress,
   Grid,
   linearProgressClasses,
+  useTheme,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import { SkillData } from "../utils/types";
@@ -29,20 +30,37 @@ const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 const SkillImage = React.memo(
-  ({ src, name }: { src: string; name: string }) => {
+  ({
+    src,
+    name,
+    invert = false,
+  }: {
+    src: string;
+    name: string;
+    invert?: boolean;
+  }) => {
     return (
       <img
         src={`/src/assets/skills/${src}`}
         alt={name}
-        style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
+        style={{
+          maxWidth: "100%",
+          maxHeight: "100%",
+          objectFit: "contain",
+          filter: invert ? "invert(1)" : "",
+        }}
       />
     );
   },
 );
 
 const Skill: React.FC<SkillProps> = ({ skill, isYearsOfExperience }) => {
-  const { name, stat, src, year } = skill;
+  const { name, stat, srcLight, srcDark, year, invertIfLight } = skill;
   const rawValue = isYearsOfExperience ? new Date().getFullYear() - year : stat;
+  const theme = useTheme();
+  const themeName = theme.palette.type;
+  const useLight = themeName !== "light";
+  const src = useLight ? srcLight : srcDark;
 
   // 1) Clamp the rawValue based on whether it’s years or stat
   const maxExp = 15;
@@ -75,7 +93,11 @@ const Skill: React.FC<SkillProps> = ({ skill, isYearsOfExperience }) => {
         }}
       >
         <Box sx={{ width: size, height: size }}>
-          <SkillImage src={src} name={name} />
+          <SkillImage
+            src={src}
+            name={name}
+            invert={useLight && invertIfLight}
+          />
         </Box>
       </Grid>
 

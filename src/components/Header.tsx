@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import {
   AppBar,
   Toolbar,
@@ -8,8 +8,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { LinkedIn } from "@mui/icons-material";
-import { ThemeContext } from "../ThemeContext";
-import { themeImages } from "../theme";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 export function Header() {
   const navigationLinks = [
@@ -19,7 +18,6 @@ export function Header() {
     { href: "#recent", label: "Recent" },
     { href: "#contact", label: "Contact" },
   ];
-  const { setMode } = useContext(ThemeContext);
   const theme = useTheme();
   const palette = theme.palette;
 
@@ -80,22 +78,7 @@ export function Header() {
           <LinkedIn />
         </IconButton>
 
-        {/* Theme Switcher */}
-        <Box sx={{ display: "flex", gap: 1 }}>
-          {themeImages.map((theme) => (
-            <Button
-              key={theme.name}
-              onClick={() => setMode(theme.name)}
-              sx={{ minWidth: "auto", padding: 0 }}
-            >
-              <img
-                src={theme.src}
-                alt={theme.name}
-                style={{ height: "24px" }}
-              />
-            </Button>
-          ))}
-        </Box>
+        <ThemeSwitcher />
       </Toolbar>
     </AppBar>
   );
