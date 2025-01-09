@@ -41,7 +41,7 @@ const SkillImage = React.memo(
   }) => {
     return (
       <img
-        src={`/src/assets/skills/${src}`}
+        src={src}
         alt={name}
         style={{
           maxWidth: "100%",

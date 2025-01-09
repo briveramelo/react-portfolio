@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Typography, Box, Avatar, Grid } from "@mui/material";
+import brandon from "@/assets/people/brandon.jpg";
 
 export function Hero({ backgroundColor, textColor }) {
   return (
@@ -61,7 +62,7 @@ export function Hero({ backgroundColor, textColor }) {
           }}
         >
           <Avatar
-            src="/src/assets/people/brandon.jpg"
+            src={brandon}
             alt="Picture of Brandon"
             sx={{
               width: 400,

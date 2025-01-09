@@ -1,26 +1,34 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
 import React from "react";
+import uhealthW from "@/assets/orgs/uhealth-w.png";
+import uhealth from "@/assets/orgs/uhealth.png";
+import gapplabW from "@/assets/orgs/gapplab-w.png";
+import gapplab from "@/assets/orgs/gapplab.png";
+import aolW from "@/assets/orgs/aol-w.png";
+import aol from "@/assets/orgs/aol.png";
+import dfaW from "@/assets/orgs/dfa-w.png";
+import dfa from "@/assets/orgs/dfa.png";
 
 export function WorkedWith({ backgroundColor, textColor, useDarkImages }) {
   const companies = [
     {
-      whiteSrc: "/src/assets/orgs/uhealth-w.png",
-      colorSrc: "/src/assets/orgs/uhealth.png",
+      whiteSrc: uhealthW,
+      colorSrc: uhealth,
       alt: "UHealth",
     },
     {
-      whiteSrc: "/src/assets/orgs/gapplab-w.png",
-      colorSrc: "/src/assets/orgs/gapplab.png",
+      whiteSrc: gapplabW,
+      colorSrc: gapplab,
       alt: "The GApp Lab",
     },
     {
-      whiteSrc: "/src/assets/orgs/aol-w.png",
-      colorSrc: "/src/assets/orgs/aol.png",
+      whiteSrc: aolW,
+      colorSrc: aol,
       alt: "Age of Learning",
     },
     {
-      whiteSrc: "/src/assets/orgs/dfa-w.png",
-      colorSrc: "/src/assets/orgs/dfa.png",
+      whiteSrc: dfaW,
+      colorSrc: dfa,
       alt: "Design for America",
     },
   ];

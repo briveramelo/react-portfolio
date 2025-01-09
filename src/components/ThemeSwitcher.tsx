@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Button } from "@mui/material";
 import { themeImages } from "../theme";
 import { ThemeContext } from "../ThemeContext";
-const ThemeSwitcher = ({isBackgroundDark}) => {
+const ThemeSwitcher = ({ isBackgroundDark }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const { setMode } = useContext(ThemeContext);
 

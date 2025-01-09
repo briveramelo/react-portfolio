@@ -47,7 +47,7 @@ export function isColorDark(color) {
   }
 
   // Unsupported format
-  console.error("unsupported color format. Expected rgb(x,x,x) or #xxxxxx")
+  console.error("unsupported color format. Expected rgb(x,x,x) or #xxxxxx");
 }
 
 // Luminance calculation
@@ -57,5 +57,3 @@ function calculateLuminance(r, g, b) {
   const bNorm = b / 255;
   return 0.2126 * rNorm + 0.7152 * gNorm + 0.0722 * bNorm;
 }
-
-

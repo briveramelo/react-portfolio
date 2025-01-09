@@ -1,4 +1,7 @@
 import { createTheme } from "@mui/material/styles";
+import sunL from "@/assets/sun-l.svg";
+import moonL from "@/assets/moon-l.svg";
+import moustache from "@/assets/moustache.svg";
 
 const typography = {
   fontFamily: '"IBM Plex Mono", Arial',
@@ -141,15 +144,15 @@ export const themeNames = ["house", "light", "dark"] as const;
 export const themeImages: ThemeImage[] = [
   {
     name: "house",
-    src: "/src/assets/sun-l.svg",
+    src: sunL,
   },
   {
     name: "light",
-    src: "/src/assets/moon-l.svg",
+    src: moonL,
   },
   {
     name: "dark",
-    src: "/src/assets/moustache.svg",
+    src: moustache,
   },
 ];
 export type ThemeMode = (typeof themeNames)[number];
