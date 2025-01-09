@@ -2,47 +2,42 @@ import React from "react";
 import { Container, Typography, Box } from "@mui/material";
 import { CaseStudyCard } from "./CaseStudyCard";
 
-const caseStudies = [
-  {
-    title: "Tilt Tracker",
-    category: "HealthTech",
-    description:
-      "Tilt Tracker is like Fitbit for power wheelchairs; it’s an IoT sensor for people with spinal cord injury...",
-    image: "/src/assets/projects/josh-tilt-2.jpg",
-    link: "#",
-    linkText: "View case study",
-    color: "#e53935", // Red background
-    textColor: "#ffffff", // White text
-  },
-  {
-    title: "ABCmouse",
-    category: "Games",
-    description:
-      "ABCmouse is the #1 learning app for children ages 2–8, loved by kids and parents across the world.",
-    image: "/src/assets/projects/abcmouse.jpg",
-    link: "#",
-    linkText: "View case study",
-    color: "#1e88e5", // Blue background
-    textColor: "#ffffff", // White text
-  },
-  {
-    title: "Design for America",
-    category: "Design",
-    description:
-      "DFA is a national network of student-led teams using human-centered design to tackle big challenges like childhood obesity.",
-    image: "/src/assets/projects/FruitBuddiKid.jpg",
-    link: "#",
-    linkText: "View case study",
-    color: "#43a047", // Green background
-    textColor: "#ffffff", // White text
-  },
-];
-
 export function CaseStudiesSection({ backgroundColor, textColor }) {
+  const caseStudies = [
+    {
+      title: "Tilt Tracker",
+      category: "Health Tech",
+      description:
+        "Tilt Tracker is like Fitbit for power wheelchairs; it’s an IoT sensor for people with spinal cord injury...",
+      image: "/src/assets/projects/josh-tilt-2.jpg",
+      link: "#",
+      color: "#e53935", // Red background
+      textColor: "#ffffff", // White text
+    },
+    {
+      title: "ABCmouse",
+      category: "Game Dev",
+      description:
+        "ABCmouse is the #1 learning app for children ages 2–8, loved by kids and parents across the world.",
+      image: "/src/assets/projects/abcmouse.jpg",
+      link: "#",
+      color: "#1e88e5", // Blue background
+      textColor: "#ffffff", // White text
+    },
+    {
+      title: "Design for America",
+      category: "Design",
+      description:
+        "DFA is a national network of student-led teams using human-centered design to tackle big challenges like childhood obesity.",
+      image: "/src/assets/projects/FruitBuddiKid.jpg",
+      link: "#",
+      color: "#43a047", // Green background
+      textColor: "#ffffff", // White text
+    },
+  ];
   return (
     <Box
-      component="section"
-      id="casestudies"
+      id="work"
       sx={{
         py: 10,
         backgroundColor: backgroundColor,

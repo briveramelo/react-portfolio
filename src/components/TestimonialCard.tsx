@@ -43,13 +43,18 @@ const HighlightedText: React.FC<{ text: string }> = ({ text }) => {
   return <>{parts}</>;
 };
 
-export function TestimonialCard({ data }: { data: Testimonial }) {
+export function TestimonialCard({
+  data,
+  backgroundColor,
+  textColor,
+}: {
+  data: Testimonial;
+}) {
   return (
     <Card
       sx={{
         p: 2,
-        backgroundColor: "background.paper",
-        color: "text.primary",
+        backgroundColor: backgroundColor,
         boxShadow: 3,
         borderRadius: 2,
       }}
@@ -58,9 +63,9 @@ export function TestimonialCard({ data }: { data: Testimonial }) {
         <Typography
           variant="body1"
           sx={{
-            fontStyle: "italic",
+            // fontStyle: "italic",
             mb: 3,
-            color: "text.secondary",
+            color: textColor,
           }}
         >
           <HighlightedText text={data.quote} />
@@ -77,11 +82,11 @@ export function TestimonialCard({ data }: { data: Testimonial }) {
           <Box>
             <Typography
               variant="h5"
-              sx={{ fontWeight: "bold", color: "text.secondary" }}
+              sx={{ fontWeight: "bold", color: textColor }}
             >
               {data.name}
             </Typography>
-            <Typography variant="h6" sx={{ color: "text.secondary" }}>
+            <Typography variant="h6" sx={{ color: textColor }}>
               {data.title}
             </Typography>
             <Typography variant="h7" sx={{ color: "text.disabled" }}>

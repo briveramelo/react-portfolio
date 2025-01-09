@@ -4,7 +4,6 @@ import { Container, Typography, Box, Avatar, Grid } from "@mui/material";
 export function Hero({ backgroundColor, textColor }) {
   return (
     <Box
-      component="section"
       id="brandon"
       sx={{
         py: 10,

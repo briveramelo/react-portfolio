@@ -1,7 +1,7 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
 import React from "react";
 
-export function WorkedWith({ backgroundColor, textColor }) {
+export function WorkedWith({ backgroundColor, textColor, useDarkImages }) {
   const companies = [
     {
       whiteSrc: "/src/assets/orgs/uhealth-w.png",
@@ -26,12 +26,11 @@ export function WorkedWith({ backgroundColor, textColor }) {
   ];
   return (
     <Box
-      component="section"
-      id="brandon"
       sx={{
         py: 5,
         backgroundColor: backgroundColor,
         color: textColor,
+        pb: 15,
       }}
     >
       <Container
@@ -42,16 +41,22 @@ export function WorkedWith({ backgroundColor, textColor }) {
         maxWidth="lg"
       >
         <Typography
-          variant="h4"
+          variant="h1"
           sx={{
             color: textColor,
             mt: 4,
           }}
         >
-          Worked with:
+          Employers
         </Typography>
 
-        <Grid container spacing={6} justifyContent="center" alignItems="center">
+        <Grid
+          container
+          spacing={6}
+          justifyContent="center"
+          alignItems="center"
+          pt={10}
+        >
           {companies.map((company, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>
               <Box
@@ -85,8 +90,9 @@ export function WorkedWith({ backgroundColor, textColor }) {
                     objectFit: "contain",
                     transition: "opacity 1s ease",
                     opacity: 1, // default visible
-                    filter: "grayscale(1) invert(1)",
-                    // filter: 'grayscale(1)',
+                    filter: useDarkImages
+                      ? "grayscale(1) invert(1)"
+                      : "grayscale(1)",
                   }}
                 />
 

@@ -96,6 +96,7 @@ export function SkillsSection() {
 
   return (
     <Box
+      id="skills"
       sx={{
         p: 6,
         backgroundColor: "background.default",

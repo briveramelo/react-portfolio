@@ -3,13 +3,12 @@ import { Container, Typography, Box } from "@mui/material";
 import { BeatingHeart } from "./BeatingHeart";
 import { SteamingCoffee } from "./SteamingCoffee";
 
-export function Footer() {
+export function Footer({ backgroundColor, textColor }) {
   return (
     <Box
       component="footer"
       sx={{
-        backgroundColor: "background.default",
-        color: "text.secondary",
+        backgroundColor: backgroundColor,
         py: 4,
       }}
     >
@@ -32,19 +31,16 @@ export function Footer() {
             gap: 0,
           }}
         >
-          <Typography variant="body1" sx={{ mr: 1, color: "text.primary" }}>
+          <Typography variant="body1" sx={{ mr: 1, color: textColor }}>
             Made with
           </Typography>
           <BeatingHeart />
-          <Typography
-            variant="body1"
-            sx={{ ml: 1, mr: 2, color: "text.primary" }}
-          >
+          <Typography variant="body1" sx={{ ml: 1, mr: 2, color: textColor }}>
             and
           </Typography>
           <SteamingCoffee />
         </Box>
-        <Typography variant="body2" sx={{ color: "text.primary" }}>
+        <Typography variant="body2" sx={{ color: textColor }}>
           © {new Date().getFullYear()} Brandon Rivera-Melo
         </Typography>
       </Container>

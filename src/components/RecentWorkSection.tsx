@@ -29,7 +29,6 @@ const projects: Project[] = [
 export function RecentWorkSection({ backgroundColor, textColor }) {
   return (
     <Box
-      component="section"
       id="recent"
       sx={{
         py: 10,

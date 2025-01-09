@@ -11,7 +11,7 @@ interface Testimonial {
   photo: string;
 }
 
-export function TestimonialsSection() {
+export function TestimonialsSection({ backgroundColor, textColor }) {
   const testimonialsData: Testimonial[] = [
     {
       quote: `<h>Brandon is hard-working, motivated, and passionate about the projects he works on.</h> I had the pleasure of working with Brandon on a project, because of his expertise, commitment, and work ethic we were able to create a high quality and engaging game in under three weeks. I am confident that Brandon will be an asset to any team he works on. <h>I give him my highest recommendation without reservation.</h>`,
@@ -44,12 +44,10 @@ export function TestimonialsSection() {
   ];
   return (
     <Box
-      component="section"
       id="testimonials"
       sx={{
         py: 10,
-        backgroundColor: "background.default",
-        color: "text.secondary",
+        backgroundColor: backgroundColor,
       }}
     >
       <Container maxWidth="lg">
@@ -57,7 +55,7 @@ export function TestimonialsSection() {
           <Typography
             variant="h1"
             gutterBottom
-            sx={{ fontWeight: "bold", color: "text.primary" }}
+            sx={{ fontWeight: "bold", color: textColor }}
           >
             <a
               href="https://www.linkedin.com/in/briveramelo/details/recommendations/?detailScreenTabIndex=0"
@@ -69,7 +67,7 @@ export function TestimonialsSection() {
               <OpenInNew sx={{ fontSize: "1.5rem", verticalAlign: "top" }} />
             </a>
           </Typography>
-          <Typography variant="body1" sx={{ color: "text.primary" }}>
+          <Typography variant="body1" sx={{ color: textColor }}>
             I care about the quality of my work and the teams I support,
             <br />
             but you should hear it from them.
@@ -79,7 +77,11 @@ export function TestimonialsSection() {
         <Grid container spacing={4}>
           {testimonialsData.map((testimonial) => (
             <Grid item xs={12} md={6} key={testimonial.name}>
-              <TestimonialCard data={testimonial} />
+              <TestimonialCard
+                data={testimonial}
+                backgroundColor="background.paper"
+                textColor="text.paper"
+              />
             </Grid>
           ))}
         </Grid>

@@ -14,7 +14,7 @@ import { themeImages } from "../theme";
 export function Header() {
   const navigationLinks = [
     { href: "#brandon", label: "Home" },
-    { href: "#casestudies", label: "Case Studies" },
+    { href: "#work", label: "Case Studies" },
     { href: "#testimonials", label: "Testimonials" },
     { href: "#recent", label: "Recent" },
     { href: "#contact", label: "Contact" },
@@ -29,7 +29,7 @@ export function Header() {
       sx={{
         position: "sticky",
         top: 0,
-        background: palette.background.paper, // TODO: make dynamic
+        background: palette.background.paper,
         boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
         zIndex: 9999, //force top
         overflow: "hidden", // ensure proper clipping
@@ -57,7 +57,7 @@ export function Header() {
               sx={{
                 textTransform: "none",
                 fontWeight: "bold",
-                color: "rgba(0, 0, 0, 0.8)", // TODO: make dynamic
+                color: "text.paper",
                 "&:hover": { opacity: 0.8 },
               }}
             >
@@ -73,7 +73,7 @@ export function Header() {
           target="_blank"
           rel="noopener noreferrer"
           sx={{
-            color: "rgba(0, 0, 0, 0.8)", // TODO: make dynamic
+            color: "text.paper",
             "&:hover": { opacity: 0.8 },
           }}
         >
