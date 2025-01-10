@@ -208,7 +208,8 @@ export function SkillsSection({ backgroundColor, textColor }) {
         backgroundColor: backgroundColor,
         color: textColor,
         textAlign: "center",
-        py: 25,
+        py: 15,
+        mb: 10
       }}
     >
       <Typography variant="h1" sx={{ mb: 1 }}>
@@ -216,7 +217,7 @@ export function SkillsSection({ backgroundColor, textColor }) {
       </Typography>
       <BouncingButton
         onClick={toggleStat}
-        sx={{ mb: 12 }}
+        sx={{ mb: 26 }}
         variant="contained"
         numBounces={2}
         bounceDurationMs={1750}
