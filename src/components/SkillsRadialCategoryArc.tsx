@@ -7,11 +7,13 @@ import { animationDurationMs } from "../utils/constants";
 interface SkillsRadialCategoryArcProps {
   value: number;
   isYearsOfExperience: boolean;
+  animate: boolean;
 }
 
 const SkillsRadialCategoryArc: React.FC<SkillsRadialCategoryArcProps> = ({
   value,
   isYearsOfExperience,
+  animate,
 }) => {
   const theme = useTheme();
   const size = 120;
@@ -19,8 +21,13 @@ const SkillsRadialCategoryArc: React.FC<SkillsRadialCategoryArcProps> = ({
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const denominator = isYearsOfExperience ? 15 : 100;
-  const targetProgress = (value / denominator) * (circumference / 2);
-  const animatedValue = getAnimatedValue(value, animationDurationMs);
+
+  const targetProgress = animate
+    ? (value / denominator) * (circumference / 2)
+    : 0;
+  const animatedValue = animate
+    ? getAnimatedValue(value, animationDurationMs)
+    : 0;
   const currentProgress = (animatedValue / denominator) * (circumference / 2);
 
   return (

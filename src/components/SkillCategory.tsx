@@ -96,6 +96,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
             key={`${category}-${isYearsOfExperience ? "exp" : "stat"}`}
             value={average}
             isYearsOfExperience={isYearsOfExperience}
+            animate={animate}
           />
         </Box>
       </Box>
@@ -106,7 +107,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
             key={`${skill.name}-${isYearsOfExperience ? "exp" : "stat"}`}
             skill={skill}
             isYearsOfExperience={isYearsOfExperience}
-            animate={animate} // Pass animation trigger
+            animate={animate}
           />
         ))}
       </Box>
