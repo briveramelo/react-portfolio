@@ -16,6 +16,7 @@ import { animationDurationMs } from "../utils/constants";
 interface SkillProps {
   skill: SkillData;
   isYearsOfExperience: boolean;
+  animate: boolean; // Add animate prop
 }
 
 const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -54,7 +55,11 @@ const InvertableImage = React.memo(
   },
 );
 
-const Skill: React.FC<SkillProps> = ({ skill, isYearsOfExperience }) => {
+const Skill: React.FC<SkillProps> = ({
+  skill,
+  isYearsOfExperience,
+  animate,
+}) => {
   const { name, stat, srcLight, srcDark, year, invertIfLight } = skill;
   const rawValue = isYearsOfExperience ? new Date().getFullYear() - year : stat;
   const theme = useTheme();
@@ -62,7 +67,6 @@ const Skill: React.FC<SkillProps> = ({ skill, isYearsOfExperience }) => {
   const useLight = themeName !== "light";
   const src = useLight ? srcLight : srcDark;
 
-  // 1) Clamp the rawValue based on whether it’s years or stat
   const maxExp = 15;
   const maxStat = 100;
   const clampedValue = isYearsOfExperience
@@ -70,8 +74,12 @@ const Skill: React.FC<SkillProps> = ({ skill, isYearsOfExperience }) => {
     : Math.min(rawValue, maxStat);
 
   const denominator = isYearsOfExperience ? maxExp : maxStat;
-  const animatedValue = getAnimatedValue(clampedValue, animationDurationMs);
-  const animatedTextValue = getAnimatedValue(rawValue, animationDurationMs);
+  const animatedValue = animate
+    ? getAnimatedValue(clampedValue, animationDurationMs)
+    : 0;
+  const animatedTextValue = animate
+    ? getAnimatedValue(rawValue, animationDurationMs)
+    : 0;
   const size = "50px";
 
   return (

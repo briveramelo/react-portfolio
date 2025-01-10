@@ -1,7 +1,7 @@
-import Skill from "./Skill";
-import { useMemo } from "react";
+import React, { useMemo, useRef, useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import SkillsRadialCategoryArc from "./SkillsRadialCategoryArc";
+import Skill from "./Skill";
 import { StatsCategory } from "../utils/types";
 
 interface SkillCategoryProps {
@@ -14,6 +14,32 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
   isYearsOfExperience,
 }) => {
   const { category, stats } = categoryData;
+
+  // State to handle animation trigger
+  const [animate, setAnimate] = useState(false);
+  const categoryRef = useRef<HTMLDivElement>(null!);
+
+  // IntersectionObserver to trigger animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setAnimate(true); // Trigger animation
+        }
+      },
+      { threshold: 0.1 }, // Tiny visibility triggers
+    );
+
+    if (categoryRef.current) {
+      observer.observe(categoryRef.current);
+    }
+
+    return () => {
+      if (categoryRef.current) {
+        observer.unobserve(categoryRef.current);
+      }
+    };
+  }, []);
 
   const average = useMemo(() => {
     if (!stats || stats.length === 0) return 0;
@@ -28,7 +54,10 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
   }, [stats, isYearsOfExperience]);
 
   return (
-    <Box sx={{ mb: 2, position: "relative", textAlign: "center" }}>
+    <Box
+      ref={categoryRef} // Add ref for visibility tracking
+      sx={{ mb: 2, position: "relative", textAlign: "center" }}
+    >
       <Box
         sx={{
           mb: 2,
@@ -64,7 +93,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
           }}
         >
           <SkillsRadialCategoryArc
-            key={`${category}-${isYearsOfExperience ? "exp" : "stat"}`} // toggling the key unmounts the old, and mounts a new for a fresh animation start at 0
+            key={`${category}-${isYearsOfExperience ? "exp" : "stat"}`}
             value={average}
             isYearsOfExperience={isYearsOfExperience}
           />
@@ -74,9 +103,10 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
       <Box sx={{ pt: "100px" }}>
         {stats.map((skill) => (
           <Skill
-            key={`${skill.name}-${isYearsOfExperience ? "exp" : "stat"}`} // toggling the key unmounts the old, and mounts a new for a fresh animation start at 0
+            key={`${skill.name}-${isYearsOfExperience ? "exp" : "stat"}`}
             skill={skill}
             isYearsOfExperience={isYearsOfExperience}
+            animate={animate} // Pass animation trigger
           />
         ))}
       </Box>
