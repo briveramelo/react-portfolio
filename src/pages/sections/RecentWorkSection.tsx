@@ -1,6 +1,8 @@
 import React from "react";
 import { Container, Typography, Grid, Box } from "@mui/material";
 import { ProjectCard } from "../../components/ProjectCard";
+import pessimisticNight from "@/assets/projects/pessimistic-night.jpg";
+import digitalHealth from "@/assets/orgs/DigitalHealth4x3.jpg";
 
 interface Project {
   title: string;
@@ -14,14 +16,14 @@ const projects: Project[] = [
     title: "The Pocket Optimist",
     description:
       "Your internal monologue determines much of your success in life. Bring a therapy transcript or a journal entry, and try an experimental AI demo to see what this means for you.",
-    image: "/src/assets/projects/pessimistic-night.jpg",
+    image: pessimisticNight,
     link: "#",
   },
   {
     title: "SmartChart",
     description:
       "For small clinics, insurance reimbursement piles on admin work. See how SmartChart's AI can do the heavy lifting.",
-    image: "/src/assets/orgs/DigitalHealth4x3.jpg",
+    image: digitalHealth,
     link: "#",
   },
 ];

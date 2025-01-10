@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { Box, useTheme } from "@mui/material";
+import coffee from "@/assets/coffee.png";
 
 export function SteamingCoffee() {
   // Create refs for the steam puffs
@@ -97,7 +98,7 @@ export function SteamingCoffee() {
         marginTop: "-40px",
       }}
     >
-      <img src="/src/assets/coffee.png" alt="coffee" width={60} />
+      <img src={coffee} alt="coffee" width={60} />
       {steamRefs.map((steamRef, index) => (
         <Box
           key={index}

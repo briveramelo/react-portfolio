@@ -1,16 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Button,
-  Box,
-  useTheme,
-} from "@mui/material";
+import { Toolbar, IconButton, Button, Box } from "@mui/material";
 import { LinkedIn } from "@mui/icons-material";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { ThemeContext } from "../ThemeContext";
-import {isColorDark} from "../utils/utils";
+import { isColorDark } from "../utils/utils";
 
 export function Header() {
   const navigationLinks = [
@@ -25,7 +18,7 @@ export function Header() {
     text: "text.paper",
   });
   const { mode } = useContext(ThemeContext);
-  const [isBackgroundDark, setIsBackgroundDark] = useState<boolean>(false)
+  const [isBackgroundDark, setIsBackgroundDark] = useState<boolean>(false);
 
   // header acts like a chameleon to match the colors of the section behind
   const updateHeaderColors = () => {
@@ -39,8 +32,8 @@ export function Header() {
 
     if (activeSection) {
       const styles = window.getComputedStyle(activeSection);
-        const isDark = isColorDark(styles.backgroundColor);
-        setIsBackgroundDark(isDark);
+      const isDark = isColorDark(styles.backgroundColor);
+      setIsBackgroundDark(isDark);
       setColors({
         header: styles.backgroundColor,
         text: styles.color,

@@ -1,6 +1,9 @@
 import React from "react";
 import { Container, Typography, Box } from "@mui/material";
 import { CaseStudyCard } from "../../components/CaseStudyCard";
+import joshTilt2 from "@/assets/projects/josh-tilt-2.jpg";
+import abcmouse from "@/assets/projects/abcmouse.jpg";
+import fruitBuddiKid from "@/assets/projects/FruitBuddiKid.jpg";
 
 export function CaseStudiesSection({ backgroundColor, textColor }) {
   const caseStudies = [
@@ -9,7 +12,7 @@ export function CaseStudiesSection({ backgroundColor, textColor }) {
       category: "Health Tech",
       description:
         "Tilt Tracker is like Fitbit for power wheelchairs; it’s an IoT sensor for people with spinal cord injury...",
-      image: "/src/assets/projects/josh-tilt-2.jpg",
+      image: joshTilt2,
       link: "#",
       color: "#e53935", // Red background
       textColor: "#ffffff", // White text
@@ -19,7 +22,7 @@ export function CaseStudiesSection({ backgroundColor, textColor }) {
       category: "Game Dev",
       description:
         "ABCmouse is the #1 learning app for children ages 2–8, loved by kids and parents across the world.",
-      image: "/src/assets/projects/abcmouse.jpg",
+      image: abcmouse,
       link: "#",
       color: "#1e88e5", // Blue background
       textColor: "#ffffff", // White text
@@ -29,7 +32,7 @@ export function CaseStudiesSection({ backgroundColor, textColor }) {
       category: "Design",
       description:
         "DFA is a national network of student-led teams using human-centered design to tackle big challenges like childhood obesity.",
-      image: "/src/assets/projects/FruitBuddiKid.jpg",
+      image: fruitBuddiKid,
       link: "#",
       color: "#43a047", // Green background
       textColor: "#ffffff", // White text

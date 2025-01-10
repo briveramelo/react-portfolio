@@ -1,6 +1,27 @@
 import React, { useState } from "react";
 import SkillCategory from "../../components/SkillCategory";
 import { Box, Button, Typography, Grid } from "@mui/material";
+import unityW from "@/assets/skills/unity-w.svg";
+import unity from "@/assets/skills/unity.svg";
+import csharp from "@/assets/skills/csharp.svg";
+import awsW from "@/assets/skills/aws-w.svg";
+import aws from "@/assets/skills/aws.svg";
+import googleCloud from "@/assets/skills/google-cloud.svg";
+import docker from "@/assets/skills/docker.svg";
+import html5 from "@/assets/skills/html5.svg";
+import css3 from "@/assets/skills/css3.svg";
+import javascript from "@/assets/skills/javascript.svg";
+import react from "@/assets/skills/react.svg";
+import jquery from "@/assets/skills/jquery.svg";
+import java from "@/assets/skills/java.svg";
+import python from "@/assets/skills/python.svg";
+import go from "@/assets/skills/go.svg";
+import sql from "@/assets/skills/sql.svg";
+import nosql from "@/assets/skills/nosql.svg";
+import cpp from "@/assets/skills/c++.svg";
+import bash from "@/assets/skills/bash.svg";
+import devops from "@/assets/skills/devops.png";
+import hipaa from "@/assets/skills/hipaa.svg";
 
 export function SkillsSection({ backgroundColor, textColor }) {
   const [isYearsOfExperience, setIsYearsOfExperience] =
@@ -18,15 +39,15 @@ export function SkillsSection({ backgroundColor, textColor }) {
           name: "Unity",
           stat: 85,
           year: 2014,
-          srcLight: "unity-w.svg",
-          srcDark: "unity.svg",
+          srcLight: unityW,
+          srcDark: unity,
         },
         {
           name: "C#",
           stat: 90,
           year: 2014,
-          srcLight: "csharp.svg",
-          srcDark: "csharp.svg",
+          srcLight: csharp,
+          srcDark: csharp,
         },
       ],
     },
@@ -37,22 +58,22 @@ export function SkillsSection({ backgroundColor, textColor }) {
           name: "AWS",
           stat: 75,
           year: 2023,
-          srcLight: "aws-w.svg",
-          srcDark: "aws.svg",
+          srcLight: awsW,
+          srcDark: aws,
         },
         {
           name: "GCP",
           stat: 80,
           year: 2024,
-          srcLight: "google-cloud.svg",
-          srcDark: "google-cloud.svg",
+          srcLight: googleCloud,
+          srcDark: googleCloud,
         },
         {
           name: "Docker",
           stat: 85,
           year: 2020,
-          srcLight: "docker.svg",
-          srcDark: "docker.svg",
+          srcLight: docker,
+          srcDark: docker,
         },
       ],
     },
@@ -63,36 +84,36 @@ export function SkillsSection({ backgroundColor, textColor }) {
           name: "HTML",
           stat: 75,
           year: 2016,
-          srcLight: "html5.svg",
-          srcDark: "html5.svg",
+          srcLight: html5,
+          srcDark: html5,
         },
         {
           name: "CSS",
           stat: 75,
           year: 2016,
-          srcLight: "css3.svg",
-          srcDark: "css3.svg",
+          srcLight: css3,
+          srcDark: css3,
         },
         {
           name: "JS",
           stat: 85,
           year: 2016,
-          srcLight: "javascript.svg",
-          srcDark: "javascript.svg",
+          srcLight: javascript,
+          srcDark: javascript,
         },
         {
           name: "React",
           stat: 75,
           year: 2024,
-          srcLight: "react.svg",
-          srcDark: "react.svg",
+          srcLight: react,
+          srcDark: react,
         },
         {
           name: "jQuery",
           stat: 85,
           year: 2016,
-          srcLight: "jquery.svg",
-          srcDark: "jquery.svg",
+          srcLight: jquery,
+          srcDark: jquery,
         },
       ],
     },
@@ -103,36 +124,36 @@ export function SkillsSection({ backgroundColor, textColor }) {
           name: "Java",
           stat: 85,
           year: 2016,
-          srcLight: "java.svg",
-          srcDark: "java.svg",
+          srcLight: java,
+          srcDark: java,
         },
         {
           name: "Python",
           stat: 80,
           year: 2024,
-          srcLight: "python.svg",
-          srcDark: "python.svg",
+          srcLight: python,
+          srcDark: python,
         },
         {
           name: "Go",
           stat: 65,
           year: 2024,
-          srcLight: "go.svg",
-          srcDark: "go.svg",
+          srcLight: go,
+          srcDark: go,
         },
         {
           name: "SQL",
           stat: 80,
           year: 2016,
-          srcLight: "sql.svg",
-          srcDark: "sql.svg",
+          srcLight: sql,
+          srcDark: sql,
         },
         {
           name: "NoSQL",
           stat: 90,
           year: 2024,
-          srcLight: "nosql.svg",
-          srcDark: "nosql.svg",
+          srcLight: nosql,
+          srcDark: nosql,
         },
       ],
     },
@@ -143,30 +164,30 @@ export function SkillsSection({ backgroundColor, textColor }) {
           name: "C++",
           stat: 70,
           year: 2019,
-          srcLight: "c++.svg",
-          srcDark: "c++.svg",
+          srcLight: cpp,
+          srcDark: cpp,
         },
         {
           name: "Bash",
           stat: 85,
           year: 2019,
-          srcLight: "bash.svg",
-          srcDark: "bash.svg",
+          srcLight: bash,
+          srcDark: bash,
           invertIfLight: true,
         },
         {
           name: "DevOps",
           stat: 80,
           year: 2019,
-          srcLight: "devops.png",
-          srcDark: "devops.png",
+          srcLight: devops,
+          srcDark: devops,
         },
         {
           name: "HIPAA",
           stat: 90,
           year: 2019,
-          srcLight: "hipaa.svg",
-          srcDark: "hipaa.svg",
+          srcLight: hipaa,
+          srcDark: hipaa,
         },
       ],
     },
