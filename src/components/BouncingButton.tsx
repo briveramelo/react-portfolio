@@ -3,12 +3,16 @@ import { Button } from "@mui/material";
 
 interface BouncingButtonProps {
   onClick: () => void;
+  numBounces;
+  bounceDurationMs;
   children: React.ReactNode;
   sx?: object; // Optional style override
 }
 
 const BouncingButton: React.FC<BouncingButtonProps> = ({
   onClick,
+  numBounces,
+  bounceDurationMs,
   children,
   sx,
   ...rest
@@ -16,8 +20,6 @@ const BouncingButton: React.FC<BouncingButtonProps> = ({
   const [isBouncing, setIsBouncing] = useState<boolean>(false);
   const [animationPlayed, setAnimationPlayed] = useState<boolean>(false);
   const buttonRef = useRef<HTMLButtonElement>(null!);
-  const numBounces = 2;
-  const bounceDurationMs = 1750;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -45,7 +47,10 @@ const BouncingButton: React.FC<BouncingButtonProps> = ({
   return (
     <Button
       ref={buttonRef}
-      onClick={onClick}
+      onClick={() => {
+        setIsBouncing(false);
+        onClick();
+      }}
       sx={{
         animation: isBouncing
           ? `bounce ${bounceDurationMs}ms ease-in-out infinite`

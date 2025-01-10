@@ -19,7 +19,6 @@ const SkillsRadialCategoryArc: React.FC<SkillsRadialCategoryArcProps> = ({
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const denominator = isYearsOfExperience ? 15 : 100;
-  const targetProgress = (value / denominator) * (circumference / 2);
   const animatedValue = getAnimatedValue(value, animationDurationMs);
   const currentProgress = (animatedValue / denominator) * (circumference / 2);
 

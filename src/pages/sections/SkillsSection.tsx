@@ -211,7 +211,13 @@ export function SkillsSection({ backgroundColor, textColor }) {
       <Typography variant="h1" sx={{ mb: 1 }}>
         Skills
       </Typography>
-      <BouncingButton onClick={toggleStat} sx={{ mb: 12 }} variant="contained">
+      <BouncingButton
+        onClick={toggleStat}
+        sx={{ mb: 12 }}
+        variant="contained"
+        numBounces={2}
+        bounceDurationMs={1750}
+      >
         <FontAwesomeIcon
           icon={isYearsOfExperience ? faStar : faCalendarCheck}
           style={{
