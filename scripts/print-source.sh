@@ -24,13 +24,13 @@ explicit_files=(
 
 # Function to display help information
 show_help() {
-    echo "Usage: $0 [--config] [--help] [file_path]"
+    echo "Usage: $0 [--config] [--help] [file_path ...]"
     echo ""
     echo "Options:"
     echo "  --config       Process only the explicitly requested configuration files."
-    echo "                 If used with [file_path], also includes the target file and its dependencies."
+    echo "                 If used with [file_path ...], also includes the target files and their dependencies."
     echo "  --help         Display this help message."
-    echo "  [file_path]    Process a specific file and its dependencies."
+    echo "  [file_path ...] Process specific files and their dependencies."
     echo "                 If no arguments are provided, all project files will be processed."
 }
 
@@ -81,7 +81,8 @@ process_file() {
 process_config_only=false
 process_target_and_config=false
 
-target_file=""
+declare -a target_files=()
+
 for arg in "$@"; do
     case $arg in
         --config)
@@ -92,12 +93,12 @@ for arg in "$@"; do
             exit 0
             ;;
         *)
-            target_file="$arg"
+            target_files+=("$arg")
             ;;
     esac
 done
 
-if [[ $process_config_only == true && -n "$target_file" ]]; then
+if [[ $process_config_only == true && ${#target_files[@]} -gt 0 ]]; then
     process_target_and_config=true
     process_config_only=false
 fi
@@ -112,18 +113,22 @@ if [[ $process_config_only == true ]]; then
     done
     echo "[INFO] Configuration files processed. Output written to $output_file"
 elif [[ $process_target_and_config == true ]]; then
-    echo "[INFO] Processing configuration files and the specified file: $(basename "$target_file") and its dependencies"
+    echo "[INFO] Processing configuration files and specified files with their dependencies"
     for file in "${explicit_files[@]}"; do
         if [[ -f $file ]]; then
             process_file "$file"
         fi
     done
-    process_file "$target_file"
-    echo "[INFO] Configuration files and specified file with dependencies processed. Output written to $output_file"
-elif [[ -n "$target_file" ]]; then
-    echo "[INFO] Processing specified file: $(basename "$target_file") and its dependencies"
-    process_file "$target_file"
-    echo "[INFO] Specified file and its dependencies processed. Output written to $output_file"
+    for file in "${target_files[@]}"; do
+        process_file "$file"
+    done
+    echo "[INFO] Configuration files and specified files with dependencies processed. Output written to $output_file"
+elif [[ ${#target_files[@]} -gt 0 ]]; then
+    echo "[INFO] Processing specified files and their dependencies"
+    for file in "${target_files[@]}"; do
+        process_file "$file"
+    done
+    echo "[INFO] Specified files and their dependencies processed. Output written to $output_file"
 else
     echo "[INFO] Processing all project files"
     # Process explicitly requested files
