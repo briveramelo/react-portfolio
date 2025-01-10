@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SkillCategory from "../../components/SkillCategory";
-import { Box, Button, Typography, Grid } from "@mui/material";
+import { Box, Button, Typography, Grid, Tooltip } from "@mui/material";
 import unityW from "@/assets/skills/unity-w.svg";
 import unity from "@/assets/skills/unity.svg";
 import csharp from "@/assets/skills/csharp.svg";
@@ -22,6 +22,9 @@ import cpp from "@/assets/skills/c++.svg";
 import bash from "@/assets/skills/bash.svg";
 import devops from "@/assets/skills/devops.png";
 import hipaa from "@/assets/skills/hipaa.svg";
+import { faCalendarCheck, faStar } from "@fortawesome/free-solid-svg-icons";
+import BouncingButton from "../../components/BouncingButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function SkillsSection({ backgroundColor, textColor }) {
   const [isYearsOfExperience, setIsYearsOfExperience] =
@@ -208,15 +211,17 @@ export function SkillsSection({ backgroundColor, textColor }) {
       <Typography variant="h1" sx={{ mb: 1 }}>
         Skills
       </Typography>
-      <Button
-        variant="contained"
-        onClick={toggleStat}
-        sx={{
-          mb: 12,
-        }}
-      >
+      <BouncingButton onClick={toggleStat} sx={{ mb: 12 }} variant="contained">
+        <FontAwesomeIcon
+          icon={isYearsOfExperience ? faStar : faCalendarCheck}
+          style={{
+            marginRight: "8px",
+            marginTop: -5,
+          }}
+          tooltip={isYearsOfExperience ? "Years of Experience" : "Skill Level"}
+        />
         {isYearsOfExperience ? "See Stats" : "See Years of Experience"}
-      </Button>
+      </BouncingButton>
       <Grid container spacing={9} justifyContent="center">
         {statsData.map((category, index) => (
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={index}>

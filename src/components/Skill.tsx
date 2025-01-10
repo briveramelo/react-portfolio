@@ -29,7 +29,7 @@ const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-const SkillImage = React.memo(
+const InvertableImage = React.memo(
   ({
     src,
     name,
@@ -93,7 +93,7 @@ const Skill: React.FC<SkillProps> = ({ skill, isYearsOfExperience }) => {
         }}
       >
         <Box sx={{ width: size, height: size }}>
-          <SkillImage
+          <InvertableImage
             src={src}
             name={name}
             invert={useLight && invertIfLight}

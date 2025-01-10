@@ -13,15 +13,15 @@ export function Hero({ backgroundColor, textColor }) {
         color: textColor,
       }}
     >
-        {/* Invisible Link Target */}
-        <Box
-            id="home"
-            sx={{
-                position: "absolute",
-                top: "-80px", // Adjust this based on your header height
-                height: 0,
-            }}
-        ></Box>
+      {/* Invisible Link Target */}
+      <Box
+        id="home"
+        sx={{
+          position: "absolute",
+          top: "-80px", // force moving up to the top
+          height: 0,
+        }}
+      ></Box>
 
       <Container
         maxWidth="md"
@@ -59,7 +59,7 @@ export function Hero({ backgroundColor, textColor }) {
               maxWidth: "600px",
             }}
           >
-              Crafting a healthier world with
+            Crafting a healthier world with
             <br />
             <i>tech and play</i>
           </Typography>

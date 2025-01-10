@@ -1,27 +1,26 @@
-import React, { useContext, useState } from "react";
-import { Button } from "@mui/material";
+import React, { useContext } from "react";
 import { themeImages } from "../theme";
 import { ThemeContext } from "../ThemeContext";
+import IconToggle from "./IconToggle";
+
 const ThemeSwitcher = ({ isBackgroundDark }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const { setMode } = useContext(ThemeContext);
 
-  const handleNextImage = () => {
-    setCurrentIndex((prevIndex) => {
-      const next = (prevIndex + 1) % themeImages.length;
-      setMode(themeImages[next].name);
-      return next;
-    });
+  const handleIconToggle = (index) => {
+    setMode(themeImages[index].name);
   };
 
   return (
-    <Button onClick={handleNextImage} sx={{ minWidth: "auto", padding: 0 }}>
-      <img
-        src={themeImages[currentIndex].src}
-        alt={themeImages[currentIndex].name}
-        style={{ height: "24px", filter: isBackgroundDark ? "" : "invert(1)" }}
-      />
-    </Button>
+    <IconToggle
+      icons={themeImages.map((theme) => ({
+        src: theme.src,
+        alt: theme.name,
+      }))}
+      onToggle={handleIconToggle}
+      invert={!isBackgroundDark}
+      height={32}
+      width={32}
+    />
   );
 };
 
