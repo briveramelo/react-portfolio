@@ -10,7 +10,7 @@ output_file="./all_text.txt"
 
 # Define the directories and file extensions to search
 directories="./src"
-extensions="*.ts *.tsx *.css"
+file_extensions=(".ts" ".tsx" ".js" ".jsx" ".css")
 
 # Define the explicitly requested files
 explicit_files=(
@@ -22,13 +22,17 @@ explicit_files=(
     "vite.config.json"
 )
 
+# Define excluded files
+declare -a exclude_files=()
+
 # Function to display help information
 show_help() {
-    echo "Usage: $0 [--config] [--help] [file_path ...]"
+    echo "Usage: $0 [--config] [--exclude file_path ...] [--help] [file_path ...]"
     echo ""
     echo "Options:"
     echo "  --config       Process only the explicitly requested configuration files."
     echo "                 If used with [file_path ...], also includes the target files and their dependencies."
+    echo "  --exclude      Exclude specific files from processing."
     echo "  --help         Display this help message."
     echo "  [file_path ...] Process specific files and their dependencies."
     echo "                 If no arguments are provided, all project files will be processed."
@@ -43,6 +47,14 @@ process_file() {
         echo "[WARN] File not found: $file_path" >&2
         return
     fi
+
+    # Check if the file is excluded
+    for excluded in "${exclude_files[@]}"; do
+        if [[ "$file_path" == "$excluded" ]]; then
+            echo "[INFO] Excluded file: $(basename "$file_path")"
+            return
+        fi
+    done
 
     # Avoid processing the same file multiple times
     if grep -q "#  $file_path" "$output_file"; then
@@ -68,7 +80,7 @@ process_file() {
         resolved_path=$(realpath "$dir_path/$relative_path")
 
         # Add file extensions to search for specific files
-        for ext in ".ts" ".tsx" ".js" ".jsx" ".css"; do
+        for ext in "${file_extensions[@]}"; do
             if [[ -f "$resolved_path$ext" ]]; then
                 process_file "$resolved_path$ext"
                 break
@@ -87,6 +99,13 @@ for arg in "$@"; do
     case $arg in
         --config)
             process_config_only=true
+            ;;
+        --exclude)
+            shift
+            while [[ "$1" && "$1" != --* ]]; do
+                exclude_files+=("$1")
+                shift
+            done
             ;;
         --help)
             show_help
@@ -128,8 +147,7 @@ elif [[ ${#target_files[@]} -gt 0 ]]; then
     for file in "${target_files[@]}"; do
         process_file "$file"
     done
-    echo "[INFO] Specified files and their dependencies processed. Output written to $output_file"
-else
+    echo "[INFO] Specified files and their dependencies processed. Output written to $output_file"\else
     echo "[INFO] Processing all project files"
     # Process explicitly requested files
     for file in "${explicit_files[@]}"; do
@@ -139,8 +157,8 @@ else
     done
 
     # Process files in the ./src directory matching the specified extensions
-    for ext in $extensions; do
-        find "$directories" -type f -name "$ext" | while read -r file; do
+    for ext in "${file_extensions[@]}"; do
+        find "$directories" -type f -name "*$ext" | while read -r file; do
             process_file "$file"
         done
     done
