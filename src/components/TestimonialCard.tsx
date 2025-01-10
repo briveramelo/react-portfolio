@@ -7,6 +7,8 @@ import {
   Avatar,
   useTheme,
 } from "@mui/material";
+import ReactMarkdown from "react-markdown";
+import { HighlightedText } from "./HighlightedText";
 
 interface Testimonial {
   quote: string; // Includes <h>...</h> tags for highlighting
@@ -15,33 +17,6 @@ interface Testimonial {
   company: string;
   photo: string;
 }
-
-const HighlightedText: React.FC<{ text: string }> = ({ text }) => {
-  const theme = useTheme();
-  const highlightingColor = theme.palette.text.highlighting;
-  const parts = text.split(/(<h>.*?<\/h>)/g).map((part, index) => {
-    if (part.startsWith("<h>") && part.endsWith("</h>")) {
-      const content = part.slice(3, -4); // Remove <h> and </h>
-      return (
-        <span
-          key={index}
-          style={{
-            backgroundColor: highlightingColor,
-            fontWeight: "bold",
-            padding: "0 4px",
-            borderRadius: "4px",
-            whiteSpace: "pre-wrap",
-          }}
-        >
-          {content}
-        </span>
-      );
-    }
-    return part; // Non-highlighted text
-  });
-
-  return <>{parts}</>;
-};
 
 export function TestimonialCard({
   data,
@@ -60,17 +35,24 @@ export function TestimonialCard({
       }}
     >
       <CardContent>
-        <Typography
-          variant="body1"
-          sx={{
-            // fontStyle: "italic",
-            mb: 3,
-            color: textColor,
+        <ReactMarkdown
+          components={{
+            p: ({ node, ...props }) => (
+              <Typography
+                variant="body1"
+                // fontSize="1.25rem"
+                sx={{ color: "text.secondary" }}
+                {...props}
+              />
+            ),
+            strong: ({ node, ...props }) => (
+              <HighlightedText>{props.children}</HighlightedText>
+            ),
           }}
         >
-          <HighlightedText text={data.quote} />
-        </Typography>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          {data.quote}
+        </ReactMarkdown>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }} mt={3}>
           <Avatar
             src={data.photo}
             alt={data.name}

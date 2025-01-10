@@ -1,5 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
+import ReactMarkdown from "react-markdown";
+import { HighlightedText } from "./HighlightedText";
 
 interface Project {
   title: string;
@@ -102,18 +104,28 @@ export function ProjectCard({
           sx={{
             flexGrow: 1, // Push the description down if space allows
             display: "flex",
-            alignItems: "center", // Center the description vertically
+            alignItems: "left", // Center the description vertically
+            flexDirection: "column",
+            gap: 2,
           }}
         >
-          <Typography
-            variant="body1"
-            fontSize="1.5rem"
-            sx={{
-              color: "text.secondary",
+          <ReactMarkdown
+            components={{
+              p: ({ node, ...props }) => (
+                <Typography
+                  variant="body1"
+                  fontSize="1.25rem"
+                  sx={{ color: "text.secondary" }}
+                  {...props}
+                />
+              ),
+              strong: ({ node, ...props }) => (
+                <HighlightedText>{props.children}</HighlightedText>
+              ),
             }}
           >
             {data.description}
-          </Typography>
+          </ReactMarkdown>
         </Box>
       </CardContent>
     </Card>

@@ -209,7 +209,7 @@ export function SkillsSection({ backgroundColor, textColor }) {
         color: textColor,
         textAlign: "center",
         py: 15,
-        mb: 10
+        mb: 10,
       }}
     >
       <Typography variant="h1" sx={{ mb: 1 }}>
