@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "format": "prettier --write .",
-    "export": "./scripts/print-source.sh"
+    "concat": "scripts/print-source.sh"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

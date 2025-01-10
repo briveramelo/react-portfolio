@@ -1,4 +1,6 @@
 #!/bin/bash
+## concatenates all project files into a single .txt
+## optionally takes args to limit which files to include
 
 # Define the output file
 output_file="./all_text.txt"
@@ -19,6 +21,18 @@ explicit_files=(
     "tsconfig.node.json"
     "vite.config.json"
 )
+
+# Function to display help information
+show_help() {
+    echo "Usage: $0 [--config] [--help] [file_path]"
+    echo ""
+    echo "Options:"
+    echo "  --config       Process only the explicitly requested configuration files."
+    echo "                 If used with [file_path], also includes the target file and its dependencies."
+    echo "  --help         Display this help message."
+    echo "  [file_path]    Process a specific file and its dependencies."
+    echo "                 If no arguments are provided, all project files will be processed."
+}
 
 # Function to process a file and its dependencies
 process_file() {
@@ -63,12 +77,55 @@ process_file() {
     done
 }
 
+# Parse arguments
+process_config_only=false
+process_target_and_config=false
+
+target_file=""
+for arg in "$@"; do
+    case $arg in
+        --config)
+            process_config_only=true
+            ;;
+        --help)
+            show_help
+            exit 0
+            ;;
+        *)
+            target_file="$arg"
+            ;;
+    esac
+done
+
+if [[ $process_config_only == true && -n "$target_file" ]]; then
+    process_target_and_config=true
+    process_config_only=false
+fi
+
 # Main logic to process files
-if [[ -n "$1" ]]; then
-    echo "[INFO] Processing specified file: $(basename "$1")"
-    process_file "$1"
+if [[ $process_config_only == true ]]; then
+    echo "[INFO] Processing only configuration files"
+    for file in "${explicit_files[@]}"; do
+        if [[ -f $file ]]; then
+            process_file "$file"
+        fi
+    done
+    echo "[INFO] Configuration files processed. Output written to $output_file"
+elif [[ $process_target_and_config == true ]]; then
+    echo "[INFO] Processing configuration files and the specified file: $(basename "$target_file") and its dependencies"
+    for file in "${explicit_files[@]}"; do
+        if [[ -f $file ]]; then
+            process_file "$file"
+        fi
+    done
+    process_file "$target_file"
+    echo "[INFO] Configuration files and specified file with dependencies processed. Output written to $output_file"
+elif [[ -n "$target_file" ]]; then
+    echo "[INFO] Processing specified file: $(basename "$target_file") and its dependencies"
+    process_file "$target_file"
+    echo "[INFO] Specified file and its dependencies processed. Output written to $output_file"
 else
-    echo "[INFO] Processing explicitly requested files and all project files"
+    echo "[INFO] Processing all project files"
     # Process explicitly requested files
     for file in "${explicit_files[@]}"; do
         if [[ -f $file ]]; then
@@ -82,6 +139,5 @@ else
             process_file "$file"
         done
     done
+    echo "[INFO] All project files processed. Output written to $output_file"
 fi
-
-echo "[INFO] All files processed. Output written to $output_file"
