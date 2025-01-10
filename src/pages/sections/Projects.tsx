@@ -1,12 +1,12 @@
 import React from "react";
 import { Container, Typography, Box } from "@mui/material";
-import { CaseStudyCard } from "../../components/CaseStudyCard";
+import { ProjectCard } from "../../components/ProjectCard";
 import joshTilt2 from "@/assets/projects/josh-tilt-2.jpg";
 import abcmouse from "@/assets/projects/abcmouse.jpg";
 import fruitBuddiKid from "@/assets/projects/FruitBuddiKid.jpg";
 
-export function CaseStudiesSection({ backgroundColor, textColor }) {
-  const caseStudies = [
+export function Projects({ backgroundColor, textColor }) {
+  const projects = [
     {
       title: "Tilt Tracker",
       category: "Health Tech",
@@ -74,7 +74,7 @@ export function CaseStudiesSection({ backgroundColor, textColor }) {
           </Typography>
         </Box>
 
-        {/* Case Study Cards */}
+        {/* Project Cards */}
         <Box
           sx={{
             display: "flex",
@@ -82,10 +82,10 @@ export function CaseStudiesSection({ backgroundColor, textColor }) {
             gap: 4,
           }}
         >
-          {caseStudies.map((caseStudy, index) => (
-            <CaseStudyCard
-              key={caseStudy.title}
-              data={caseStudy}
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={project.title}
+              data={project}
               flipped={index % 2 === 0}
             />
           ))}

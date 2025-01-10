@@ -59,9 +59,9 @@ export function Hero({ backgroundColor, textColor }) {
               maxWidth: "600px",
             }}
           >
-            Healing through playful design
+              Crafting a healthier world with
             <br />
-            <i>and science</i>
+            <i>tech and play</i>
           </Typography>
         </Box>
 

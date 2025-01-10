@@ -2,12 +2,12 @@ import React from "react";
 import { Header } from "../components/Header";
 import { Hero } from "./sections/Hero";
 import { SkillsSection } from "./sections/SkillsSection";
-import { CaseStudiesSection } from "./sections/CaseStudiesSection";
+import { Projects } from "./sections/Projects";
 import { TestimonialsSection } from "./sections/TestimonialsSection";
 import { RecentWorkSection } from "./sections/RecentWorkSection";
 import { ContactSection } from "./sections/ContactSection";
 import { Footer } from "../components/Footer";
-import { WorkedWith } from "./sections/WorkedWith";
+import { Employers } from "./sections/Employers";
 import { useTheme } from "@mui/material";
 
 export function HomePage() {
@@ -17,7 +17,7 @@ export function HomePage() {
     <>
       <Header />
       <Hero backgroundColor={"background.default"} textColor={"text.primary"} />
-      <WorkedWith
+      <Employers
         backgroundColor={"background.contrast"}
         textColor={"text.secondary"}
         useDarkImages={themeName !== "dark"}
@@ -26,7 +26,7 @@ export function HomePage() {
         backgroundColor={"background.default"}
         textColor={"text.primary"}
       />
-      <CaseStudiesSection
+      <Projects
         backgroundColor={"background.contrast"}
         textColor={"text.secondary"}
       />

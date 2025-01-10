@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Typography, Grid, Box } from "@mui/material";
-import { ProjectCard } from "../../components/ProjectCard";
+import { RecentProjectCard } from "../../components/RecentProjectCard";
 import pessimisticNight from "@/assets/projects/pessimistic-night.jpg";
 import digitalHealth from "@/assets/orgs/DigitalHealth4x3.jpg";
 
@@ -56,7 +56,7 @@ export function RecentWorkSection({ backgroundColor, textColor }) {
         <Grid container spacing={4}>
           {projects.map((project) => (
             <Grid item xs={12} md={6} key={project.title}>
-              <ProjectCard project={project} />
+              <RecentProjectCard project={project} />
             </Grid>
           ))}
         </Grid>

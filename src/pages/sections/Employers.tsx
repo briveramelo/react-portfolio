@@ -9,7 +9,7 @@ import aol from "@/assets/orgs/aol.png";
 import dfaW from "@/assets/orgs/dfa-w.png";
 import dfa from "@/assets/orgs/dfa.png";
 
-export function WorkedWith({ backgroundColor, textColor, useDarkImages }) {
+export function Employers({ backgroundColor, textColor, useDarkImages }) {
   const companies = [
     {
       whiteSrc: uhealthW,
