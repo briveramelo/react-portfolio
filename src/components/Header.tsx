@@ -7,8 +7,9 @@ import { isColorDark } from "../utils/utils";
 
 export function Header() {
   const navigationLinks = [
-    { href: "#brandon", label: "Home" },
-    { href: "#work", label: "Case Studies" },
+    { href: "#home", label: "Home" },
+    { href: "#skills", label: "Skills" },
+    { href: "#work", label: "Projects" },
     { href: "#testimonials", label: "Testimonials" },
     { href: "#recent", label: "Recent" },
     { href: "#contact", label: "Contact" },

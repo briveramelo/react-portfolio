@@ -26,11 +26,6 @@ export function WorkedWith({ backgroundColor, textColor, useDarkImages }) {
       colorSrc: aol,
       alt: "Age of Learning",
     },
-    {
-      whiteSrc: dfaW,
-      colorSrc: dfa,
-      alt: "Design for America",
-    },
   ];
   return (
     <Box
@@ -62,13 +57,13 @@ export function WorkedWith({ backgroundColor, textColor, useDarkImages }) {
 
         <Grid
           container
-          spacing={6}
+          spacing={12}
           justifyContent="center"
           alignItems="center"
           pt={10}
         >
           {companies.map((company, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
+            <Grid item xs={12} sm={6} md={4} key={index}>
               <Box
                 sx={{
                   position: "relative",

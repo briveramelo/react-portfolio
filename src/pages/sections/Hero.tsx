@@ -13,6 +13,16 @@ export function Hero({ backgroundColor, textColor }) {
         color: textColor,
       }}
     >
+        {/* Invisible Link Target */}
+        <Box
+            id="home"
+            sx={{
+                position: "absolute",
+                top: "-80px", // Adjust this based on your header height
+                height: 0,
+            }}
+        ></Box>
+
       <Container
         maxWidth="md"
         sx={{

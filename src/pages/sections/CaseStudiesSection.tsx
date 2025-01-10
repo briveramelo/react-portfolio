@@ -59,7 +59,7 @@ export function CaseStudiesSection({ backgroundColor, textColor }) {
               mb: 2,
             }}
           >
-            Case Studies
+            Projects
           </Typography>
           <Typography
             variant="body1"

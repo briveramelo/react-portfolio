@@ -67,7 +67,7 @@ export function TestimonialsSection({ backgroundColor, textColor }) {
               href="https://www.linkedin.com/in/briveramelo/details/recommendations/?detailScreenTabIndex=0"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ textDecoration: "underline", color: "inherit" }}
+              style={{ textDecoration: "none", color: "inherit" }}
             >
               Testimonials
               <OpenInNew sx={{ fontSize: "1.5rem", verticalAlign: "top" }} />
