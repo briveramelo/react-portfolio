@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import SkillCategory from "../../components/SkillCategory";
-import { Box, Button, Typography, Grid, Tooltip } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import unityW from "@/assets/skills/unity-w.svg";
 import unity from "@/assets/skills/unity.svg";
 import csharp from "@/assets/skills/csharp.svg";
@@ -25,10 +25,13 @@ import hipaa from "@/assets/skills/hipaa.svg";
 import { faCalendarCheck, faStar } from "@fortawesome/free-solid-svg-icons";
 import BouncingButton from "../../components/BouncingButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
 
 export function SkillsSection({ backgroundColor, textColor }) {
   const [isYearsOfExperience, setIsYearsOfExperience] =
     useState<boolean>(false);
+  const sectionRef = useRef(null);
+  const isVisible = useIntersectionObserver(sectionRef, { threshold: 0.275 });
 
   const toggleStat = () => {
     setIsYearsOfExperience((prev) => !prev);
@@ -228,12 +231,13 @@ export function SkillsSection({ backgroundColor, textColor }) {
         />
         {isYearsOfExperience ? "See Stats" : "See Years of Experience"}
       </BouncingButton>
-      <Grid container spacing={9} justifyContent="center">
+      <Grid container spacing={9} justifyContent="center" ref={sectionRef}>
         {statsData.map((category, index) => (
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={index}>
             <SkillCategory
               categoryData={category}
               isYearsOfExperience={isYearsOfExperience}
+              isVisible={isVisible}
             />
           </Grid>
         ))}

@@ -1,21 +1,23 @@
-import Skill from "./Skill";
-import { useMemo } from "react";
+import React from "react";
 import { Box, Typography } from "@mui/material";
 import SkillsRadialCategoryArc from "./SkillsRadialCategoryArc";
+import Skill from "./Skill";
 import { StatsCategory } from "../utils/types";
 
 interface SkillCategoryProps {
   categoryData: StatsCategory;
   isYearsOfExperience: boolean;
+  isVisible: boolean;
 }
 
 const SkillCategory: React.FC<SkillCategoryProps> = ({
   categoryData,
   isYearsOfExperience,
+  isVisible,
 }) => {
   const { category, stats } = categoryData;
 
-  const average = useMemo(() => {
+  const average = React.useMemo(() => {
     if (!stats || stats.length === 0) return 0;
     if (isYearsOfExperience) {
       const currentYear = new Date().getFullYear();
@@ -65,7 +67,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
         >
           <SkillsRadialCategoryArc
             key={`${category}-${isYearsOfExperience ? "exp" : "stat"}`} // toggling the key unmounts the old, and mounts a new for a fresh animation start at 0
-            value={average}
+            value={isVisible ? average : 0}
             isYearsOfExperience={isYearsOfExperience}
           />
         </Box>
@@ -75,7 +77,10 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
         {stats.map((skill) => (
           <Skill
             key={`${skill.name}-${isYearsOfExperience ? "exp" : "stat"}`} // toggling the key unmounts the old, and mounts a new for a fresh animation start at 0
-            skill={skill}
+            skill={{
+              ...skill,
+              stat: isVisible ? skill.stat : 0,
+            }}
             isYearsOfExperience={isYearsOfExperience}
           />
         ))}

@@ -12,6 +12,7 @@ import { SkillData } from "../utils/types";
 import { getProgressColor } from "../utils/utils";
 import { getAnimatedValue } from "../utils/getAnimatedValue";
 import { animationDurationMs } from "../utils/constants";
+import InvertableImage from "./InvertableImage";
 
 interface SkillProps {
   skill: SkillData;
@@ -28,31 +29,6 @@ const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
     borderRadius: 4,
   },
 }));
-
-const InvertableImage = React.memo(
-  ({
-    src,
-    name,
-    invert = false,
-  }: {
-    src: string;
-    name: string;
-    invert?: boolean;
-  }) => {
-    return (
-      <img
-        src={src}
-        alt={name}
-        style={{
-          maxWidth: "100%",
-          maxHeight: "100%",
-          objectFit: "contain",
-          filter: invert ? "invert(1)" : "",
-        }}
-      />
-    );
-  },
-);
 
 const Skill: React.FC<SkillProps> = ({ skill, isYearsOfExperience }) => {
   const { name, stat, srcLight, srcDark, year, invertIfLight } = skill;

@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Button } from "@mui/material";
+import { useIntersectionObserver } from "../utils/useIntersectionObserver";
 
 interface BouncingButtonProps {
   onClick: () => void;
-  numBounces;
-  bounceDurationMs;
+  numBounces: number;
+  bounceDurationMs: number;
   children: React.ReactNode;
   sx?: object; // Optional style override
 }
@@ -20,29 +21,15 @@ const BouncingButton: React.FC<BouncingButtonProps> = ({
   const [isBouncing, setIsBouncing] = useState<boolean>(false);
   const [animationPlayed, setAnimationPlayed] = useState<boolean>(false);
   const buttonRef = useRef<HTMLButtonElement>(null!);
+  const isVisible = useIntersectionObserver(buttonRef, { threshold: 1.0 });
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !animationPlayed) {
-          setIsBouncing(true); // Start bounce animation
-          setAnimationPlayed(true); // Lock animation
-          setTimeout(() => setIsBouncing(false), numBounces * bounceDurationMs);
-        }
-      },
-      { threshold: 1.0 }, // trigger when fully visible in viewport
-    );
-
-    if (buttonRef.current) {
-      observer.observe(buttonRef.current);
+  React.useEffect(() => {
+    if (isVisible && !animationPlayed) {
+      setIsBouncing(true); // Start bounce animation
+      setAnimationPlayed(true); // Lock animation
+      setTimeout(() => setIsBouncing(false), numBounces * bounceDurationMs);
     }
-
-    return () => {
-      if (buttonRef.current) {
-        observer.unobserve(buttonRef.current);
-      }
-    };
-  }, [animationPlayed]);
+  }, [isVisible, animationPlayed, numBounces, bounceDurationMs]);
 
   return (
     <Button
