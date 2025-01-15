@@ -2,32 +2,38 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import SkillsRadialCategoryArc from "./SkillsRadialCategoryArc";
 import Skill from "./Skill";
-import { StatsCategory } from "../utils/types";
+import { SkillCategoryData } from "../utils/types";
 
 interface SkillCategoryProps {
-  categoryData: StatsCategory;
+  skillCategory: SkillCategoryData;
   isYearsOfExperience: boolean;
   isVisible: boolean;
+  useLight: boolean;
 }
 
 const SkillCategory: React.FC<SkillCategoryProps> = ({
-  categoryData,
+  skillCategory,
   isYearsOfExperience,
   isVisible,
+  useLight,
 }) => {
-  const { category, stats } = categoryData;
+  const { category, skills } = skillCategory;
 
   const average = React.useMemo(() => {
-    if (!stats || stats.length === 0) return 0;
+    if (!skills || skills.length === 0) return 0;
     if (isYearsOfExperience) {
-      const currentYear = new Date().getFullYear();
-      return Math.round(
-        stats.reduce((acc, s) => acc + (currentYear - s.year), 0) /
-          stats.length,
+      const totalYears = skills.reduce(
+        (currentSum, skill) => currentSum + skill.years.length,
+        0,
       );
+      return totalYears / skills.length;
     }
-    return Math.round(stats.reduce((acc, s) => acc + s.stat, 0) / stats.length);
-  }, [stats, isYearsOfExperience]);
+    const totalSkill = skills.reduce(
+      (currentSum, skill) => currentSum + skill.stat,
+      0,
+    );
+    return totalSkill / skills.length;
+  }, [skills, isYearsOfExperience]);
 
   return (
     <Box sx={{ mb: 2, position: "relative", textAlign: "center" }}>
@@ -74,7 +80,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
       </Box>
 
       <Box sx={{ pt: "100px" }}>
-        {stats.map((skill) => (
+        {skills.map((skill) => (
           <Skill
             key={`${skill.name}-${isYearsOfExperience ? "exp" : "stat"}`} // toggling the key unmounts the old, and mounts a new for a fresh animation start at 0
             skill={{
@@ -82,6 +88,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
               stat: isVisible ? skill.stat : 0,
             }}
             isYearsOfExperience={isYearsOfExperience}
+            useLight={useLight}
           />
         ))}
       </Box>

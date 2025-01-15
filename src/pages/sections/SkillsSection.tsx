@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
-import SkillCategory from "../../components/SkillCategory";
-import { Box, Typography, Grid } from "@mui/material";
+import { Box, Typography, Grid, useTheme } from "@mui/material";
 import unityW from "@/assets/skills/unity-w.svg";
 import unity from "@/assets/skills/unity.svg";
 import csharp from "@/assets/skills/csharp.svg";
@@ -26,32 +25,36 @@ import { faCalendarCheck, faStar } from "@fortawesome/free-solid-svg-icons";
 import BouncingButton from "../../components/BouncingButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
+import SkillCategory from "../../components/SkillCategory";
+import { SkillCategoryData } from "../../utils/types";
 
 export function SkillsSection({ backgroundColor, textColor }) {
-  const [isYearsOfExperience, setIsYearsOfExperience] =
-    useState<boolean>(false);
-  const sectionRef = useRef(null);
+  const [isYearsOfExperience, setIsYearsOfExperience] = useState<boolean>(true);
+  const sectionRef = useRef(null!);
   const isVisible = useIntersectionObserver(sectionRef, { threshold: 0.275 });
+  const theme = useTheme();
+  const themeName = theme.palette.type;
+  const useLight = themeName !== "light";
 
   const toggleStat = () => {
     setIsYearsOfExperience((prev) => !prev);
   };
 
-  const statsData = [
+  const skillCategoryData: SkillCategoryData[] = [
     {
       category: "Game Development",
-      stats: [
+      skills: [
         {
           name: "Unity",
           stat: 85,
-          year: 2014,
+          years: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2023],
           srcLight: unityW,
           srcDark: unity,
         },
         {
           name: "C#",
           stat: 90,
-          year: 2014,
+          years: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2023],
           srcLight: csharp,
           srcDark: csharp,
         },
@@ -59,25 +62,25 @@ export function SkillsSection({ backgroundColor, textColor }) {
     },
     {
       category: "Cloud Services",
-      stats: [
+      skills: [
         {
           name: "AWS",
           stat: 75,
-          year: 2023,
+          years: [2018, 2023, 2024],
           srcLight: awsW,
           srcDark: aws,
         },
         {
           name: "GCP",
           stat: 80,
-          year: 2024,
+          years: [2024, 2025],
           srcLight: googleCloud,
           srcDark: googleCloud,
         },
         {
           name: "Docker",
           stat: 85,
-          year: 2020,
+          years: [2020, 2021, 2022, 2023, 2024, 2025],
           srcLight: docker,
           srcDark: docker,
         },
@@ -85,39 +88,39 @@ export function SkillsSection({ backgroundColor, textColor }) {
     },
     {
       category: "Web Front-end",
-      stats: [
+      skills: [
         {
           name: "HTML",
           stat: 75,
-          year: 2016,
+          years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025],
           srcLight: html5,
           srcDark: html5,
         },
         {
           name: "CSS",
           stat: 75,
-          year: 2016,
+          years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025],
           srcLight: css3,
           srcDark: css3,
         },
         {
           name: "JS",
           stat: 85,
-          year: 2016,
+          years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025],
           srcLight: javascript,
           srcDark: javascript,
         },
         {
           name: "React",
           stat: 75,
-          year: 2024,
+          years: [2024, 2025],
           srcLight: react,
           srcDark: react,
         },
         {
           name: "jQuery",
           stat: 85,
-          year: 2016,
+          years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025],
           srcLight: jquery,
           srcDark: jquery,
         },
@@ -125,39 +128,39 @@ export function SkillsSection({ backgroundColor, textColor }) {
     },
     {
       category: "Backend",
-      stats: [
+      skills: [
         {
           name: "Java",
           stat: 85,
-          year: 2016,
+          years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024],
           srcLight: java,
           srcDark: java,
         },
         {
           name: "Python",
           stat: 80,
-          year: 2024,
+          years: [2024, 2025],
           srcLight: python,
           srcDark: python,
         },
         {
           name: "Go",
           stat: 65,
-          year: 2024,
+          years: [2024, 2025],
           srcLight: go,
           srcDark: go,
         },
         {
           name: "SQL",
           stat: 80,
-          year: 2016,
+          years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024],
           srcLight: sql,
           srcDark: sql,
         },
         {
           name: "NoSQL",
           stat: 90,
-          year: 2024,
+          years: [2024, 2025],
           srcLight: nosql,
           srcDark: nosql,
         },
@@ -165,18 +168,18 @@ export function SkillsSection({ backgroundColor, textColor }) {
     },
     {
       category: "Other",
-      stats: [
+      skills: [
         {
           name: "C++",
           stat: 70,
-          year: 2019,
+          years: [2019, 2020, 2021, 2022, 2023, 2024],
           srcLight: cpp,
           srcDark: cpp,
         },
         {
           name: "Bash",
           stat: 85,
-          year: 2019,
+          years: [2019, 2020, 2021, 2022, 2023, 2024],
           srcLight: bash,
           srcDark: bash,
           invertIfLight: true,
@@ -184,14 +187,14 @@ export function SkillsSection({ backgroundColor, textColor }) {
         {
           name: "DevOps",
           stat: 80,
-          year: 2019,
+          years: [2019, 2020, 2021, 2022, 2023, 2024],
           srcLight: devops,
           srcDark: devops,
         },
         {
           name: "HIPAA",
           stat: 90,
-          year: 2019,
+          years: [2019, 2020, 2021, 2022, 2023, 2024, 2025],
           srcLight: hipaa,
           srcDark: hipaa,
         },
@@ -217,7 +220,10 @@ export function SkillsSection({ backgroundColor, textColor }) {
       </Typography>
       <BouncingButton
         onClick={toggleStat}
-        sx={{ mb: 26 }}
+        sx={{
+          mb: 24,
+          py: 2,
+        }}
         variant="contained"
         numBounces={2}
         bounceDurationMs={1750}
@@ -226,19 +232,23 @@ export function SkillsSection({ backgroundColor, textColor }) {
           icon={isYearsOfExperience ? faStar : faCalendarCheck}
           style={{
             marginRight: "8px",
-            marginTop: -5,
+            marginTop: -3.25,
           }}
-          tooltip={isYearsOfExperience ? "Years of Experience" : "Skill Level"}
         />
-        {isYearsOfExperience ? "See Stats" : "See Years of Experience"}
+        <Typography variant="h6" fontWeight="bold">
+          {isYearsOfExperience
+            ? "See Self-Perceived Skill Level"
+            : "See Years of Experience"}
+        </Typography>
       </BouncingButton>
       <Grid container spacing={9} justifyContent="center" ref={sectionRef}>
-        {statsData.map((category, index) => (
+        {skillCategoryData.map((category, index) => (
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={index}>
             <SkillCategory
-              categoryData={category}
+              skillCategory={category}
               isYearsOfExperience={isYearsOfExperience}
               isVisible={isVisible}
+              useLight={useLight}
             />
           </Grid>
         ))}

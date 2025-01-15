@@ -17,6 +17,7 @@ import InvertableImage from "./InvertableImage";
 interface SkillProps {
   skill: SkillData;
   isYearsOfExperience: boolean;
+  useLight: boolean;
 }
 
 const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -30,24 +31,28 @@ const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-const Skill: React.FC<SkillProps> = ({ skill, isYearsOfExperience }) => {
-  const { name, stat, srcLight, srcDark, year, invertIfLight } = skill;
-  const rawValue = isYearsOfExperience ? new Date().getFullYear() - year : stat;
-  const theme = useTheme();
-  const themeName = theme.palette.type;
-  const useLight = themeName !== "light";
+const Skill: React.FC<SkillProps> = ({
+  skill,
+  isYearsOfExperience,
+  useLight,
+}) => {
+  const { name, stat, srcLight, srcDark, years, invertIfLight } = skill;
+  const rawValue = isYearsOfExperience ? years.length : stat;
   const src = useLight ? srcLight : srcDark;
 
   // 1) Clamp the rawValue based on whether it’s years or stat
-  const maxExp = 15;
-  const maxStat = 100;
+  const maxYearsOfExperience = 10;
+  const maxSkillLevel = 100;
   const clampedValue = isYearsOfExperience
-    ? Math.min(rawValue, maxExp)
-    : Math.min(rawValue, maxStat);
+    ? Math.min(rawValue, maxYearsOfExperience)
+    : Math.min(rawValue, maxSkillLevel);
 
-  const denominator = isYearsOfExperience ? maxExp : maxStat;
+  const denominator = isYearsOfExperience
+    ? maxYearsOfExperience
+    : maxSkillLevel;
   const animatedValue = getAnimatedValue(clampedValue, animationDurationMs);
   const animatedTextValue = getAnimatedValue(rawValue, animationDurationMs);
+  const roundedText = Math.round(animatedTextValue);
   const size = "50px";
 
   return (
@@ -93,8 +98,8 @@ const Skill: React.FC<SkillProps> = ({ skill, isYearsOfExperience }) => {
                 color: getProgressColor(animatedValue, isYearsOfExperience),
               }}
             >
-              {Math.round(animatedTextValue)}
-              {isYearsOfExperience ? " yrs" : ""}
+              {roundedText}
+              {isYearsOfExperience ? (roundedText == 1 ? " yr" : " yrs") : ""}
             </Typography>
           </Box>
           <ColorfulLinearProgress

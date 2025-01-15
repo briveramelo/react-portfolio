@@ -38,6 +38,7 @@ const BouncingButton: React.FC<BouncingButtonProps> = ({
         setIsBouncing(false);
         onClick();
       }}
+      className="pop-shadow"
       sx={{
         animation: isBouncing
           ? `bounce ${bounceDurationMs}ms ease-in-out infinite`
@@ -53,6 +54,7 @@ const BouncingButton: React.FC<BouncingButtonProps> = ({
             transform: "translateY(-3px) scale(1.025)",
           },
         },
+        "&:hover": { transform: "translateY(-10%) !important" },
         ...sx, // Merge custom styles
       }}
       {...rest}

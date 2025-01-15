@@ -26,11 +26,11 @@ export function ProjectCard({
       sx={{
         display: "flex",
         flexDirection: { xs: "column", md: flipped ? "row-reverse" : "row" },
-        boxShadow: 3,
         backgroundColor: "background.paper",
-        borderRadius: 2,
         overflow: "hidden",
+        borderRadius: 2,
       }}
+      className="pop-shadow"
     >
       <CardMedia
         component="img"

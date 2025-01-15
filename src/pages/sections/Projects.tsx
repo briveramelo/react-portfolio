@@ -39,8 +39,8 @@ I also upgraded the app's infrastructure to meet new platform requirements and e
 I led the engineering team of 6.`,
       image: clawface,
       link: "https://store.steampowered.com/app/785130/Clawface/",
-        color: "#1e88e5", // Blue background
-        textColor: "#ffffff", // White text
+      color: "#1e88e5", // Blue background
+      textColor: "#ffffff", // White text
     },
   ];
   return (

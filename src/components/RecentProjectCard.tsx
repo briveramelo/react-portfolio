@@ -22,9 +22,9 @@ export function RecentProjectCard({ project }: { project: Project }) {
         display: "flex",
         flexDirection: { xs: "column", md: "row" },
         backgroundColor: "background.paper",
-        boxShadow: 3,
         borderRadius: 2,
       }}
+      className="pop-shadow"
     >
       <CardMedia
         component="img"
