@@ -21,6 +21,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
 
   const average = React.useMemo(() => {
     if (!skills || skills.length === 0) return 0;
+
     if (isYearsOfExperience) {
       const totalYears = skills.reduce(
         (currentSum, skill) => currentSum + skill.years.length,
@@ -28,6 +29,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
       );
       return totalYears / skills.length;
     }
+
     const totalSkill = skills.reduce(
       (currentSum, skill) => currentSum + skill.stat,
       0,

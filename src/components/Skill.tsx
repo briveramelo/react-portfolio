@@ -11,7 +11,7 @@ import { styled } from "@mui/system";
 import { SkillData } from "../utils/types";
 import { getProgressColor } from "../utils/utils";
 import { getAnimatedValue } from "../utils/getAnimatedValue";
-import { animationDurationMs } from "../utils/constants";
+import {animationDurationMs, maxSkillLevel, maxYearsOfExperience} from "../utils/constants";
 import InvertableImage from "./InvertableImage";
 
 interface SkillProps {
@@ -41,8 +41,6 @@ const Skill: React.FC<SkillProps> = ({
   const src = useLight ? srcLight : srcDark;
 
   // 1) Clamp the rawValue based on whether it’s years or stat
-  const maxYearsOfExperience = 10;
-  const maxSkillLevel = 100;
   const clampedValue = isYearsOfExperience
     ? Math.min(rawValue, maxYearsOfExperience)
     : Math.min(rawValue, maxSkillLevel);

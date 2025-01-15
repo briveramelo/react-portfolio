@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Typography, Box, Avatar } from "@mui/material";
-import brandon from "@/assets/people/brandon.jpg";
+import brandon from "@/assets/people/brandon.webp";
 
 export function Hero({ backgroundColor, textColor }) {
   const [targetRotationDeg, setTargetRotationDeg] = useState(0);
@@ -167,7 +167,7 @@ export function Hero({ backgroundColor, textColor }) {
             >
               <Typography
                 variant="body1"
-                sx={{ color: textColor, fontWeight: "bold" }}
+                sx={{ color: "text.paper", fontWeight: "bold" }}
               >
                 Hello, world!
               </Typography>

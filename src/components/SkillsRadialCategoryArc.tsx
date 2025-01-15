@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import { getProgressColor } from "../utils/utils";
 import { getAnimatedValue } from "../utils/getAnimatedValue";
-import { animationDurationMs } from "../utils/constants";
+import {animationDurationMs, maxSkillLevel, maxYearsOfExperience} from "../utils/constants";
 
 interface SkillsRadialCategoryArcProps {
   value: number;
@@ -18,7 +18,7 @@ const SkillsRadialCategoryArc: React.FC<SkillsRadialCategoryArcProps> = ({
   const strokeWidth = 10;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const denominator = isYearsOfExperience ? 15 : 100;
+  const denominator = isYearsOfExperience ? maxYearsOfExperience : maxSkillLevel;
   const animatedValue = getAnimatedValue(value, animationDurationMs);
   const currentProgress = (animatedValue / denominator) * (circumference / 2);
 
