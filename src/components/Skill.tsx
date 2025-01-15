@@ -11,7 +11,11 @@ import { styled } from "@mui/system";
 import { SkillData } from "../utils/types";
 import { getProgressColor } from "../utils/utils";
 import { getAnimatedValue } from "../utils/getAnimatedValue";
-import {animationDurationMs, maxSkillLevel, maxYearsOfExperience} from "../utils/constants";
+import {
+  animationDurationMs,
+  maxSkillLevel,
+  maxYearsOfExperience,
+} from "../utils/constants";
 import InvertableImage from "./InvertableImage";
 
 interface SkillProps {

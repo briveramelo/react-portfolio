@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Button,
-  Box,
-} from "@mui/material";
+import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
 
 interface Project {
   title: string;
@@ -20,10 +13,11 @@ export function RecentProjectCard({ project }: { project: Project }) {
     <Card
       sx={{
         display: "flex",
-        flexDirection: { xs: "column", md: "row" },
+        flexDirection: "column",
         backgroundColor: "background.paper",
         borderRadius: 2,
         "&:hover": { transform: "scale(1.02) !important" },
+        overflow: "hidden",
       }}
       className="pop-shadow"
     >
@@ -32,14 +26,13 @@ export function RecentProjectCard({ project }: { project: Project }) {
         src={project.image}
         alt={project.title}
         sx={{
-          width: { xs: "100%", md: "50%" },
+          width: "100%",
           height: "auto",
           objectFit: "cover",
         }}
       />
       <CardContent
         sx={{
-          width: { xs: "100%", md: "50%" },
           display: "flex",
           flexDirection: "column",
           gap: 2,
