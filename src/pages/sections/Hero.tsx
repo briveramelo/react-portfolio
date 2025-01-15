@@ -3,46 +3,43 @@ import { Container, Typography, Box, Avatar } from "@mui/material";
 import brandon from "@/assets/people/brandon.jpg";
 
 export function Hero({ backgroundColor, textColor }) {
-  const [hovered, setHovered] = useState(false);
-  const [spinDirection, setSpinDirection] = useState("normal"); // "normal" or "reverse"
-  const [instantFlip, setInstantFlip] = useState(false); // If true, disable transition
+  const [targetRotationDeg, setTargetRotationDeg] = useState(0);
+  const [instantFlip, setInstantFlip] = useState(false);
 
-  // Determine if mouse is on the right half or left half of the card
+  // Determine if the mouse is on the right half of the card
   const isRight = (event) => {
     const { left, width } = event.currentTarget.getBoundingClientRect();
     return event.clientX - left > width / 2;
   };
 
-  // When mouse enters, decide if we rotate forward ("normal") or backward ("reverse")
+  // Mouse enters: spin left (-180) or spin right (180)
   const handleMouseEnter = (event) => {
-    setSpinDirection(isRight(event) ? "reverse" : "normal");
-    setHovered(true);
+    setTargetRotationDeg(isRight(event) ? -180 : 180);
   };
 
-  // When mouse leaves, decide if we should “instantly flip back” or allow a smooth transition
+  // Mouse leaves: either rotate back to 0 with or without an instant flip
   const handleMouseLeave = (event) => {
-    const onRight = isRight(event);
-    const shouldFlipInstantly =
-      (onRight && spinDirection === "normal") ||
-      (!onRight && spinDirection === "reverse");
+    const leavingRight = isRight(event);
+    // If we're at 180 but leaving from the right, or at -180 but leaving from the left
+    const shouldInstantFlip =
+      (targetRotationDeg === 180 && leavingRight) ||
+      (targetRotationDeg === -180 && !leavingRight);
 
-    setInstantFlip(shouldFlipInstantly);
-    setHovered(false);
-  };
+    if (shouldInstantFlip) {
+      setInstantFlip(true);
+      setTargetRotationDeg((prev) => (prev === 180 ? -180 : 180));
 
-  // Reset the instant flip once a transition ends (so the next flip can be animated)
-  const handleTransitionEnd = () => {
-    setInstantFlip(false);
-  };
-
-  // A small helper that calculates the final rotation in degrees
-  const getRotation = () => {
-    // If we need to instantly flip, snap to –180 or +180
-    if (instantFlip) {
-      return spinDirection === "normal" ? -180 : 180;
+      // Wait a frame for the above to render with no transition
+      // Then re-enable transitions and smoothly rotate to 0
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setInstantFlip(false);
+          setTargetRotationDeg(0);
+        });
+      });
+    } else {
+      setTargetRotationDeg(0);
     }
-    // When hovered, rotate to -180 or +180; otherwise, keep it at 0
-    return hovered ? (spinDirection === "reverse" ? -180 : 180) : 0;
   };
 
   return (
@@ -60,7 +57,7 @@ export function Hero({ backgroundColor, textColor }) {
         id="home"
         sx={{
           position: "absolute",
-          top: "-80px",
+          top: "-80px", // force moving up to the top
           height: 0,
         }}
       />
@@ -124,9 +121,8 @@ export function Hero({ backgroundColor, textColor }) {
               position: "relative",
               transformStyle: "preserve-3d",
               transition: instantFlip ? "none" : "transform 0.5s ease",
-              transform: `rotateY(${getRotation()}deg)`,
+              transform: `rotateY(${targetRotationDeg}deg)`,
             }}
-            onTransitionEnd={handleTransitionEnd}
           >
             {/* Front Side */}
             <Box
