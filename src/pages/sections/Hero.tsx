@@ -3,6 +3,7 @@ import { Container, Typography, Box, Avatar } from "@mui/material";
 import brandon from "@/assets/people/brandon.webp";
 import { HighlightedText } from "../../components/HighlightedText";
 import ReactMarkdown from "react-markdown";
+import remarkBreaks from "remark-breaks";
 
 export function Hero({ backgroundColor, textColor }) {
   const [targetRotationDeg, setTargetRotationDeg] = useState(0);
@@ -124,6 +125,7 @@ export function Hero({ backgroundColor, textColor }) {
               transformStyle: "preserve-3d",
               transition: instantFlip ? "none" : "transform 0.5s ease",
               transform: `rotateY(${targetRotationDeg}deg)`,
+              pointerEvents: "none",
             }}
           >
             {/* Front Side */}
@@ -161,34 +163,41 @@ export function Hero({ backgroundColor, textColor }) {
                 borderColor: "background.paper",
                 backfaceVisibility: "hidden",
                 transform: "rotateY(180deg)",
-                // display: "flex",
-                // alignItems: "center",
-                // justifyContent: "left",
               }}
               className="pop-shadow"
               padding={3}
             >
               <ReactMarkdown
+                remarkPlugins={[remarkBreaks]} // Enable soft line breaks
                 components={{
                   p: ({ node, ...props }) => (
                     <Typography
                       variant="body1"
                       fontSize="1.25rem"
-                      sx={{ color: "text.paper" }}
+                      sx={{
+                        color: "text.paper",
+                        marginBottom: "1.25rem", // Add spacing after a paragraph
+                      }}
                       {...props}
                     />
                   ),
-                  // strong: ({ node, ...props }) => (
-                  //   <HighlightedText>{props.children}</HighlightedText>
-                  // ),
+                  br: ({ node, ...props }) => (
+                    <span
+                      style={{
+                        display: "block",
+                        height: "0.01rem", // Adjust spacing for line breaks
+                      }}
+                      {...props}
+                    />
+                  ), // Render a span instead of a div
                 }}
               >
                 {`**Professional Mission:**
+Restore 1,000,000 quality-adjusted life years for people with disease and disability using digital technology, like video games, apps, and web services.
 
-Restore 1,000,000 quality-adjusted life years
-for people with disease and disability
-using digital technology,
-like video games, apps, and web services.`}
+**Why?**
+As a Type 1 Diabetic, I rely on the ingenuity of a smart insulin delivery system to stay healthy. I act on the urge to make systems like these motivating and enjoyable.
+`}
               </ReactMarkdown>
             </Box>
           </Box>

@@ -97,6 +97,14 @@ export function ContactSection({ backgroundColor, textColor }) {
         >
           {!formSubmitted ? "Your Move" : "Nice Move"}
         </Typography>
+        <Typography
+          variant="h6"
+          sx={{
+            color: textColor,
+          }}
+        >
+          {"How can we unlock a world of well-being?"}
+        </Typography>
 
         {/* Form or Confirmation Message */}
         {!formSubmitted ? (

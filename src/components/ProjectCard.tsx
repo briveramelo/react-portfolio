@@ -103,9 +103,9 @@ export function ProjectCard({
         {/* Bottom Section: Description */}
         <Box
           sx={{
-            flexGrow: 1, // Push the description down if space allows
+            flexGrow: 1,
             display: "flex",
-            alignItems: "left", // Center the description vertically
+            alignItems: "left",
             flexDirection: "column",
             gap: 2,
           }}
