@@ -641,6 +641,5 @@
 
   .pop-shadow:hover {
     box-shadow: var(--shadow-elevation-high) !important;
-    transform: translateY(-1%) !important;
   }
 }

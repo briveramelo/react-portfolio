@@ -54,7 +54,7 @@ const BouncingButton: React.FC<BouncingButtonProps> = ({
             transform: "translateY(-3px) scale(1.025)",
           },
         },
-        "&:hover": { transform: "translateY(-10%) !important" },
+        "&:hover": { transform: "scale(1.1) !important" },
         ...sx, // Merge custom styles
       }}
       {...rest}

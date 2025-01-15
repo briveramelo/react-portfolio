@@ -38,6 +38,7 @@ export function TestimonialCard({
           p: 2,
           backgroundColor: backgroundColor,
           borderRadius: 2,
+          "&:hover": { transform: "scale(1.02) !important" },
         }}
         className="pop-shadow"
         onClick={() => open(data.link)}

@@ -29,6 +29,7 @@ export function ProjectCard({
         backgroundColor: "background.paper",
         overflow: "hidden",
         borderRadius: 2,
+        "&:hover": { transform: "scale(1.02) !important" },
       }}
       className="pop-shadow"
     >

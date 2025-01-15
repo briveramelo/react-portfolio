@@ -23,6 +23,7 @@ export function RecentProjectCard({ project }: { project: Project }) {
         flexDirection: { xs: "column", md: "row" },
         backgroundColor: "background.paper",
         borderRadius: 2,
+        "&:hover": { transform: "scale(1.02) !important" },
       }}
       className="pop-shadow"
     >

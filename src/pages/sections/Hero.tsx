@@ -1,8 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Typography, Box, Avatar } from "@mui/material";
 import brandon from "@/assets/people/brandon.jpg";
 
 export function Hero({ backgroundColor, textColor }) {
+  const [hovered, setHovered] = useState(false);
+  const [spinDirection, setSpinDirection] = useState("normal"); // "normal" or "reverse"
+  const [instantFlip, setInstantFlip] = useState(false); // If true, disable transition
+
+  // Determine if mouse is on the right half or left half of the card
+  const isRight = (event) => {
+    const { left, width } = event.currentTarget.getBoundingClientRect();
+    return event.clientX - left > width / 2;
+  };
+
+  // When mouse enters, decide if we rotate forward ("normal") or backward ("reverse")
+  const handleMouseEnter = (event) => {
+    setSpinDirection(isRight(event) ? "reverse" : "normal");
+    setHovered(true);
+  };
+
+  // When mouse leaves, decide if we should “instantly flip back” or allow a smooth transition
+  const handleMouseLeave = (event) => {
+    const onRight = isRight(event);
+    const shouldFlipInstantly =
+      (onRight && spinDirection === "normal") ||
+      (!onRight && spinDirection === "reverse");
+
+    setInstantFlip(shouldFlipInstantly);
+    setHovered(false);
+  };
+
+  // Reset the instant flip once a transition ends (so the next flip can be animated)
+  const handleTransitionEnd = () => {
+    setInstantFlip(false);
+  };
+
+  // A small helper that calculates the final rotation in degrees
+  const getRotation = () => {
+    // If we need to instantly flip, snap to –180 or +180
+    if (instantFlip) {
+      return spinDirection === "normal" ? -180 : 180;
+    }
+    // When hovered, rotate to -180 or +180; otherwise, keep it at 0
+    return hovered ? (spinDirection === "reverse" ? -180 : 180) : 0;
+  };
+
   return (
     <Box
       component="section"
@@ -18,10 +60,10 @@ export function Hero({ backgroundColor, textColor }) {
         id="home"
         sx={{
           position: "absolute",
-          top: "-80px", // force moving up to the top
+          top: "-80px",
           height: 0,
         }}
-      ></Box>
+      />
 
       <Container
         maxWidth="md"
@@ -68,9 +110,12 @@ export function Hero({ backgroundColor, textColor }) {
         {/* Image Section */}
         <Box
           sx={{
-            perspective: "1000px", // Enable 3D perspective
+            perspective: "1000px",
             display: "block",
+            position: "relative",
           }}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           <Box
             sx={{
@@ -78,11 +123,10 @@ export function Hero({ backgroundColor, textColor }) {
               height: "600px",
               position: "relative",
               transformStyle: "preserve-3d",
-              transition: "transform 0.6s",
-              "&:hover": {
-                transform: "rotateY(180deg)",
-              },
+              transition: instantFlip ? "none" : "transform 0.5s ease",
+              transform: `rotateY(${getRotation()}deg)`,
             }}
+            onTransitionEnd={handleTransitionEnd}
           >
             {/* Front Side */}
             <Box
@@ -123,6 +167,7 @@ export function Hero({ backgroundColor, textColor }) {
                 alignItems: "center",
                 justifyContent: "center",
               }}
+              className="pop-shadow"
             >
               <Typography
                 variant="body1"
