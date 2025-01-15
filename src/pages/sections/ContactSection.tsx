@@ -7,18 +7,24 @@ import {
   Button,
   Alert,
 } from "@mui/material";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 export function ContactSection({ backgroundColor, textColor, heartRef }) {
+  const confettiRef = useRef<HTMLCanvasElement>(null!);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [debugVal, setDebugVal] = useState(false);
+  const { width, height } = useWindowSize();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setFormSubmitted(true);
+
     if (heartRef?.current) {
       heartRef.current = null;
     }
-    
-    //todo: api logic
+
+    // todo: Add your API logic here
   };
 
   return (
@@ -34,8 +40,40 @@ export function ContactSection({ backgroundColor, textColor, heartRef }) {
         flexDirection: "column",
         alignItems: "center",
         mb: formSubmitted ? 38 : 14,
+        position: "relative",
       }}
     >
+      {/* Confetti Effect */}
+      {!formSubmitted && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: -50, // keeps the viewport from extending
+            left: 0,
+            pointerEvents: "none",
+          }}
+        >
+          <Confetti
+              key={debugVal ? "hi" : "world"}
+            ref={confettiRef}
+            width={width - 20}
+            height={height - 10}
+            confettiSource={{
+              x: width / 2,
+              y: height + 10, // Below the bottom of the viewport
+              w: 0,
+              h: 0,
+            }}
+            numberOfPieces={150}
+            recycle={false}
+            initialVelocityX={{ min: -10, max: 10 }}
+            initialVelocityY={{ min: -30, max: -20 }}
+            gravity={0.2}
+            friction={0.98}
+          />
+        </Box>
+      )}
+
       <Container
         maxWidth="sm"
         sx={{
@@ -116,6 +154,7 @@ export function ContactSection({ backgroundColor, textColor, heartRef }) {
                 px: 4,
               }}
               className="pop-shadow"
+              onClick={()=>setDebugVal(prevState => !prevState)}
             >
               Send
             </Button>
