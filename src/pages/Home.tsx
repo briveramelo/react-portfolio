@@ -13,7 +13,6 @@ import { useTheme } from "@mui/material";
 export function HomePage() {
   const theme = useTheme();
   const themeName = theme.palette.type;
-  const heartRef = useRef<HTMLDivElement>(null!);
 
   return (
     <>
@@ -43,12 +42,6 @@ export function HomePage() {
       <ContactSection
         backgroundColor={"background.default"}
         textColor={"text.primary"}
-        heartRef={heartRef}
-      />
-      <Footer
-        backgroundColor={"background.default"}
-        textColor={"text.primary"}
-        heartRef={heartRef}
       />
     </>
   );
