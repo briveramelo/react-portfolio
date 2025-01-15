@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Container, Typography, Box, Avatar } from "@mui/material";
 import brandon from "@/assets/people/brandon.webp";
+import { HighlightedText } from "../../components/HighlightedText";
+import ReactMarkdown from "react-markdown";
 
 export function Hero({ backgroundColor, textColor }) {
   const [targetRotationDeg, setTargetRotationDeg] = useState(0);
@@ -159,18 +161,35 @@ export function Hero({ backgroundColor, textColor }) {
                 borderColor: "background.paper",
                 backfaceVisibility: "hidden",
                 transform: "rotateY(180deg)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                // display: "flex",
+                // alignItems: "center",
+                // justifyContent: "left",
               }}
               className="pop-shadow"
+              padding={3}
             >
-              <Typography
-                variant="body1"
-                sx={{ color: "text.paper", fontWeight: "bold" }}
+              <ReactMarkdown
+                components={{
+                  p: ({ node, ...props }) => (
+                    <Typography
+                      variant="body1"
+                      fontSize="1.25rem"
+                      sx={{ color: "text.paper" }}
+                      {...props}
+                    />
+                  ),
+                  // strong: ({ node, ...props }) => (
+                  //   <HighlightedText>{props.children}</HighlightedText>
+                  // ),
+                }}
               >
-                Hello, world!
-              </Typography>
+                {`**Professional Mission:**
+
+Restore 1,000,000 quality-adjusted life years
+for people with disease and disability
+using digital technology,
+like video games, apps, and web services.`}
+              </ReactMarkdown>
             </Box>
           </Box>
         </Box>

@@ -3,7 +3,7 @@ import { Container, Typography, Box } from "@mui/material";
 import { BeatingHeart } from "./BeatingHeart";
 import { SteamingCoffee } from "./SteamingCoffee";
 
-export function Footer({ backgroundColor, textColor }) {
+export function Footer({ backgroundColor, textColor, heartRef }) {
   return (
     <Box
       component="footer"
@@ -34,7 +34,7 @@ export function Footer({ backgroundColor, textColor }) {
           <Typography variant="body1" sx={{ mr: 1, color: textColor }}>
             Made with
           </Typography>
-          <BeatingHeart />
+          <BeatingHeart heartRef={heartRef} />
           <Typography variant="body1" sx={{ ml: 1, mr: 2, color: textColor }}>
             and
           </Typography>

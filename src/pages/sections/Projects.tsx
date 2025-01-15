@@ -12,7 +12,7 @@ export function Projects({ backgroundColor, textColor }) {
       category: "Health Tech",
       description: `Tilt Tracker is an IoT solution for power wheelchair users that **prevents pressure ulcers** through real-time monitoring.
 
-I developed the **full-stack, HIPAA-compliant** system in collaboration with patients, doctors, and researchers, co-authoring multiple published studies.
+I developed the **full-stack, HIPAA-compliant** system in collaboration with patients, doctors, and researchers at the University of Utah, co-authoring multiple published studies.
 `,
       image: joshTilt2,
       link: "#",

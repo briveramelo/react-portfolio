@@ -2,8 +2,9 @@ import React, { useRef, useEffect, useState, useCallback } from "react";
 import { Box } from "@mui/material";
 import "./BeatingHeart.css";
 
-export const BeatingHeart: React.FC = () => {
-  const heartRef = useRef<HTMLDivElement>(null!);
+export const BeatingHeart: React.FC = ({ heartRef }) => {
+  const fallbackHeartRef = useRef<HTMLDivElement>(null!);
+  const finalHeartRef = heartRef?.current ? heartRef : fallbackHeartRef;
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [animationKey, setAnimationKey] = useState(0); // Key to force animation re-trigger
@@ -11,7 +12,7 @@ export const BeatingHeart: React.FC = () => {
   const minHeartRateBPM = 40.0;
   const maxHeartRateBPM = 160.0;
   const fixedAnimationSec = 0.5;
-  const maxDistance = 200; // 'safe' distance
+  const maxDistance = 150; // 'safe' distance
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -25,7 +26,7 @@ export const BeatingHeart: React.FC = () => {
   }, []);
 
   const calculatePauseDuration = useCallback(() => {
-    const heartRect = heartRef.current?.getBoundingClientRect();
+    const heartRect = finalHeartRef.current?.getBoundingClientRect();
     if (!heartRect) return 1;
     const heartCenter = {
       x: heartRect.left + heartRect.width / 2,
@@ -51,7 +52,7 @@ export const BeatingHeart: React.FC = () => {
 
     const totalCycleDurationSec = 60.0 / heartRateBPM;
     return totalCycleDurationSec - fixedAnimationSec;
-  }, [mousePosition.x, mousePosition.y]);
+  }, [finalHeartRef.current, mousePosition.x, mousePosition.y]);
 
   const startHeartbeat = useCallback(() => {
     // dom change triggers animation rendering
@@ -68,7 +69,7 @@ export const BeatingHeart: React.FC = () => {
   return (
     <Box display="inline-block">
       <div
-        ref={heartRef}
+        ref={fallbackHeartRef}
         className="heart"
         style={{ animation: `cardiacCycle ${fixedAnimationSec}s linear 1` }}
         key={animationKey} // Forces re-render of span
