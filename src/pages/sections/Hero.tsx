@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Typography, Box, Avatar, Grid } from "@mui/material";
+import { Container, Typography, Box, Avatar } from "@mui/material";
 import brandon from "@/assets/people/brandon.jpg";
 
 export function Hero({ backgroundColor, textColor }) {
@@ -68,20 +68,70 @@ export function Hero({ backgroundColor, textColor }) {
         {/* Image Section */}
         <Box
           sx={{
+            perspective: "1000px", // Enable 3D perspective
             display: "block",
           }}
         >
-          <Avatar
-            src={brandon}
-            alt="Picture of Brandon"
+          <Box
             sx={{
-              width: 400,
-              height: 600,
-              borderRadius: "20px",
-              border: "8px solid",
-              borderColor: "background.paper",
+              width: "400px",
+              height: "600px",
+              position: "relative",
+              transformStyle: "preserve-3d",
+              transition: "transform 0.6s",
+              "&:hover": {
+                transform: "rotateY(180deg)",
+              },
             }}
-          />
+          >
+            {/* Front Side */}
+            <Box
+              sx={{
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                backfaceVisibility: "hidden",
+              }}
+            >
+              <Avatar
+                src={brandon}
+                alt="Picture of Brandon"
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "20px",
+                  border: "8px solid",
+                  borderColor: "background.paper",
+                }}
+                className="pop-shadow"
+              />
+            </Box>
+
+            {/* Back Side */}
+            <Box
+              sx={{
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                backgroundColor: "background.paper",
+                borderRadius: "20px",
+                border: "8px solid",
+                borderColor: "background.paper",
+                backfaceVisibility: "hidden",
+                transform: "rotateY(180deg)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography
+                variant="body1"
+                sx={{ color: textColor, fontWeight: "bold" }}
+              >
+                Hello, world!
+              </Typography>
+            </Box>
+          </Box>
         </Box>
       </Container>
     </Box>
