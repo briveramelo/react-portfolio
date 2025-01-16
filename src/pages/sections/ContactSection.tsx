@@ -83,7 +83,7 @@ export function ContactSection({ backgroundColor, textColor }) {
           display: "flex",
           flexDirection: "column",
           gap: 4,
-          mb: formSubmitted ? 48 : 24,
+          mb: formSubmitted ? 48 : 12,
         }}
       >
         {/* Section Title */}
@@ -108,68 +108,79 @@ export function ContactSection({ backgroundColor, textColor }) {
 
         {/* Form or Confirmation Message */}
         {!formSubmitted ? (
-          <form
-            onSubmit={handleSubmit}
-            style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+          <Box
+            sx={{
+              backgroundColor: "background.paper",
+              borderRadius: "16px",
+              p: 4,
+            }}
+            className="pop-shadow"
           >
-            <TextField
-              required
-              label="Email"
-              type="email"
-              variant="outlined"
-              fullWidth
-              sx={{
-                backgroundColor: "background.paper",
-                borderRadius: "8px",
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-              }}
-            />
-            <TextField
-              required
-              label="Subject"
-              type="text"
-              variant="outlined"
-              fullWidth
-              sx={{
-                backgroundColor: "background.paper",
-                borderRadius: "8px",
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-              }}
-            />
-            <TextField
-              required
-              label="Message"
-              type="text"
-              variant="outlined"
-              multiline
-              rows={4}
-              fullWidth
-              sx={{
-                backgroundColor: "background.paper",
-                borderRadius: "8px",
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-              }}
-            />
-            <Button
-              ref={heartRef}
-              type="submit"
-              variant="contained"
-              color="primary"
-              sx={{
-                alignSelf: "center",
-                px: 4,
-              }}
-              className="pop-shadow"
+            <form
+              onSubmit={handleSubmit}
+              style={{ display: "flex", flexDirection: "column", gap: "16px" }}
             >
-              Send
-            </Button>
-          </form>
+              <TextField
+                required
+                label="Email"
+                type="email"
+                variant="outlined"
+                fullWidth
+                sx={{
+                  backgroundColor: "background.paper",
+                  borderRadius: "8px",
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+              />
+              <TextField
+                required
+                label="Subject"
+                type="text"
+                variant="outlined"
+                fullWidth
+                sx={{
+                  backgroundColor: "background.paper",
+                  borderRadius: "8px",
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+              />
+              <Box
+                component="textarea"
+                rows={4}
+                sx={{
+                  width: "100%",
+                  backgroundColor: "background.paper",
+                  border: "1px solid",
+                  borderColor: "divider",
+                  borderRadius: "8px",
+                  padding: "8px",
+                  fontSize: "16px",
+                  fontFamily: "inherit",
+                  resize: "vertical",
+                  overflow: "auto",
+                }}
+                placeholder="Message"
+              />
+
+              <Button
+                ref={heartRef}
+                type="submit"
+                variant="contained"
+                color="primary"
+                sx={{
+                  alignSelf: "center",
+                  px: 4,
+                }}
+                className="pop-shadow"
+              >
+                Send
+              </Button>
+            </form>
+          </Box>
         ) : (
           <Alert
             severity="success"
