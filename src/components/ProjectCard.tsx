@@ -40,7 +40,7 @@ export function ProjectCard({
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between", // Space between top (category/title) and bottom (description)
-          gap: 2,
+          gap: 3,
           p: 3,
         }}
       >
@@ -89,6 +89,35 @@ export function ProjectCard({
             >
               {projectData.title}
             </Typography>
+            {/* Employer Logos */}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1, // Spacing between images
+              }}
+            >
+              {projectData.employers.map((employer) => (
+                <Box
+                  key={employer.name}
+                  sx={{
+                    height: "30px",
+                    width: "auto",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <img
+                    src={employer.colorSrc}
+                    alt={employer.name}
+                    style={{
+                      height: "100%",
+                      objectFit: "contain",
+                    }}
+                  />
+                </Box>
+              ))}
+            </Box>
           </Box>
         </Box>
 

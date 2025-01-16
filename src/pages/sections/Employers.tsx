@@ -1,39 +1,10 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
 import React from "react";
-import uhealthW from "@/assets/orgs/uhealth-w.png";
-import uhealth from "@/assets/orgs/uhealth.png";
-import gapplabW from "@/assets/orgs/gapplab-w.png";
-import gapplab from "@/assets/orgs/gapplab.png";
-import aolW from "@/assets/orgs/aol-w.png";
-import aol from "@/assets/orgs/aol.png";
 import remarkBreaks from "remark-breaks";
 import ReactMarkdown from "react-markdown";
+import { featuredEmployerData } from "../../utils/employerData";
 
 export function Employers({ backgroundColor, textColor, useDarkImages }) {
-  const companies = [
-    {
-      whiteSrc: uhealthW,
-      colorSrc: uhealth,
-      alt: "UHealth",
-      text: `2019 - 2023
-Software Design Engineer`,
-    },
-    {
-      whiteSrc: gapplabW,
-      colorSrc: gapplab,
-      alt: "The GApp Lab",
-      text: `2016 - 2018
-Full-Stack Web Developer`,
-    },
-    {
-      whiteSrc: aolW,
-      colorSrc: aol,
-      alt: "Age of Learning",
-      text: `2018 - 2019
-Software Developer II`,
-    },
-  ];
-
   return (
     <Box
       component="section"
@@ -72,7 +43,7 @@ Software Developer II`,
           alignItems="center"
           pt={10}
         >
-          {companies.map((company, index) => (
+          {featuredEmployerData.map((company, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <Box
                 sx={{
@@ -94,7 +65,7 @@ Software Developer II`,
                 <img
                   className="white"
                   src={company.whiteSrc}
-                  alt={company.alt}
+                  alt={company.name}
                   style={{
                     position: "absolute",
                     width: "100%",
@@ -111,7 +82,7 @@ Software Developer II`,
                 <img
                   className="colored"
                   src={company.colorSrc}
-                  alt={`${company.alt} colored`}
+                  alt={`${company.name} colored`}
                   style={{
                     position: "absolute",
                     width: "100%",

@@ -2,6 +2,7 @@ import joshTilt2 from "@/assets/projects/josh-tilt-2.jpg";
 import abcmouse from "@/assets/projects/abcmouse.jpg";
 import clawface from "@/assets/projects/clawface.jpg";
 import { getSkills, SkillData } from "./skillsData";
+import { Employer, getEmployers } from "./employerData";
 
 export interface Project {
   title: string;
@@ -12,6 +13,7 @@ export interface Project {
   color: string; // Background color for category
   textColor: string; // Text color for category
   skills: SkillData[];
+  employers: Employer[];
 }
 
 export const projectData: Project[] = [
@@ -41,6 +43,7 @@ I developed the **full-stack, HIPAA-compliant** system in collaboration with pat
       "C#",
       "HIPAA",
     ),
+    employers: getEmployers("UHealth", "The GApp Lab"),
   },
   {
     title: "ABCmouse",
@@ -54,6 +57,7 @@ I also upgraded the app's infrastructure to meet new platform requirements and e
     color: "#1e88e5",
     textColor: "#ffffff",
     skills: getSkills("Unity", "C#"),
+    employers: getEmployers("Age of Learning"),
   },
   {
     title: "Clawface",
@@ -66,5 +70,6 @@ I led the engineering team of 6.`,
     color: "#1e88e5",
     textColor: "#ffffff",
     skills: getSkills("Unity", "C#"),
+    employers: getEmployers("Hathos Interactive"),
   },
 ];
