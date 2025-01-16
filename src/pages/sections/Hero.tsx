@@ -60,7 +60,7 @@ export function Hero({ backgroundColor, textColor }) {
         id="home"
         sx={{
           position: "absolute",
-          top: "-80px", // force moving up to the top
+          top: "-80px", // force snapping the scroll bar to the top on linking to this section
           height: 0,
         }}
       />
@@ -165,7 +165,7 @@ export function Hero({ backgroundColor, textColor }) {
                 transform: "rotateY(180deg)",
               }}
               className="pop-shadow"
-              padding={3}
+              padding={2}
             >
               <ReactMarkdown
                 remarkPlugins={[remarkBreaks]} // Enable soft line breaks
@@ -173,7 +173,7 @@ export function Hero({ backgroundColor, textColor }) {
                   p: ({ node, ...props }) => (
                     <Typography
                       variant="body1"
-                      fontSize="1.25rem"
+                      fontSize="1.15rem"
                       sx={{
                         color: "text.paper",
                         marginBottom: "1.25rem", // Add spacing after a paragraph
@@ -189,14 +189,17 @@ export function Hero({ backgroundColor, textColor }) {
                       }}
                       {...props}
                     />
-                  ), // Render a span instead of a div
+                  ),
                 }}
               >
-                {`**Professional Mission:**
-Restore 1,000,000 quality-adjusted life years for people with disease and disability using digital technology, like video games, apps, and web services.
+                {`**Professional Mission**
+Restore 1,000,000 quality-adjusted life years (QALYs) - a measure of life's quality and duration - for people with disease and disability. I use digital technology, including video games, apps, web services, and biometric sensors.
 
-**Why?**
-As a Type 1 Diabetic, I rely on the ingenuity of a smart insulin delivery system to stay healthy. I act on the urge to make systems like these motivating and enjoyable.
+**My Why**
+As a Type 1 Diabetic, I rely on the ingenuity of a smart insulin delivery system to stay healthy. This personal connection to the challenges of disease drives me to create similar systems that restore balance and empower others to thrive.
+
+**Curious?**
+Explore my portfolio and discover how we can innovate together to create a healthier world. 
 `}
               </ReactMarkdown>
             </Box>
