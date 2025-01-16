@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import SkillsRadialCategoryArc from "./SkillsRadialCategoryArc";
 import Skill from "./Skill";
-import { SkillCategoryData } from "../utils/types";
+import { SkillCategoryData } from "../utils/skillsData";
 
 interface SkillCategoryProps {
   skillCategory: SkillCategoryData;

@@ -2,23 +2,15 @@ import React from "react";
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import { HighlightedText } from "./HighlightedText";
-
-interface Project {
-  title: string;
-  category: string;
-  description: string;
-  image: string;
-  link: string;
-  linkText: string;
-  color: string; // Background color for category
-  textColor: string; // Text color for category
-}
+import { Project } from "../utils/projectData";
+import InvertableImage from "./InvertableImage";
 
 export function ProjectCard({
-  data,
+  projectData,
   flipped = false,
+  useLight,
 }: {
-  data: Project;
+  projectData: Project;
   flipped?: boolean;
 }) {
   return (
@@ -35,8 +27,8 @@ export function ProjectCard({
     >
       <CardMedia
         component="img"
-        src={data.image}
-        alt={data.title}
+        src={projectData.image}
+        alt={projectData.title}
         sx={{
           width: { xs: "100%", md: "50%" },
           objectFit: "cover",
@@ -78,12 +70,12 @@ export function ProjectCard({
                 borderRadius: "999px",
                 fontSize: "0.875rem",
                 fontWeight: "bold",
-                backgroundColor: data.color,
-                color: data.textColor,
+                backgroundColor: projectData.color,
+                color: projectData.textColor,
                 whiteSpace: "nowrap", // Prevent wrapping
               }}
             >
-              {data.category}
+              {projectData.category}
             </Box>
 
             {/* Title */}
@@ -95,7 +87,7 @@ export function ProjectCard({
                 flexGrow: 1, // Let the title take remaining space
               }}
             >
-              {data.title}
+              {projectData.title}
             </Typography>
           </Box>
         </Box>
@@ -125,8 +117,35 @@ export function ProjectCard({
               ),
             }}
           >
-            {data.description}
+            {projectData.description}
           </ReactMarkdown>
+        </Box>
+        {/* Skill Images */}
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap", // Allow wrapping to a new row
+            gap: 1.5, // Spacing between images
+          }}
+        >
+          {projectData.skills.map((skill) => (
+            <Box
+              key={skill.name}
+              sx={{
+                width: "25px",
+                height: "25px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <InvertableImage
+                src={useLight ? skill.srcLight : skill.srcDark}
+                alt={skill.name}
+                invert={useLight && skill.invertIfLight}
+              />
+            </Box>
+          ))}
         </Box>
       </CardContent>
     </Card>

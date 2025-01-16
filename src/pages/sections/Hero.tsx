@@ -193,13 +193,13 @@ export function Hero({ backgroundColor, textColor }) {
                 }}
               >
                 {`**Professional Mission**
-Restore 1,000,000 quality-adjusted life years (QALYs) - a measure of life's quality and duration - for people with disease and disability. I use digital technology, including video games, apps, web services, and biometric sensors.
+Restore 1,000,000 quality-adjusted life years (QALYs) for those with disease and disability through use digital solutions like video games, apps, web services, and biometric sensors.
 
 **My Why**
-As a Type 1 Diabetic, I rely on the ingenuity of a smart insulin delivery system to stay healthy. This personal connection to the challenges of disease drives me to create similar systems that restore balance and empower others to thrive.
+As a Type 1 Diabetic, I rely on smart glucose management technology to stay healthy. This inspires me to create similar systems that restore balance and empower others to thrive.
 
 **Curious?**
-Explore my portfolio and discover how we can innovate together to create a healthier world. 
+Check out my portfolio and see how we can build a healthier world together. 
 `}
               </ReactMarkdown>
             </Box>

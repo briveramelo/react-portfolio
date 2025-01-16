@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Header } from "../components/Header";
 import { Hero } from "./sections/Hero";
 import { SkillsSection } from "./sections/SkillsSection";
@@ -6,7 +6,6 @@ import { Projects } from "./sections/Projects";
 import { TestimonialsSection } from "./sections/TestimonialsSection";
 import { RecentWorkSection } from "./sections/RecentWorkSection";
 import { ContactSection } from "./sections/ContactSection";
-import { Footer } from "../components/Footer";
 import { Employers } from "./sections/Employers";
 import { useTheme } from "@mui/material";
 

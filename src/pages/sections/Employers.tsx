@@ -43,6 +43,9 @@ Software Developer II`,
         backgroundColor: backgroundColor,
         color: textColor,
         pb: 15,
+        "&:hover .text": {
+          opacity: 1,
+        },
       }}
     >
       <Container
@@ -75,7 +78,6 @@ Software Developer II`,
                 sx={{
                   position: "relative",
                   display: "flex",
-                  justifyContent: "center",
                   flexDirection: "column", // Stack image and text vertically
                   alignItems: "center",
                   width: "100%",
@@ -121,35 +123,35 @@ Software Developer II`,
                 />
 
                 {/* Add Text Below Image */}
-                <ReactMarkdown
-                  remarkPlugins={[remarkBreaks]} // Enable soft line breaks
-                  components={{
-                    p: ({ node, ...props }) => (
-                      <Typography
-                        variant="body1"
-                        fontSize="1rem"
-                        sx={{
-                          marginBottom: "1.25rem", // Add spacing after a paragraph
-                          mt: 35, // Margin-top for spacing
-                          textAlign: "center",
-                          color: textColor,
-                        }}
-                        {...props}
-                      />
-                    ),
-                    br: ({ node, ...props }) => (
-                      <span
-                        style={{
-                          display: "block",
-                          height: "0.01rem", // Adjust spacing for line breaks
-                        }}
-                        {...props}
-                      />
-                    ),
+                <Box
+                  className="text"
+                  sx={{
+                    opacity: 0, // Default hidden
+                    transition: "opacity 0.5s ease",
+                    mt: 20,
+                    textAlign: "center",
                   }}
                 >
-                  {company.text}
-                </ReactMarkdown>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkBreaks]} // Enable soft line breaks
+                    components={{
+                      p: ({ node, ...props }) => (
+                        <Typography
+                          variant="body1"
+                          fontSize="1rem"
+                          sx={{
+                            marginBottom: "1.25rem", // Add spacing after a paragraph
+                            textAlign: "center",
+                            color: textColor,
+                          }}
+                          {...props}
+                        />
+                      ),
+                    }}
+                  >
+                    {company.text}
+                  </ReactMarkdown>
+                </Box>
               </Box>
             </Grid>
           ))}

@@ -5,10 +5,9 @@ import {
   LinearProgress,
   Grid,
   linearProgressClasses,
-  useTheme,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import { SkillData } from "../utils/types";
+import { SkillData } from "../utils/skillsData";
 import { getProgressColor } from "../utils/utils";
 import { getAnimatedValue } from "../utils/getAnimatedValue";
 import {
@@ -78,7 +77,7 @@ const Skill: React.FC<SkillProps> = ({
         <Box sx={{ width: size, height: size }}>
           <InvertableImage
             src={src}
-            name={name}
+            alt={name}
             invert={useLight && invertIfLight}
           />
         </Box>
