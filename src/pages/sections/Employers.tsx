@@ -6,8 +6,8 @@ import gapplabW from "@/assets/orgs/gapplab-w.png";
 import gapplab from "@/assets/orgs/gapplab.png";
 import aolW from "@/assets/orgs/aol-w.png";
 import aol from "@/assets/orgs/aol.png";
-import dfaW from "@/assets/orgs/dfa-w.png";
-import dfa from "@/assets/orgs/dfa.png";
+import remarkBreaks from "remark-breaks";
+import ReactMarkdown from "react-markdown";
 
 export function Employers({ backgroundColor, textColor, useDarkImages }) {
   const companies = [
@@ -15,18 +15,25 @@ export function Employers({ backgroundColor, textColor, useDarkImages }) {
       whiteSrc: uhealthW,
       colorSrc: uhealth,
       alt: "UHealth",
+      text: `2019 - 2023
+Software Design Engineer`,
     },
     {
       whiteSrc: gapplabW,
       colorSrc: gapplab,
       alt: "The GApp Lab",
+      text: `2016 - 2018
+Full-Stack Web Developer`,
     },
     {
       whiteSrc: aolW,
       colorSrc: aol,
       alt: "Age of Learning",
+      text: `2018 - 2019
+Software Developer II`,
     },
   ];
+
   return (
     <Box
       component="section"
@@ -69,10 +76,10 @@ export function Employers({ backgroundColor, textColor, useDarkImages }) {
                   position: "relative",
                   display: "flex",
                   justifyContent: "center",
+                  flexDirection: "column", // Stack image and text vertically
                   alignItems: "center",
                   width: "100%",
                   height: "150px", // Ensure consistent height
-                  // overflow: "hidden", // Hide excess content
                   "&:hover .colored": {
                     opacity: "1 !important",
                   },
@@ -88,13 +95,11 @@ export function Employers({ backgroundColor, textColor, useDarkImages }) {
                   alt={company.alt}
                   style={{
                     position: "absolute",
-                    top: 0,
-                    left: 0,
                     width: "100%",
                     height: "100%",
                     objectFit: "contain",
                     transition: "opacity 1s ease",
-                    opacity: 1, // default visible
+                    opacity: 1,
                     filter: useDarkImages
                       ? "grayscale(1) invert(1)"
                       : "grayscale(1)",
@@ -107,15 +112,44 @@ export function Employers({ backgroundColor, textColor, useDarkImages }) {
                   alt={`${company.alt} colored`}
                   style={{
                     position: "absolute",
-                    top: 0,
-                    left: 0,
                     width: "100%",
                     height: "100%",
                     objectFit: "contain",
                     transition: "opacity 1s ease",
-                    opacity: 0, // default hidden
+                    opacity: 0,
                   }}
                 />
+
+                {/* Add Text Below Image */}
+                <ReactMarkdown
+                  remarkPlugins={[remarkBreaks]} // Enable soft line breaks
+                  components={{
+                    p: ({ node, ...props }) => (
+                      <Typography
+                        variant="body1"
+                        fontSize="1rem"
+                        sx={{
+                          marginBottom: "1.25rem", // Add spacing after a paragraph
+                          mt: 35, // Margin-top for spacing
+                          textAlign: "center",
+                          color: textColor,
+                        }}
+                        {...props}
+                      />
+                    ),
+                    br: ({ node, ...props }) => (
+                      <span
+                        style={{
+                          display: "block",
+                          height: "0.01rem", // Adjust spacing for line breaks
+                        }}
+                        {...props}
+                      />
+                    ),
+                  }}
+                >
+                  {company.text}
+                </ReactMarkdown>
               </Box>
             </Grid>
           ))}
