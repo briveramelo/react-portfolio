@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
-import { Box, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
 import coffee from "@/assets/coffee.png";
+import { useCustomPalette } from "../theme";
 
 export function SteamingCoffee() {
   // Create refs for the steam puffs
@@ -19,8 +20,8 @@ export function SteamingCoffee() {
   const delayMs = 2000; // Staggered delay between puffs
   const extraDelayMs = 2000; // Additional delay after animation
   const durationMs = animationTimeMs + extraDelayMs; // Total duration
-  const theme = useTheme();
-  const useDark = theme.palette.type === "light";
+  const { mode } = useCustomPalette();
+  const useDark = mode === "light";
 
   /**
    * generateSinusoidalKeyframes dynamically generates keyframes for sinusoidal X translation and linear Y motion.

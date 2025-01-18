@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 import { HighlightedText } from "./HighlightedText";
 import { Project } from "../utils/projectData";
 import InvertableImage from "./InvertableImage";
+import { cp } from "../utils/utils";
 
 interface ProjectCardProps {
   projectData: Project;
@@ -21,7 +22,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       sx={{
         display: "flex",
         flexDirection: { xs: "column", md: flipped ? "row-reverse" : "row" },
-        backgroundColor: "background.paper",
+        backgroundColor: cp("background.paper"),
         overflow: "hidden",
         borderRadius: 2,
         "&:hover": { transform: "scale(1.02) !important" },
@@ -86,7 +87,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               variant="h3"
               sx={{
                 fontWeight: "bold",
-                color: "text.secondary",
+                color: cp("text.secondary"),
                 flexGrow: 1, // Let the title take remaining space
               }}
             >
@@ -140,7 +141,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 <Typography
                   variant="body1"
                   fontSize="1.25rem"
-                  sx={{ color: "text.secondary" }}
+                  sx={{ color: cp("text.secondary") }}
                 />
               ),
               strong: ({ ...props }) => (

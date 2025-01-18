@@ -1,11 +1,12 @@
 import React, { useRef, useState } from "react";
-import { Box, Typography, Grid, useTheme } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import { faCalendarCheck, faStar } from "@fortawesome/free-solid-svg-icons";
 import BouncingButton from "../../components/BouncingButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
 import SkillCategory from "../../components/SkillCategory";
 import { skillsData } from "../../utils/skillsData";
+import { useCustomPalette } from "../../theme";
 
 interface SkillsSectionProps {
   backgroundColor: string;
@@ -19,9 +20,8 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
   const [isYearsOfExperience, setIsYearsOfExperience] = useState<boolean>(true);
   const sectionRef = useRef<HTMLDivElement>(null!);
   const isVisible = useIntersectionObserver(sectionRef, { threshold: 0.275 });
-  const theme = useTheme();
-  const themeName = theme.palette.mode;
-  const useLight = themeName !== "light";
+  const { mode } = useCustomPalette();
+  const useLight = mode !== "light";
 
   const toggleStat = () => {
     setIsYearsOfExperience((prev) => !prev);

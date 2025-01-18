@@ -10,6 +10,7 @@ import {
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { Footer } from "../../components/Footer";
+import { cp } from "../../utils/utils";
 
 interface ContactSectionProps {
   backgroundColor: string;
@@ -118,7 +119,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
         {!formSubmitted ? (
           <Box
             sx={{
-              backgroundColor: "background.paper",
+              backgroundColor: cp("background.paper"),
               borderRadius: "16px",
               p: 4,
             }}
@@ -135,7 +136,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                 variant="outlined"
                 fullWidth
                 sx={{
-                  backgroundColor: "background.paper",
+                  backgroundColor: cp("background.paper"),
                   borderRadius: "8px",
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "8px",
@@ -149,7 +150,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                 variant="outlined"
                 fullWidth
                 sx={{
-                  backgroundColor: "background.paper",
+                  backgroundColor: cp("background.paper"),
                   borderRadius: "8px",
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "8px",
@@ -161,7 +162,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                 rows={4}
                 sx={{
                   width: "100%",
-                  backgroundColor: "background.paper",
+                  backgroundColor: cp("background.paper"),
                   border: "1px solid",
                   borderColor: "divider",
                   borderRadius: "8px",
@@ -192,15 +193,15 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
         ) : (
           <Alert
             severity="success"
-            sx={{ mt: 4, backgroundColor: "background.paper" }}
+            sx={{ mt: 4, backgroundColor: cp("background.paper") }}
           >
             <Typography
               variant="h6"
-              sx={{ fontWeight: "bold", color: "text.paper" }}
+              sx={{ fontWeight: "bold", color: cp("text.paper") }}
             >
               Mission Success!
             </Typography>
-            <Typography variant="body1" sx={{ color: "text.paper" }}>
+            <Typography variant="body1" sx={{ color: cp("text.paper") }}>
               Your message has been sent. Together, let's heal the world with
               digital technology!
             </Typography>
@@ -210,8 +211,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
 
       {/* Footer Component */}
       <Footer
-        backgroundColor={"background.default"}
-        textColor={"text.primary"}
+        backgroundColor={cp("background.default")}
+        textColor={cp("text.primary")}
         heartRef={heartRef}
       />
     </Box>

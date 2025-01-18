@@ -6,6 +6,7 @@ import joshLevenson from "@/assets/people/josh-levenson.jpeg";
 import andy from "@/assets/people/andy.jpeg";
 import laurenMee from "@/assets/people/laurenmee.jpeg";
 import alannaCarrol from "@/assets/people/alanna.jpeg";
+import { cp } from "../../utils/utils";
 
 interface Testimonial {
   quote: string;
@@ -99,8 +100,8 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
             <Grid item xs={12} md={6} key={testimonial.name}>
               <TestimonialCard
                 data={testimonial}
-                backgroundColor="background.paper"
-                textColor="text.paper"
+                backgroundColor={cp("background.paper")}
+                textColor={cp("text.paper")}
               />
             </Grid>
           ))}

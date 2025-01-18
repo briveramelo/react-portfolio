@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
+import { cp } from "../utils/utils";
 
 interface Project {
   title: string;
@@ -14,7 +15,7 @@ export function RecentProjectCard({ project }: { project: Project }) {
       sx={{
         display: "flex",
         flexDirection: "column",
-        backgroundColor: "background.paper",
+        backgroundColor: cp("background.paper"),
         borderRadius: 2,
         "&:hover": { transform: "scale(1.02) !important" },
         overflow: "hidden",
@@ -43,7 +44,7 @@ export function RecentProjectCard({ project }: { project: Project }) {
           variant="h3"
           sx={{
             fontWeight: "bold",
-            color: "text.secondary",
+            color: cp("text.secondary"),
           }}
         >
           {project.title}
@@ -51,7 +52,7 @@ export function RecentProjectCard({ project }: { project: Project }) {
         <Typography
           variant="body1"
           sx={{
-            color: "text.secondary",
+            color: cp("text.secondary"),
           }}
         >
           {project.description}

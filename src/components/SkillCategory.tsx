@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import SkillsRadialCategoryArc from "./SkillsRadialCategoryArc";
 import Skill from "./Skill";
 import { SkillCategoryData } from "../utils/skillsData";
+import { cp } from "../utils/utils";
 
 interface SkillCategoryProps {
   skillCategory: SkillCategoryData;
@@ -43,7 +44,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
         sx={{
           mb: 2,
           fontWeight: "bold",
-          color: "text.primary",
+          color: cp("text.primary"),
           position: "absolute",
           top: "0px",
           left: "57.5%",

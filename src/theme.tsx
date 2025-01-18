@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material/styles";
+import { useTheme, createTheme } from "@mui/material/styles";
 import sunL from "@/assets/sun-l.svg";
 import moonL from "@/assets/moon-l.svg";
 import moustache from "@/assets/moustache.svg";
@@ -14,20 +14,63 @@ const typography = {
   body1: { fontSize: "1rem", lineHeight: "1.5", fontWeight: 500 },
   body2: { fontSize: "0.75rem", lineHeight: "1.5", fontWeight: 500 },
   button: { fontSize: "1rem", lineHeight: "1.5", fontWeight: 500 },
-};
+} as const;
+
 const skills = {
   red: "rgb(227,18,18)",
   orange: "rgb(255, 153, 0)",
   green: "rgb(30,206,30)",
-};
+} as const;
+
+export interface CustomPalette {
+  mode: string;
+  background: {
+    default: string;
+    paper: string;
+    contrast: string;
+    fillbar: string;
+  };
+  text: {
+    primary: string;
+    secondary: string;
+    highlighting: string;
+    paper: string;
+  };
+  primary: {
+    main: string;
+    light: string;
+    dark: string;
+    contrastText: string;
+  };
+  secondary: {
+    main: string;
+    light: string;
+    dark: string;
+    contrastText: string;
+  };
+  hyperlink: {
+    primary: string;
+    secondary: string;
+  };
+  skills: typeof skills;
+}
+
+declare module "@mui/material/styles" {
+  interface Theme {
+    custom_palette: CustomPalette;
+  }
+  interface ThemeOptions {
+    custom_palette?: Partial<CustomPalette>;
+  }
+}
 
 const house = createTheme({
-  palette: {
-    type: "house",
+  custom_palette: {
+    mode: "house",
     background: {
       default: "rgb(24, 24, 24)",
-      contrast: "rgb(255, 255, 255)",
       paper: "rgb(245, 245, 240)",
+      contrast: "rgb(255, 255, 255)",
       fillbar: "rgb(224, 224, 224)",
     },
     text: {
@@ -52,25 +95,24 @@ const house = createTheme({
       primary: "rgb(98, 186, 27)",
       secondary: "rgb(18,126,215)",
     },
-    skills: skills,
+    skills,
   },
-  typography: typography,
+  typography,
 });
 
 const dark = createTheme({
-  palette: {
+  custom_palette: {
     mode: "dark",
-    type: "dark",
     background: {
       default: "rgb(24, 24, 24)",
-      contrast: "rgb(0,19,56)",
       paper: "rgb(48, 48, 48)",
+      contrast: "rgb(0,19,56)",
       fillbar: "rgb(224, 224, 224)",
     },
     text: {
       primary: "rgb(255, 255, 255)",
       secondary: "rgb(236,236,236)",
-      highlighting: "rgb(30, 136, 229, .75)",
+      highlighting: "rgba(30, 136, 229, 0.75)",
       paper: "rgb(248,248,248)",
     },
     primary: {
@@ -89,14 +131,14 @@ const dark = createTheme({
       primary: "rgb(98, 186, 27)",
       secondary: "rgb(18,126,215)",
     },
-    skills: skills,
+    skills,
   },
-  typography: typography,
+  typography,
 });
+
 const light = createTheme({
-  palette: {
+  custom_palette: {
     mode: "light",
-    type: "light",
     background: {
       default: "rgb(255, 255, 255)",
       paper: "rgb(245, 245, 240)",
@@ -125,34 +167,31 @@ const light = createTheme({
       primary: "rgb(18,126,215)",
       secondary: "rgb(98, 186, 27)",
     },
-    skills: skills,
+    skills,
   },
-  typography: typography,
+  typography,
 });
 
 export const themes = {
-  house: house,
-  light: light,
-  dark: dark,
-};
+  house,
+  dark,
+  light,
+} as const;
+
+export type ThemeMode = keyof typeof themes;
+
 export type ThemeImage = {
   name: ThemeMode;
   src: string;
 };
 
-export const themeNames = ["house", "light", "dark"] as const;
 export const themeImages: ThemeImage[] = [
-  {
-    name: "house",
-    src: sunL,
-  },
-  {
-    name: "light",
-    src: moonL,
-  },
-  {
-    name: "dark",
-    src: moustache,
-  },
+  { name: "house", src: sunL },
+  { name: "light", src: moonL },
+  { name: "dark", src: moustache },
 ];
-export type ThemeMode = (typeof themeNames)[number];
+
+export const useCustomPalette = () => {
+  const theme = useTheme();
+  return theme.custom_palette;
+};

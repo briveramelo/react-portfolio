@@ -1,7 +1,8 @@
 import React from "react";
-import { Container, Typography, Box, useTheme } from "@mui/material";
+import { Container, Typography, Box } from "@mui/material";
 import { ProjectCard } from "../../components/ProjectCard";
 import { projectData } from "../../utils/projectData";
+import { useCustomPalette } from "../../theme";
 
 interface ProjectsProps {
   backgroundColor: string;
@@ -12,9 +13,8 @@ export const Projects: React.FC<ProjectsProps> = ({
   backgroundColor,
   textColor,
 }) => {
-  const theme = useTheme();
-  const themeName = theme.palette.type;
-  const useLight = themeName === "dark";
+  const { mode } = useCustomPalette();
+  const useLight = mode === "dark";
 
   return (
     <Box

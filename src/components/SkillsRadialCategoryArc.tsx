@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { getProgressColor } from "../utils/utils";
 import { getAnimatedValue } from "../utils/getAnimatedValue";
 import {
@@ -7,6 +7,7 @@ import {
   maxSkillLevel,
   maxYearsOfExperience,
 } from "../utils/constants";
+import { useCustomPalette } from "../theme";
 
 interface SkillsRadialCategoryArcProps {
   value: number;
@@ -17,7 +18,7 @@ const SkillsRadialCategoryArc: React.FC<SkillsRadialCategoryArcProps> = ({
   value,
   isYearsOfExperience,
 }) => {
-  const theme = useTheme();
+  const { background } = useCustomPalette();
   const size = 120;
   const strokeWidth = 10;
   const radius = (size - strokeWidth) / 2;
@@ -41,7 +42,7 @@ const SkillsRadialCategoryArc: React.FC<SkillsRadialCategoryArcProps> = ({
           cy={size / 2}
           r={radius}
           fill="transparent"
-          stroke={theme.palette.background.fillbar}
+          stroke={background.fillbar}
           strokeWidth={strokeWidth}
           pathLength={circumference}
           strokeDasharray={circumference / 2}

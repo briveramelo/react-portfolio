@@ -3,6 +3,7 @@ import { Container, Typography, Box, Avatar } from "@mui/material";
 import brandon from "@/assets/people/brandon.webp";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
+import { cp } from "../../utils/utils";
 
 // Define the props for the Hero component
 interface HeroProps {
@@ -150,7 +151,7 @@ export const Hero: React.FC<HeroProps> = ({ backgroundColor, textColor }) => {
                   height: "100%",
                   borderRadius: "20px",
                   border: "8px solid",
-                  borderColor: "background.paper",
+                  borderColor: cp("background.paper"),
                 }}
                 className="pop-shadow"
               />
@@ -162,10 +163,10 @@ export const Hero: React.FC<HeroProps> = ({ backgroundColor, textColor }) => {
                 position: "absolute",
                 width: "100%",
                 height: "100%",
-                backgroundColor: "background.paper",
+                backgroundColor: cp("background.paper"),
                 borderRadius: "20px",
                 border: "8px solid",
-                borderColor: "background.paper",
+                borderColor: cp("background.paper"),
                 backfaceVisibility: "hidden",
                 transform: "rotateY(180deg)",
               }}
@@ -180,7 +181,7 @@ export const Hero: React.FC<HeroProps> = ({ backgroundColor, textColor }) => {
                       variant="body1"
                       fontSize="1.15rem"
                       sx={{
-                        color: "text.paper",
+                        color: cp("text.paper"),
                         marginBottom: "1.25rem",
                       }}
                     />

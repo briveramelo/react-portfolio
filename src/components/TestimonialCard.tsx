@@ -1,14 +1,7 @@
-import React from "react";
-import {
-  Card,
-  CardContent,
-  Typography,
-  Box,
-  Avatar,
-  useTheme,
-} from "@mui/material";
+import { Card, CardContent, Typography, Box, Avatar } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import { HighlightedText } from "./HighlightedText";
+import { cp } from "../utils/utils";
 
 interface Testimonial {
   quote: string; // Includes <h>...</h> tags for highlighting
@@ -48,13 +41,8 @@ export function TestimonialCard({
         <CardContent>
           <ReactMarkdown
             components={{
-              p: ({ node, ...props }) => (
-                <Typography
-                  variant="body1"
-                  // fontSize="1.25rem"
-                  sx={{ color: "text.secondary" }}
-                  {...props}
-                />
+              p: () => (
+                <Typography variant="body1" sx={{ color: cp("text.secondary") }} />
               ),
               strong: ({ node, ...props }) => (
                 <HighlightedText>{props.children}</HighlightedText>
@@ -82,7 +70,7 @@ export function TestimonialCard({
               <Typography variant="h6" sx={{ color: textColor }}>
                 {data.title}
               </Typography>
-              <Typography variant="h7" sx={{ color: "text.disabled" }}>
+              <Typography variant="body1" sx={{ color: "text.disabled" }}>
                 {data.company}
               </Typography>
             </Box>

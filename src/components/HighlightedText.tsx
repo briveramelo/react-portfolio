@@ -1,16 +1,15 @@
 import React from "react";
-import { useTheme } from "@mui/material";
+import { useCustomPalette } from "../theme";
 
 export const HighlightedText: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const theme = useTheme();
-  const highlightingColor = theme.palette.text.highlighting;
+  const { text } = useCustomPalette();
 
   return (
     <span
       style={{
-        backgroundColor: highlightingColor,
+        backgroundColor: text.highlighting,
         fontWeight: "bold",
         padding: "0 4px",
         borderRadius: "4px",

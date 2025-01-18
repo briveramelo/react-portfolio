@@ -7,40 +7,43 @@ import { TestimonialsSection } from "./sections/TestimonialsSection";
 import { RecentWorkSection } from "./sections/RecentWorkSection";
 import { ContactSection } from "./sections/ContactSection";
 import { Employers } from "./sections/Employers";
-import { useTheme } from "@mui/material";
+import { useCustomPalette } from "../theme";
+import { cp } from "../utils/utils";
 
 export function HomePage() {
-  const theme = useTheme();
-  const themeName = theme.palette.type;
+  const { mode } = useCustomPalette();
 
   return (
     <>
       <Header />
-      <Hero backgroundColor={"background.default"} textColor={"text.primary"} />
+      <Hero
+        backgroundColor={cp("background.default")}
+        textColor={cp("text.primary")}
+      />
       <Employers
-        backgroundColor={"background.contrast"}
-        textColor={"text.secondary"}
-        useDarkImages={themeName !== "dark"}
+        backgroundColor={cp("background.contrast")}
+        textColor={cp("text.secondary")}
+        useDarkImages={mode !== "dark"}
       />
       <SkillsSection
-        backgroundColor={"background.default"}
-        textColor={"text.primary"}
+        backgroundColor={cp("background.default")}
+        textColor={cp("text.primary")}
       />
       <Projects
-        backgroundColor={"background.contrast"}
-        textColor={"text.secondary"}
+        backgroundColor={cp("background.contrast")}
+        textColor={cp("text.secondary")}
       />
       <TestimonialsSection
-        backgroundColor={"background.default"}
-        textColor={"text.primary"}
+        backgroundColor={cp("background.default")}
+        textColor={cp("text.primary")}
       />
       <RecentWorkSection
-        backgroundColor={"background.contrast"}
-        textColor={"text.secondary"}
+        backgroundColor={cp("background.contrast")}
+        textColor={cp("text.secondary")}
       />
       <ContactSection
-        backgroundColor={"background.default"}
-        textColor={"text.primary"}
+        backgroundColor={cp("background.default")}
+        textColor={cp("text.primary")}
       />
     </>
   );

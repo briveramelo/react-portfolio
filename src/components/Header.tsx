@@ -3,7 +3,7 @@ import { Toolbar, IconButton, Button, Box } from "@mui/material";
 import { LinkedIn } from "@mui/icons-material";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { ThemeContext } from "../ThemeContext";
-import { isColorDark } from "../utils/utils";
+import { cp, isColorDark } from "../utils/utils";
 
 export function Header() {
   const navigationLinks = [
@@ -15,8 +15,8 @@ export function Header() {
     { href: "#contact", label: "Contact" },
   ];
   const [colors, setColors] = useState({
-    header: "background.paper",
-    text: "text.paper",
+    header: cp("background.paper"),
+    text: cp("text.paper"),
   });
   const { mode } = useContext(ThemeContext);
   const [isBackgroundDark, setIsBackgroundDark] = useState<boolean>(false);
