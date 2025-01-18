@@ -7,12 +7,20 @@ import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
 import SkillCategory from "../../components/SkillCategory";
 import { skillsData } from "../../utils/skillsData";
 
-export function SkillsSection({ backgroundColor, textColor }) {
+interface SkillsSectionProps {
+  backgroundColor: string;
+  textColor: string;
+}
+
+export const SkillsSection: React.FC<SkillsSectionProps> = ({
+  backgroundColor,
+  textColor,
+}) => {
   const [isYearsOfExperience, setIsYearsOfExperience] = useState<boolean>(true);
-  const sectionRef = useRef(null!);
+  const sectionRef = useRef<HTMLDivElement>(null!);
   const isVisible = useIntersectionObserver(sectionRef, { threshold: 0.275 });
   const theme = useTheme();
-  const themeName = theme.palette.type;
+  const themeName = theme.palette.mode;
   const useLight = themeName !== "light";
 
   const toggleStat = () => {
@@ -72,4 +80,4 @@ export function SkillsSection({ backgroundColor, textColor }) {
       </Grid>
     </Box>
   );
-}
+};

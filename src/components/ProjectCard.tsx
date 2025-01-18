@@ -12,6 +12,7 @@ export function ProjectCard({
 }: {
   projectData: Project;
   flipped?: boolean;
+  useLight: boolean;
 }) {
   return (
     <Card

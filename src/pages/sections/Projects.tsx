@@ -3,7 +3,15 @@ import { Container, Typography, Box, useTheme } from "@mui/material";
 import { ProjectCard } from "../../components/ProjectCard";
 import { projectData } from "../../utils/projectData";
 
-export function Projects({ backgroundColor, textColor }) {
+interface ProjectsProps {
+  backgroundColor: string;
+  textColor: string;
+}
+
+export const Projects: React.FC<ProjectsProps> = ({
+  backgroundColor,
+  textColor,
+}) => {
   const theme = useTheme();
   const themeName = theme.palette.type;
   const useLight = themeName === "dark";
@@ -64,4 +72,4 @@ export function Projects({ backgroundColor, textColor }) {
       </Container>
     </Box>
   );
-}
+};

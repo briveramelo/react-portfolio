@@ -11,13 +11,21 @@ import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { Footer } from "../../components/Footer";
 
-export function ContactSection({ backgroundColor, textColor }) {
-  const confettiRef = useRef<HTMLCanvasElement>(null!);
+interface ContactSectionProps {
+  backgroundColor: string;
+  textColor: string;
+}
+
+export const ContactSection: React.FC<ContactSectionProps> = ({
+  backgroundColor,
+  textColor,
+}) => {
+  const confettiRef = useRef<HTMLCanvasElement>(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const { width, height } = useWindowSize();
-  const heartRef = useRef(null);
+  const heartRef = useRef<HTMLButtonElement | null>(null);
 
-  const handleSubmit = (event) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     setFormSubmitted(true);
 
@@ -25,7 +33,7 @@ export function ContactSection({ backgroundColor, textColor }) {
       heartRef.current = null;
     }
 
-    // todo: Add your API logic here
+    // TODO: Add your API logic here
   };
 
   return (
@@ -208,4 +216,4 @@ export function ContactSection({ backgroundColor, textColor }) {
       />
     </Box>
   );
-}
+};

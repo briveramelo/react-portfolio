@@ -16,7 +16,15 @@ interface Testimonial {
   link: string;
 }
 
-export function TestimonialsSection({ backgroundColor, textColor }) {
+interface TestimonialsSectionProps {
+  backgroundColor: string;
+  textColor: string;
+}
+
+export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
+  backgroundColor,
+  textColor,
+}) => {
   const testimonialsData: Testimonial[] = [
     {
       quote: `**Brandon is hard-working, motivated, and passionate about the projects he works on.** I had the pleasure of working with Brandon on a project, because of his expertise, commitment, and work ethic we were able to create a high quality and engaging game in under three weeks. I am confident that Brandon will be an asset to any team he works on. **I give him my highest recommendation without reservation.**`,
@@ -51,6 +59,7 @@ export function TestimonialsSection({ backgroundColor, textColor }) {
       link: "https://www.linkedin.com/in/alanna-carroll/",
     },
   ];
+
   return (
     <Box
       component="section"
@@ -99,4 +108,4 @@ export function TestimonialsSection({ backgroundColor, textColor }) {
       </Container>
     </Box>
   );
-}
+};

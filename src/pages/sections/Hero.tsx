@@ -1,27 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, MouseEvent } from "react";
 import { Container, Typography, Box, Avatar } from "@mui/material";
 import brandon from "@/assets/people/brandon.webp";
-import { HighlightedText } from "../../components/HighlightedText";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 
-export function Hero({ backgroundColor, textColor }) {
-  const [targetRotationDeg, setTargetRotationDeg] = useState(0);
-  const [instantFlip, setInstantFlip] = useState(false);
+// Define the props for the Hero component
+interface HeroProps {
+  backgroundColor: string;
+  textColor: string;
+}
+
+export const Hero: React.FC<HeroProps> = ({ backgroundColor, textColor }) => {
+  const [targetRotationDeg, setTargetRotationDeg] = useState<number>(0);
+  const [instantFlip, setInstantFlip] = useState<boolean>(false);
 
   // Determine if the mouse is on the right half of the card
-  const isRight = (event) => {
+  const isRight = (event: MouseEvent<HTMLDivElement>): boolean => {
     const { left, width } = event.currentTarget.getBoundingClientRect();
     return event.clientX - left > width / 2;
   };
 
   // Mouse enters: spin left (-180) or spin right (180)
-  const handleMouseEnter = (event) => {
+  const handleMouseEnter = (event: MouseEvent<HTMLDivElement>): void => {
     setTargetRotationDeg(isRight(event) ? -180 : 180);
   };
 
   // Mouse leaves: either rotate back to 0 with or without an instant flip
-  const handleMouseLeave = (event) => {
+  const handleMouseLeave = (event: MouseEvent<HTMLDivElement>): void => {
     const leavingRight = isRight(event);
     // If we're at 180 but leaving from the right, or at -180 but leaving from the left
     const shouldInstantFlip =
@@ -168,26 +173,24 @@ export function Hero({ backgroundColor, textColor }) {
               padding={2}
             >
               <ReactMarkdown
-                remarkPlugins={[remarkBreaks]} // Enable soft line breaks
+                remarkPlugins={[remarkBreaks]}
                 components={{
-                  p: ({ node, ...props }) => (
+                  p: () => (
                     <Typography
                       variant="body1"
                       fontSize="1.15rem"
                       sx={{
                         color: "text.paper",
-                        marginBottom: "1.25rem", // Add spacing after a paragraph
+                        marginBottom: "1.25rem",
                       }}
-                      {...props}
                     />
                   ),
-                  br: ({ node, ...props }) => (
+                  br: () => (
                     <span
                       style={{
                         display: "block",
-                        height: "0.01rem", // Adjust spacing for line breaks
+                        height: "0.01rem",
                       }}
-                      {...props}
                     />
                   ),
                 }}
@@ -208,4 +211,4 @@ Check out my portfolio and see how we can build a healthier world together.
       </Container>
     </Box>
   );
-}
+};

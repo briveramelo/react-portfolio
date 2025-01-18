@@ -28,7 +28,15 @@ const projects: Project[] = [
   },
 ];
 
-export function RecentWorkSection({ backgroundColor, textColor }) {
+interface RecentWorkSectionProps {
+  backgroundColor: string;
+  textColor: string;
+}
+
+export const RecentWorkSection: React.FC<RecentWorkSectionProps> = ({
+  backgroundColor,
+  textColor,
+}) => {
   return (
     <Box
       component="section"
@@ -63,4 +71,4 @@ export function RecentWorkSection({ backgroundColor, textColor }) {
       </Container>
     </Box>
   );
-}
+};

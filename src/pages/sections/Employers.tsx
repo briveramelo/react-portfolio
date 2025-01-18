@@ -4,7 +4,17 @@ import remarkBreaks from "remark-breaks";
 import ReactMarkdown from "react-markdown";
 import { featuredEmployerData } from "../../utils/employerData";
 
-export function Employers({ backgroundColor, textColor, useDarkImages }) {
+interface EmployersProps {
+  backgroundColor: string;
+  textColor: string;
+  useDarkImages: boolean;
+}
+
+export const Employers: React.FC<EmployersProps> = ({
+  backgroundColor,
+  textColor,
+  useDarkImages,
+}) => {
   return (
     <Box
       component="section"
@@ -106,7 +116,7 @@ export function Employers({ backgroundColor, textColor, useDarkImages }) {
                   <ReactMarkdown
                     remarkPlugins={[remarkBreaks]} // Enable soft line breaks
                     components={{
-                      p: ({ node, ...props }) => (
+                      p: () => (
                         <Typography
                           variant="body1"
                           fontSize="1rem"
@@ -115,7 +125,6 @@ export function Employers({ backgroundColor, textColor, useDarkImages }) {
                             textAlign: "center",
                             color: textColor,
                           }}
-                          {...props}
                         />
                       ),
                     }}
@@ -130,4 +139,4 @@ export function Employers({ backgroundColor, textColor, useDarkImages }) {
       </Container>
     </Box>
   );
-}
+};
