@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "@mui/material";
 
 interface InvertableImageProps {
   src: string;

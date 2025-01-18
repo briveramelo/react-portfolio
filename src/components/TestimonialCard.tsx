@@ -25,6 +25,8 @@ export function TestimonialCard({
   textColor,
 }: {
   data: Testimonial;
+  backgroundColor: string;
+  textColor: string;
 }) {
   return (
     <a

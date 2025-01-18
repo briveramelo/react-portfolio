@@ -5,15 +5,17 @@ import { HighlightedText } from "./HighlightedText";
 import { Project } from "../utils/projectData";
 import InvertableImage from "./InvertableImage";
 
-export function ProjectCard({
+interface ProjectCardProps {
+  projectData: Project;
+  flipped?: boolean; // Optional, defaults to false
+  useLight: boolean; // Required to determine light mode behavior
+}
+
+export const ProjectCard: React.FC<ProjectCardProps> = ({
   projectData,
   flipped = false,
   useLight,
-}: {
-  projectData: Project;
-  flipped?: boolean;
-  useLight: boolean;
-}) {
+}) => {
   return (
     <Card
       sx={{
@@ -134,15 +136,14 @@ export function ProjectCard({
         >
           <ReactMarkdown
             components={{
-              p: ({ node, ...props }) => (
+              p: () => (
                 <Typography
                   variant="body1"
                   fontSize="1.25rem"
                   sx={{ color: "text.secondary" }}
-                  {...props}
                 />
               ),
-              strong: ({ node, ...props }) => (
+              strong: ({ ...props }) => (
                 <HighlightedText>{props.children}</HighlightedText>
               ),
             }}
@@ -172,7 +173,7 @@ export function ProjectCard({
               <InvertableImage
                 src={useLight ? skill.srcLight : skill.srcDark}
                 alt={skill.name}
-                invert={useLight && skill.invertIfLight}
+                invert={useLight && !!skill.invertIfLight}
               />
             </Box>
           ))}
@@ -180,4 +181,4 @@ export function ProjectCard({
       </CardContent>
     </Card>
   );
-}
+};
