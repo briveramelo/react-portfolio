@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { Container, Typography, Grid, Box } from "@mui/material";
 import { TestimonialCard } from "../../components/TestimonialCard";
 import { OpenInNew } from "@mui/icons-material";
@@ -22,10 +22,10 @@ interface TestimonialsSectionProps {
   textColor: string;
 }
 
-export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
-  backgroundColor,
-  textColor,
-}) => {
+export const TestimonialsSection = forwardRef<
+  HTMLElement,
+  TestimonialsSectionProps
+>(({ backgroundColor, textColor }, ref) => {
   const testimonialsData: Testimonial[] = [
     {
       quote: `**Brandon is hard-working, motivated, and passionate about the projects he works on.** I had the pleasure of working with Brandon on a project, because of his expertise, commitment, and work ethic we were able to create a high quality and engaging game in under three weeks. I am confident that Brandon will be an asset to any team he works on. **I give him my highest recommendation without reservation.**`,
@@ -70,6 +70,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
         backgroundColor: backgroundColor,
         color: textColor,
       }}
+      ref={ref}
     >
       <Container maxWidth="lg">
         <Box sx={{ textAlign: "center", mb: 4 }}>
@@ -109,4 +110,4 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
       </Container>
     </Box>
   );
-};
+});

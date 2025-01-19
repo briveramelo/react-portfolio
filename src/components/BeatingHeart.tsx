@@ -2,7 +2,11 @@ import React, { useRef, useEffect, useState, useCallback } from "react";
 import { Box } from "@mui/material";
 import "./BeatingHeart.css";
 
-export const BeatingHeart: React.FC = ({ heartRef }) => {
+interface BeatingHeartProps {
+  heartRef?: React.RefObject<HTMLButtonElement>;
+}
+
+export const BeatingHeart: React.FC<BeatingHeartProps> = ({ heartRef }) => {
   const fallbackHeartRef = useRef<HTMLDivElement>(null!);
   const finalHeartRef = heartRef?.current ? heartRef : fallbackHeartRef;
 

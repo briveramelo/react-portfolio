@@ -59,7 +59,6 @@ function calculateLuminance(r, g, b) {
   return 0.2126 * rNorm + 0.7152 * gNorm + 0.0722 * bNorm;
 }
 
-
 /**
  * Resolves a value from theme.custom_palette using a dot-separated key.
  *
@@ -82,4 +81,3 @@ export const cp = (key: string): string => {
 
   return value as string;
 };
-

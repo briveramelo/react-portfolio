@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { Container, Typography, Grid, Box } from "@mui/material";
 import { RecentProjectCard } from "../../components/RecentProjectCard";
 import pessimisticNight from "@/assets/projects/pessimistic-night.jpg";
@@ -33,10 +33,10 @@ interface RecentWorkSectionProps {
   textColor: string;
 }
 
-export const RecentWorkSection: React.FC<RecentWorkSectionProps> = ({
-  backgroundColor,
-  textColor,
-}) => {
+export const RecentWorkSection = forwardRef<
+  HTMLElement,
+  RecentWorkSectionProps
+>(({ backgroundColor, textColor }, ref) => {
   return (
     <Box
       component="section"
@@ -46,6 +46,7 @@ export const RecentWorkSection: React.FC<RecentWorkSectionProps> = ({
         backgroundColor: backgroundColor,
         color: textColor,
       }}
+      ref={ref}
     >
       <Container maxWidth="lg">
         <Box sx={{ textAlign: "center", mb: 4 }}>
@@ -71,4 +72,4 @@ export const RecentWorkSection: React.FC<RecentWorkSectionProps> = ({
       </Container>
     </Box>
   );
-};
+});

@@ -4,7 +4,7 @@ import { HighlightedText } from "./HighlightedText";
 import { cp } from "../utils/utils";
 
 interface Testimonial {
-  quote: string; // Includes <h>...</h> tags for highlighting
+  quote: string;
   name: string;
   title: string;
   company: string;
@@ -42,7 +42,10 @@ export function TestimonialCard({
           <ReactMarkdown
             components={{
               p: ({ children }) => (
-                <Typography variant="body1" sx={{ color: cp("text.secondary") }}>
+                <Typography
+                  variant="body1"
+                  sx={{ color: cp("text.secondary") }}
+                >
                   {children}
                 </Typography>
               ),

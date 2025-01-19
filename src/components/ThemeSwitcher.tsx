@@ -40,7 +40,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ isBackgroundDark }) => {
           src={themeImages[currentThemeIndex].src}
           alt={themeImages[currentThemeIndex].name}
           style={{
-            width: 'auto',
+            width: "auto",
             height: imgSize,
             filter: isBackgroundDark ? "invert(1)" : "",
           }}
@@ -69,7 +69,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ isBackgroundDark }) => {
               src={theme.src}
               alt={theme.name}
               style={{
-                width: 'auto',
+                width: "auto",
                 height: imgSize,
               }}
             />

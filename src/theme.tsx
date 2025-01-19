@@ -3,6 +3,15 @@ import sun from "@/assets/sun-d.svg";
 import moon from "@/assets/moon-d.svg";
 import moustache from "@/assets/moustache-smile2.svg";
 
+declare module "@mui/material/styles" {
+  interface Theme {
+    customPalette: CustomPalette;
+  }
+  interface ThemeOptions {
+    customPalette?: Partial<CustomPalette>;
+  }
+}
+
 const typography = {
   fontFamily: '"IBM Plex Mono", Arial',
   h1: { fontSize: "3rem", lineHeight: "1.375", fontWeight: 700 },
@@ -59,15 +68,6 @@ export interface CustomPalette {
     secondary: string;
   };
   skills: typeof skills;
-}
-
-declare module "@mui/material/styles" {
-  interface Theme {
-    customPalette: CustomPalette;
-  }
-  interface ThemeOptions {
-    customPalette?: Partial<CustomPalette>;
-  }
 }
 
 const Pop = createTheme({

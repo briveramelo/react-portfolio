@@ -35,7 +35,7 @@ const IconToggle: React.FC<IconToggleProps> = ({
       <InvertableImage
         src={icons[currentIndex].src}
         alt={icons[currentIndex].alt}
-        invert={invert}
+        invert={!!invert}
       />
     </Button>
   );

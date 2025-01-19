@@ -78,7 +78,7 @@ const Skill: React.FC<SkillProps> = ({
           <InvertableImage
             src={src}
             alt={name}
-            invert={useLight && invertIfLight}
+            invert={useLight && !!invertIfLight}
           />
         </Box>
       </Grid>

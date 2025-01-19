@@ -1,11 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { Toolbar, IconButton, Button, Box } from "@mui/material";
 import { LinkedIn } from "@mui/icons-material";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { ThemeContext } from "../ThemeContext";
 import { cp, isColorDark } from "../utils/utils";
 
-export function Header() {
+interface HeaderProps {
+  sectionRefs: React.RefObject<HTMLElement>[];
+}
+
+export function Header({ sectionRefs }: HeaderProps) {
   const navigationLinks = [
     { href: "#home", label: "Home" },
     { href: "#skills", label: "Skills" },
@@ -14,6 +18,8 @@ export function Header() {
     { href: "#recent", label: "Recent" },
     { href: "#contact", label: "Contact" },
   ];
+
+  const headerRef = useRef<HTMLElement | null>(null);
   const [colors, setColors] = useState({
     header: cp("background.paper"),
     text: cp("text.paper"),
@@ -21,18 +27,20 @@ export function Header() {
   const { mode } = useContext(ThemeContext);
   const [isBackgroundDark, setIsBackgroundDark] = useState<boolean>(false);
 
-  // header acts like a chameleon to match the colors of the section behind
+  // Header adapts to match section colors
   const updateHeaderColors = () => {
-    const headerHeight = document.querySelector("header").offsetHeight;
-    const sections = Array.from(document.querySelectorAll("section"));
+    if (!headerRef.current) return;
+    const headerHeight = headerRef.current.offsetHeight;
 
-    const activeSection = sections.find((section) => {
+    const activeSection = sectionRefs.find((sectionRef) => {
+      const section = sectionRef.current;
+      if (!section) return false;
       const rect = section.getBoundingClientRect();
       return rect.top <= headerHeight && rect.bottom > headerHeight;
     });
 
-    if (activeSection) {
-      const styles = window.getComputedStyle(activeSection);
+    if (activeSection?.current) {
+      const styles = window.getComputedStyle(activeSection.current);
       const isDark = isColorDark(styles.backgroundColor);
       setIsBackgroundDark(isDark);
       setColors({
@@ -55,6 +63,7 @@ export function Header() {
 
   return (
     <Box
+      ref={headerRef}
       component="header"
       position="fixed"
       sx={{

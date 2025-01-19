@@ -3,7 +3,17 @@ import { Container, Typography, Box } from "@mui/material";
 import { BeatingHeart } from "./BeatingHeart";
 import { SteamingCoffee } from "./SteamingCoffee";
 
-export function Footer({ backgroundColor, textColor, heartRef }) {
+interface FooterProps {
+  backgroundColor: string;
+  textColor: string;
+  heartRef?: React.RefObject<HTMLButtonElement>;
+}
+
+export const Footer: React.FC<FooterProps> = ({
+  backgroundColor,
+  textColor,
+  heartRef,
+}) => {
   return (
     <Box
       component="footer"
@@ -46,4 +56,4 @@ export function Footer({ backgroundColor, textColor, heartRef }) {
       </Container>
     </Box>
   );
-}
+};
