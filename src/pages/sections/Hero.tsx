@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from "react";
+import React, { useState, useRef, MouseEvent } from "react";
 import { Container, Typography, Box, Avatar } from "@mui/material";
 import brandon from "@/assets/people/brandon.webp";
 import ReactMarkdown from "react-markdown";
@@ -14,6 +14,15 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({ backgroundColor, textColor }) => {
   const [targetRotationDeg, setTargetRotationDeg] = useState<number>(0);
   const [instantFlip, setInstantFlip] = useState<boolean>(false);
+  const transitionDurationMs = 500; // Duration of the transition in ms
+  const startTimeRefMs = useRef<number | null>(null);
+
+  // Track if the animation is halfway done
+  const hasTransitionElapsedHalfway = (): boolean => {
+    if (!startTimeRefMs.current) return false;
+    const elapsedTimeMs = Date.now() - startTimeRefMs.current;
+    return elapsedTimeMs >= transitionDurationMs / 2;
+  };
 
   // Determine if the mouse is on the right half of the card
   const isRight = (event: MouseEvent<HTMLDivElement>): boolean => {
@@ -24,15 +33,16 @@ export const Hero: React.FC<HeroProps> = ({ backgroundColor, textColor }) => {
   // Mouse enters: spin left (-180) or spin right (180)
   const handleMouseEnter = (event: MouseEvent<HTMLDivElement>): void => {
     setTargetRotationDeg(isRight(event) ? -180 : 180);
+    startTimeRefMs.current = Date.now();
   };
 
   // Mouse leaves: either rotate back to 0 with or without an instant flip
   const handleMouseLeave = (event: MouseEvent<HTMLDivElement>): void => {
     const leavingRight = isRight(event);
-    // If we're at 180 but leaving from the right, or at -180 but leaving from the left
     const shouldInstantFlip =
-      (targetRotationDeg === 180 && leavingRight) ||
-      (targetRotationDeg === -180 && !leavingRight);
+      hasTransitionElapsedHalfway() &&
+      ((targetRotationDeg === 180 && leavingRight) ||
+        (targetRotationDeg === -180 && !leavingRight));
 
     if (shouldInstantFlip) {
       setInstantFlip(true);
@@ -49,6 +59,7 @@ export const Hero: React.FC<HeroProps> = ({ backgroundColor, textColor }) => {
     } else {
       setTargetRotationDeg(0);
     }
+    startTimeRefMs.current = null; // Reset the start time
   };
 
   return (
@@ -129,7 +140,7 @@ export const Hero: React.FC<HeroProps> = ({ backgroundColor, textColor }) => {
               height: "600px",
               position: "relative",
               transformStyle: "preserve-3d",
-              transition: instantFlip ? "none" : "transform 0.5s ease",
+              transition: instantFlip ? "none" : `transform ${transitionDurationMs}ms ease`,
               transform: `rotateY(${targetRotationDeg}deg)`,
               pointerEvents: "none",
             }}
