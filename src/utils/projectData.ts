@@ -64,7 +64,7 @@ I also upgraded the app's infrastructure to meet new platform requirements and e
     category: "Game Dev",
     description: `Clawface is a published video game on Steam, made with an indie studio. We received **Very Positive reviews and 35,000+ downloads.**
 
-I architected the codebase, led sprint-ceremonies for the engineering team of 6, and contributed to nearly every aspect of the final engineering product, including AI state machines, combat mechanics, UI design, and the Steam-Workshop-connected level editor.`,
+I architected the codebase, **led the engineering team** of 6, and contributed to nearly every aspect of the final engineering product, including AI state machines, combat mechanics, UI design, and the Steam-Workshop-connected level editor.`,
     image: clawface,
     link: "https://store.steampowered.com/app/785130/Clawface/",
     color: "#1e88e5",
