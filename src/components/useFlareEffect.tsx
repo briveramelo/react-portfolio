@@ -24,13 +24,13 @@ export const useFlareEffect = () => {
 
     const animate = (timeMs: number) => {
       const elapsedTimeMs = timeMs - startTimeMs;
-      const normalizedTime = (elapsedTimeMs / durationMs) * Math.PI * 2; // Full sine wave cycle
+      const normalizedTime = (elapsedTimeMs / durationMs) * Math.PI * 2;
 
       // Use sine wave to create smooth bouncing effect
       const amplitude = canvas.height / 2;
       const positionY = amplitude - Math.sin(normalizedTime) * amplitude;
 
-      fire.update({ x: 50, y: positionY });
+      fire.update({ x: 75, y: positionY });
 
       animationFrameId = requestAnimationFrame(animate);
     };
