@@ -160,8 +160,8 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
                   left: 0,
                   width: "100%",
                   height: "100%",
-                  zIndex: 1, // Place behind Avatar
-                  backfaceVisibility: "hidden",  // Hides the canvas on the back
+                  zIndex: 1,
+                  backfaceVisibility: "hidden",
                 }}
               ></canvas>
 
