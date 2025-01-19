@@ -4,6 +4,7 @@ import brandon from "@/assets/people/brandon.webp";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import { cp } from "../../utils/utils";
+import { useFlareEffect } from "../../components/useFlareEffect.tsx";
 
 // Define the props for the Hero component
 interface HeroProps {
@@ -17,6 +18,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     const [instantFlip, setInstantFlip] = useState<boolean>(false);
     const transitionDurationMs = 500; // Duration of the transition in ms
     const startTimeRefMs = useRef<number | null>(null);
+    const canvasRef = useFlareEffect(); // Use the custom hook
 
     // Track if the animation is halfway done
     const hasTransitionElapsedHalfway = (): boolean => {
@@ -149,6 +151,19 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
                 pointerEvents: "none",
               }}
             >
+              {/* Flare Effect Canvas Overlay */}
+              <canvas
+                ref={canvasRef}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  zIndex: 1, // Place behind Avatar
+                }}
+              ></canvas>
+
               {/* Front Side */}
               <Box
                 sx={{
