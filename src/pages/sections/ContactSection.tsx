@@ -112,7 +112,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
             color: textColor,
           }}
         >
-          {"How can we unlock a world of well-being?"}
+          {"What's your vision for a healthier world at scale?"}
         </Typography>
 
         {/* Form or Confirmation Message */}
@@ -218,11 +218,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
               variant="h6"
               sx={{ fontWeight: "bold", color: cp("text.paper") }}
             >
-              Mission Success!
+              Mission Success 🎉
             </Typography>
             <Typography variant="body1" sx={{ color: cp("text.paper") }}>
-              Your message has been sent. Together, let's heal the world with
-              digital technology!
+              Your message has been sent. Thanks for reaching out!
             </Typography>
           </Alert>
         )}

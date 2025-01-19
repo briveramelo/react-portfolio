@@ -47,7 +47,7 @@ export const Projects: React.FC<ProjectsProps> = ({
               margin: "0 auto",
             }}
           >
-            These projects highlight my technical expertise, innovation, and
+            These projects highlight my technical expertise, innovation, impact, and
             empathy.
           </Typography>
         </Box>
@@ -57,7 +57,7 @@ export const Projects: React.FC<ProjectsProps> = ({
           sx={{
             display: "flex",
             flexDirection: "column",
-            gap: 4,
+            gap: 8,
           }}
         >
           {projectData.map((project, index) => (

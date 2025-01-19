@@ -216,7 +216,7 @@ Restore 1,000,000 quality-adjusted life years (QALYs) for those with disease and
 As a Type 1 Diabetic, I rely on smart glucose management technology to stay healthy. This inspires me to create similar systems that restore balance and empower others to thrive.
 
 **Curious?**
-Check out my portfolio and see how we can build a healthier world together. 
+Check out my portfolio and see how we can build a healthier world at scale. 
 `}
               </ReactMarkdown>
             </Box>

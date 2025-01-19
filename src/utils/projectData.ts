@@ -20,9 +20,9 @@ export const projectData: Project[] = [
   {
     title: "Tilt Tracker",
     category: "Health Tech",
-    description: `Tilt Tracker is an IoT solution for power wheelchair users that **prevents pressure ulcers** through real-time monitoring.
+    description: `Tilt Tracker is a groundbreaking, real-time health monitor for all power wheelchair users that **prevents pressure ulcers**.
 
-I developed the **full-stack, HIPAA-compliant** system in collaboration with patients, doctors, and researchers at the University of Utah, co-authoring multiple published studies.
+I developed the **full-stack, HIPAA-compliant** system, piloted with 11 patients, and co-authored studies that highlight its life-changing impact.
 `,
     image: joshTilt2,
     link: "#",
@@ -48,9 +48,9 @@ I developed the **full-stack, HIPAA-compliant** system in collaboration with pat
   {
     title: "ABCmouse",
     category: "Game Dev",
-    description: `ABCmouse is the **#1 learning app** for children ages 2–8, loved by kids and parents across the world.
+    description: `ABCmouse is the **#1 learning app** for children ages 2–8, trusted by over **18 million players** and their families who have completed more than 4 billion educational activities worldwide.
 
-I contributed to 27 updates for the ABCmouse app, **improving load times by 50%**, adding features like Mastering Math, and integrating **A/B test tools** for user insights.
+I contributed to 27 updates for the ABCmouse app, **improving load times by 50%**, adding features like Mastering Math, and **integrating A/B test tools** for user insights.
 I also upgraded the app's infrastructure to meet new platform requirements and ensure future compatibility.`,
     image: abcmouse,
     link: "#",
@@ -64,7 +64,7 @@ I also upgraded the app's infrastructure to meet new platform requirements and e
     category: "Game Dev",
     description: `Clawface is a published video game on Steam, made with an indie studio. We received **Very Positive reviews and 35,000+ downloads.**
 
-I led the engineering team of 6.`,
+I architected the codebase, led sprint-ceremonies for the engineering team of 6, and contributed to nearly every aspect of the final engineering product, including AI state machines, combat mechanics, UI design, and the Steam-Workshop-connected level editor.`,
     image: clawface,
     link: "https://store.steampowered.com/app/785130/Clawface/",
     color: "#1e88e5",
