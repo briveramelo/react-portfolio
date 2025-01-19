@@ -36,8 +36,8 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
         backgroundColor: backgroundColor,
         color: textColor,
         textAlign: "center",
-        py: 15,
-        mb: 10,
+        pt: 15,
+        pb: 20,
       }}
     >
       <Typography variant="h1" sx={{ mb: 1 }}>
