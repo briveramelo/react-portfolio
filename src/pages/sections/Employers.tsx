@@ -116,7 +116,7 @@ export const Employers: React.FC<EmployersProps> = ({
                   <ReactMarkdown
                     remarkPlugins={[remarkBreaks]} // Enable soft line breaks
                     components={{
-                      p: () => (
+                      p: ({ children }) => (
                         <Typography
                           variant="body1"
                           fontSize="1rem"
@@ -125,7 +125,9 @@ export const Employers: React.FC<EmployersProps> = ({
                             textAlign: "center",
                             color: textColor,
                           }}
-                        />
+                        >
+                          {children}
+                        </Typography>
                       ),
                     }}
                   >

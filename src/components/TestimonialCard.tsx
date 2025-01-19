@@ -41,11 +41,13 @@ export function TestimonialCard({
         <CardContent>
           <ReactMarkdown
             components={{
-              p: () => (
-                <Typography variant="body1" sx={{ color: cp("text.secondary") }} />
+              p: ({ children }) => (
+                <Typography variant="body1" sx={{ color: cp("text.secondary") }}>
+                  {children}
+                </Typography>
               ),
-              strong: ({ node, ...props }) => (
-                <HighlightedText>{props.children}</HighlightedText>
+              strong: ({ children }) => (
+                <HighlightedText>{children}</HighlightedText>
               ),
             }}
           >

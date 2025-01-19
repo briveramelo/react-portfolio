@@ -176,7 +176,7 @@ export const Hero: React.FC<HeroProps> = ({ backgroundColor, textColor }) => {
               <ReactMarkdown
                 remarkPlugins={[remarkBreaks]}
                 components={{
-                  p: () => (
+                  p: ({ children }) => (
                     <Typography
                       variant="body1"
                       fontSize="1.15rem"
@@ -184,7 +184,9 @@ export const Hero: React.FC<HeroProps> = ({ backgroundColor, textColor }) => {
                         color: cp("text.paper"),
                         marginBottom: "1.25rem",
                       }}
-                    />
+                    >
+                      {children}
+                    </Typography>
                   ),
                   br: () => (
                     <span

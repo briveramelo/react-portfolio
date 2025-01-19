@@ -137,15 +137,17 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         >
           <ReactMarkdown
             components={{
-              p: () => (
+              p: ({ children }) => (
                 <Typography
                   variant="body1"
                   fontSize="1.25rem"
                   sx={{ color: cp("text.secondary") }}
-                />
+                >
+                  {children}
+                </Typography>
               ),
-              strong: ({ ...props }) => (
-                <HighlightedText>{props.children}</HighlightedText>
+              strong: ({ children }) => (
+                <HighlightedText>{children}</HighlightedText>
               ),
             }}
           >
