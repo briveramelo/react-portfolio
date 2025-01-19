@@ -122,6 +122,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
               backgroundColor: cp("background.paper"),
               borderRadius: "16px",
               p: 4,
+              "&:hover": { transform: "scale(1.02) !important" },
             }}
             className="pop-shadow"
           >
@@ -157,22 +158,39 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   },
                 }}
               />
-              <Box
-                component="textarea"
-                rows={4}
-                sx={{
-                  width: "100%",
-                  backgroundColor: cp("background.paper"),
-                  border: "1px solid",
-                  borderColor: "divider",
-                  borderRadius: "8px",
-                  padding: "8px",
-                  fontSize: "16px",
-                  fontFamily: "inherit",
-                  resize: "vertical",
-                  overflow: "auto",
+              <TextField
+                required
+                label="Message"
+                variant="outlined"
+                fullWidth
+                InputProps={{
+                  inputComponent: "textarea",
+                  inputProps: {
+                    style: {
+                      resize: "vertical",
+                      minHeight: "100px",
+                      padding: "16px",
+                      fontFamily: "inherit",
+                      fontSize: "16px",
+                    },
+                  },
                 }}
-                placeholder="Message"
+                sx={{
+                  backgroundColor: cp("background.paper"),
+                  borderRadius: "8px",
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                  "& .MuiInputLabel-root": {
+                    transform: "translate(14px, 14px) scale(1)",
+                  },
+                  "& .MuiInputLabel-shrink": {
+                    transform: "translate(14px, -6px) scale(0.75)",
+                  },
+                  "& textarea": {
+                    marginTop: "12px",
+                  },
+                }}
               />
 
               <Button
@@ -183,6 +201,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                 sx={{
                   alignSelf: "center",
                   px: 4,
+                  "&:hover": { transform: "scale(1.1) !important" },
                 }}
                 className="pop-shadow"
               >
