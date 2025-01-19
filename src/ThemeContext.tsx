@@ -1,14 +1,14 @@
 import React, { createContext, useState, useMemo, ReactNode } from "react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
-import { themes, ThemeMode } from "./theme";
 import { CssBaseline } from "@mui/material";
+import { themes, ThemeMode } from "./theme";
 
 interface ThemeContextProps {
   mode: ThemeMode;
   setMode: (mode: ThemeMode) => void;
 }
 
-const defaultMode: ThemeMode = "house";
+const defaultMode: ThemeMode = ThemeMode.Pop;
 
 export const ThemeContext = createContext<ThemeContextProps>({
   mode: defaultMode,

@@ -7,7 +7,7 @@ import { TestimonialsSection } from "./sections/TestimonialsSection";
 import { RecentWorkSection } from "./sections/RecentWorkSection";
 import { ContactSection } from "./sections/ContactSection";
 import { Employers } from "./sections/Employers";
-import { useCustomPalette } from "../theme";
+import { ThemeMode, useCustomPalette } from "../theme";
 import { cp } from "../utils/utils";
 
 export function HomePage() {
@@ -23,7 +23,7 @@ export function HomePage() {
       <Employers
         backgroundColor={cp("background.contrast")}
         textColor={cp("text.secondary")}
-        useDarkImages={mode !== "dark"}
+        useDarkImages={mode !== ThemeMode.Dark}
       />
       <SkillsSection
         backgroundColor={cp("background.default")}

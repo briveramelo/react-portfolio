@@ -1,5 +1,4 @@
 import { useCustomPalette } from "../theme";
-import { useTheme, Theme } from "@mui/material/styles";
 
 /**
  * Return a color (red / yellow / green) based on numeric value
@@ -76,7 +75,7 @@ export const cp = (key: string): string => {
     if (value && typeof value === "object" && k in value) {
       value = value[k];
     } else {
-      console.warn(`Key "${key}" not found in theme.custom_palette.`);
+      console.warn(`Key "${key}" not found in theme.customPalette.`);
       return "";
     }
   }

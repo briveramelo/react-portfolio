@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
 import SkillCategory from "../../components/SkillCategory";
 import { skillsData } from "../../utils/skillsData";
-import { useCustomPalette } from "../../theme";
+import { ThemeMode, useCustomPalette } from "../../theme";
 
 interface SkillsSectionProps {
   backgroundColor: string;
@@ -21,7 +21,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
   const sectionRef = useRef<HTMLDivElement>(null!);
   const isVisible = useIntersectionObserver(sectionRef, { threshold: 0.275 });
   const { mode } = useCustomPalette();
-  const useLight = mode !== "light";
+  const useLight = mode !== ThemeMode.Light;
 
   const toggleStat = () => {
     setIsYearsOfExperience((prev) => !prev);

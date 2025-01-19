@@ -1,7 +1,7 @@
 import { useTheme, createTheme } from "@mui/material/styles";
-import sunL from "@/assets/sun-l.svg";
-import moonL from "@/assets/moon-l.svg";
-import moustache from "@/assets/moustache.svg";
+import sun from "@/assets/sun-d.svg";
+import moon from "@/assets/moon-d.svg";
+import moustache from "@/assets/moustache-smile2.svg";
 
 const typography = {
   fontFamily: '"IBM Plex Mono", Arial',
@@ -22,8 +22,14 @@ const skills = {
   green: "rgb(30,206,30)",
 } as const;
 
+export enum ThemeMode {
+  Pop = "Pop",
+  Dark = "Dark",
+  Light = "Light",
+}
+
 export interface CustomPalette {
-  mode: string;
+  mode: ThemeMode;
   background: {
     default: string;
     paper: string;
@@ -57,16 +63,16 @@ export interface CustomPalette {
 
 declare module "@mui/material/styles" {
   interface Theme {
-    custom_palette: CustomPalette;
+    customPalette: CustomPalette;
   }
   interface ThemeOptions {
-    custom_palette?: Partial<CustomPalette>;
+    customPalette?: Partial<CustomPalette>;
   }
 }
 
-const house = createTheme({
-  custom_palette: {
-    mode: "house",
+const Pop = createTheme({
+  customPalette: {
+    mode: ThemeMode.Pop,
     background: {
       default: "rgb(24, 24, 24)",
       paper: "rgb(245, 245, 240)",
@@ -100,9 +106,9 @@ const house = createTheme({
   typography,
 });
 
-const dark = createTheme({
-  custom_palette: {
-    mode: "dark",
+const Dark = createTheme({
+  customPalette: {
+    mode: ThemeMode.Dark,
     background: {
       default: "rgb(24, 24, 24)",
       paper: "rgb(48, 48, 48)",
@@ -136,9 +142,9 @@ const dark = createTheme({
   typography,
 });
 
-const light = createTheme({
-  custom_palette: {
-    mode: "light",
+const Light = createTheme({
+  customPalette: {
+    mode: ThemeMode.Light,
     background: {
       default: "rgb(255, 255, 255)",
       paper: "rgb(245, 245, 240)",
@@ -173,12 +179,10 @@ const light = createTheme({
 });
 
 export const themes = {
-  house,
-  dark,
-  light,
+  Pop,
+  Dark,
+  Light,
 } as const;
-
-export type ThemeMode = keyof typeof themes;
 
 export type ThemeImage = {
   name: ThemeMode;
@@ -186,12 +190,12 @@ export type ThemeImage = {
 };
 
 export const themeImages: ThemeImage[] = [
-  { name: "house", src: sunL },
-  { name: "light", src: moonL },
-  { name: "dark", src: moustache },
+  { name: ThemeMode.Pop, src: moustache },
+  { name: ThemeMode.Light, src: sun },
+  { name: ThemeMode.Dark, src: moon },
 ];
 
 export const useCustomPalette = () => {
   const theme = useTheme();
-  return theme.custom_palette;
+  return theme.customPalette;
 };

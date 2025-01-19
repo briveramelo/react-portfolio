@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useCustomPalette } from "../theme";
+import { ThemeMode, useCustomPalette } from "../theme";
 
 interface InvertableFontAwesomeProps {
   icon: any; // Icon object imported from Font Awesome, e.g., `faCalendarCheck`
@@ -12,7 +12,7 @@ const InvertableFontAwesome: React.FC<InvertableFontAwesomeProps> = ({
   invert,
 }) => {
   const { mode } = useCustomPalette();
-  const isDarkTheme = mode === "dark";
+  const isDarkTheme = mode === ThemeMode.Dark;
 
   const shouldInvert = invert !== undefined ? invert : isDarkTheme;
 

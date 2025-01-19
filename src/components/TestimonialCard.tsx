@@ -72,7 +72,7 @@ export function TestimonialCard({
               <Typography variant="h6" sx={{ color: textColor }}>
                 {data.title}
               </Typography>
-              <Typography variant="body1" sx={{ color: "text.disabled" }}>
+              <Typography variant="body1" sx={{ color: textColor }}>
                 {data.company}
               </Typography>
             </Box>
