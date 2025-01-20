@@ -1,7 +1,8 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useState } from "react";
 import { Container, Typography, Box } from "@mui/material";
 import { ProjectCard } from "../../components/ProjectCard";
-import { projectData } from "../../utils/projectData";
+import { ProjectDetails } from "../../components/ProjectDetails";
+import { Project, projectData } from "../../utils/projectData";
 import { ThemeMode, useCustomPalette } from "../../theme";
 
 interface ProjectsProps {
@@ -14,6 +15,29 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
     const { mode } = useCustomPalette();
     const useLight = mode === ThemeMode.Dark;
 
+    const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+    const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false); // keeping separate from 'selectedProject === null' supports transition state nuances
+    const [animationComplete, setAnimationComplete] = useState<boolean>(true);
+    const slideDurationMs = 500;
+
+    const handleCardClick = (project: Project) => {
+      setSelectedProject(project);
+      setIsProjectSelected(true);
+      setAnimationComplete(false);
+      setTimeout(()=>{
+        setAnimationComplete(true);
+      }, slideDurationMs);
+    };
+
+    const handleCloseProjectDetails = () => {
+      setIsProjectSelected(false);
+      setAnimationComplete(false);
+      setTimeout(()=>{
+        setSelectedProject(null);
+        setAnimationComplete(true);
+      }, slideDurationMs);
+    };
+
     return (
       <Box
         component="section"
@@ -22,6 +46,8 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
           py: 10,
           backgroundColor: backgroundColor,
           color: textColor,
+          position: "relative",
+          overflowX: "hidden",
         }}
         ref={ref}
       >
@@ -65,10 +91,38 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
                 projectData={project}
                 flipped={index % 2 === 0}
                 useLight={useLight}
+                onClick={() => handleCardClick(project)}
+                targetDestinationX={
+                  isProjectSelected ? (index % 2 === 0 ? "-100vw" : "100vw") : "0"
+                }
+                animationComplete={animationComplete}
+                slideDurationMs={slideDurationMs}
               />
             ))}
           </Box>
         </Container>
+
+        {/* Project Details Component */}
+        <Container
+            maxWidth="lg"
+            sx={{
+              position: "absolute",
+              top: 200,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              transform: `translateX(${isProjectSelected ? "0" : "100vw"})`,
+              transition: `transform ${slideDurationMs}ms ease-in-out, opacity ${slideDurationMs}ms ease-out`,
+              opacity: isProjectSelected ? 1 : 0,
+            }}
+          >
+          {selectedProject && (
+            <ProjectDetails
+              project={selectedProject}
+              onClose={handleCloseProjectDetails}
+            />
+          )}
+          </Container>
       </Box>
     );
   },

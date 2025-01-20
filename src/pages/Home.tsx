@@ -21,7 +21,15 @@ export function HomePage() {
   const testimonialsRef = useRef<HTMLElement | null>(null);
   const recentWorkRef = useRef<HTMLElement | null>(null);
   const contactRef = useRef<HTMLElement | null>(null);
-  const sectionRefs = [heroRef, employersRef, skillsRef, projectsRef, testimonialsRef, recentWorkRef, contactRef];
+  const sectionRefs = [
+    heroRef,
+    employersRef,
+    skillsRef,
+    projectsRef,
+    testimonialsRef,
+    recentWorkRef,
+    contactRef,
+  ];
 
   return (
     <>

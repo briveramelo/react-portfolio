@@ -8,15 +8,25 @@ import { cp } from "../utils/utils";
 
 interface ProjectCardProps {
   projectData: Project;
-  flipped?: boolean; // Optional, defaults to false
-  useLight: boolean; // Required to determine light mode behavior
+  flipped?: boolean;
+  useLight: boolean;
+  onClick: () => void;
+  targetDestinationX: string;
+  slideDurationMs: number;
+  animationComplete: boolean;
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
   projectData,
   flipped = false,
   useLight,
+  onClick,
+  targetDestinationX,
+  slideDurationMs,
+  animationComplete,
 }) => {
+  const isOnScreen = targetDestinationX === "0";
+
   return (
     <Card
       sx={{
@@ -25,9 +35,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         backgroundColor: cp("background.paper"),
         overflow: "hidden",
         borderRadius: 2,
-        "&:hover": { transform: "scale(1.02) !important" },
+        "&:hover": isOnScreen && animationComplete ? { transform: "scale(1.02) !important" } : {},
+        transition: isOnScreen && animationComplete ? "" : `transform ${slideDurationMs}ms ease-in-out !important`,
+        transform: `translateX(${targetDestinationX})`,
       }}
       className="pop-shadow"
+      onClick={onClick}
     >
       <CardMedia
         component="img"

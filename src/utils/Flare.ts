@@ -5,7 +5,10 @@ export class Flare {
   ctx: CanvasRenderingContext2D | null;
   cvs: HTMLCanvasElement | null;
 
-  constructor(ctx: CanvasRenderingContext2D | null, cvs: HTMLCanvasElement | null) {
+  constructor(
+    ctx: CanvasRenderingContext2D | null,
+    cvs: HTMLCanvasElement | null,
+  ) {
     this.ctx = ctx;
     this.cvs = cvs;
   }
@@ -18,11 +21,11 @@ export class Flare {
       1 -
       Math.sqrt(
         Math.pow(obj.x - this.cvs.width / 2, 2) +
-        Math.pow(obj.y - this.cvs.height / 2, 2)
+          Math.pow(obj.y - this.cvs.height / 2, 2),
       ) /
-      Math.sqrt(
-        Math.pow(this.cvs.width / 2, 2) + Math.pow(this.cvs.height / 2, 2)
-      );
+        Math.sqrt(
+          Math.pow(this.cvs.width / 2, 2) + Math.pow(this.cvs.height / 2, 2),
+        );
 
     for (let i = 0; i < this.discs.length; i++) {
       this.ctx.beginPath();
@@ -33,13 +36,19 @@ export class Flare {
         0,
         this.discs[i].x,
         this.discs[i].y,
-        this.discs[i].dia
+        this.discs[i].dia,
       );
       grad.addColorStop(0, `hsla(${hue},100%,90%,${0 * dist})`);
       grad.addColorStop(0.9, `hsla(${hue},100%,90%,${0.15 * dist})`);
       grad.addColorStop(1, `hsla(${hue},100%,90%,0)`);
       this.ctx.fillStyle = grad;
-      this.ctx.arc(this.discs[i].x, this.discs[i].y, this.discs[i].dia, 0, Math.PI * 2);
+      this.ctx.arc(
+        this.discs[i].x,
+        this.discs[i].y,
+        this.discs[i].dia,
+        0,
+        Math.PI * 2,
+      );
       this.ctx.closePath();
       this.ctx.fill();
     }
@@ -52,14 +61,21 @@ export class Flare {
     for (let i = 0; i <= this.discNum; i++) {
       const temp: { x: number; y: number; dia?: number; hue?: number } = {
         x: 0,
-        y: 0
+        y: 0,
       };
       const j = i - this.discNum / 2;
-      temp.x = (this.cvs.width / 2 - obj.x) * (j / this.discNum * 2) + this.cvs.width / 2;
-      temp.y = (this.cvs.height / 2 - obj.y) * (j / this.discNum * 2) + this.cvs.height / 2;
+      temp.x =
+        (this.cvs.width / 2 - obj.x) * ((j / this.discNum) * 2) +
+        this.cvs.width / 2;
+      temp.y =
+        (this.cvs.height / 2 - obj.y) * ((j / this.discNum) * 2) +
+        this.cvs.height / 2;
 
       if (this.t === 0) {
-        temp.dia = Math.pow(Math.abs(10 * (j / this.discNum)), 2) * 3 + 110 + (Math.random() * 100 - 100);
+        temp.dia =
+          Math.pow(Math.abs(10 * (j / this.discNum)), 2) * 3 +
+          110 +
+          (Math.random() * 100 - 100);
         temp.hue = Math.round(Math.random() * 360);
         this.discs[i] = temp as any;
       } else {
