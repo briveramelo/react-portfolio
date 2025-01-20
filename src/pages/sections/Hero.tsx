@@ -18,7 +18,17 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     const [instantFlip, setInstantFlip] = useState<boolean>(false);
     const transitionDurationMs = 500; // Duration of the transition in ms
     const startTimeRefMs = useRef<number | null>(null);
-    const canvasRef = useFlareEffect(); // Use the custom hook
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useFlareEffect({
+        canvasRef,
+        containerRef,
+        xOffset: -40,
+        yAmpFactor: .65,
+        phaseOffset: Math.PI * 0.5,
+        durationMs: 15000
+    });
 
     // Track if the animation is halfway done
     const hasTransitionElapsedHalfway = (): boolean => {
@@ -141,6 +151,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
                 transform: `rotateY(${targetRotationDeg}deg)`,
                 pointerEvents: "none",
               }}
+              ref={containerRef}
             >
               {/* Flare Effect Canvas Overlay */}
               <canvas

@@ -1,10 +1,30 @@
-import { useEffect, useRef } from "react";
-import { useWindowSize } from "react-use";
+import { useEffect, RefObject } from "react";
 import { Flare } from "../utils/Flare";
 
-export const useFlareEffect = () => {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const { width, height } = useWindowSize();
+// Define the props for the hook
+interface UseFlareEffectProps {
+  canvasRef: RefObject<HTMLCanvasElement>;
+  containerRef: RefObject<HTMLDivElement>;
+  xOffset: number;
+  yAmpFactor: number
+  durationMs: number;
+  phaseOffset: number;
+}
+
+export const useFlareEffect = ({ canvasRef, containerRef, xOffset, yAmpFactor, phaseOffset, durationMs }: UseFlareEffectProps) => {
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Set canvas size based on the container dimensions
+    canvas.width = container.clientWidth;
+    canvas.height = container.clientHeight;
+
+  }, [canvasRef, containerRef]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -13,24 +33,16 @@ export const useFlareEffect = () => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    canvas.width = width;
-    canvas.height = height;
-
     const fire = new Flare(ctx, canvas);
-
-    let startTimeMs = performance.now();
     let animationFrameId: number;
-    const durationMs = 15000;
 
     const animate = (timeMs: number) => {
-      const elapsedTimeMs = timeMs - startTimeMs;
-      const normalizedTime = (elapsedTimeMs / durationMs) * Math.PI * 2;
+      const normalizedTime = (timeMs / durationMs) * Math.PI * 2 + phaseOffset;
 
-      // Use sine wave to create smooth bouncing effect
-      const amplitude = canvas.height / 2;
-      const positionY = amplitude - Math.sin(normalizedTime) * amplitude;
+      const amplitude = canvas.height * yAmpFactor;
+      const positionY = canvas.height / 2 - Math.sin(normalizedTime) * amplitude;
 
-      fire.update({ x: 75, y: positionY });
+      fire.update({ x: xOffset, y: positionY });
 
       animationFrameId = requestAnimationFrame(animate);
     };
@@ -40,7 +52,5 @@ export const useFlareEffect = () => {
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [width, height]);
-
-  return canvasRef;
+  }, [canvasRef]);
 };
