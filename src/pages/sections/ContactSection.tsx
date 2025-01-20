@@ -111,7 +111,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
               color: textColor,
             }}
           >
-            {"What's your vision for a healthier world at scale?"}
+            {"What’s your vision for scaling health impact?"}
           </Typography>
 
           {/* Form or Confirmation Message */}

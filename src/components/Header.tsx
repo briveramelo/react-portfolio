@@ -27,6 +27,16 @@ export function Header({ sectionRefs }: HeaderProps) {
   const { mode } = useContext(ThemeContext);
   const [isBackgroundDark, setIsBackgroundDark] = useState<boolean>(false);
 
+  const handleNavClick = (sectionId: string) => {
+    const targetSection = sectionRefs.find(ref => ref.current?.id === sectionId);
+    if (targetSection?.current) {
+      targetSection.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   // Header adapts to match section colors
   const updateHeaderColors = () => {
     if (!headerRef.current) return;
@@ -93,6 +103,11 @@ export function Header({ sectionRefs }: HeaderProps) {
               key={link.href}
               color="inherit"
               href={link.href}
+              onClick={(e) => {
+                e.preventDefault();
+                const linkId = link.href.replace("#", "");
+                handleNavClick(linkId);
+              }}
               sx={{
                 textTransform: "none",
                 fontWeight: "bold",

@@ -68,24 +68,15 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     return (
       <Box
         component="section"
-        id="brandon"
+        id="home"
         sx={{
           py: 10,
           backgroundColor: backgroundColor,
           color: textColor,
+          scrollMarginTop: "80px",
         }}
         ref={ref}
       >
-        {/* Invisible Link Target */}
-        <Box
-          id="home"
-          sx={{
-            position: "absolute",
-            top: "-80px", // force snapping the scroll bar to the top on linking to this section
-            height: 0,
-          }}
-        />
-
         <Container
           maxWidth="md"
           sx={{

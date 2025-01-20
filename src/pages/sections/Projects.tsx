@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { Container, Typography, Box } from "@mui/material";
 import { ProjectCard } from "../../components/ProjectCard";
 import { ProjectDetails } from "../../components/ProjectDetails";
@@ -39,6 +39,14 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
         setAnimationComplete(true);
       }, slideDurationMs);
     };
+
+    useEffect(() => {
+      if (isProjectSelected && ref && "current" in ref && ref.current) {
+        ref.current.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
+    }, [isProjectSelected, ref]);
 
     return (
       <Box
