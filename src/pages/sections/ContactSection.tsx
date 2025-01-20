@@ -14,11 +14,12 @@ import { cp } from "../../utils/utils";
 
 interface ContactSectionProps {
   backgroundColor: string;
+  id: string;
   textColor: string;
 }
 
 export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
-  ({ backgroundColor, textColor }, ref) => {
+  ({ backgroundColor, textColor, id }, ref) => {
     const confettiRef = useRef<HTMLCanvasElement>(null);
     const [formSubmitted, setFormSubmitted] = useState(false);
     const { width, height } = useWindowSize();
@@ -38,7 +39,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
     return (
       <Box
         component="section"
-        id="contact"
+        id={id}
         sx={{
           backgroundColor: backgroundColor,
           color: textColor,

@@ -7,11 +7,12 @@ import { ThemeMode, useCustomPalette } from "../../theme";
 
 interface ProjectsProps {
   backgroundColor: string;
+  id: string;
   textColor: string;
 }
 
 export const Projects = forwardRef<HTMLElement, ProjectsProps>(
-  ({ backgroundColor, textColor }, ref) => {
+  ({ backgroundColor, textColor, id }, ref) => {
     const { mode } = useCustomPalette();
     const useLight = mode === ThemeMode.Dark;
 
@@ -123,9 +124,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
               display: "flex",
               flexDirection: "column",
               gap: 8,
-              maxHeight: isProjectSelected
-                ? 0
-                : "10000px",
+              maxHeight: isProjectSelected ? 0 : "10000px",
               transition: `max-height ${slideDurationMs}ms ease-out !important`,
             }}
           >

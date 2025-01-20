@@ -30,17 +30,18 @@ const projects: Project[] = [
 
 interface RecentWorkSectionProps {
   backgroundColor: string;
+  id: string;
   textColor: string;
 }
 
 export const RecentWorkSection = forwardRef<
   HTMLElement,
   RecentWorkSectionProps
->(({ backgroundColor, textColor }, ref) => {
+>(({ backgroundColor, textColor, id }, ref) => {
   return (
     <Box
       component="section"
-      id="recent"
+      id={id}
       sx={{
         py: 10,
         backgroundColor: backgroundColor,

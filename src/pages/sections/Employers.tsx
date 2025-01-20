@@ -7,15 +7,16 @@ import { featuredEmployerData } from "../../utils/employerData";
 interface EmployersProps {
   backgroundColor: string;
   textColor: string;
+  id: string;
   useDarkImages: boolean;
 }
 
 export const Employers = forwardRef<HTMLElement, EmployersProps>(
-  ({ backgroundColor, textColor, useDarkImages }, ref) => {
+  ({ backgroundColor, textColor, useDarkImages, id }, ref) => {
     return (
       <Box
         component="section"
-        id="employers"
+        id={id}
         sx={{
           py: 5,
           backgroundColor: backgroundColor,

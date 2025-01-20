@@ -19,13 +19,14 @@ interface Testimonial {
 
 interface TestimonialsSectionProps {
   backgroundColor: string;
+  id: string;
   textColor: string;
 }
 
 export const TestimonialsSection = forwardRef<
   HTMLElement,
   TestimonialsSectionProps
->(({ backgroundColor, textColor }, ref) => {
+>(({ backgroundColor, textColor, id }, ref) => {
   const testimonialsData: Testimonial[] = [
     {
       quote: `**Brandon is hard-working, motivated, and passionate about the projects he works on.** I had the pleasure of working with Brandon on a project, because of his expertise, commitment, and work ethic we were able to create a high quality and engaging game in under three weeks. I am confident that Brandon will be an asset to any team he works on. **I give him my highest recommendation without reservation.**`,
@@ -64,7 +65,7 @@ export const TestimonialsSection = forwardRef<
   return (
     <Box
       component="section"
-      id="testimonials"
+      id={id}
       sx={{
         py: 10,
         backgroundColor: backgroundColor,

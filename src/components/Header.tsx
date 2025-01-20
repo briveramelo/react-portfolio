@@ -3,13 +3,21 @@ import { Toolbar, IconButton, Button, Box } from "@mui/material";
 import { LinkedIn } from "@mui/icons-material";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { ThemeContext } from "../ThemeContext";
-import { cp, isColorDark } from "../utils/utils";
+import { isColorDark } from "../utils/utils";
 
 interface HeaderProps {
   sectionRefs: React.RefObject<HTMLElement>[];
+  defaultBackgroundColor: string;
+  defaultTextColor: string;
+  defaultIsBackgroundDark: boolean;
 }
 
-export function Header({ sectionRefs }: HeaderProps) {
+export function Header({
+  sectionRefs,
+  defaultBackgroundColor,
+  defaultTextColor,
+  defaultIsBackgroundDark,
+}: HeaderProps) {
   const navigationLinks = [
     { href: "#home", label: "Home" },
     { href: "#skills", label: "Skills" },
@@ -21,21 +29,23 @@ export function Header({ sectionRefs }: HeaderProps) {
 
   const headerRef = useRef<HTMLElement | null>(null);
   const [colors, setColors] = useState({
-    header: cp("background.paper"),
-    text: cp("text.paper"),
+    header: defaultBackgroundColor,
+    text: defaultTextColor,
   });
   const { mode } = useContext(ThemeContext);
-  const [isBackgroundDark, setIsBackgroundDark] = useState<boolean>(false);
+  const [isBackgroundDark, setIsBackgroundDark] = useState<boolean>(
+    defaultIsBackgroundDark,
+  );
 
-  const handleNavClick = (sectionId: string) => {
-    const targetSection = sectionRefs.find(
-      (ref) => ref.current?.id === sectionId,
-    );
+  const handleNavClick = (href: string) => {
+    const linkId = href.replace("#", "");
+    const targetSection = sectionRefs.find((ref) => ref.current?.id === linkId);
     if (targetSection?.current) {
       targetSection.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
+      window.history.pushState(null, "", href);
     }
   };
 
@@ -107,8 +117,7 @@ export function Header({ sectionRefs }: HeaderProps) {
               href={link.href}
               onClick={(e) => {
                 e.preventDefault();
-                const linkId = link.href.replace("#", "");
-                handleNavClick(linkId);
+                handleNavClick(link.href);
               }}
               sx={{
                 textTransform: "none",

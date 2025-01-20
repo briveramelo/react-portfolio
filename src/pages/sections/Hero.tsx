@@ -10,10 +10,11 @@ import { useFlareEffect } from "../../components/useFlareEffect.tsx";
 interface HeroProps {
   backgroundColor: string;
   textColor: string;
+  id: string;
 }
 
 export const Hero = forwardRef<HTMLElement, HeroProps>(
-  ({ backgroundColor, textColor }, ref) => {
+  ({ backgroundColor, textColor, id }, ref) => {
     const [targetRotationDeg, setTargetRotationDeg] = useState<number>(0);
     const [instantFlip, setInstantFlip] = useState<boolean>(false);
     const transitionDurationMs = 500; // Duration of the transition in ms
@@ -78,7 +79,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     return (
       <Box
         component="section"
-        id="home"
+        id={id}
         sx={{
           py: 10,
           backgroundColor: backgroundColor,

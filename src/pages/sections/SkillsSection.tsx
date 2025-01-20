@@ -10,11 +10,12 @@ import { ThemeMode, useCustomPalette } from "../../theme";
 
 interface SkillsSectionProps {
   backgroundColor: string;
+  id: string;
   textColor: string;
 }
 
 export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
-  ({ backgroundColor, textColor }, ref) => {
+  ({ backgroundColor, textColor, id }, ref) => {
     const [isYearsOfExperience, setIsYearsOfExperience] =
       useState<boolean>(true);
     const sectionRef = useRef<HTMLDivElement>(null!);
@@ -29,7 +30,7 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
     return (
       <Box
         component="section"
-        id="skills"
+        id={id}
         sx={{
           p: 6,
           backgroundColor: backgroundColor,

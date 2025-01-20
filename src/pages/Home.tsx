@@ -8,10 +8,55 @@ import { RecentWorkSection } from "./sections/RecentWorkSection";
 import { ContactSection } from "./sections/ContactSection";
 import { Employers } from "./sections/Employers";
 import { ThemeMode, useCustomPalette } from "../theme";
-import { cp } from "../utils/utils";
+import { cp, isColorDark } from "../utils/utils";
 
 export function HomePage() {
   const { mode } = useCustomPalette();
+
+  const sectionStyles: Record<
+    string,
+    { backgroundColor: string; textColor: string; isDark: boolean }
+  > = {
+    home: {
+      backgroundColor: cp("background.default"),
+      textColor: cp("text.primary"),
+      isDark: isColorDark(cp("background.default")),
+    },
+    employers: {
+      backgroundColor: cp("background.contrast"),
+      textColor: cp("text.secondary"),
+      isDark: isColorDark(cp("background.contrast")),
+    },
+    skills: {
+      backgroundColor: cp("background.default"),
+      textColor: cp("text.primary"),
+      isDark: isColorDark(cp("background.default")),
+    },
+    work: {
+      backgroundColor: cp("background.contrast"),
+      textColor: cp("text.secondary"),
+      isDark: isColorDark(cp("background.contrast")),
+    },
+    testimonials: {
+      backgroundColor: cp("background.default"),
+      textColor: cp("text.primary"),
+      isDark: isColorDark(cp("background.default")),
+    },
+    recent: {
+      backgroundColor: cp("background.contrast"),
+      textColor: cp("text.secondary"),
+      isDark: isColorDark(cp("background.contrast")),
+    },
+    contact: {
+      backgroundColor: cp("background.default"),
+      textColor: cp("text.primary"),
+      isDark: isColorDark(cp("background.default")),
+    },
+  };
+
+  const currentSectionId = window.location.hash.replace("#", "");
+  const initialColors =
+    sectionStyles[currentSectionId] || sectionStyles["home"];
 
   // Create refs for each section
   const heroRef = useRef<HTMLElement | null>(null);
@@ -21,6 +66,7 @@ export function HomePage() {
   const testimonialsRef = useRef<HTMLElement | null>(null);
   const recentWorkRef = useRef<HTMLElement | null>(null);
   const contactRef = useRef<HTMLElement | null>(null);
+
   const sectionRefs = [
     heroRef,
     employersRef,
@@ -33,42 +79,54 @@ export function HomePage() {
 
   return (
     <>
-      <Header sectionRefs={sectionRefs} />
+      <Header
+        sectionRefs={sectionRefs}
+        defaultBackgroundColor={initialColors.backgroundColor}
+        defaultTextColor={initialColors.textColor}
+        defaultIsBackgroundDark={initialColors.isDark}
+      />
       <Hero
         ref={heroRef}
-        backgroundColor={cp("background.default")}
-        textColor={cp("text.primary")}
+        id="home"
+        backgroundColor={sectionStyles.home.backgroundColor}
+        textColor={sectionStyles.home.textColor}
       />
       <Employers
         ref={employersRef}
-        backgroundColor={cp("background.contrast")}
-        textColor={cp("text.secondary")}
+        id="employers"
+        backgroundColor={sectionStyles.employers.backgroundColor}
+        textColor={sectionStyles.employers.textColor}
         useDarkImages={mode !== ThemeMode.Dark}
       />
       <SkillsSection
         ref={skillsRef}
-        backgroundColor={cp("background.default")}
-        textColor={cp("text.primary")}
+        id="skills"
+        backgroundColor={sectionStyles.skills.backgroundColor}
+        textColor={sectionStyles.skills.textColor}
       />
       <Projects
         ref={projectsRef}
-        backgroundColor={cp("background.contrast")}
-        textColor={cp("text.secondary")}
+        id="work"
+        backgroundColor={sectionStyles.work.backgroundColor}
+        textColor={sectionStyles.work.textColor}
       />
       <TestimonialsSection
         ref={testimonialsRef}
-        backgroundColor={cp("background.default")}
-        textColor={cp("text.primary")}
+        id="testimonials"
+        backgroundColor={sectionStyles.testimonials.backgroundColor}
+        textColor={sectionStyles.testimonials.textColor}
       />
       <RecentWorkSection
         ref={recentWorkRef}
-        backgroundColor={cp("background.contrast")}
-        textColor={cp("text.secondary")}
+        id="recent"
+        backgroundColor={sectionStyles.recent.backgroundColor}
+        textColor={sectionStyles.recent.textColor}
       />
       <ContactSection
         ref={contactRef}
-        backgroundColor={cp("background.default")}
-        textColor={cp("text.primary")}
+        id="contact"
+        backgroundColor={sectionStyles.contact.backgroundColor}
+        textColor={sectionStyles.contact.textColor}
       />
     </>
   );
