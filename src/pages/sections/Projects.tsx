@@ -15,7 +15,9 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
     const { mode } = useCustomPalette();
     const useLight = mode === ThemeMode.Dark;
 
-    const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+    const [selectedProject, setSelectedProject] = useState<Project | null>(
+      null,
+    );
     const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false); // keeping separate from 'selectedProject === null' supports transition state nuances
     const [animationComplete, setAnimationComplete] = useState<boolean>(true);
     const slideDurationMs = 500;
@@ -24,7 +26,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
       setSelectedProject(project);
       setIsProjectSelected(true);
       setAnimationComplete(false);
-      setTimeout(()=>{
+      setTimeout(() => {
         setAnimationComplete(true);
       }, slideDurationMs);
     };
@@ -32,7 +34,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
     const handleCloseProjectDetails = () => {
       setIsProjectSelected(false);
       setAnimationComplete(false);
-      setTimeout(()=>{
+      setTimeout(() => {
         setSelectedProject(null);
         setAnimationComplete(true);
       }, slideDurationMs);
@@ -93,7 +95,11 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
                 useLight={useLight}
                 onClick={() => handleCardClick(project)}
                 targetDestinationX={
-                  isProjectSelected ? (index % 2 === 0 ? "-100vw" : "100vw") : "0"
+                  isProjectSelected
+                    ? index % 2 === 0
+                      ? "-100vw"
+                      : "100vw"
+                    : "0"
                 }
                 animationComplete={animationComplete}
                 slideDurationMs={slideDurationMs}
@@ -104,25 +110,25 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
 
         {/* Project Details Component */}
         <Container
-            maxWidth="lg"
-            sx={{
-              position: "absolute",
-              top: 200,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              transform: `translateX(${isProjectSelected ? "0" : "100vw"})`,
-              transition: `transform ${slideDurationMs}ms ease-in-out, opacity ${slideDurationMs}ms ease-out`,
-              opacity: isProjectSelected ? 1 : 0,
-            }}
-          >
+          maxWidth="lg"
+          sx={{
+            position: "absolute",
+            top: 200,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            transform: `translateX(${isProjectSelected ? "0" : "100vw"})`,
+            transition: `transform ${slideDurationMs}ms ease-in-out, opacity ${slideDurationMs}ms ease-out`,
+            opacity: isProjectSelected ? 1 : 0,
+          }}
+        >
           {selectedProject && (
             <ProjectDetails
               project={selectedProject}
               onClose={handleCloseProjectDetails}
             />
           )}
-          </Container>
+        </Container>
       </Box>
     );
   },

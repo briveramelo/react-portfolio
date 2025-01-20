@@ -35,8 +35,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         backgroundColor: cp("background.paper"),
         overflow: "hidden",
         borderRadius: 2,
-        "&:hover": isOnScreen && animationComplete ? { transform: "scale(1.02) !important" } : {},
-        transition: isOnScreen && animationComplete ? "" : `transform ${slideDurationMs}ms ease-in-out !important`,
+        "&:hover":
+          isOnScreen && animationComplete
+            ? { transform: "scale(1.02) !important" }
+            : {},
+        transition:
+          isOnScreen && animationComplete
+            ? ""
+            : `transform ${slideDurationMs}ms ease-in-out !important`,
         transform: `translateX(${targetDestinationX})`,
       }}
       className="pop-shadow"
@@ -56,7 +62,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           width: { xs: "100%", md: "50%" },
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between", // Space between top (category/title) and bottom (description)
+          justifyContent: "space-between",
           gap: 3,
           p: 3,
         }}
@@ -89,7 +95,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 fontWeight: "bold",
                 backgroundColor: projectData.color,
                 color: projectData.textColor,
-                whiteSpace: "nowrap", // Prevent wrapping
+                whiteSpace: "nowrap",
               }}
             >
               {projectData.category}
@@ -101,7 +107,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               sx={{
                 fontWeight: "bold",
                 color: cp("text.secondary"),
-                flexGrow: 1, // Let the title take remaining space
+                flexGrow: 1,
               }}
             >
               {projectData.title}
@@ -171,8 +177,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         <Box
           sx={{
             display: "flex",
-            flexWrap: "wrap", // Allow wrapping to a new row
-            gap: 1.5, // Spacing between images
+            flexWrap: "wrap",
+            gap: 1.5,
           }}
         >
           {projectData.skills.map((skill) => (
