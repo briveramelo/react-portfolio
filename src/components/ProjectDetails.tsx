@@ -12,15 +12,10 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   onClose,
 }) => {
   return (
-    <Box
-      sx={{
-        position: "absolute",
-      }}
-    >
+    <Box>
       <Card sx={{ padding: 4 }}>
         <Typography variant="h4">{project.title}</Typography>
-        <Typography variant="body1">{project.description}</Typography>
-        {/* More detailed content */}
+        <Typography variant="body1">Content coming soon</Typography>
         <Button
           variant="contained"
           onClick={onClose}

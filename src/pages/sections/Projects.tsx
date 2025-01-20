@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import { Container, Typography, Box } from "@mui/material";
 import { ProjectCard } from "../../components/ProjectCard";
 import { ProjectDetails } from "../../components/ProjectDetails";
@@ -20,7 +20,11 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
     );
     const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false); // keeping separate from 'selectedProject === null' supports transition state nuances
     const [animationComplete, setAnimationComplete] = useState<boolean>(true);
-    const slideDurationMs = 500;
+    const slideDurationMs = 750;
+
+    const [detailsHeight, setDetailsHeight] = useState(0);
+    const detailsRef = useRef<HTMLDivElement>(null);
+
 
     const handleCardClick = (project: Project) => {
       setSelectedProject(project);
@@ -47,6 +51,13 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
         });
       }
     }, [isProjectSelected, ref]);
+
+    useEffect(() => {
+      const newHeight = isProjectSelected && detailsRef?.current
+        ? detailsRef.current.scrollHeight
+        : 0;
+      setDetailsHeight(newHeight);
+    }, [isProjectSelected]);
 
     return (
       <Box
@@ -87,12 +98,33 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
             </Typography>
           </Box>
 
+          {/* Selected Project Details */}
+          <Box
+            maxWidth="lg"
+            ref={detailsRef}
+            sx={{
+              position: "relative",
+              transition: `transform ${slideDurationMs}ms ease-out, opacity 1100ms ease-out, height 800ms ease-out`,
+              opacity: isProjectSelected ? 1 : 0,
+              height: detailsHeight,
+            }}
+          >
+            {selectedProject && (
+              <ProjectDetails
+                project={selectedProject}
+                onClose={handleCloseProjectDetails}
+              />
+            )}
+          </Box>
+
           {/* Project Cards */}
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               gap: 8,
+              maxHeight: isProjectSelected ? 0 : "2000px",
+              transition: `max-height 1000ms ease-out !important`,
             }}
           >
             {projectData.map((project, index) => (
@@ -117,26 +149,6 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
         </Container>
 
         {/* Project Details Component */}
-        <Container
-          maxWidth="lg"
-          sx={{
-            position: "absolute",
-            top: 200,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            transform: `translateX(${isProjectSelected ? "0" : "100vw"})`,
-            transition: `transform ${slideDurationMs}ms ease-in-out, opacity ${slideDurationMs}ms ease-out`,
-            opacity: isProjectSelected ? 1 : 0,
-          }}
-        >
-          {selectedProject && (
-            <ProjectDetails
-              project={selectedProject}
-              onClose={handleCloseProjectDetails}
-            />
-          )}
-        </Container>
       </Box>
     );
   },
