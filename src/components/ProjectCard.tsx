@@ -47,6 +47,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             : `transform ${slideDurationMs}ms ease-in-out !important`,
         transform: `translateX(${targetDestinationX})`,
         overflow: "visible",
+        cursor: "pointer",
       }}
     >
       {/* IMAGE */}

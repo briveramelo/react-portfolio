@@ -24,7 +24,6 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
 
     const [detailsHeight, setDetailsHeight] = useState(0);
     const detailsRef = useRef<HTMLDivElement>(null);
-    const projectCardsRef = useRef<HTMLDivElement>(null);
 
     const handleCardClick = (project: Project) => {
       setSelectedProject(project);
@@ -104,7 +103,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
             maxWidth="lg"
             sx={{
               position: "relative",
-              transition: `transform ${slideDurationMs}ms ease-out, opacity 1100ms ease-out, height 800ms ease-out`,
+              transition: `transform ${slideDurationMs}ms ease-out, opacity ${slideDurationMs}ms ease-out, height ${slideDurationMs}ms ease-out`,
               opacity: isProjectSelected ? 1 : 0,
               height: detailsHeight,
             }}
@@ -124,12 +123,11 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
               display: "flex",
               flexDirection: "column",
               gap: 8,
-              height: isProjectSelected
+              maxHeight: isProjectSelected
                 ? 0
-                : projectCardsRef?.current?.scrollHeight,
-              transition: `height 1000ms ease-out !important`,
+                : "10000px",
+              transition: `max-height ${slideDurationMs}ms ease-out !important`,
             }}
-            ref={projectCardsRef}
           >
             {projectData.map((project, index) => (
               <ProjectCard
