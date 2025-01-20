@@ -26,15 +26,17 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   animationComplete,
 }) => {
   const isOnScreen = targetDestinationX === "0";
-
+  const borderRadius = "8px";
   return (
     <Card
+      onClick={onClick}
+      className="pop-shadow"
       sx={{
         display: "flex",
         flexDirection: { xs: "column", md: flipped ? "row-reverse" : "row" },
+        alignItems: "stretch",
         backgroundColor: cp("background.paper"),
-        overflow: "hidden",
-        borderRadius: 2,
+        borderRadius,
         "&:hover":
           isOnScreen && animationComplete
             ? { transform: "scale(1.02) !important" }
@@ -44,43 +46,54 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             ? ""
             : `transform ${slideDurationMs}ms ease-in-out !important`,
         transform: `translateX(${targetDestinationX})`,
+        overflow: "visible",
       }}
-      className="pop-shadow"
-      onClick={onClick}
     >
+      {/* IMAGE */}
       <CardMedia
         component="img"
         src={projectData.image}
         alt={projectData.title}
         sx={{
           width: { xs: "100%", md: "50%" },
+          height: "auto",
           objectFit: "cover",
+          flexShrink: 1,
+          borderRadius: {
+            xs: `${borderRadius} ${borderRadius} 0 0`, // Rounded top corners on small screens
+            md: flipped
+              ? `0 ${borderRadius} ${borderRadius} 0`
+              : `${borderRadius} 0 0 ${borderRadius}`, // Rounded outer corners on large screens
+          },
         }}
       />
+
+      {/* TEXT + SKILLS COLUMN */}
       <CardContent
         sx={{
-          width: { xs: "100%", md: "50%" },
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
-          gap: 3,
           p: 3,
+          gap: 3,
+          flexGrow: 1,
+          overflow: "visible", // So text isn't clipped
         }}
       >
-        {/* Top Section: Category Tag and Title */}
+        {/* MAIN CONTENT AREA */}
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
             gap: 2,
+            flexGrow: 1,
           }}
         >
-          {/* Category Tag and Title Row */}
+          {/* Category + Title + Logos */}
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "space-between",
+              flexWrap: "wrap",
               gap: 2,
             }}
           >
@@ -108,33 +121,38 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 fontWeight: "bold",
                 color: cp("text.secondary"),
                 flexGrow: 1,
+                whiteSpace: { xs: "normal", md: "nowrap" },
               }}
             >
               {projectData.title}
             </Typography>
+
             {/* Employer Logos */}
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
-                gap: 1, // Spacing between images
+                gap: 1,
+                flexWrap: "wrap",
               }}
             >
               {projectData.employers.map((employer) => (
                 <Box
                   key={employer.name}
                   sx={{
-                    height: "30px",
-                    width: "auto",
                     display: "flex",
                     alignItems: "center",
+                    height: 30,
+                    flexShrink: 1,
                   }}
                 >
                   <img
                     src={employer.colorSrc}
                     alt={employer.name}
                     style={{
-                      height: "100%",
+                      maxHeight: "100%",
+                      width: "auto",
+                      display: "block",
                       objectFit: "contain",
                     }}
                   />
@@ -142,43 +160,43 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               ))}
             </Box>
           </Box>
-        </Box>
 
-        {/* Bottom Section: Description */}
-        <Box
-          sx={{
-            flexGrow: 1,
-            display: "flex",
-            alignItems: "left",
-            flexDirection: "column",
-            gap: 2,
-          }}
-        >
-          <ReactMarkdown
-            components={{
-              p: ({ children }) => (
-                <Typography
-                  variant="body1"
-                  fontSize="1.25rem"
-                  sx={{ color: cp("text.secondary") }}
-                >
-                  {children}
-                </Typography>
-              ),
-              strong: ({ children }) => (
-                <HighlightedText>{children}</HighlightedText>
-              ),
+          {/* DESCRIPTION */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
             }}
           >
-            {projectData.description}
-          </ReactMarkdown>
+            <ReactMarkdown
+              components={{
+                p: ({ children }) => (
+                  <Typography
+                    variant="body1"
+                    fontSize={{ xs: "1rem", md: "1.25rem" }}
+                    sx={{ color: cp("text.secondary"), whiteSpace: "normal" }}
+                  >
+                    {children}
+                  </Typography>
+                ),
+                strong: ({ children }) => (
+                  <HighlightedText>{children}</HighlightedText>
+                ),
+              }}
+            >
+              {projectData.description}
+            </ReactMarkdown>
+          </Box>
         </Box>
-        {/* Skill Images */}
+
+        {/* SKILLS */}
         <Box
           sx={{
             display: "flex",
             flexWrap: "wrap",
             gap: 1.5,
+            mt: "auto",
           }}
         >
           {projectData.skills.map((skill) => (
@@ -190,6 +208,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                flexShrink: 0,
               }}
             >
               <InvertableImage

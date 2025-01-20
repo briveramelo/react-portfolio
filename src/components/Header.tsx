@@ -28,7 +28,9 @@ export function Header({ sectionRefs }: HeaderProps) {
   const [isBackgroundDark, setIsBackgroundDark] = useState<boolean>(false);
 
   const handleNavClick = (sectionId: string) => {
-    const targetSection = sectionRefs.find(ref => ref.current?.id === sectionId);
+    const targetSection = sectionRefs.find(
+      (ref) => ref.current?.id === sectionId,
+    );
     if (targetSection?.current) {
       targetSection.current.scrollIntoView({
         behavior: "smooth",

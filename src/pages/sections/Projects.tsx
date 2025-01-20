@@ -24,7 +24,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
 
     const [detailsHeight, setDetailsHeight] = useState(0);
     const detailsRef = useRef<HTMLDivElement>(null);
-
+    const projectCardsRef = useRef<HTMLDivElement>(null);
 
     const handleCardClick = (project: Project) => {
       setSelectedProject(project);
@@ -53,9 +53,10 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
     }, [isProjectSelected, ref]);
 
     useEffect(() => {
-      const newHeight = isProjectSelected && detailsRef?.current
-        ? detailsRef.current.scrollHeight
-        : 0;
+      const newHeight =
+        isProjectSelected && detailsRef?.current
+          ? detailsRef.current.scrollHeight
+          : 0;
       setDetailsHeight(newHeight);
     }, [isProjectSelected]);
 
@@ -68,7 +69,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
           backgroundColor: backgroundColor,
           color: textColor,
           position: "relative",
-          overflowX: "hidden",
+          overflow: "hidden",
         }}
         ref={ref}
       >
@@ -93,7 +94,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
                 margin: "0 auto",
               }}
             >
-              These projects highlight my technical expertise, innovation,
+              Select a project to explore my technical expertise, innovation,
               impact, and empathy.
             </Typography>
           </Box>
@@ -101,7 +102,6 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
           {/* Selected Project Details */}
           <Box
             maxWidth="lg"
-            ref={detailsRef}
             sx={{
               position: "relative",
               transition: `transform ${slideDurationMs}ms ease-out, opacity 1100ms ease-out, height 800ms ease-out`,
@@ -111,6 +111,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
           >
             {selectedProject && (
               <ProjectDetails
+                ref={detailsRef}
                 project={selectedProject}
                 onClose={handleCloseProjectDetails}
               />
@@ -123,9 +124,12 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
               display: "flex",
               flexDirection: "column",
               gap: 8,
-              maxHeight: isProjectSelected ? 0 : "2000px",
-              transition: `max-height 1000ms ease-out !important`,
+              height: isProjectSelected
+                ? 0
+                : projectCardsRef?.current?.scrollHeight,
+              transition: `height 1000ms ease-out !important`,
             }}
+            ref={projectCardsRef}
           >
             {projectData.map((project, index) => (
               <ProjectCard
@@ -147,8 +151,6 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
             ))}
           </Box>
         </Container>
-
-        {/* Project Details Component */}
       </Box>
     );
   },

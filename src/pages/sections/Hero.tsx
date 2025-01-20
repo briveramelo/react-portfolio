@@ -22,12 +22,12 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     const containerRef = useRef<HTMLDivElement>(null);
 
     useFlareEffect({
-        canvasRef,
-        containerRef,
-        xOffset: -40,
-        yAmpFactor: .65,
-        phaseOffset: Math.PI * 0.5,
-        durationMs: 15000
+      canvasRef,
+      containerRef,
+      xOffset: -40,
+      yAmpFactor: 0.65,
+      phaseOffset: Math.PI * 0.5,
+      durationMs: 15000,
     });
 
     // Track if the animation is halfway done
@@ -238,7 +238,7 @@ Restore 1,000,000 quality-adjusted life years (QALYs) for those with disease and
 As a Type 1 Diabetic, I rely on smart glucose management technology to stay healthy. This inspires me to create similar systems that restore balance and empower others to thrive.
 
 **Curious?**
-Check out my portfolio and see how we can build a healthier world at scale. 
+Peruse the portfolio and see how we might build a healthier world at scale. 
 `}
                 </ReactMarkdown>
               </Box>
