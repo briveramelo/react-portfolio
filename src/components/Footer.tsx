@@ -6,13 +6,13 @@ import { SteamingCoffee } from "./SteamingCoffee";
 interface FooterProps {
   backgroundColor: string;
   textColor: string;
-  heartRef?: React.RefObject<HTMLButtonElement>;
+  heartTriggerRef?: React.RefObject<HTMLButtonElement>;
 }
 
 export const Footer: React.FC<FooterProps> = ({
   backgroundColor,
   textColor,
-  heartRef,
+  heartTriggerRef,
 }) => {
   return (
     <Box
@@ -44,7 +44,7 @@ export const Footer: React.FC<FooterProps> = ({
           <Typography variant="body1" sx={{ mr: 1, color: textColor }}>
             Made with
           </Typography>
-          <BeatingHeart heartRef={heartRef} />
+          <BeatingHeart heartTriggerRef={heartTriggerRef} />
           <Typography variant="body1" sx={{ ml: 1, mr: 2, color: textColor }}>
             and
           </Typography>

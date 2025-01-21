@@ -21,7 +21,7 @@ export function Header({
   const navigationLinks = [
     { href: "#home", label: "Home" },
     { href: "#skills", label: "Skills" },
-    { href: "#work", label: "Projects" },
+    { href: "#projects", label: "Projects" },
     { href: "#testimonials", label: "Testimonials" },
     { href: "#recent", label: "Recent" },
     { href: "#contact", label: "Contact" },

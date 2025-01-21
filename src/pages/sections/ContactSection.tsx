@@ -23,15 +23,11 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
     const confettiRef = useRef<HTMLCanvasElement>(null);
     const [formSubmitted, setFormSubmitted] = useState(false);
     const { width, height } = useWindowSize();
-    const heartRef = useRef<HTMLButtonElement | null>(null);
+    const heartTriggerRef = useRef<HTMLButtonElement | null>(null);
 
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
       event.preventDefault();
       setFormSubmitted(true);
-
-      if (heartRef?.current) {
-        heartRef.current = null;
-      }
 
       // TODO: Add your API logic here
     };
@@ -231,7 +227,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
                 />
 
                 <Button
-                  ref={heartRef}
+                  ref={heartTriggerRef}
                   type="submit"
                   variant="contained"
                   color="primary"
@@ -268,7 +264,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
         <Footer
           backgroundColor={cp("background.default")}
           textColor={cp("text.primary")}
-          heartRef={heartRef}
+          heartTriggerRef={heartTriggerRef}
         />
       </Box>
     );

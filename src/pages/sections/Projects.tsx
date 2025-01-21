@@ -63,7 +63,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
     return (
       <Box
         component="section"
-        id="work"
+        id={id}
         sx={{
           py: 10,
           backgroundColor: backgroundColor,
