@@ -120,6 +120,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
             <Box
               sx={{
                 backgroundColor: cp("background.paper"),
+                color: cp("text.paper"),
                 borderRadius: "16px",
                 p: 4,
                 "&:hover": { transform: "scale(1.02) !important" },
@@ -140,11 +141,25 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
                   type="email"
                   variant="outlined"
                   fullWidth
+                  InputProps={{
+                    inputProps: {
+                      style: {
+                        color: cp("text.paper"),
+                      },
+                    },
+                  }}
                   sx={{
                     backgroundColor: cp("background.paper"),
+                    color: cp("text.paper"),
                     borderRadius: "8px",
                     "& .MuiOutlinedInput-root": {
                       borderRadius: "8px",
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: cp("text.paper"),
+                    },
+                    "& .MuiInputLabel-shrink": {
+                      color: cp("text.paper"),
                     },
                   }}
                 />
@@ -154,11 +169,25 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
                   type="text"
                   variant="outlined"
                   fullWidth
+                  InputProps={{
+                    inputProps: {
+                      style: {
+                        color: cp("text.paper"),
+                      },
+                    },
+                  }}
                   sx={{
                     backgroundColor: cp("background.paper"),
+                    color: cp("text.paper"),
                     borderRadius: "8px",
                     "& .MuiOutlinedInput-root": {
                       borderRadius: "8px",
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: cp("text.paper"),
+                    },
+                    "& .MuiInputLabel-shrink": {
+                      color: cp("text.paper"),
                     },
                   }}
                 />
@@ -176,20 +205,24 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
                         padding: "16px",
                         fontFamily: "inherit",
                         fontSize: "16px",
+                        color: cp("text.paper"),
                       },
                     },
                   }}
                   sx={{
                     backgroundColor: cp("background.paper"),
+                    color: cp("text.paper"),
                     borderRadius: "8px",
                     "& .MuiOutlinedInput-root": {
                       borderRadius: "8px",
                     },
                     "& .MuiInputLabel-root": {
                       transform: "translate(14px, 14px) scale(1)",
+                      color: cp("text.paper"),
                     },
                     "& .MuiInputLabel-shrink": {
                       transform: "translate(14px, -6px) scale(0.75)",
+                      color: cp("text.paper"),
                     },
                     "& textarea": {
                       marginTop: "12px",
