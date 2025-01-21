@@ -81,6 +81,7 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({ starCount }) => {
                   alignItems: "center",
                   width: "100%",
                   height: "100%",
+                  willChange: "transform, opacity",
                 }}
               >
                 {isHalfStar ? (
