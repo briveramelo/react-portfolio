@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import SkillCategoryArc from "./SkillCategoryArc";
+import SkillArc from "./SkillArc.tsx";
 import Skill from "./Skill";
 import { SkillCategoryData } from "../utils/skillsData";
 
@@ -31,7 +31,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
       >
         {category}
       </Typography>
-      <SkillCategoryArc
+      <SkillArc
         key={`${category}-star`}
         starCount={isVisible ? averageStars : 0}
       />

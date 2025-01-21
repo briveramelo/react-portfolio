@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import ExperienceCategoryArc from "./ExperienceCategoryArc";
+import ExperienceArc from "./ExperienceArc.tsx";
 import Experience from "./Experience";
 import { SkillCategoryData } from "../utils/skillsData";
 
@@ -49,7 +49,7 @@ const ExperienceCategory: React.FC<ExperienceCategoryProps> = ({
           mb: 2,
         }}
       >
-        <ExperienceCategoryArc
+        <ExperienceArc
           key={`${category}-exp`}
           years={isVisible ? averageYears : 0}
         />

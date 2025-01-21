@@ -2,26 +2,25 @@ import React from "react";
 import { Box, keyframes } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
-import { animationDurationMs, maxStarCount } from "../utils/constants.ts";
+import { starArcAnimationDurationMs, maxStarCount, starPopAnimationDurationMs } from "../utils/constants.ts";
 import { getAnimatedValue } from "../utils/getAnimatedValue.tsx";
 
 interface SkillCategoryArcProps {
   starCount: number; // Accepts full or half values (e.g. 1, 1.5, 2, 2.5)
 }
 
-const SkillCategoryArc: React.FC<SkillCategoryArcProps> = ({ starCount }) => {
+const SkillArc: React.FC<SkillCategoryArcProps> = ({ starCount }) => {
   const arcSize = 300;
   const radius = arcSize / 2;
   const peakScale = 1.3;
   const starContainerSize = 45;
   const starFontSize = "30px";
-  const animatedStarCount = getAnimatedValue(starCount, animationDurationMs);
+  const animatedStarCount = getAnimatedValue(starCount, starPopAnimationDurationMs);
   const popAnimation = keyframes`
     0% { transform: scale(0); opacity: 0; }
     50% { transform: scale(${peakScale}); opacity: 1; }
     100% { transform: scale(1); }
   `;
-  const popAnimationDurationMs = 600;
 
   // Calculate star positions along an invisible arc
   const getStarPositions = (count: number) => {
@@ -63,7 +62,7 @@ const SkillCategoryArc: React.FC<SkillCategoryArcProps> = ({ starCount }) => {
             <Box
               component="div"
               sx={{
-                animation: `${popAnimation} ${popAnimationDurationMs}ms ease-out`,
+                animation: `${popAnimation} ${starPopAnimationDurationMs}ms ease-out`,
                 animationDelay: `${index * 0.1}s`,
                 animationFillMode: "backwards",
                 display: "flex",
@@ -94,4 +93,4 @@ const SkillCategoryArc: React.FC<SkillCategoryArcProps> = ({ starCount }) => {
   );
 };
 
-export default SkillCategoryArc;
+export default SkillArc;

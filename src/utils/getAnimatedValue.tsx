@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { animationDurationMs } from "./constants";
 
 /**
  * Hook to animate a value from its initial state to a target state.
@@ -9,7 +8,7 @@ import { animationDurationMs } from "./constants";
  */
 export const getAnimatedValue = (
   targetValue: number,
-  durationMs: number = animationDurationMs,
+  durationMs: number,
 ): number => {
   const [currentValue, setCurrentValue] = useState(0);
 

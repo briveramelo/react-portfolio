@@ -4,7 +4,7 @@ import { SkillData } from "../utils/skillsData";
 import InvertableImage from "./InvertableImage";
 import StarRating from "./StarRating";
 import { getAnimatedValue } from "../utils/getAnimatedValue";
-import { animationDurationMs, maxStarCount } from "../utils/constants";
+import { starArcAnimationDurationMs, maxStarCount } from "../utils/constants";
 
 interface SkillProps {
   skill: SkillData;
@@ -14,9 +14,6 @@ interface SkillProps {
 const Skill: React.FC<SkillProps> = ({ skill, useLight }) => {
   const { name, starCount, srcLight, srcDark, invertIfLight } = skill;
   const src = useLight ? srcLight : srcDark;
-  const clampedValue = Math.min(starCount, maxStarCount);
-  const animatedValue = getAnimatedValue(clampedValue, animationDurationMs);
-  const roundedText = Math.round(animatedValue);
   const size = "50px";
 
   return (
@@ -51,7 +48,7 @@ const Skill: React.FC<SkillProps> = ({ skill, useLight }) => {
 
       {/* Star rating */}
       <Grid item sx={{ display: "flex", alignItems: "center" }} xs={3}>
-        <StarRating count={roundedText} />
+        <StarRating count={starCount} />
       </Grid>
     </Grid>
   );

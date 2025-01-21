@@ -10,7 +10,7 @@ import { styled } from "@mui/system";
 import { SkillData } from "../utils/skillsData";
 import { getProgressColor } from "../utils/utils";
 import { getAnimatedValue } from "../utils/getAnimatedValue";
-import { animationDurationMs, maxYearsOfExperience } from "../utils/constants";
+import { starArcAnimationDurationMs, maxYearsOfExperience } from "../utils/constants";
 import InvertableImage from "./InvertableImage";
 
 interface ExperienceProps {
@@ -35,7 +35,7 @@ const Experience: React.FC<ExperienceProps> = ({ skill, useLight }) => {
   const rawValue = years.length;
   const src = useLight ? srcLight : srcDark;
   const clampedValue = Math.min(rawValue, maxYearsOfExperience);
-  const animatedValue = getAnimatedValue(clampedValue, animationDurationMs);
+  const animatedValue = getAnimatedValue(clampedValue, starArcAnimationDurationMs);
   const roundedText = Math.round(animatedValue);
   const size = "50px";
 
@@ -89,7 +89,7 @@ const Experience: React.FC<ExperienceProps> = ({ skill, useLight }) => {
             sx={{
               [`& .${linearProgressClasses.bar}`]: {
                 backgroundColor: getProgressColor(animatedValue, true),
-                transition: `width ${animationDurationMs}ms ease`,
+                transition: `width ${starArcAnimationDurationMs}ms ease`,
               },
             }}
           />
