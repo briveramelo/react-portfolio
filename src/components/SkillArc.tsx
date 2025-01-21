@@ -1,9 +1,14 @@
 import React from "react";
 import { Box, keyframes } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
-import { starArcAnimationDurationMs, maxStarCount, starPopAnimationDurationMs } from "../utils/constants.ts";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import {
+  starArcAnimationDurationMs,
+  maxStarCount,
+  starPopAnimationDurationMs,
+} from "../utils/constants.ts";
 import { getAnimatedValue } from "../utils/getAnimatedValue.tsx";
+import HalfStar from "./HalfStar"; // Import the custom HalfStar component
 
 interface SkillCategoryArcProps {
   starCount: number; // Accepts full or half values (e.g. 1, 1.5, 2, 2.5)
@@ -15,23 +20,28 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({ starCount }) => {
   const peakScale = 1.3;
   const starContainerSize = 45;
   const starFontSize = "30px";
-  const animatedStarCount = getAnimatedValue(starCount, starPopAnimationDurationMs);
+  const animatedStarCount = getAnimatedValue(
+    starCount,
+    starPopAnimationDurationMs,
+  );
+  const gold= "#FFD700";
+  const silver= "#C0C0C0";
+
   const popAnimation = keyframes`
-    0% { transform: scale(0); opacity: 0; }
-    50% { transform: scale(${peakScale}); opacity: 1; }
-    100% { transform: scale(1); }
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(${peakScale}); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
   `;
 
-  // Calculate star positions along an invisible arc
-  const getStarPositions = (count: number) => {
+  // Fixed star positions based on the maximum star count
+  const getStarPositions = () => {
     const positions = [];
     const startAngle = -Math.PI / 2; // Top center
     const totalSpacing = Math.PI / 2; // Half-circle arc
+    const angleStep = maxStarCount > 1 ? totalSpacing / maxStarCount : 0;
+    const angleOffset = ((maxStarCount - 1) * angleStep) / 2; // Centers stars
 
-    const angleStep = count > 1 ? totalSpacing / count : 0;
-    const angleOffset = ((count - 1) * angleStep) / 2; // Centers stars
-
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < maxStarCount; i++) {
       const angle = startAngle - angleOffset + i * angleStep;
       const x = arcSize / 2 + radius * Math.cos(angle);
       const y = arcSize / 2 + radius * Math.sin(angle);
@@ -41,53 +51,57 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({ starCount }) => {
     return positions;
   };
 
-  const halfRoundedStarCount = Math.round(animatedStarCount * 2) / 2;
-  const fullStarCount = Math.floor(halfRoundedStarCount);
-  const hasHalfStar = halfRoundedStarCount % 1 !== 0;
-  const totalStarCount = hasHalfStar ? fullStarCount + 1 : fullStarCount;
-
-  const starPositions = getStarPositions(totalStarCount);
+  const starPositions = getStarPositions();
+  const roundedCount = Math.round(animatedStarCount);
 
   return (
     <Box position="relative">
-      <svg height={100}>
-        {starPositions.map((pos, index) => (
-          <foreignObject
-            key={index}
-            x={pos.x - starContainerSize / 2}
-            y={pos.y - starContainerSize / 2 + 10}
-            width={starContainerSize * peakScale}
-            height={starContainerSize * peakScale}
-          >
-            <Box
-              component="div"
-              sx={{
-                animation: `${popAnimation} ${starPopAnimationDurationMs}ms ease-out`,
-                animationDelay: `${index * 0.1}s`,
-                animationFillMode: "backwards",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%",
-                height: "100%",
-              }}
+      <svg height={90} width={arcSize}>
+        {starPositions.map((pos, index) => {
+          const isGold = index < roundedCount;
+          const isHalfStar =
+            index === Math.floor(animatedStarCount) && starCount % 1 !== 0;
+
+          return (
+            <foreignObject
+              key={index}
+              x={pos.x - starContainerSize / 2}
+              y={pos.y - starContainerSize / 2 + 15}
+              width={starContainerSize * peakScale}
+              height={starContainerSize * peakScale}
             >
-              <FontAwesomeIcon
-                icon={
-                  index < fullStarCount
-                    ? faStar
-                    : hasHalfStar && index === fullStarCount
-                      ? faStarHalfAlt
-                      : faStar
-                }
-                style={{
-                  color: "#FFD700", // Gold color for stars
-                  fontSize: starFontSize,
+              <Box
+                component="div"
+                sx={{
+                  animation: `${popAnimation} ${starPopAnimationDurationMs}ms ease-out`,
+                  animationDelay: `${index * 0.1}s`,
+                  animationFillMode: "backwards",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
+                  height: "100%",
                 }}
-              />
-            </Box>
-          </foreignObject>
-        ))}
+              >
+                {isHalfStar ? (
+                  <HalfStar
+                    leftColor={gold}
+                    rightColor={silver}
+                    size="35px"
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faStar}
+                    style={{
+                      color: isGold ? gold : silver,
+                      fontSize: starFontSize,
+                    }}
+                  />
+                )}
+              </Box>
+            </foreignObject>
+          );
+        })}
       </svg>
     </Box>
   );

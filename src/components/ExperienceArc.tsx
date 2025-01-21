@@ -2,16 +2,17 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import { getProgressColor } from "../utils/utils";
 import { getAnimatedValue } from "../utils/getAnimatedValue";
-import { starArcAnimationDurationMs, maxYearsOfExperience } from "../utils/constants";
+import {
+  starArcAnimationDurationMs,
+  maxYearsOfExperience,
+} from "../utils/constants";
 import { useCustomPalette } from "../theme";
 
 interface ExperienceCategoryArcProps {
   years: number;
 }
 
-const ExperienceArc: React.FC<ExperienceCategoryArcProps> = ({
-  years,
-}) => {
+const ExperienceArc: React.FC<ExperienceCategoryArcProps> = ({ years }) => {
   const { background } = useCustomPalette();
   const size = 120;
   const strokeWidth = 10;
@@ -19,7 +20,10 @@ const ExperienceArc: React.FC<ExperienceCategoryArcProps> = ({
   const circumference = 2 * Math.PI * radius;
 
   const clampedYears = Math.min(years, maxYearsOfExperience);
-  const animatedValue = getAnimatedValue(clampedYears, starArcAnimationDurationMs);
+  const animatedValue = getAnimatedValue(
+    clampedYears,
+    starArcAnimationDurationMs,
+  );
   const currentProgress =
     (animatedValue / maxYearsOfExperience) * (circumference / 2);
 
