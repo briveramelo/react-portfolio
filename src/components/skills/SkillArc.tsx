@@ -6,9 +6,9 @@ import {
   starArcAnimationDurationMs,
   maxStarCount,
   starPopAnimationDurationMs,
-} from "../utils/constants.ts";
-import { getAnimatedValue } from "../utils/getAnimatedValue.tsx";
-import HalfStar from "./HalfStar"; // Import the custom HalfStar component
+} from "../../utils/constants.ts";
+import { getAnimatedValue } from "../../utils/getAnimatedValue.tsx";
+import HalfStar from "./HalfStar.tsx"; // Import the custom HalfStar component
 
 interface SkillCategoryArcProps {
   starCount: number; // Accepts full or half values (e.g. 1, 1.5, 2, 2.5)

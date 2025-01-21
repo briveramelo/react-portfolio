@@ -1,10 +1,10 @@
 import React from "react";
 import { Box, Typography, Grid } from "@mui/material";
-import { SkillData } from "../utils/skillsData";
-import InvertableImage from "./InvertableImage";
-import StarRating from "./StarRating";
-import { getAnimatedValue } from "../utils/getAnimatedValue";
-import { starArcAnimationDurationMs, maxStarCount } from "../utils/constants";
+import { SkillData } from "../../utils/skillsData.ts";
+import InvertableImage from "../InvertableImage.tsx";
+import StarRating from "./StarRating.tsx";
+import { getAnimatedValue } from "../../utils/getAnimatedValue.tsx";
+import { starArcAnimationDurationMs, maxStarCount } from "../../utils/constants.ts";
 
 interface SkillProps {
   skill: SkillData;

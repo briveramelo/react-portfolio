@@ -2,8 +2,8 @@ import React from "react";
 import { Box, keyframes } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { maxStarCount, starPopAnimationDurationMs } from "../utils/constants";
-import { getAnimatedValue } from "../utils/getAnimatedValue";
+import { maxStarCount, starPopAnimationDurationMs } from "../../utils/constants.ts";
+import { getAnimatedValue } from "../../utils/getAnimatedValue.tsx";
 
 interface StarRatingProps {
   count: number; // 1–5

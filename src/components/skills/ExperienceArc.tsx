@@ -1,12 +1,12 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import { getProgressColor } from "../utils/utils";
-import { getAnimatedValue } from "../utils/getAnimatedValue";
+import { getProgressColor } from "../../utils/utils.ts";
+import { getAnimatedValue } from "../../utils/getAnimatedValue.tsx";
 import {
   starArcAnimationDurationMs,
   maxYearsOfExperience,
-} from "../utils/constants";
-import { useCustomPalette } from "../theme";
+} from "../../utils/constants.ts";
+import { useCustomPalette } from "../../theme.tsx";
 
 interface ExperienceCategoryArcProps {
   years: number;

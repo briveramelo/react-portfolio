@@ -6,8 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
 import { skillsData } from "../../utils/skillsData";
 import { ThemeMode, useCustomPalette } from "../../theme";
-import ExperienceCategory from "../../components/ExperienceCategory";
-import SkillCategory from "../../components/SkillCategory";
+import ExperienceCategory from "../../components/skills/ExperienceCategory.tsx";
+import SkillCategory from "../../components/skills/SkillCategory.tsx";
 
 interface SkillsSectionProps {
   backgroundColor: string;

@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import ExperienceArc from "./ExperienceArc.tsx";
-import Experience from "./Experience";
-import { SkillCategoryData } from "../utils/skillsData";
+import Experience from "./Experience.tsx";
+import { SkillCategoryData } from "../../utils/skillsData.ts";
 
 interface ExperienceCategoryProps {
   skillCategory: SkillCategoryData;
