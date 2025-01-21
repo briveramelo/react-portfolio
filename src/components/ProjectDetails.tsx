@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import { Box, Typography, Card, Button } from "@mui/material";
-import { Project } from "../utils/projectData";
+import { Project } from "../data/projectData.ts";
 
 interface ProjectDetailsProps {
   project: Project;

@@ -7,13 +7,13 @@ import {
   linearProgressClasses,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import { SkillData } from "../../utils/skillsData.ts";
+import { SkillData } from "../../data/skillsData.ts";
 import { getProgressColor } from "../../utils/utils.ts";
 import { getAnimatedValue } from "../../utils/getAnimatedValue.tsx";
 import {
   starArcAnimationDurationMs,
   maxYearsOfExperience,
-} from "../../utils/constants.ts";
+} from "../../data/constants.ts";
 import InvertableImage from "../InvertableImage.tsx";
 
 interface ExperienceProps {

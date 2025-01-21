@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import { HighlightedText } from "./HighlightedText";
-import { Project } from "../utils/projectData";
+import { Project } from "../data/projectData.ts";
 import InvertableImage from "./InvertableImage";
 import { cp } from "../utils/utils";
 

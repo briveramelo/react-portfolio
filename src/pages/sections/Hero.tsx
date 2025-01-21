@@ -4,7 +4,7 @@ import brandon from "@/assets/people/brandon.webp";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import { cp } from "../../utils/utils";
-import { useFlareEffect } from "../../components/useFlareEffect.tsx";
+import { useFlareEffect } from "../../utils/useFlareEffect.tsx";
 
 // Define the props for the Hero component
 interface HeroProps {

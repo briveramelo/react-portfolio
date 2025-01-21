@@ -4,7 +4,7 @@ import { faCalendarCheck, faStar } from "@fortawesome/free-solid-svg-icons";
 import BouncingButton from "../../components/BouncingButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
-import { skillsData } from "../../utils/skillsData";
+import { skillsData } from "../../data/skillsData.ts";
 import { ThemeMode, useCustomPalette } from "../../theme";
 import ExperienceCategory from "../../components/skills/ExperienceCategory.tsx";
 import SkillCategory from "../../components/skills/SkillCategory.tsx";

@@ -1,5 +1,5 @@
 import { useEffect, RefObject } from "react";
-import { Flare } from "../utils/Flare";
+import { Flare } from "./Flare.ts";
 
 // Define the props for the hook
 interface UseFlareEffectProps {

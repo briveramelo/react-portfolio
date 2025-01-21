@@ -36,7 +36,7 @@ export interface SkillCategoryData {
 
 export const skillsData: SkillCategoryData[] = [
   {
-    category: "Game Development",
+    category: "|",
     skills: [
       {
         name: "Unity",
@@ -55,7 +55,7 @@ export const skillsData: SkillCategoryData[] = [
     ],
   },
   {
-    category: "Cloud Services",
+    category: "___________________________",
     skills: [
       {
         name: "AWS",

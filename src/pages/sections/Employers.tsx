@@ -2,7 +2,7 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import React, { forwardRef } from "react";
 import remarkBreaks from "remark-breaks";
 import ReactMarkdown from "react-markdown";
-import { featuredEmployerData } from "../../utils/employerData";
+import { featuredEmployerData } from "../../data/employerData.ts";
 
 interface EmployersProps {
   backgroundColor: string;

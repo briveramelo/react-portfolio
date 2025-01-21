@@ -6,7 +6,7 @@ import {
   starArcAnimationDurationMs,
   maxStarCount,
   starPopAnimationDurationMs,
-} from "../../utils/constants.ts";
+} from "../../data/constants.ts";
 import { getAnimatedValue } from "../../utils/getAnimatedValue.tsx";
 import HalfStar from "./HalfStar.tsx"; // Import the custom HalfStar component
 

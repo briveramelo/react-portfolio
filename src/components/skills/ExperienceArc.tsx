@@ -5,7 +5,7 @@ import { getAnimatedValue } from "../../utils/getAnimatedValue.tsx";
 import {
   starArcAnimationDurationMs,
   maxYearsOfExperience,
-} from "../../utils/constants.ts";
+} from "../../data/constants.ts";
 import { useCustomPalette } from "../../theme.tsx";
 
 interface ExperienceCategoryArcProps {

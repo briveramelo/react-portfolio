@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect, useRef, useState } from "react";
 import { Container, Typography, Box } from "@mui/material";
 import { ProjectCard } from "../../components/ProjectCard";
 import { ProjectDetails } from "../../components/ProjectDetails";
-import { Project, projectData } from "../../utils/projectData";
+import { Project, projectData } from "../../data/projectData.ts";
 import { ThemeMode, useCustomPalette } from "../../theme";
 
 interface ProjectsProps {

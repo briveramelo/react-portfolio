@@ -1,8 +1,8 @@
 import joshTilt2 from "@/assets/projects/josh-tilt-2.jpg";
 import abcmouse from "@/assets/projects/abcmouse.jpg";
 import clawface from "@/assets/projects/clawface.jpg";
-import { getSkills, SkillData } from "./skillsData";
-import { Employer, getEmployers } from "./employerData";
+import { getSkills, SkillData } from "./skillsData.ts";
+import { Employer, getEmployers } from "./employerData.ts";
 
 export interface Project {
   title: string;
