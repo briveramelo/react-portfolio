@@ -1,123 +1,39 @@
 import React from "react";
-import {
-  Box,
-  Typography,
-  LinearProgress,
-  Grid,
-  linearProgressClasses,
-} from "@mui/material";
-import { styled } from "@mui/system";
+import { Box, Typography, Grid } from "@mui/material";
 import { SkillData } from "../utils/skillsData";
-import { getProgressColor } from "../utils/utils";
-import { getAnimatedValue } from "../utils/getAnimatedValue";
-import {
-  animationDurationMs,
-  maxSkillLevel,
-  maxYearsOfExperience,
-} from "../utils/constants";
 import InvertableImage from "./InvertableImage";
+import StarRating from "./StarRating";
+import { getAnimatedValue } from "../utils/getAnimatedValue";
+import { animationDurationMs, maxStarCount } from "../utils/constants";
 
 interface SkillProps {
   skill: SkillData;
-  isYearsOfExperience: boolean;
   useLight: boolean;
 }
 
-const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
-  height: 8,
-  borderRadius: 4,
-  [`&.${linearProgressClasses.colorPrimary}`]: {
-    // @ts-ignore
-    backgroundColor: theme.customPalette.background.fillbar,
-  },
-  [`& .${linearProgressClasses.bar}`]: {
-    borderRadius: 4,
-  },
-}));
-
-const Skill: React.FC<SkillProps> = ({
-  skill,
-  isYearsOfExperience,
-  useLight,
-}) => {
-  const { name, stat, srcLight, srcDark, years, invertIfLight } = skill;
-  const rawValue = isYearsOfExperience ? years.length : stat;
+const Skill: React.FC<SkillProps> = ({ skill, useLight }) => {
+  const { name, starCount, srcLight, srcDark, invertIfLight } = skill;
   const src = useLight ? srcLight : srcDark;
-
-  // 1) Clamp the rawValue based on whether it’s years or stat
-  const clampedValue = isYearsOfExperience
-    ? Math.min(rawValue, maxYearsOfExperience)
-    : Math.min(rawValue, maxSkillLevel);
-
-  const denominator = isYearsOfExperience
-    ? maxYearsOfExperience
-    : maxSkillLevel;
+  const clampedValue = Math.min(starCount, maxStarCount);
   const animatedValue = getAnimatedValue(clampedValue, animationDurationMs);
-  const animatedTextValue = getAnimatedValue(rawValue, animationDurationMs);
-  const roundedText = Math.round(animatedTextValue);
+  const roundedText = Math.round(animatedValue);
   const size = "50px";
 
   return (
-    <Grid
-      container
-      spacing={2}
-      alignItems="center"
-      sx={{ mb: 2 }}
-      wrap="nowrap"
-    >
+    <Grid container spacing={2} alignItems="center" sx={{ mb: 2 }} wrap="nowrap">
       {/* Skill icon */}
-      <Grid
-        item
-        sx={{
-          width: size,
-          height: size,
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <Box sx={{ width: size, height: size }}>
-          <InvertableImage
-            src={src}
-            alt={name}
-            invert={useLight && !!invertIfLight}
-          />
-        </Box>
+      <Grid item sx={{ width: size, height: size, display: "flex", justifyContent: "center" }}>
+        <InvertableImage src={src} alt={name} invert={useLight && !!invertIfLight} />
       </Grid>
 
-      {/* Skill name / numeric text / progress bar */}
-      <Grid item xs sx={{ height: size }}>
-        <Box>
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            mb={0.5}
-          >
-            <Typography variant="body1">{name}</Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                color: getProgressColor(animatedValue, isYearsOfExperience),
-              }}
-            >
-              {roundedText}
-              {isYearsOfExperience ? (roundedText == 1 ? " yr" : " yrs") : ""}
-            </Typography>
-          </Box>
-          <ColorfulLinearProgress
-            variant="determinate"
-            value={(animatedValue / denominator) * 100}
-            sx={{
-              [`& .${linearProgressClasses.bar}`]: {
-                backgroundColor: getProgressColor(
-                  animatedValue,
-                  isYearsOfExperience,
-                ),
-                transition: `width ${animationDurationMs}ms ease`,
-              },
-            }}
-          />
-        </Box>
+      {/* Skill name */}
+      <Grid item sx={{ display: "flex", alignItems: "center" }} xs={3.5}>
+        <Typography variant="body1">{name}</Typography>
+      </Grid>
+
+      {/* Star rating */}
+      <Grid item sx={{ display: "flex", alignItems: "center" }} xs={3}>
+        <StarRating count={roundedText} />
       </Grid>
     </Grid>
   );

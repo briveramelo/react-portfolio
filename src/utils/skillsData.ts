@@ -22,7 +22,7 @@ import hipaa from "@/assets/skills/hipaa.svg";
 
 export interface SkillData {
   name: string;
-  stat: number; // 0–100
+  starCount: number; // 1–5
   years: number[]; // include each year (2010, 2011, 2012...)
   srcLight: string; // e.g. 'aws-w.svg', 'unity-w.png'
   srcDark: string; // e.g. 'aws.svg', 'unity.png'
@@ -40,14 +40,14 @@ export const skillsData: SkillCategoryData[] = [
     skills: [
       {
         name: "Unity",
-        stat: 85,
+        starCount: 5,
         years: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2023],
         srcLight: unityW,
         srcDark: unity,
       },
       {
         name: "C#",
-        stat: 90,
+        starCount: 5,
         years: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2023],
         srcLight: csharp,
         srcDark: csharp,
@@ -59,21 +59,21 @@ export const skillsData: SkillCategoryData[] = [
     skills: [
       {
         name: "AWS",
-        stat: 75,
+        starCount: 3,
         years: [2018, 2023, 2024],
         srcLight: awsW,
         srcDark: aws,
       },
       {
         name: "GCP",
-        stat: 80,
+        starCount: 4,
         years: [2024, 2025],
         srcLight: googleCloud,
         srcDark: googleCloud,
       },
       {
         name: "Docker",
-        stat: 85,
+        starCount: 4,
         years: [2020, 2021, 2022, 2023, 2024, 2025],
         srcLight: docker,
         srcDark: docker,
@@ -85,35 +85,35 @@ export const skillsData: SkillCategoryData[] = [
     skills: [
       {
         name: "HTML",
-        stat: 75,
+        starCount: 4,
         years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025],
         srcLight: html5,
         srcDark: html5,
       },
       {
         name: "CSS",
-        stat: 75,
+        starCount: 3,
         years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025],
         srcLight: css3,
         srcDark: css3,
       },
       {
         name: "JS",
-        stat: 85,
+        starCount: 4,
         years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025],
         srcLight: javascript,
         srcDark: javascript,
       },
       {
         name: "React",
-        stat: 75,
+        starCount: 4,
         years: [2024, 2025],
         srcLight: react,
         srcDark: react,
       },
       {
         name: "jQuery",
-        stat: 85,
+        starCount: 4,
         years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025],
         srcLight: jquery,
         srcDark: jquery,
@@ -125,35 +125,35 @@ export const skillsData: SkillCategoryData[] = [
     skills: [
       {
         name: "Java",
-        stat: 85,
+        starCount: 4,
         years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024],
         srcLight: java,
         srcDark: java,
       },
       {
         name: "Python",
-        stat: 80,
+        starCount: 4,
         years: [2024, 2025],
         srcLight: python,
         srcDark: python,
       },
       {
         name: "Go",
-        stat: 65,
+        starCount: 3,
         years: [2024, 2025],
         srcLight: go,
         srcDark: go,
       },
       {
         name: "SQL",
-        stat: 80,
+        starCount: 3,
         years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024],
         srcLight: sql,
         srcDark: sql,
       },
       {
         name: "NoSQL",
-        stat: 90,
+        starCount: 4,
         years: [2024, 2025],
         srcLight: nosql,
         srcDark: nosql,
@@ -165,14 +165,14 @@ export const skillsData: SkillCategoryData[] = [
     skills: [
       {
         name: "C++",
-        stat: 70,
+        starCount: 3,
         years: [2019, 2020, 2021, 2022, 2023, 2024],
         srcLight: cpp,
         srcDark: cpp,
       },
       {
         name: "Bash",
-        stat: 85,
+        starCount: 3,
         years: [2019, 2020, 2021, 2022, 2023, 2024],
         srcLight: bash,
         srcDark: bash,
@@ -180,14 +180,14 @@ export const skillsData: SkillCategoryData[] = [
       },
       {
         name: "DevOps",
-        stat: 80,
+        starCount: 4,
         years: [2019, 2020, 2021, 2022, 2023, 2024],
         srcLight: devops,
         srcDark: devops,
       },
       {
         name: "HIPAA",
-        stat: 90,
+        starCount: 4,
         years: [2019, 2020, 2021, 2022, 2023, 2024, 2025],
         srcLight: hipaa,
         srcDark: hipaa,

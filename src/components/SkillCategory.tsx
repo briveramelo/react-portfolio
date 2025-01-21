@@ -1,9 +1,11 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import SkillsRadialCategoryArc from "./SkillsRadialCategoryArc";
+import ExperienceCategoryArc from "./ExperienceCategoryArc.tsx";
 import Skill from "./Skill";
+import Experience from "./Experience";
 import { SkillCategoryData } from "../utils/skillsData";
 import { cp } from "../utils/utils";
+import SkillCategoryArc from "./SkillCategoryArc.tsx";
 
 interface SkillCategoryProps {
   skillCategory: SkillCategoryData;
@@ -31,11 +33,11 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
       return totalYears / skills.length;
     }
 
-    const totalSkill = skills.reduce(
-      (currentSum, skill) => currentSum + skill.stat,
+    const totalStars = skills.reduce(
+      (currentSum, skill) => currentSum + skill.starCount,
       0,
     );
-    return totalSkill / skills.length;
+    return totalStars / skills.length;
   }, [skills, isYearsOfExperience]);
 
   return (
@@ -70,29 +72,36 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
             justifyContent: "center",
             position: "absolute",
             top: "10px",
-            left: "50%",
-            transform: "translateX(-50%)",
+            left: isYearsOfExperience ? "50%" : "57%",
+            transform: isYearsOfExperience ? "translateX(-50%)" : "translateX(-50%)" ,
           }}
         >
-          <SkillsRadialCategoryArc
-            key={`${category}-${isYearsOfExperience ? "exp" : "stat"}`} // toggling the key unmounts the old, and mounts a new for a fresh animation start at 0
-            value={isVisible ? average : 0}
-            isYearsOfExperience={isYearsOfExperience}
-          />
+          {isYearsOfExperience ? (
+            <ExperienceCategoryArc key={`${category}-exp`} years={isVisible ? average : 0} />
+          ) : (
+            <SkillCategoryArc
+              key={`${category}-star`}
+              starCount={isVisible ? average : 0}
+            />
+          )}
         </Box>
       </Box>
 
       <Box sx={{ pt: "100px" }}>
         {skills.map((skill) => (
-          <Skill
-            key={`${skill.name}-${isYearsOfExperience ? "exp" : "stat"}`} // toggling the key unmounts the old, and mounts a new for a fresh animation start at 0
-            skill={{
-              ...skill,
-              stat: isVisible ? skill.stat : 0,
-            }}
-            isYearsOfExperience={isYearsOfExperience}
-            useLight={useLight}
-          />
+          isYearsOfExperience ? (
+            <Experience
+              key={`${skill.name}-exp`}
+              skill={skill}
+              useLight={useLight}
+            />
+          ) : (
+            <Skill
+              key={`${skill.name}-star`}
+              skill={{ ...skill, starCount: isVisible ? skill.starCount : 0 }}
+              useLight={useLight}
+            />
+          )
         ))}
       </Box>
     </Box>
