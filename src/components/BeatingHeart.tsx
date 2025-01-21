@@ -6,7 +6,9 @@ interface BeatingHeartProps {
   heartTriggerRef?: React.RefObject<HTMLButtonElement>;
 }
 
-export const BeatingHeart: React.FC<BeatingHeartProps> = ({ heartTriggerRef }) => {
+export const BeatingHeart: React.FC<BeatingHeartProps> = ({
+  heartTriggerRef,
+}) => {
   const heartRef = useRef<HTMLDivElement | null>(null);
   const timeoutRef = useRef<number | null>(null);
   const [animationKey, setAnimationKey] = useState(0); // Key to force animation re-trigger
@@ -36,24 +38,27 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({ heartTriggerRef }) =
     }, pauseDurationSec * 1000);
   }, [calculatePauseDuration, startHeartbeat]);
 
-  const addHoverListeners = useCallback((element: HTMLElement | null) => {
-    if (!element) return;
+  const addHoverListeners = useCallback(
+    (element: HTMLElement | null) => {
+      if (!element) return;
 
-    const handleMouseEnter = () => {
-      setIsHovered(true);
-      startHeartbeat();
-    };
+      const handleMouseEnter = () => {
+        setIsHovered(true);
+        startHeartbeat();
+      };
 
-    const handleMouseLeave = () => setIsHovered(false);
+      const handleMouseLeave = () => setIsHovered(false);
 
-    element.addEventListener("mouseenter", handleMouseEnter);
-    element.addEventListener("mouseleave", handleMouseLeave);
+      element.addEventListener("mouseenter", handleMouseEnter);
+      element.addEventListener("mouseleave", handleMouseLeave);
 
-    return () => {
-      element.removeEventListener("mouseenter", handleMouseEnter);
-      element.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, [startHeartbeat]);
+      return () => {
+        element.removeEventListener("mouseenter", handleMouseEnter);
+        element.removeEventListener("mouseleave", handleMouseLeave);
+      };
+    },
+    [startHeartbeat],
+  );
 
   useEffect(() => {
     const removeTriggerListeners = addHoverListeners(heartRef?.current);
@@ -69,7 +74,15 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({ heartTriggerRef }) =
   }, [heartTriggerRef, addHoverListeners]);
 
   return (
-    <Box display="inline-block" style={{ width: "70px", height: "70px", textAlign: "center", position: "relative" }}>
+    <Box
+      display="inline-block"
+      style={{
+        width: "70px",
+        height: "70px",
+        textAlign: "center",
+        position: "relative",
+      }}
+    >
       <Box
         ref={heartRef}
         style={{

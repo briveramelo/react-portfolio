@@ -7,6 +7,7 @@ import {
   starPopAnimationDurationMs,
 } from "../../data/constants.ts";
 import { getAnimatedValue } from "../../utils/getAnimatedValue.tsx";
+import { useCustomPalette } from "../../theme.tsx";
 
 interface StarRatingProps {
   count: number; // 1–5
@@ -14,7 +15,7 @@ interface StarRatingProps {
 
 const StarRating: React.FC<StarRatingProps> = ({ count }) => {
   const animatedStarCount = getAnimatedValue(count, starPopAnimationDurationMs);
-
+  const { skills } = useCustomPalette();
   const popAnimation = keyframes`
       0% { transform: scale(0); opacity: 0; }
       50% { transform: scale(1.3); opacity: 1; }
@@ -41,7 +42,7 @@ const StarRating: React.FC<StarRatingProps> = ({ count }) => {
             <FontAwesomeIcon
               icon={faStar}
               style={{
-                color: isGold ? "#FFD700" : "#C0C0C0", // Immediately assign correct color
+                color: isGold ? skills.star : skills.empty, // Immediately assign correct color
                 marginRight: 4,
               }}
             />

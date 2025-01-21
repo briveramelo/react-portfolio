@@ -9,12 +9,15 @@ import {
 } from "../../data/constants.ts";
 import { getAnimatedValue } from "../../utils/getAnimatedValue.tsx";
 import HalfStar from "./HalfStar.tsx"; // Import the custom HalfStar component
+import { useCustomPalette } from "../../theme.tsx";
 
 interface SkillCategoryArcProps {
   starCount: number; // Accepts full or half values (e.g. 1, 1.5, 2, 2.5)
 }
 
 const SkillArc: React.FC<SkillCategoryArcProps> = ({ starCount }) => {
+  const { skills } = useCustomPalette();
+  const { star, empty } = skills;
   const arcSize = 300;
   const radius = arcSize / 2;
   const peakScale = 1.3;
@@ -24,8 +27,6 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({ starCount }) => {
     starCount,
     starPopAnimationDurationMs,
   );
-  const gold = "#FFD700";
-  const silver = "#C0C0C0";
 
   const popAnimation = keyframes`
       0% { transform: scale(0); opacity: 0; }
@@ -85,12 +86,12 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({ starCount }) => {
                 }}
               >
                 {isHalfStar ? (
-                  <HalfStar leftColor={gold} rightColor={silver} size="35px" />
+                  <HalfStar leftColor={star} rightColor={empty} size="35px" />
                 ) : (
                   <FontAwesomeIcon
                     icon={faStar}
                     style={{
-                      color: isGold ? gold : silver,
+                      color: isGold ? star : empty,
                       fontSize: starFontSize,
                     }}
                   />

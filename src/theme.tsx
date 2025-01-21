@@ -29,7 +29,9 @@ const skills = {
   red: "rgb(227,18,18)",
   orange: "rgb(255, 153, 0)",
   green: "rgb(30,206,30)",
-} as const;
+  star: "#FFD700",
+  empty: "rgb(109,109,109)",
+};
 
 export enum ThemeMode {
   Pop = "Pop",
@@ -43,7 +45,6 @@ export interface CustomPalette {
     default: string;
     paper: string;
     contrast: string;
-    fillbar: string;
   };
   text: {
     primary: string;
@@ -77,7 +78,6 @@ const Pop = createTheme({
       default: "rgb(24, 24, 24)",
       paper: "rgb(245, 245, 240)",
       contrast: "rgb(255, 255, 255)",
-      fillbar: "rgb(224, 224, 224)",
     },
     text: {
       primary: "rgb(255, 255, 255)",
@@ -101,7 +101,10 @@ const Pop = createTheme({
       primary: "rgb(98, 186, 27)",
       secondary: "rgb(18,126,215)",
     },
-    skills,
+    skills: {
+      ...skills,
+      empty: "rgb(60,60,60)",
+    },
   },
   typography,
 });
@@ -113,7 +116,6 @@ const Dark = createTheme({
       default: "rgb(24, 24, 24)",
       paper: "rgb(48, 48, 48)",
       contrast: "rgb(0,19,56)",
-      fillbar: "rgb(224, 224, 224)",
     },
     text: {
       primary: "rgb(255, 255, 255)",
@@ -137,7 +139,10 @@ const Dark = createTheme({
       primary: "rgb(98, 186, 27)",
       secondary: "rgb(18,126,215)",
     },
-    skills,
+    skills: {
+      ...skills,
+      empty: "rgb(60,60,60)",
+    },
   },
   typography,
 });
@@ -149,7 +154,6 @@ const Light = createTheme({
       default: "rgb(255, 255, 255)",
       paper: "rgb(245, 245, 240)",
       contrast: "rgb(245, 245, 240)",
-      fillbar: "rgb(224, 224, 224)",
     },
     text: {
       primary: "rgb(8, 8, 8)",
@@ -173,7 +177,10 @@ const Light = createTheme({
       primary: "rgb(18,126,215)",
       secondary: "rgb(98, 186, 27)",
     },
-    skills,
+    skills: {
+      ...skills,
+      empty: "rgb(218,218,218)",
+    },
   },
   typography,
 });
