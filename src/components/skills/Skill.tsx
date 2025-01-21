@@ -7,9 +7,10 @@ import StarRating from "./StarRating.tsx";
 interface SkillProps {
   skill: SkillData;
   useLight: boolean;
+  isVisible: boolean;
 }
 
-const Skill: React.FC<SkillProps> = ({ skill, useLight }) => {
+const Skill: React.FC<SkillProps> = ({ skill, useLight, isVisible }) => {
   const { name, starCount, srcLight, srcDark, invertIfLight } = skill;
   const src = useLight ? srcLight : srcDark;
   const iconSize = "50px";
@@ -78,7 +79,10 @@ const Skill: React.FC<SkillProps> = ({ skill, useLight }) => {
           flexShrink: 0,
         }}
       >
-        <StarRating count={starCount} />
+        <StarRating
+          key={isVisible ? `${name}-visible` : `${name}-hidden`}
+          count={starCount}
+        />
       </Grid>
     </Grid>
   );

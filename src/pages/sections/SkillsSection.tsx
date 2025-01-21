@@ -63,9 +63,7 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
             }}
           />
           <Typography variant="h6" fontWeight="bold">
-            {isYearsOfExperience
-              ? "See Skill Levels"
-              : "See Experience"}
+            {isYearsOfExperience ? "See Skill Levels" : "See Experience"}
           </Typography>
         </BouncingButton>
         <Grid

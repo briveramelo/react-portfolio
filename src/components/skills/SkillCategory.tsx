@@ -47,7 +47,11 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
         }}
       >
         <SkillArc
-          key={`${category}-star`}
+          key={
+            isVisible
+              ? `${category}-star-arc-visible`
+              : `${category}-star-arc-hidden`
+          }
           starCount={isVisible ? averageStars : 0}
         />
       </Box>
@@ -61,8 +65,9 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
         {skills.map((skill) => (
           <Skill
             key={`${skill.name}-star`}
-            skill={{ ...skill, starCount: isVisible ? skill.starCount : 0 }}
+            skill={skill}
             useLight={useLight}
+            isVisible={isVisible}
           />
         ))}
       </Box>
