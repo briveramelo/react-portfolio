@@ -4,6 +4,7 @@ import { ProjectCard } from "../../components/ProjectCard";
 import { ProjectDetails } from "../../components/ProjectDetails";
 import { Project, projectData } from "../../data/projectData.ts";
 import { ThemeMode, useCustomPalette } from "../../theme";
+import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
 
 interface ProjectsProps {
   backgroundColor: string;
@@ -25,6 +26,37 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
 
     const [detailsHeight, setDetailsHeight] = useState(0);
     const detailsRef = useRef<HTMLDivElement>(null);
+    const sectionRef = ref as React.RefObject<HTMLElement>;
+
+    const isVisibleLead = useIntersectionObserver(sectionRef, {
+      threshold: 0.1,
+    });
+    const [isVisibleLag, setIsVisibleLag] = useState<boolean>(false);
+
+    useEffect(() => {
+      setAnimationComplete(false);
+      setIsVisibleLag(isVisibleLead);
+
+      const timeoutId = setTimeout(() => {
+        setAnimationComplete(true);
+      }, slideDurationMs);
+
+      return () => clearTimeout(timeoutId);
+    }, [isVisibleLead, slideDurationMs]);
+
+    useEffect(() => {
+      if (isProjectSelected && sectionRef.current) {
+        sectionRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    }, [isProjectSelected, sectionRef]);
+
+    useEffect(() => {
+      const newHeight =
+        isProjectSelected && detailsRef.current
+          ? detailsRef.current.scrollHeight
+          : 0;
+      setDetailsHeight(newHeight);
+    }, [isProjectSelected]);
 
     const handleCardClick = (project: Project) => {
       setSelectedProject(project);
@@ -136,7 +168,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
                 useLight={useLight}
                 onClick={() => handleCardClick(project)}
                 targetDestinationX={
-                  isProjectSelected
+                  isProjectSelected || !isVisibleLag
                     ? index % 2 === 0
                       ? "-100vw"
                       : "100vw"

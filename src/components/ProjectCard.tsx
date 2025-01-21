@@ -28,199 +28,246 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   const isOnScreen = targetDestinationX === "0";
   const borderRadius = "8px";
   return (
-    <Card
+    <Box
       onClick={onClick}
-      className="pop-shadow"
       sx={{
-        display: "flex",
-        flexDirection: { xs: "column", md: flipped ? "row-reverse" : "row" },
-        alignItems: "stretch",
-        backgroundColor: cp("background.paper"),
-        borderRadius,
-        "&:hover":
-          isOnScreen && animationComplete
-            ? { transform: "scale(1.02) !important" }
-            : {},
+        position: "relative",
         transition:
           isOnScreen && animationComplete
             ? ""
             : `transform ${slideDurationMs}ms ease-in-out !important`,
         transform: `translateX(${targetDestinationX})`,
-        overflow: "visible",
-        cursor: "pointer",
+        "&:hover": {
+          "& #learn-more-button": {
+            top: "-38px",
+          },
+          "& .pop-shadow": {
+            boxShadow: "var(--shadow-elevation-high) !important",
+            transform: "scale(1.02) !important",
+          },
+        },
       }}
     >
-      {/* IMAGE */}
-      <CardMedia
-        component="img"
-        src={projectData.image}
-        alt={projectData.title}
+      {/* "Learn More" Button */}
+      <Box
+        id="learn-more-button"
         sx={{
-          width: { xs: "100%", md: "50%" },
-          height: "auto",
-          objectFit: "cover",
-          flexShrink: 1,
-          borderRadius: {
-            xs: `${borderRadius} ${borderRadius} 0 0`, // Rounded top corners on small screens
-            md: flipped
-              ? `0 ${borderRadius} ${borderRadius} 0`
-              : `${borderRadius} 0 0 ${borderRadius}`, // Rounded outer corners on large screens
-          },
-        }}
-      />
-
-      {/* TEXT + SKILLS COLUMN */}
-      <CardContent
-        sx={{
+          position: "absolute",
+          top: "-5px",
+          left: flipped ? "2px" : "auto",
+          right: flipped ? "auto" : "2px",
+          zIndex: 1,
           display: "flex",
-          flexDirection: "column",
-          p: 3,
-          gap: 3,
-          flexGrow: 1,
-          overflow: "visible", // So text isn't clipped
+          justifyContent: "flex-start",
+          transition: "top 0.3s ease !important",
         }}
       >
-        {/* MAIN CONTENT AREA */}
         <Box
+          className={"pop-shadow"}
+          component="button"
+          sx={{
+            px: 3,
+            py: 1.5,
+            borderRadius: "8px 8px 0px 0px",
+            fontSize: "0.875rem",
+            fontWeight: "bold",
+            backgroundColor: projectData.color,
+            color: projectData.textColor,
+            border: "none",
+            cursor: "pointer",
+            textTransform: "uppercase",
+          }}
+        >
+          Learn More
+        </Box>
+      </Box>
+
+      <Card
+        className="pop-shadow"
+        sx={{
+          position: "relative",
+          zIndex: 2,
+          display: "flex",
+          flexDirection: { xs: "column", md: flipped ? "row-reverse" : "row" },
+          alignItems: "stretch",
+          backgroundColor: cp("background.paper"),
+          borderRadius,
+          overflow: "visible",
+          cursor: "pointer",
+        }}
+      >
+        {/* IMAGE */}
+        <CardMedia
+          component="img"
+          src={projectData.image}
+          alt={projectData.title}
+          sx={{
+            width: { xs: "100%", md: "50%" },
+            height: "auto",
+            objectFit: "cover",
+            flexShrink: 1,
+            borderRadius: {
+              xs: `${borderRadius} ${borderRadius} 0 0`, // Rounded top corners on small screens
+              md: flipped
+                ? `0 ${borderRadius} ${borderRadius} 0`
+                : `${borderRadius} 0 0 ${borderRadius}`, // Rounded outer corners on large screens
+            },
+          }}
+        />
+
+        {/* TEXT + SKILLS COLUMN */}
+        <CardContent
           sx={{
             display: "flex",
             flexDirection: "column",
-            gap: 2,
+            p: 3,
+            gap: 3,
             flexGrow: 1,
+            overflow: "visible", // So text isn't clipped
           }}
         >
-          {/* Category + Title + Logos */}
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: 2,
-            }}
-          >
-            {/* Category Tag */}
-            <Box
-              sx={{
-                display: "inline-block",
-                px: 2,
-                py: 1,
-                borderRadius: "999px",
-                fontSize: "0.875rem",
-                fontWeight: "bold",
-                backgroundColor: projectData.color,
-                color: projectData.textColor,
-                whiteSpace: "nowrap",
-              }}
-            >
-              {projectData.category}
-            </Box>
-
-            {/* Title */}
-            <Typography
-              variant="h3"
-              sx={{
-                fontWeight: "bold",
-                color: cp("text.secondary"),
-                flexGrow: 1,
-                whiteSpace: { xs: "normal", md: "nowrap" },
-              }}
-            >
-              {projectData.title}
-            </Typography>
-
-            {/* Employer Logos */}
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 1,
-                flexWrap: "wrap",
-              }}
-            >
-              {projectData.employers.map((employer) => (
-                <Box
-                  key={employer.name}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    height: 30,
-                    flexShrink: 1,
-                  }}
-                >
-                  <img
-                    src={employer.colorSrc}
-                    alt={employer.name}
-                    style={{
-                      maxHeight: "100%",
-                      width: "auto",
-                      display: "block",
-                      objectFit: "contain",
-                    }}
-                  />
-                </Box>
-              ))}
-            </Box>
-          </Box>
-
-          {/* DESCRIPTION */}
+          {/* MAIN CONTENT AREA */}
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               gap: 2,
+              flexGrow: 1,
             }}
           >
-            <ReactMarkdown
-              components={{
-                p: ({ children }) => (
-                  <Typography
-                    variant="body1"
-                    fontSize={{ xs: "1rem", md: "1.25rem" }}
-                    sx={{ color: cp("text.secondary"), whiteSpace: "normal" }}
-                  >
-                    {children}
-                  </Typography>
-                ),
-                strong: ({ children }) => (
-                  <HighlightedText>{children}</HighlightedText>
-                ),
-              }}
-            >
-              {projectData.description}
-            </ReactMarkdown>
-          </Box>
-        </Box>
-
-        {/* SKILLS */}
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 1.5,
-            mt: "auto",
-          }}
-        >
-          {projectData.skills.map((skill) => (
+            {/* Category + Title + Logos */}
             <Box
-              key={skill.name}
               sx={{
-                width: "25px",
-                height: "25px",
                 display: "flex",
-                justifyContent: "center",
                 alignItems: "center",
-                flexShrink: 0,
+                flexWrap: "wrap",
+                gap: 2,
               }}
             >
-              <InvertableImage
-                src={useLight ? skill.srcLight : skill.srcDark}
-                alt={skill.name}
-                invert={useLight && !!skill.invertIfLight}
-              />
+              {/* Category Tag */}
+              <Box
+                sx={{
+                  display: "inline-block",
+                  px: 2,
+                  py: 1,
+                  borderRadius: "999px",
+                  fontSize: "0.875rem",
+                  fontWeight: "bold",
+                  backgroundColor: projectData.color,
+                  color: projectData.textColor,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {projectData.category}
+              </Box>
+
+              {/* Title */}
+              <Typography
+                variant="h3"
+                sx={{
+                  fontWeight: "bold",
+                  color: cp("text.secondary"),
+                  flexGrow: 1,
+                  whiteSpace: { xs: "normal", md: "nowrap" },
+                }}
+              >
+                {projectData.title}
+              </Typography>
+
+              {/* Employer Logos */}
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  flexWrap: "wrap",
+                }}
+              >
+                {projectData.employers.map((employer) => (
+                  <Box
+                    key={employer.name}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      height: 30,
+                      flexShrink: 1,
+                    }}
+                  >
+                    <img
+                      src={employer.colorSrc}
+                      alt={employer.name}
+                      style={{
+                        maxHeight: "100%",
+                        width: "auto",
+                        display: "block",
+                        objectFit: "contain",
+                      }}
+                    />
+                  </Box>
+                ))}
+              </Box>
             </Box>
-          ))}
-        </Box>
-      </CardContent>
-    </Card>
+
+            {/* DESCRIPTION */}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+              }}
+            >
+              <ReactMarkdown
+                components={{
+                  p: ({ children }) => (
+                    <Typography
+                      variant="body1"
+                      fontSize={{ xs: "1rem", md: "1.25rem" }}
+                      sx={{ color: cp("text.secondary"), whiteSpace: "normal" }}
+                    >
+                      {children}
+                    </Typography>
+                  ),
+                  strong: ({ children }) => (
+                    <HighlightedText>{children}</HighlightedText>
+                  ),
+                }}
+              >
+                {projectData.description}
+              </ReactMarkdown>
+            </Box>
+          </Box>
+
+          {/* SKILLS */}
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 1.5,
+              mt: "auto",
+            }}
+          >
+            {projectData.skills.map((skill) => (
+              <Box
+                key={skill.name}
+                sx={{
+                  width: "25px",
+                  height: "25px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexShrink: 0,
+                }}
+              >
+                <InvertableImage
+                  src={useLight ? skill.srcLight : skill.srcDark}
+                  alt={skill.name}
+                  invert={useLight && !!skill.invertIfLight}
+                />
+              </Box>
+            ))}
+          </Box>
+        </CardContent>
+      </Card>
+    </Box>
   );
 };

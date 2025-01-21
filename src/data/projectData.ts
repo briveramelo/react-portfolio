@@ -20,7 +20,7 @@ export const projectData: Project[] = [
   {
     title: "Tilt Tracker",
     category: "Health Tech",
-    description: `Tilt Tracker is a groundbreaking, real-time health monitor for all power wheelchair users that **prevents pressure ulcers**.
+    description: `Tilt Tracker is a groundbreaking, real-time health monitor for all power wheelchair users that **prevents pressure ulcers**. The IoT sensor attaches to the wheelchair, sends data to the cloud, reminds users to tilt, and keeps clinical care teams informed.
 
 I developed the **full-stack, HIPAA-compliant** system, piloted with 11 patients, and co-authored studies that highlight its life-changing impact.
 `,

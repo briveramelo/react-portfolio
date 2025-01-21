@@ -1,4 +1,10 @@
-import React, { useState, useRef, MouseEvent, forwardRef } from "react";
+import React, {
+  useState,
+  useRef,
+  MouseEvent,
+  forwardRef,
+  useEffect,
+} from "react";
 import { Container, Typography, Box, Avatar } from "@mui/material";
 import brandon from "@/assets/people/brandon.webp";
 import ReactMarkdown from "react-markdown";
@@ -21,6 +27,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     const startTimeRefMs = useRef<number | null>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+    const [isStarting, setIsStarting] = useState<boolean>(true);
 
     useFlareEffect({
       canvasRef,
@@ -30,6 +37,30 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
       phaseOffset: Math.PI * 0.5,
       durationMs: 15000,
     });
+
+    useEffect(() => {
+      setTargetRotationDeg(180);
+      let timer2: number | undefined = undefined;
+      const timer1 = setTimeout(() => {
+        setInstantFlip(true);
+        setTargetRotationDeg((prev) => (prev === 180 ? -180 : 180));
+
+        // Wait a frame for the above to render with no transition
+        // Then re-enable transitions and smoothly rotate to 0
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            setInstantFlip(false);
+            setTargetRotationDeg(0);
+            timer2 = setTimeout(()=> setIsStarting(false))
+          });
+        });
+      }, transitionDurationMs);
+
+      return () => {
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+      };
+    }, []);
 
     // Track if the animation is halfway done
     const hasTransitionElapsedHalfway = (): boolean => {
@@ -46,12 +77,14 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
 
     // Mouse enters: spin left (-180) or spin right (180)
     const handleMouseEnter = (event: MouseEvent<HTMLDivElement>): void => {
+      if(isStarting) return;
       setTargetRotationDeg(isRight(event) ? -180 : 180);
       startTimeRefMs.current = Date.now();
     };
 
     // Mouse leaves: either rotate back to 0 with or without an instant flip
     const handleMouseLeave = (event: MouseEvent<HTMLDivElement>): void => {
+      if(isStarting) return;
       const leavingRight = isRight(event);
       const shouldInstantFlip =
         hasTransitionElapsedHalfway() &&
