@@ -20,10 +20,28 @@ const Skill: React.FC<SkillProps> = ({ skill, useLight }) => {
   const size = "50px";
 
   return (
-    <Grid container spacing={2} alignItems="center" sx={{ mb: 2 }} wrap="nowrap">
+    <Grid
+      container
+      spacing={2}
+      alignItems="center"
+      sx={{ mb: 2 }}
+      wrap="nowrap"
+    >
       {/* Skill icon */}
-      <Grid item sx={{ width: size, height: size, display: "flex", justifyContent: "center" }}>
-        <InvertableImage src={src} alt={name} invert={useLight && !!invertIfLight} />
+      <Grid
+        item
+        sx={{
+          width: size,
+          height: size,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <InvertableImage
+          src={src}
+          alt={name}
+          invert={useLight && !!invertIfLight}
+        />
       </Grid>
 
       {/* Skill name */}

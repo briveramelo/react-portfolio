@@ -9,7 +9,9 @@ interface ExperienceCategoryArcProps {
   years: number;
 }
 
-const ExperienceCategoryArc: React.FC<ExperienceCategoryArcProps> = ({ years }) => {
+const ExperienceCategoryArc: React.FC<ExperienceCategoryArcProps> = ({
+  years,
+}) => {
   const { background } = useCustomPalette();
   const size = 120;
   const strokeWidth = 10;
@@ -18,7 +20,8 @@ const ExperienceCategoryArc: React.FC<ExperienceCategoryArcProps> = ({ years }) 
 
   const clampedYears = Math.min(years, maxYearsOfExperience);
   const animatedValue = getAnimatedValue(clampedYears, animationDurationMs);
-  const currentProgress = (animatedValue / maxYearsOfExperience) * (circumference / 2);
+  const currentProgress =
+    (animatedValue / maxYearsOfExperience) * (circumference / 2);
 
   return (
     <Box
@@ -69,7 +72,12 @@ const ExperienceCategoryArc: React.FC<ExperienceCategoryArcProps> = ({ years }) 
           color: getProgressColor(animatedValue, true),
         }}
       >
-        <Typography variant="h4" component="span" fontWeight="bold" sx={{ whiteSpace: "nowrap" }}>
+        <Typography
+          variant="h4"
+          component="span"
+          fontWeight="bold"
+          sx={{ whiteSpace: "nowrap" }}
+        >
           {Math.round(animatedValue)} yrs
         </Typography>
       </Box>

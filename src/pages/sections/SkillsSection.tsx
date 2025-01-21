@@ -4,9 +4,10 @@ import { faCalendarCheck, faStar } from "@fortawesome/free-solid-svg-icons";
 import BouncingButton from "../../components/BouncingButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
-import SkillCategory from "../../components/SkillCategory";
 import { skillsData } from "../../utils/skillsData";
 import { ThemeMode, useCustomPalette } from "../../theme";
+import ExperienceCategory from "../../components/ExperienceCategory";
+import SkillCategory from "../../components/SkillCategory";
 
 interface SkillsSectionProps {
   backgroundColor: string;
@@ -19,7 +20,7 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
     const [isYearsOfExperience, setIsYearsOfExperience] =
       useState<boolean>(true);
     const sectionRef = useRef<HTMLDivElement>(null!);
-    const isVisible = useIntersectionObserver(sectionRef, { threshold: 0.275 });
+    const isVisible = useIntersectionObserver(sectionRef, { threshold: 0.1 });
     const { mode } = useCustomPalette();
     const useLight = mode !== ThemeMode.Light;
 
@@ -47,7 +48,7 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
         <BouncingButton
           onClick={toggleStat}
           sx={{
-            mb: 24,
+            mb: 17,
             py: 2,
           }}
           variant="contained"
@@ -70,12 +71,19 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
         <Grid container spacing={9} justifyContent="center" ref={sectionRef}>
           {skillsData.map((category, index) => (
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={index}>
-              <SkillCategory
-                skillCategory={category}
-                isYearsOfExperience={isYearsOfExperience}
-                isVisible={isVisible}
-                useLight={useLight}
-              />
+              {isYearsOfExperience ? (
+                <ExperienceCategory
+                  skillCategory={category}
+                  isVisible={isVisible}
+                  useLight={useLight}
+                />
+              ) : (
+                <SkillCategory
+                  skillCategory={category}
+                  isVisible={isVisible}
+                  useLight={useLight}
+                />
+              )}
             </Grid>
           ))}
         </Grid>
