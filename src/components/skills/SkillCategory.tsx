@@ -24,18 +24,40 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
   }, [skills]);
 
   return (
-    <Box sx={{ mb: 2, position: "relative", textAlign: "center" }}>
+    <Box
+      sx={{
+        mb: 2,
+        position: "relative",
+        textAlign: "center",
+        contentAlign: "center",
+      }}
+    >
       <Typography
         variant="h5"
         sx={{ textTransform: "uppercase", mb: 2, whiteSpace: "nowrap" }}
       >
         {category}
       </Typography>
-      <SkillArc
-        key={`${category}-star`}
-        starCount={isVisible ? averageStars : 0}
-      />
-      <Box sx={{ pt: "0px" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          mb: 2,
+        }}
+      >
+        <SkillArc
+          key={`${category}-star`}
+          starCount={isVisible ? averageStars : 0}
+        />
+      </Box>
+      <Box
+        sx={{
+          justifyContent: "center",
+          alignItems: "center",
+          mb: 2,
+        }}
+      >
         {skills.map((skill) => (
           <Skill
             key={`${skill.name}-star`}

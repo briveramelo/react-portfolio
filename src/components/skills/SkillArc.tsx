@@ -18,14 +18,14 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({ starCount }) => {
   const arcSize = 300;
   const radius = arcSize / 2;
   const peakScale = 1.3;
-  const starContainerSize = 45;
+  const starContainerSize = 45 * peakScale;
   const starFontSize = "30px";
   const animatedStarCount = getAnimatedValue(
     starCount,
     starPopAnimationDurationMs,
   );
-  const gold= "#FFD700";
-  const silver= "#C0C0C0";
+  const gold = "#FFD700";
+  const silver = "#C0C0C0";
 
   const popAnimation = keyframes`
       0% { transform: scale(0); opacity: 0; }
@@ -66,9 +66,9 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({ starCount }) => {
             <foreignObject
               key={index}
               x={pos.x - starContainerSize / 2}
-              y={pos.y - starContainerSize / 2 + 15}
-              width={starContainerSize * peakScale}
-              height={starContainerSize * peakScale}
+              y={pos.y - starContainerSize / 2 + 22.5}
+              width={starContainerSize}
+              height={starContainerSize}
             >
               <Box
                 component="div"
@@ -84,11 +84,7 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({ starCount }) => {
                 }}
               >
                 {isHalfStar ? (
-                  <HalfStar
-                    leftColor={gold}
-                    rightColor={silver}
-                    size="35px"
-                  />
+                  <HalfStar leftColor={gold} rightColor={silver} size="35px" />
                 ) : (
                   <FontAwesomeIcon
                     icon={faStar}

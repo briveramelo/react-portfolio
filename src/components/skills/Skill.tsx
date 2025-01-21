@@ -3,8 +3,6 @@ import { Box, Typography, Grid } from "@mui/material";
 import { SkillData } from "../../data/skillsData.ts";
 import InvertableImage from "../InvertableImage.tsx";
 import StarRating from "./StarRating.tsx";
-import { getAnimatedValue } from "../../utils/getAnimatedValue.tsx";
-import { starArcAnimationDurationMs, maxStarCount } from "../../data/constants.ts";
 
 interface SkillProps {
   skill: SkillData;
@@ -14,24 +12,28 @@ interface SkillProps {
 const Skill: React.FC<SkillProps> = ({ skill, useLight }) => {
   const { name, starCount, srcLight, srcDark, invertIfLight } = skill;
   const src = useLight ? srcLight : srcDark;
-  const size = "50px";
+  const iconSize = "50px";
+  const fixedGap = "20px"; // Fixed space between icon and name
 
   return (
     <Grid
       container
-      spacing={2}
       alignItems="center"
-      sx={{ mb: 2 }}
+      justifyContent="center"
+      sx={{
+        mb: 2,
+        width: "100%",
+      }}
       wrap="nowrap"
     >
-      {/* Skill icon */}
+      {/* Skill Icon - Center Aligned */}
       <Grid
         item
         sx={{
-          width: size,
-          height: size,
-          display: "flex",
-          justifyContent: "center",
+          width: iconSize,
+          height: iconSize,
+          flexShrink: 0,
+          textAlign: "center",
         }}
       >
         <InvertableImage
@@ -41,13 +43,41 @@ const Skill: React.FC<SkillProps> = ({ skill, useLight }) => {
         />
       </Grid>
 
-      {/* Skill name */}
-      <Grid item sx={{ display: "flex", alignItems: "center" }} xs={3.5}>
-        <Typography variant="body1">{name}</Typography>
+      {/* Fixed gap between icon and name */}
+      <Box sx={{ width: fixedGap, flexShrink: 0 }} />
+
+      {/* Skill Name - Left Aligned */}
+      <Grid
+        item
+        sx={{
+          textAlign: "left",
+          flexShrink: 0,
+        }}
+      >
+        <Typography
+          variant="body1"
+          sx={{ whiteSpace: "nowrap", minWidth: "60px" }}
+        >
+          {name}
+        </Typography>
       </Grid>
 
-      {/* Star rating */}
-      <Grid item sx={{ display: "flex", alignItems: "center" }} xs={3}>
+      {/* Flexible space between name and stars */}
+      <Grid
+        item
+        sx={{
+          flexGrow: 1,
+        }}
+      />
+
+      {/* Star Rating - Right Aligned */}
+      <Grid
+        item
+        sx={{
+          textAlign: "right",
+          flexShrink: 0,
+        }}
+      >
         <StarRating count={starCount} />
       </Grid>
     </Grid>

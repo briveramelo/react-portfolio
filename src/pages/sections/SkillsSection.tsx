@@ -33,12 +33,12 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
         component="section"
         id={id}
         sx={{
-          p: 6,
           backgroundColor: backgroundColor,
           color: textColor,
           textAlign: "center",
           pt: 15,
           pb: 20,
+          overflowX: "hidden",
         }}
         ref={ref}
       >
@@ -68,9 +68,16 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
               : "See Years of Experience"}
           </Typography>
         </BouncingButton>
-        <Grid container spacing={9} justifyContent="center" ref={sectionRef}>
+        <Grid
+          container
+          rowSpacing={6}
+          columnSpacing={12}
+          px={9}
+          justifyContent="center"
+          ref={sectionRef}
+        >
           {skillsData.map((category, index) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={index}>
+            <Grid item xs={9} sm={5.5} md={4} lg={3} xl={2.4} key={index}>
               {isYearsOfExperience ? (
                 <ExperienceCategory
                   skillCategory={category}
