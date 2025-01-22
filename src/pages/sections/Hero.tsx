@@ -51,7 +51,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
           requestAnimationFrame(() => {
             setInstantFlip(false);
             setTargetRotationDeg(0);
-            timer2 = setTimeout(()=> setIsStarting(false))
+            timer2 = setTimeout(() => setIsStarting(false));
           });
         });
       }, transitionDurationMs);
@@ -77,14 +77,14 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
 
     // Mouse enters: spin left (-180) or spin right (180)
     const handleMouseEnter = (event: MouseEvent<HTMLDivElement>): void => {
-      if(isStarting) return;
+      if (isStarting) return;
       setTargetRotationDeg(isRight(event) ? -180 : 180);
       startTimeRefMs.current = Date.now();
     };
 
     // Mouse leaves: either rotate back to 0 with or without an instant flip
     const handleMouseLeave = (event: MouseEvent<HTMLDivElement>): void => {
-      if(isStarting) return;
+      if (isStarting) return;
       const leavingRight = isRight(event);
       const shouldInstantFlip =
         hasTransitionElapsedHalfway() &&
