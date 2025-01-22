@@ -16,12 +16,37 @@ if (!sessionStorage.getItem("session_uuid")) {
 const sessionUUID = sessionStorage.getItem("session_uuid") || "unknown";
 const appVersion = import.meta.env.VITE_APP_VERSION || "unknown";
 
+/**
+ * Finds the ID of the closest <section> ancestor or returns "unknown".
+ */
+function getSectionId(el: Element | null): string {
+  if (!el) return "unknown";
+
+  // If `.closest` is supported and available, use it:
+  if (typeof el.closest === "function") {
+    const section = el.closest("section");
+    return section?.id || "unknown";
+  }
+
+  // Fallback for older browsers or any edge cases:
+  let current: Element | null = el;
+  while (current) {
+    if (current.tagName?.toLowerCase() === "section") {
+      return current.id || "unknown";
+    }
+    current = current.parentElement;
+  }
+  return "unknown";
+}
+
 export function getMouseProps(event: React.MouseEvent<HTMLElement> | null) {
-  const target = event?.currentTarget as HTMLElement;
+  const targetElement = event?.currentTarget instanceof Element
+    ? event.currentTarget
+    : null;
   return {
-    parent_section: target?.closest("section")?.id || "unknown",
-    element_tag: target?.tagName.toLowerCase() || "unknown",
-    element_id: target?.id || "unknown",
+    parent_section: getSectionId(targetElement),
+    element_tag: targetElement?.tagName.toLowerCase() || "unknown",
+    element_id: targetElement?.id || "unknown",
     scroll_height: document.documentElement.scrollHeight,
     scroll_position: window.scrollY + window.innerHeight,
     mouse_x: event?.clientX || "",

@@ -1,12 +1,12 @@
-import React from "react";
-import { trackCustomEvent, trackMouseEvent } from "./plausibleSetup";
+import React, { useEffect } from "react";
+import { plausible, trackCustomEvent, trackMouseEvent } from "./plausibleSetup";
 
-let previousURL = window.location.href;
+let previousURL = "";
 const enableCustomAutoPageviews = () => {
   const trackPageView = () => {
     if (window.location.href === previousURL) return;
 
-    trackCustomEvent("pageview", {
+    trackCustomEvent("custom_pageview", {
       page_url: window.location.href,
       referrer: document.referrer || "direct",
       event_version: "0.1.0",
@@ -114,50 +114,75 @@ const enableAutoUTMTracking = () => {
   }
 };
 
-const enableCustomAutoOutboundTracking = () => {
-  function trackOutboundLink(event: Event) {
-    const target = event.target as HTMLElement;
-    if (!(target instanceof HTMLAnchorElement)) return;
-    if (!target.href.startsWith("http") || target.host === location.host)
-      return;
+let observer: MutationObserver;
 
-    trackCustomEvent("outbound_link_click", {
-      link_url: target.href,
-      event_version: "0.1.0",
-    });
+function trackOutboundLink(event: Event) {
+  const target = event.target as HTMLElement;
+  if (!(target instanceof HTMLAnchorElement)) return;
 
-    // Delay navigation to ensure tracking completion
-    setTimeout(() => {
-      window.location.href = target.href;
-    }, 150);
+  // Ensure it's an external link
+  if (!target.href.startsWith("http") || target.host === location.host) return;
 
-    event.preventDefault();
-  }
-
-  // Track clicks on existing links
-  document.querySelectorAll("a").forEach((link) => {
-    if (link.host === location.host) return;
-
-    link.addEventListener("click", trackOutboundLink);
+  trackCustomEvent("outbound_link_click", {
+    link_url: target.href,
+    event_version: "0.1.0",
   });
 
-  // Observe new anchor elements dynamically added
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach(({ addedNodes }) => {
-      addedNodes.forEach((node) => {
-        if (!(node instanceof HTMLAnchorElement)) return;
-        if (node.host === location.host) return;
+  event.preventDefault();
 
-        node.addEventListener("click", trackOutboundLink);
-      });
-    });
+  // Delay navigation to ensure tracking completion
+  setTimeout(() => {
+    window.location.href = target.href;
+  }, 150);
+}
+
+const handleBodyClick = (event: Event) => {
+  const target = event.target as HTMLElement;
+  const link = target.closest("a") as HTMLAnchorElement | null;
+  if (link && link.href && link.host !== location.host) {
+    trackOutboundLink(event);
+  }
+};
+
+const enableCustomAutoOutboundTracking = () => {
+  document.body.addEventListener("click", handleBodyClick);
+
+  observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      for (const node of mutation.addedNodes) {
+        if (node instanceof HTMLAnchorElement && node.host !== location.host) {
+          node.addEventListener("click", trackOutboundLink);
+        }
+      }
+    }
   });
 
   observer.observe(document.body, { childList: true, subtree: true });
 };
 
-enableCustomAutoPageviews();
-enableAutoHashTracking();
-enableAutoUTMTracking();
-enableCustomAutoOutboundTracking();
-document.addEventListener("click", handleAllClicks);
+const disableCustomAutoOutboundTracking = () => {
+  document.body.removeEventListener("click", handleBodyClick);
+  observer?.disconnect();
+};
+
+export const useTracking = () => {
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    plausible.trackPageview();
+    enableCustomAutoPageviews();
+    enableAutoHashTracking();
+    enableAutoUTMTracking();
+    enableCustomAutoOutboundTracking();
+
+    document.addEventListener("click", handleAllClicks);
+
+    const originalPushState = history.pushState;
+
+    return () => {
+      document.removeEventListener("click", handleAllClicks);
+      disableCustomAutoOutboundTracking();
+      history.pushState = originalPushState;
+    };
+  }, []);
+};
