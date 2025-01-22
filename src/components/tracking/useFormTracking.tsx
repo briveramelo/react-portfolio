@@ -25,7 +25,7 @@ export const useFormTracking = (formId: string): UseFormTrackingReturn => {
 
   // Track when form starts (first field interaction)
   const handleFormStart = () => {
-    if (formStartTimeMillis) return
+    if (formStartTimeMillis) return;
 
     setFormStartTimeMillis(Date.now());
     trackCustomEvent("form_start", {

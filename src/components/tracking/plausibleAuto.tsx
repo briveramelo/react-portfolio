@@ -75,7 +75,6 @@ const handleAnchorClicks = (event: Event) => {
   });
 };
 
-
 const handleAllClicks = (event: Event) => {
   // General click tracking
   trackMouseEvent(
@@ -119,7 +118,8 @@ const enableCustomAutoOutboundTracking = () => {
   function trackOutboundLink(event: Event) {
     const target = event.target as HTMLElement;
     if (!(target instanceof HTMLAnchorElement)) return;
-    if (!target.href.startsWith("http") || target.host === location.host) return;
+    if (!target.href.startsWith("http") || target.host === location.host)
+      return;
 
     trackCustomEvent("outbound_link_click", {
       link_url: target.href,
@@ -136,7 +136,7 @@ const enableCustomAutoOutboundTracking = () => {
 
   // Track clicks on existing links
   document.querySelectorAll("a").forEach((link) => {
-    if (link.host === location.host) return
+    if (link.host === location.host) return;
 
     link.addEventListener("click", trackOutboundLink);
   });
@@ -152,7 +152,6 @@ const enableCustomAutoOutboundTracking = () => {
       });
     });
   });
-
 
   observer.observe(document.body, { childList: true, subtree: true });
 };
