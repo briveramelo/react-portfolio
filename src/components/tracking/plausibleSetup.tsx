@@ -16,16 +16,16 @@ if (!sessionStorage.getItem("session_uuid")) {
 const sessionUUID = sessionStorage.getItem("session_uuid") || "unknown";
 const appVersion = import.meta.env.VITE_APP_VERSION || "unknown";
 
-export function getMouseProps(event: React.MouseEvent<HTMLElement>) {
-  const target = event.currentTarget as HTMLElement;
+export function getMouseProps(event: React.MouseEvent<HTMLElement> | null) {
+  const target = event?.currentTarget as HTMLElement;
   return {
-    parent_section: target.closest("section")?.id || "unknown",
-    element_tag: target.tagName.toLowerCase(),
-    element_id: target.id || "unknown",
+    parent_section: target?.closest("section")?.id || "unknown",
+    element_tag: target?.tagName.toLowerCase() || "unknown",
+    element_id: target?.id || "unknown",
     scroll_height: document.documentElement.scrollHeight,
     scroll_position: window.scrollY + window.innerHeight,
-    mouse_x: event.clientX,
-    mouse_y: event.clientY,
+    mouse_x: event?.clientX || "",
+    mouse_y: event?.clientY || "",
   };
 }
 export function getCommonProps() {

@@ -11,6 +11,7 @@ import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import { cp } from "../../utils/utils";
 import { useFlareEffect } from "../../utils/useFlareEffect.tsx";
+import { useHoverTracking } from "../../components/tracking/useHoverTracking.tsx";
 
 // Define the props for the Hero component
 interface HeroProps {
@@ -28,6 +29,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const [isStarting, setIsStarting] = useState<boolean>(true);
+    const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
 
     useFlareEffect({
       canvasRef,
@@ -40,7 +42,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
 
     useEffect(() => {
       setTargetRotationDeg(180);
-      let timer2: number | undefined = undefined;
+      let timer2: any = undefined;
       const timer1 = setTimeout(() => {
         setInstantFlip(true);
         setTargetRotationDeg((prev) => (prev === 180 ? -180 : 180));
@@ -80,6 +82,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
       if (isStarting) return;
       setTargetRotationDeg(isRight(event) ? -180 : 180);
       startTimeRefMs.current = Date.now();
+      trackMouseEnter();
     };
 
     // Mouse leaves: either rotate back to 0 with or without an instant flip
@@ -107,6 +110,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
         setTargetRotationDeg(0);
       }
       startTimeRefMs.current = null; // Reset the start time
+      trackMouseLeave(event);
     };
 
     return (

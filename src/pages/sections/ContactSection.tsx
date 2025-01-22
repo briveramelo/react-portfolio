@@ -11,6 +11,7 @@ import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { Footer } from "../../components/Footer";
 import { cp } from "../../utils/utils";
+import { useFormTracking } from "../../components/tracking/useFormTracking";
 
 interface ContactSectionProps {
   backgroundColor: string;
@@ -20,16 +21,20 @@ interface ContactSectionProps {
 
 export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
   ({ backgroundColor, textColor, id }, ref) => {
+
+    const formID = "contact-form";
     const confettiRef = useRef<HTMLCanvasElement>(null);
     const [formSubmitted, setFormSubmitted] = useState(false);
     const { width, height } = useWindowSize();
     const heartTriggerRef = useRef<HTMLButtonElement | null>(null);
 
-    const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
+    const { trackFieldFocus, trackFieldBlur, trackFormSubmit } = useFormTracking(formID);
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       setFormSubmitted(true);
+      trackFormSubmit(formID);
 
-      // TODO: Add your API logic here
+      //todo: connect to api
     };
 
     return (
@@ -124,7 +129,8 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
               className="pop-shadow"
             >
               <form
-                onSubmit={handleSubmit}
+                onSubmit={onSubmit}
+                id={formID}
                 style={{
                   display: "flex",
                   flexDirection: "column",
@@ -136,6 +142,8 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
                   label="Email"
                   type="email"
                   variant="outlined"
+                  onFocus={() => trackFieldFocus("email")}
+                  onBlur={() => trackFieldBlur("email")}
                   fullWidth
                   InputProps={{
                     inputProps: {
@@ -164,6 +172,8 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
                   label="Subject"
                   type="text"
                   variant="outlined"
+                  onFocus={() => trackFieldFocus("subject")}
+                  onBlur={() => trackFieldBlur("subject")}
                   fullWidth
                   InputProps={{
                     inputProps: {
@@ -191,6 +201,8 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
                   required
                   label="Message"
                   variant="outlined"
+                  onFocus={() => trackFieldFocus("message")}
+                  onBlur={() => trackFieldBlur("message")}
                   fullWidth
                   InputProps={{
                     inputComponent: "textarea",
@@ -268,5 +280,5 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
         />
       </Box>
     );
-  },
+  }
 );
