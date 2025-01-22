@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Button, ButtonProps } from "@mui/material";
-import { useIntersectionObserver } from "../utils/useIntersectionObserver";
+import { useIntersectionObserver } from "../../utils/useIntersectionObserver.tsx";
 
 interface BouncingButtonProps extends ButtonProps {
   onClick: () => void;

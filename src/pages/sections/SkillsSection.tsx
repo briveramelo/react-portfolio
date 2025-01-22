@@ -1,7 +1,7 @@
 import React, { forwardRef, useRef, useState } from "react";
 import { Box, Typography, Grid } from "@mui/material";
 import { faCalendarCheck, faStar } from "@fortawesome/free-solid-svg-icons";
-import BouncingButton from "../../components/BouncingButton";
+import BouncingButton from "../../components/reusable/BouncingButton.tsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
 import { skillsData } from "../../data/skillsData.ts";

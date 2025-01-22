@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography, Grid } from "@mui/material";
 import { SkillData } from "../../data/skillsData.ts";
-import InvertableImage from "../InvertableImage.tsx";
+import InvertableImage from "../reusable/InvertableImage.tsx";
 import StarRating from "./StarRating.tsx";
 
 interface SkillProps {

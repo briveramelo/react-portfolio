@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ThemeMode, useCustomPalette } from "../theme";
+import { ThemeMode, useCustomPalette } from "../../theme.tsx";
 
 interface InvertableFontAwesomeProps {
   icon: any; // Icon object imported from Font Awesome, e.g., `faCalendarCheck`

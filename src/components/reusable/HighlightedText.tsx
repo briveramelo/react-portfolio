@@ -1,5 +1,5 @@
 import React from "react";
-import { useCustomPalette } from "../theme";
+import { useCustomPalette } from "../../theme.tsx";
 
 export const HighlightedText: React.FC<{ children: React.ReactNode }> = ({
   children,
