@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { trackMouseEvent } from "./plausibleSetup";
 
 export const useHoverTracking = () => {
-  const [hoverStartTimeMillis, setHoverStartTimeMillis] = useState<number | null>(null);
+  const [hoverStartTimeMillis, setHoverStartTimeMillis] = useState<
+    number | null
+  >(null);
 
   const trackMouseEnter = () => {
     setHoverStartTimeMillis(Date.now());

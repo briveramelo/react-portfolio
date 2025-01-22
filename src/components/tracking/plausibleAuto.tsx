@@ -4,14 +4,14 @@ import { trackCustomEvent, trackMouseEvent } from "./plausibleSetup";
 let previousURL = window.location.href;
 const enableCustomAutoPageviews = () => {
   const trackPageView = () => {
-    if (window.location.href !== previousURL) {
-      trackCustomEvent("pageview", {
-        page_url: window.location.href,
-        referrer: document.referrer || "direct",
-        event_version: "0.1.0",
-      });
-      previousURL = window.location.href;
-    }
+    if (window.location.href === previousURL) return;
+
+    trackCustomEvent("pageview", {
+      page_url: window.location.href,
+      referrer: document.referrer || "direct",
+      event_version: "0.1.0",
+    });
+    previousURL = window.location.href;
   };
 
   // Listen to history API changes
@@ -61,20 +61,31 @@ const anchorClickEventMap = [
 
 const handleAnchorClicks = (event: Event) => {
   const target = event.target as HTMLElement;
-  if (
-    target.tagName.toLowerCase() === "a" &&
-    target instanceof HTMLAnchorElement
-  ) {
-    anchorClickEventMap.forEach((clickEventData) => {
-      if (clickEventData.isMatch(target)) {
-        trackMouseEvent(
-          event as unknown as React.MouseEvent<HTMLElement>,
-          clickEventData.eventName,
-          clickEventData.getProps(target),
-        );
-      }
-    });
-  }
+  if (!(target instanceof HTMLAnchorElement)) return;
+  if (target.host !== location.host) return;
+
+  anchorClickEventMap.forEach((clickEventData) => {
+    if (!clickEventData.isMatch(target)) return;
+
+    trackMouseEvent(
+      event as unknown as React.MouseEvent<HTMLElement>,
+      clickEventData.eventName,
+      clickEventData.getProps(target),
+    );
+  });
+};
+
+
+const handleAllClicks = (event: Event) => {
+  // General click tracking
+  trackMouseEvent(
+    event as unknown as React.MouseEvent<HTMLElement>,
+    "general_click",
+    {
+      event_version: "0.1.0",
+    },
+  );
+  handleAnchorClicks(event);
 };
 
 let previousHash = window.location.hash;
@@ -106,44 +117,42 @@ const enableAutoUTMTracking = () => {
 
 const enableCustomAutoOutboundTracking = () => {
   function trackOutboundLink(event: Event) {
-    const target = event.target as HTMLAnchorElement;
+    const target = event.target as HTMLElement;
+    if (!(target instanceof HTMLAnchorElement)) return;
+    if (!target.href.startsWith("http") || target.host === location.host) return;
 
-    if (
-      target.tagName.toLowerCase() === "a" &&
-      target.href.startsWith("http") &&
-      target.host !== location.host
-    ) {
-      trackCustomEvent("outbound_link_click", {
-        link_url: target.href,
-        event_version: "0.1.0",
-      });
+    trackCustomEvent("outbound_link_click", {
+      link_url: target.href,
+      event_version: "0.1.0",
+    });
 
-      // Delay navigation to ensure tracking completion
-      setTimeout(() => {
-        window.location.href = target.href;
-      }, 150);
+    // Delay navigation to ensure tracking completion
+    setTimeout(() => {
+      window.location.href = target.href;
+    }, 150);
 
-      event.preventDefault();
-    }
+    event.preventDefault();
   }
 
   // Track clicks on existing links
   document.querySelectorAll("a").forEach((link) => {
-    if (link.host !== location.host) {
-      link.addEventListener("click", trackOutboundLink);
-    }
+    if (link.host === location.host) return
+
+    link.addEventListener("click", trackOutboundLink);
   });
 
   // Observe new anchor elements dynamically added
   const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      mutation.addedNodes.forEach((node) => {
-        if (node instanceof HTMLAnchorElement && node.host !== location.host) {
-          node.addEventListener("click", trackOutboundLink);
-        }
+    mutations.forEach(({ addedNodes }) => {
+      addedNodes.forEach((node) => {
+        if (!(node instanceof HTMLAnchorElement)) return;
+        if (node.host === location.host) return;
+
+        node.addEventListener("click", trackOutboundLink);
       });
     });
   });
+
 
   observer.observe(document.body, { childList: true, subtree: true });
 };
@@ -152,4 +161,4 @@ enableCustomAutoPageviews();
 enableAutoHashTracking();
 enableAutoUTMTracking();
 enableCustomAutoOutboundTracking();
-document.addEventListener("click", handleAnchorClicks);
+document.addEventListener("click", handleAllClicks);

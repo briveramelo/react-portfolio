@@ -21,14 +21,14 @@ interface ContactSectionProps {
 
 export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
   ({ backgroundColor, textColor, id }, ref) => {
-
     const formID = "contact-form";
     const confettiRef = useRef<HTMLCanvasElement>(null);
     const [formSubmitted, setFormSubmitted] = useState(false);
     const { width, height } = useWindowSize();
     const heartTriggerRef = useRef<HTMLButtonElement | null>(null);
 
-    const { trackFieldFocus, trackFieldBlur, trackFormSubmit } = useFormTracking(formID);
+    const { trackFieldFocus, trackFieldBlur, trackFormSubmit } =
+      useFormTracking(formID);
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       setFormSubmitted(true);
@@ -280,5 +280,5 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
         />
       </Box>
     );
-  }
+  },
 );

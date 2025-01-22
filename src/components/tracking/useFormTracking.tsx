@@ -13,24 +13,30 @@ interface UseFormTrackingReturn {
 }
 
 export const useFormTracking = (formId: string): UseFormTrackingReturn => {
-  const [formStartTimeMillis, setFormStartTimeMillis] = useState<number | null>(null);
-  const [fieldStartTimeMillis, setfieldStartTimeMillis] = useState<Record<string, number>>({});
-  const [interactionData, setInteractionData] = useState<Record<string, InteractionData>>({});
+  const [formStartTimeMillis, setFormStartTimeMillis] = useState<number | null>(
+    null,
+  );
+  const [fieldStartTimeMillis, setFieldStartTimeMillis] = useState<
+    Record<string, number>
+  >({});
+  const [interactionData, setInteractionData] = useState<
+    Record<string, InteractionData>
+  >({});
 
   // Track when form starts (first field interaction)
   const handleFormStart = () => {
-    if (!formStartTimeMillis) {
-      setFormStartTimeMillis(Date.now());
-      trackCustomEvent("form_start", {
-        form_id: formId,
-      });
-    }
+    if (formStartTimeMillis) return
+
+    setFormStartTimeMillis(Date.now());
+    trackCustomEvent("form_start", {
+      form_id: formId,
+    });
   };
 
   // Track when a user focuses on a field
   const handleFieldFocus = (fieldName: string) => {
     handleFormStart();
-    setfieldStartTimeMillis((prev) => ({
+    setFieldStartTimeMillis((prev) => ({
       ...prev,
       [fieldName]: Date.now(),
     }));
@@ -38,29 +44,31 @@ export const useFormTracking = (formId: string): UseFormTrackingReturn => {
 
   // Track when a user leaves a field
   const handleFieldBlur = (fieldName: string) => {
-    if (fieldStartTimeMillis[fieldName]) {
-      const timeSpentMs = Date.now() - fieldStartTimeMillis[fieldName];
+    if (!fieldStartTimeMillis[fieldName]) return;
 
-      trackCustomEvent("form_field_interaction", {
-        form_id: formId,
-        field_name: fieldName,
-        interaction_type: "blur",
-        time_spent_ms: timeSpentMs,
-      });
+    const timeSpentMs = Date.now() - fieldStartTimeMillis[fieldName];
 
-      setInteractionData((prev) => ({
-        ...prev,
-        [fieldName]: {
-          total_time_ms: (prev[fieldName]?.total_time_ms || 0) + timeSpentMs,
-          interactions: (prev[fieldName]?.interactions || 0) + 1,
-        },
-      }));
-    }
+    trackCustomEvent("form_field_interaction", {
+      form_id: formId,
+      field_name: fieldName,
+      interaction_type: "blur",
+      time_spent_ms: timeSpentMs,
+    });
+
+    setInteractionData((prev) => ({
+      ...prev,
+      [fieldName]: {
+        total_time_ms: (prev[fieldName]?.total_time_ms || 0) + timeSpentMs,
+        interactions: (prev[fieldName]?.interactions || 0) + 1,
+      },
+    }));
   };
 
   // Track form submission
   const handleFormSubmit = () => {
-    const totalDuration = formStartTimeMillis ? Date.now() - formStartTimeMillis : 0;
+    const totalDuration = formStartTimeMillis
+      ? Date.now() - formStartTimeMillis
+      : 0;
 
     trackCustomEvent("form_submit", {
       form_id: formId,
