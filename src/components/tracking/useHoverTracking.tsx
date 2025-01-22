@@ -2,23 +2,23 @@ import React, { useEffect, useState } from "react";
 import { trackMouseEvent } from "./plausibleSetup";
 
 export const useHoverTracking = () => {
-  const [hoverStartTime, setHoverStartTime] = useState<number | null>(null);
+  const [hoverStartTimeMillis, setHoverStartTimeMillis] = useState<number | null>(null);
 
   const trackMouseEnter = () => {
-    setHoverStartTime(Date.now());
+    setHoverStartTimeMillis(Date.now());
   };
 
   const trackMouseLeave = (event: React.MouseEvent<HTMLElement>) => {
-    if (hoverStartTime !== null) {
-      const dwellTime = Date.now() - hoverStartTime;
-      if (dwellTime >= 400) {
-        trackMouseEvent(event, 'hover', {
-          eventVersion: "0.1.0",
-          hoverDuration: dwellTime,
+    if (hoverStartTimeMillis !== null) {
+      const dwellTimeMs = Date.now() - hoverStartTimeMillis;
+      if (dwellTimeMs >= 400) {
+        trackMouseEvent(event, "hover", {
+          event_version: "0.1.0",
+          hover_duration_ms: dwellTimeMs,
         });
       }
     }
-    setHoverStartTime(null);
+    setHoverStartTimeMillis(null);
   };
 
   // Cleanup in case of unmounting or window changes

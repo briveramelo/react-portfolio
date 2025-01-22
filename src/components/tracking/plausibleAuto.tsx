@@ -8,7 +8,7 @@ const enableCustomAutoPageviews = () => {
       trackCustomEvent("pageview", {
         page_url: window.location.href,
         referrer: document.referrer || "direct",
-        eventVersion: "0.1.0",
+        event_version: "0.1.0",
       });
       previousURL = window.location.href;
     }
@@ -30,23 +30,23 @@ const enableCustomAutoPageviews = () => {
 
 const anchorClickEventMap = [
   {
-    eventName: "email:click",
+    eventName: "email_click",
     isMatch: (target: HTMLAnchorElement) => target.href?.startsWith("mailto:"),
     getProps: (target: HTMLAnchorElement) => ({
       email_address: target.href.replace("mailto:", ""),
-      eventVersion: "0.1.0",
+      event_version: "0.1.0",
     }),
   },
   {
-    eventName: "tel:click",
+    eventName: "tel_click",
     isMatch: (target: HTMLAnchorElement) => target.href?.startsWith("tel:"),
     getProps: (target: HTMLAnchorElement) => ({
       phone_number: target.href.replace("tel:", ""),
-      eventVersion: "0.1.0",
+      event_version: "0.1.0",
     }),
   },
   {
-    eventName: "file-download",
+    eventName: "file_download",
     isMatch: (target: HTMLAnchorElement) =>
       /\.(pdf|docx|doc|xls|xlsx|csv|txt|png|jpg|jpeg|webp|gif|svg|)$/i.test(
         target.href,
@@ -54,7 +54,7 @@ const anchorClickEventMap = [
     getProps: (target: HTMLAnchorElement) => ({
       file_url: target.href,
       file_type: target.href.split(".").pop() || "unknown",
-      eventVersion: "0.1.0",
+      event_version: "0.1.0",
     }),
   },
 ];
@@ -70,9 +70,7 @@ const handleAnchorClicks = (event: Event) => {
         trackMouseEvent(
           event as unknown as React.MouseEvent<HTMLElement>,
           clickEventData.eventName,
-          {
-            ...clickEventData.getProps(target),
-          },
+          clickEventData.getProps(target),
         );
       }
     });
@@ -82,10 +80,10 @@ const handleAnchorClicks = (event: Event) => {
 let previousHash = window.location.hash;
 const enableAutoHashTracking = () => {
   window.addEventListener("hashchange", () => {
-    trackCustomEvent("hashchange", {
+    trackCustomEvent("hash_change", {
       new_hash: window.location.href,
       previous_hash: previousHash,
-      eventVersion: "0.1.0",
+      event_version: "0.1.0",
     });
     previousHash = window.location.hash;
   });
@@ -101,7 +99,7 @@ const enableAutoUTMTracking = () => {
       utm_term: urlParams.get("utm_term") || "unknown",
       utm_content: urlParams.get("utm_content") || "unknown",
       site_search: urlParams.get("q") || "unknown",
-      eventVersion: "0.1.0",
+      event_version: "0.1.0",
     });
   }
 };
@@ -115,9 +113,9 @@ const enableCustomAutoOutboundTracking = () => {
       target.href.startsWith("http") &&
       target.host !== location.host
     ) {
-      trackCustomEvent("outbound-link:click", {
+      trackCustomEvent("outbound_link_click", {
         link_url: target.href,
-        eventVersion: "0.1.0",
+        event_version: "0.1.0",
       });
 
       // Delay navigation to ensure tracking completion
