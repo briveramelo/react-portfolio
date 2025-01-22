@@ -1,0 +1,14 @@
+#!/bin/sh
+echo "Running pre-commit hook: formatting code..."
+
+# Run the formatting script and capture the exit code
+npm run format
+FORMAT_EXIT_CODE=$?
+
+if [ $FORMAT_EXIT_CODE -ne 0 ]; then
+    echo "Formatting failed. Aborting commit."
+    exit 1
+fi
+
+echo "Formatting successful. Proceeding with commit."
+exit 0
