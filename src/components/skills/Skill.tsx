@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Typography, Grid } from "@mui/material";
-import { SkillData } from "../../data/skillsData.ts";
-import InvertableImage from "../reusable/InvertableImage.tsx";
-import StarRating from "./StarRating.tsx";
+import { SkillData } from "../../data/skillsData";
+import InvertableImage from "../reusable/InvertableImage";
+import StarRating from "./StarRating";
 
 interface SkillProps {
   skill: SkillData;

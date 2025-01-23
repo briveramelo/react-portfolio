@@ -1,8 +1,8 @@
 import { HomePage } from "./pages/Home";
-import { useTracking } from "./components/tracking/plausibleAuto";
+import { usePlausibleTracking } from "./components/tracking/usePlausibleTracking";
 
 function App() {
-  useTracking();
+  usePlausibleTracking();
 
   return <HomePage />;
 }

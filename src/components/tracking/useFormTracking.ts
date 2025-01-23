@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { trackCustomEvent } from "./plausibleSetup";
+import { trackCustomEvent } from "./plausibleHelpers";
 
 interface InteractionData {
   total_time_ms: number;

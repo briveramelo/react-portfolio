@@ -1,13 +1,13 @@
 import React, { forwardRef, useRef, useState } from "react";
 import { Box, Typography, Grid } from "@mui/material";
 import { faCalendarCheck, faStar } from "@fortawesome/free-solid-svg-icons";
-import BouncingButton from "../../components/reusable/BouncingButton.tsx";
+import BouncingButton from "../../components/reusable/BouncingButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
-import { skillsData } from "../../data/skillsData.ts";
+import { skillsData } from "../../data/skillsData";
 import { ThemeMode, useCustomPalette } from "../../theme";
-import ExperienceCategory from "../../components/skills/ExperienceCategory.tsx";
-import SkillCategory from "../../components/skills/SkillCategory.tsx";
+import ExperienceCategory from "../../components/skills/ExperienceCategory";
+import SkillCategory from "../../components/skills/SkillCategory";
 
 interface SkillsSectionProps {
   backgroundColor: string;

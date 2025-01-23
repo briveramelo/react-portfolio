@@ -2,12 +2,9 @@ import React from "react";
 import { Box, keyframes } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import {
-  maxStarCount,
-  starPopAnimationDurationMs,
-} from "../../data/constants.ts";
-import { getAnimatedValue } from "../../utils/getAnimatedValue.tsx";
-import { useCustomPalette } from "../../theme.tsx";
+import { maxStarCount, starPopAnimationDurationMs } from "../../data/constants";
+import { getAnimatedValue } from "../../utils/getAnimatedValue";
+import { useCustomPalette } from "../../theme";
 
 interface StarRatingProps {
   count: number; // 1–5

@@ -19,9 +19,9 @@ export function getProgressColor(
   }
 }
 
-export function isColorDark(color) {
+export function isColorDark(color: string) {
   // Helper to convert hex to RGB
-  const hexToRgb = (hex) => {
+  const hexToRgb = (hex: string) => {
     const normalizedHex = hex.replace(/^#/, "");
     const bigint = parseInt(normalizedHex, 16);
     return {
@@ -52,7 +52,7 @@ export function isColorDark(color) {
 }
 
 // Luminance calculation
-function calculateLuminance(r, g, b) {
+function calculateLuminance(r: number, g: number, b: number) {
   const rNorm = r / 255;
   const gNorm = g / 255;
   const bNorm = b / 255;

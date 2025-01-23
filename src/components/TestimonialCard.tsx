@@ -1,6 +1,6 @@
 import { Card, CardContent, Typography, Box, Avatar } from "@mui/material";
 import ReactMarkdown from "react-markdown";
-import { HighlightedText } from "./reusable/HighlightedText.tsx";
+import { HighlightedText } from "./reusable/HighlightedText";
 import { cp } from "../utils/utils";
 
 interface Testimonial {
