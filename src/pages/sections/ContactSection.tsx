@@ -9,9 +9,9 @@ import {
 } from "@mui/material";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
-import { Footer } from "../../components/Footer";
+import { Footer } from "../components/Footer";
 import { cp } from "../../utils/utils";
-import { useFormTracking } from "../../components/tracking/useFormTracking";
+import { useFormTracking } from "../../tracking/useFormTracking";
 
 interface ContactSectionProps {
   backgroundColor: string;

@@ -1,7 +1,7 @@
 import React, { forwardRef, useEffect, useRef, useState } from "react";
 import { Container, Typography, Box } from "@mui/material";
-import { ProjectCard } from "../../components/ProjectCard";
-import { ProjectDetails } from "../../components/ProjectDetails";
+import { ProjectCard } from "../components/ProjectCard";
+import { ProjectDetails } from "../components/ProjectDetails";
 import { Project, projectData } from "../../data/projectData";
 import { ThemeMode, useCustomPalette } from "../../theme";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";

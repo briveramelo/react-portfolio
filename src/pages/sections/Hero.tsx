@@ -11,7 +11,7 @@ import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import { cp } from "../../utils/utils";
 import { useFlareEffect } from "../../utils/useFlareEffect";
-import { useHoverTracking } from "../../components/tracking/useHoverTracking";
+import { useHoverTracking } from "../../tracking/useHoverTracking";
 
 // Define the props for the Hero component
 interface HeroProps {

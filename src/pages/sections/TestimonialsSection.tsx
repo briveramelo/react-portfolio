@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import { Container, Typography, Grid, Box } from "@mui/material";
-import { TestimonialCard } from "../../components/TestimonialCard";
+import { TestimonialCard } from "../components/TestimonialCard";
 import { OpenInNew } from "@mui/icons-material";
 import joshLevenson from "@/assets/people/josh-levenson.jpeg";
 import andy from "@/assets/people/andy.jpeg";
