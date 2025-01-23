@@ -10,7 +10,7 @@ import brandon from "@/assets/people/brandon.webp";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import { cp } from "../../utils/utils";
-import { useFlareEffect } from "../../utils/useFlareEffect";
+import { useFlareEffect } from "../components/specialty/useFlareEffect.ts";
 import { useHoverTracking } from "../../tracking/useHoverTracking";
 
 // Define the props for the Hero component
