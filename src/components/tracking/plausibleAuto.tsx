@@ -195,11 +195,14 @@ const enableCustomAutoOutboundTracking = () => {
 
 const enableScrollTracking = () => {
   const getScrollMilestone = (milestoneStep: number): number => {
-    const scrollPercentage = ((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight) * 100;
+    const scrollPercentage =
+      ((window.scrollY + window.innerHeight) /
+        document.documentElement.scrollHeight) *
+      100;
     return Math.floor(scrollPercentage / milestoneStep) * milestoneStep;
   };
 
-  const milestoneStep = 10;  // Track every 10% increment
+  const milestoneStep = 10; // Track every 10% increment
   let lastTrackedMilestone = getScrollMilestone(milestoneStep);
 
   const trackScroll = () => {
@@ -252,10 +255,10 @@ const enableIdleTracking = () => {
 
 const enableVisibilityStateTracking = () => {
   const trackVisibilityChange = () => {
-      trackCustomEvent("visibility_change", {
-        visibility_state: document.visibilityState,
-        event_version: "0.1.0",
-      });
+    trackCustomEvent("visibility_change", {
+      visibility_state: document.visibilityState,
+      event_version: "0.1.0",
+    });
   };
 
   document.addEventListener("visibilitychange", trackVisibilityChange);
@@ -264,7 +267,6 @@ const enableVisibilityStateTracking = () => {
     document.removeEventListener("visibilitychange", trackVisibilityChange);
   };
 };
-
 
 const enableExitIntentTracking = () => {
   const trackExitIntent = (event: MouseEvent) => {
@@ -282,7 +284,6 @@ const enableExitIntentTracking = () => {
     document.removeEventListener("mouseleave", trackExitIntent);
   };
 };
-
 
 // --- The main hook ---
 export const useTracking = () => {

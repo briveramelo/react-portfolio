@@ -63,7 +63,9 @@ export function getMouseProps(event: React.MouseEvent<HTMLElement> | null) {
 export function getCommonProps() {
   const scrollHeight = document.documentElement.scrollHeight;
   const scrollPosition = window.scrollY + window.innerHeight;
-  const scrollDepthPercentage = ((scrollPosition / scrollHeight) * 100).toFixed(1);
+  const scrollDepthPercentage = ((scrollPosition / scrollHeight) * 100).toFixed(
+    1,
+  );
 
   return {
     session_id: sessionUUID,
