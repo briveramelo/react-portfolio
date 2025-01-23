@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Typography, Box } from "@mui/material";
 import { BeatingHeart } from "./specialty/BeatingHeart.tsx";
 import { SteamingCoffee } from "./specialty/SteamingCoffee.tsx";
-import {useHoverTracking} from "../../tracking/useHoverTracking.ts";
+import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 
 interface FooterProps {
   backgroundColor: string;
@@ -15,9 +15,9 @@ export const Footer: React.FC<FooterProps> = ({
   textColor,
   heartTriggerRef,
 }) => {
-    const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
+  const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
 
-    return (
+  return (
     <Box
       component="footer"
       sx={{
@@ -53,22 +53,24 @@ export const Footer: React.FC<FooterProps> = ({
           </Typography>
           <SteamingCoffee />
         </Box>
-          <Typography variant="body2" sx={{ color: textColor }}>
-              I use{' '}
-              <a
-                  href="https://plausible.io"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: 'inherit', textDecoration: 'underline' }}
-                  id="plausible-analytics-link"
-                  onMouseEnter={trackMouseEnter}
-                  onMouseLeave={trackMouseLeave}
-              >
-                  Plausible Analytics
-              </a>{' - '}
-              no cookies, no personal data, no ad targeting - just privacy-friendly insights.
-          </Typography>
-          <Typography variant="body2" sx={{ color: textColor }}>
+        <Typography variant="body2" sx={{ color: textColor }}>
+          I use{" "}
+          <a
+            href="https://plausible.io"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "inherit", textDecoration: "underline" }}
+            id="plausible-analytics-link"
+            onMouseEnter={trackMouseEnter}
+            onMouseLeave={trackMouseLeave}
+          >
+            Plausible Analytics
+          </a>
+          {" - "}
+          no cookies, no personal data, no ad targeting - just privacy-friendly
+          insights.
+        </Typography>
+        <Typography variant="body2" sx={{ color: textColor }}>
           © {new Date().getFullYear()} Brandon Rivera-Melo
         </Typography>
       </Container>
