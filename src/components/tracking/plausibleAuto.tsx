@@ -78,35 +78,43 @@ const anchorClickEventMap = [
   },
 ];
 
-const handleAnchorClicks = (event: Event): boolean => {
-  const target = event.target as HTMLElement;
-  if (!(target instanceof HTMLAnchorElement)) return false;
-  if (target.host !== location.host) return false;
+const enableClickTracking = () => {
+  const handleAnchorClicks = (event: Event): boolean => {
+    const target = event.target as HTMLElement;
+    if (!(target instanceof HTMLAnchorElement)) return false;
+    if (target.host !== location.host) return false;
 
-  for (const clickEventData of anchorClickEventMap) {
-    if (!clickEventData.isMatch(target)) continue;
+    for (const clickEventData of anchorClickEventMap) {
+      if (!clickEventData.isMatch(target)) continue;
+
+      trackMouseEvent(
+        event as unknown as React.MouseEvent<HTMLElement>,
+        clickEventData.eventName,
+        clickEventData.getProps(target),
+      );
+      return true;
+    }
+
+    return false;
+  };
+
+  const trackAllClicks = (event: Event) => {
+    if (handleAnchorClicks(event)) return;
 
     trackMouseEvent(
       event as unknown as React.MouseEvent<HTMLElement>,
-      clickEventData.eventName,
-      clickEventData.getProps(target),
+      "general_click",
+      {
+        event_version: "0.1.0",
+      },
     );
-    return true;
-  }
+  };
 
-  return false;
-};
+  document.addEventListener("click", trackAllClicks);
 
-const handleAllClicks = (event: Event) => {
-  if (handleAnchorClicks(event)) return;
-
-  trackMouseEvent(
-    event as unknown as React.MouseEvent<HTMLElement>,
-    "general_click",
-    {
-      event_version: "0.1.0",
-    },
-  );
+  return () => {
+    document.removeEventListener("click", trackAllClicks);
+  };
 };
 
 // --- Auto Hash Tracking ---
@@ -291,29 +299,29 @@ export const useTracking = () => {
     if (typeof window === "undefined") return;
 
     plausible.trackPageview();
+    enableAutoUTMTracking(); // no cleanup needed
 
     const disablePageviews = enableCustomAutoPageviews();
     const disableHashTracking = enableAutoHashTracking();
     const disableIdleTracking = enableIdleTracking();
+    const disableClickTracking = enableClickTracking();
     const disableScrollTracking = enableScrollTracking();
-    enableAutoUTMTracking(); // no cleanup needed
     const disableOutboundTracking = enableCustomAutoOutboundTracking();
     const disableExitIntentTracking = enableExitIntentTracking();
     const disableVisibilityStateTracking = enableVisibilityStateTracking();
 
-    document.addEventListener("click", handleAllClicks);
     const originalPushState = history.pushState;
 
     return () => {
       disablePageviews();
       disableHashTracking();
       disableIdleTracking();
+      disableClickTracking();
       disableScrollTracking();
       disableOutboundTracking();
       disableExitIntentTracking();
       disableVisibilityStateTracking();
 
-      document.removeEventListener("click", handleAllClicks);
       history.pushState = originalPushState;
     };
   }, []);
