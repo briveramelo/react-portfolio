@@ -193,6 +193,97 @@ const enableCustomAutoOutboundTracking = () => {
   };
 };
 
+const enableScrollTracking = () => {
+  const getScrollMilestone = (milestoneStep: number): number => {
+    const scrollPercentage = ((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight) * 100;
+    return Math.floor(scrollPercentage / milestoneStep) * milestoneStep;
+  };
+
+  const milestoneStep = 10;  // Track every 10% increment
+  let lastTrackedMilestone = getScrollMilestone(milestoneStep);
+
+  const trackScroll = () => {
+    const currentMilestone = getScrollMilestone(milestoneStep);
+
+    // Only track when the user crosses into a new milestone, in either direction
+    if (currentMilestone !== lastTrackedMilestone) {
+      trackCustomEvent("scroll_milestone", {
+        direction: currentMilestone > lastTrackedMilestone ? "down" : "up",
+        event_version: "0.1.0",
+      });
+
+      lastTrackedMilestone = currentMilestone;
+    }
+  };
+
+  window.addEventListener("scroll", trackScroll);
+
+  return () => {
+    window.removeEventListener("scroll", trackScroll);
+  };
+};
+
+const enableIdleTracking = () => {
+  let idleTimer: any;
+  const idleDurationMs = 30000;
+  const resetIdleTimer = () => {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+      trackCustomEvent("user_idle", {
+        idle_duration_ms: idleDurationMs,
+        event_version: "0.1.0",
+      });
+    }, idleDurationMs);
+  };
+
+  document.addEventListener("mousemove", resetIdleTimer);
+  document.addEventListener("keydown", resetIdleTimer);
+  document.addEventListener("scroll", resetIdleTimer);
+
+  resetIdleTimer();
+
+  return () => {
+    clearTimeout(idleTimer);
+    document.removeEventListener("mousemove", resetIdleTimer);
+    document.removeEventListener("keydown", resetIdleTimer);
+    document.removeEventListener("scroll", resetIdleTimer);
+  };
+};
+
+const enableVisibilityStateTracking = () => {
+  const trackVisibilityChange = () => {
+      trackCustomEvent("visibility_change", {
+        visibility_state: document.visibilityState,
+        event_version: "0.1.0",
+      });
+  };
+
+  document.addEventListener("visibilitychange", trackVisibilityChange);
+
+  return () => {
+    document.removeEventListener("visibilitychange", trackVisibilityChange);
+  };
+};
+
+
+const enableExitIntentTracking = () => {
+  const trackExitIntent = (event: MouseEvent) => {
+    if (event.clientY < 10) {
+      trackCustomEvent("exit_intent", {
+        exit_at: window.location.href,
+        event_version: "0.1.0",
+      });
+    }
+  };
+
+  document.addEventListener("mouseleave", trackExitIntent);
+
+  return () => {
+    document.removeEventListener("mouseleave", trackExitIntent);
+  };
+};
+
+
 // --- The main hook ---
 export const useTracking = () => {
   useEffect(() => {
@@ -202,19 +293,26 @@ export const useTracking = () => {
 
     const disablePageviews = enableCustomAutoPageviews();
     const disableHashTracking = enableAutoHashTracking();
+    const disableIdleTracking = enableIdleTracking();
+    const disableScrollTracking = enableScrollTracking();
     enableAutoUTMTracking(); // no cleanup needed
     const disableOutboundTracking = enableCustomAutoOutboundTracking();
+    const disableExitIntentTracking = enableExitIntentTracking();
+    const disableVisibilityStateTracking = enableVisibilityStateTracking();
 
     document.addEventListener("click", handleAllClicks);
     const originalPushState = history.pushState;
 
     return () => {
-      document.removeEventListener("click", handleAllClicks);
-
       disablePageviews();
       disableHashTracking();
+      disableIdleTracking();
+      disableScrollTracking();
       disableOutboundTracking();
+      disableExitIntentTracking();
+      disableVisibilityStateTracking();
 
+      document.removeEventListener("click", handleAllClicks);
       history.pushState = originalPushState;
     };
   }, []);

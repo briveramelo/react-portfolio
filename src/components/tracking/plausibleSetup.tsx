@@ -16,6 +16,17 @@ if (!sessionStorage.getItem("session_uuid")) {
 const sessionUUID = sessionStorage.getItem("session_uuid") || "unknown";
 const appVersion = import.meta.env.VITE_APP_VERSION || "unknown";
 
+const getSessionStartTime = () => {
+  let startTime = sessionStorage.getItem("session_start_time");
+  if (!startTime) {
+    startTime = Date.now().toString();
+    sessionStorage.setItem("session_start_time", startTime);
+  }
+  return parseInt(startTime, 10);
+};
+
+const sessionStartTime = getSessionStartTime();
+
 /**
  * Finds the ID of the closest <section> ancestor or returns "unknown".
  */
@@ -45,18 +56,24 @@ export function getMouseProps(event: React.MouseEvent<HTMLElement> | null) {
     parent_section: getSectionId(targetElement),
     element_tag: targetElement?.tagName.toLowerCase() || "unknown",
     element_id: targetElement?.id || "unknown",
-    scroll_height: document.documentElement.scrollHeight,
-    scroll_position: window.scrollY + window.innerHeight,
     mouse_x: event?.clientX || "",
     mouse_y: event?.clientY || "",
   };
 }
 export function getCommonProps() {
+  const scrollHeight = document.documentElement.scrollHeight;
+  const scrollPosition = window.scrollY + window.innerHeight;
+  const scrollDepthPercentage = ((scrollPosition / scrollHeight) * 100).toFixed(1);
+
   return {
     session_id: sessionUUID,
     app_version: appVersion,
     timestamp: new Date().toISOString(),
     millis: new Date().getTime(),
+    session_time_ms: Date.now() - sessionStartTime,
+    scroll_height: scrollHeight,
+    scroll_position: scrollPosition,
+    scroll_depth_percentage: scrollDepthPercentage,
   };
 }
 
