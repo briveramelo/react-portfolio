@@ -31,6 +31,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ isBackgroundDark }) => {
   return (
     <Box>
       <IconButton
+        id="theme-switcher"
         onClick={handleClick}
         aria-controls={open ? "theme-menu" : undefined}
         aria-haspopup="true"
@@ -61,6 +62,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ isBackgroundDark }) => {
       >
         {themeImages.map((theme, index) => (
           <MenuItem
+            id={`theme_${theme.name}`}
             key={theme.name}
             onClick={() => handleThemeSelect(index)}
             sx={{ display: "flex", alignItems: "center", gap: 1 }}

@@ -45,6 +45,8 @@ export function Header({
         behavior: "smooth",
         block: "start",
       });
+      if (window.location.hash === href) return;
+
       window.history.pushState(null, "", href);
     }
   };
@@ -87,12 +89,13 @@ export function Header({
     <Box
       ref={headerRef}
       component="header"
+      id="header"
       position="fixed"
       sx={{
         position: "sticky",
         top: 0,
         background: colors.header,
-        zIndex: 9999, //force top
+        zIndex: 3, //force top
         overflow: "hidden", // ensure proper clipping
       }}
     >
@@ -112,6 +115,7 @@ export function Header({
         <Box sx={{ display: "flex", gap: 2 }}>
           {navigationLinks.map((link) => (
             <Button
+              id={link.href}
               key={link.href}
               color="inherit"
               href={link.href}
@@ -134,6 +138,7 @@ export function Header({
         {/* LinkedIn Icon */}
         <IconButton
           component="a"
+          id="brandon-linkedin"
           href="https://www.linkedin.com/in/briveramelo"
           target="_blank"
           rel="noopener noreferrer"

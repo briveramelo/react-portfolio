@@ -23,19 +23,19 @@ const sessionStartTime = getSessionStartTime();
 /**
  * Finds the ID of the closest <section> ancestor or returns "unknown".
  */
-function getSectionId(el: Element | null): string {
+function getParentId(el: Element | null): string {
   if (!el) return "unknown";
 
-  // If `.closest` is supported and available, use it:
   if (typeof el.closest === "function") {
-    const section = el.closest("section");
-    return section?.id || "unknown";
+    const parentElement = el.closest("section, header");
+    return parentElement?.id || "unknown";
   }
 
-  // Fallback for older browsers or any edge cases:
+  // Fallback for older browsers or edge cases:
   let current: Element | null = el;
   while (current) {
-    if (current.tagName?.toLowerCase() === "section") {
+    const tagName = current.tagName?.toLowerCase();
+    if (tagName === "section" || tagName === "header") {
       return current.id || "unknown";
     }
     current = current.parentElement;
@@ -46,7 +46,7 @@ function getSectionId(el: Element | null): string {
 export function getMouseProps(event: React.MouseEvent<HTMLElement> | null) {
   const targetElement = event?.target instanceof Element ? event.target : null;
   return {
-    parent_section: getSectionId(targetElement),
+    parent_id: getParentId(targetElement),
     element_tag: targetElement?.tagName.toLowerCase() || "unknown",
     element_id: targetElement?.id || "unknown",
     mouse_x: event?.clientX || "",
