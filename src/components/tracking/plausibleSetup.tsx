@@ -40,8 +40,7 @@ function getSectionId(el: Element | null): string {
 }
 
 export function getMouseProps(event: React.MouseEvent<HTMLElement> | null) {
-  const targetElement =
-    event?.currentTarget instanceof Element ? event.currentTarget : null;
+  const targetElement = event?.target instanceof Element ? event.target : null;
   return {
     parent_section: getSectionId(targetElement),
     element_tag: targetElement?.tagName.toLowerCase() || "unknown",

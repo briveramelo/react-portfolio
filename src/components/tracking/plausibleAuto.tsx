@@ -2,6 +2,10 @@ import React, { useEffect } from "react";
 import { plausible, trackCustomEvent, trackMouseEvent } from "./plausibleSetup";
 
 let previousURL = "";
+let previousHash = window.location.hash;
+let observer: MutationObserver;
+
+// --- 1. Custom Auto Pageviews ---
 const enableCustomAutoPageviews = () => {
   const trackPageView = () => {
     if (window.location.href === previousURL) return;
@@ -14,20 +18,35 @@ const enableCustomAutoPageviews = () => {
     previousURL = window.location.href;
   };
 
-  // Listen to history API changes
+  // Patch history.pushState
   const originalPushState = history.pushState;
-  history.pushState = function (...args) {
-    originalPushState.apply(this, args);
+  history.pushState = function (
+    this: History,
+    data: any,
+    unused: string,
+    url?: string | URL | null,
+  ) {
+    originalPushState.call(this, data, unused, url);
     trackPageView();
   };
 
+  // Listen for URL changes
   window.addEventListener("popstate", trackPageView);
   window.addEventListener("hashchange", trackPageView);
 
-  // Trigger first page view
+  // Fire an initial pageview
   trackPageView();
+
+  // Return cleanup function
+  return () => {
+    // Restore original pushState
+    history.pushState = originalPushState;
+    window.removeEventListener("popstate", trackPageView);
+    window.removeEventListener("hashchange", trackPageView);
+  };
 };
 
+// --- 2. Anchor click events ---
 const anchorClickEventMap = [
   {
     eventName: "email_click",
@@ -59,24 +78,28 @@ const anchorClickEventMap = [
   },
 ];
 
-const handleAnchorClicks = (event: Event) => {
+const handleAnchorClicks = (event: Event): boolean => {
   const target = event.target as HTMLElement;
-  if (!(target instanceof HTMLAnchorElement)) return;
-  if (target.host !== location.host) return;
+  if (!(target instanceof HTMLAnchorElement)) return false;
+  if (target.host !== location.host) return false;
 
-  anchorClickEventMap.forEach((clickEventData) => {
-    if (!clickEventData.isMatch(target)) return;
+  for (const clickEventData of anchorClickEventMap) {
+    if (!clickEventData.isMatch(target)) continue;
 
     trackMouseEvent(
       event as unknown as React.MouseEvent<HTMLElement>,
       clickEventData.eventName,
       clickEventData.getProps(target),
     );
-  });
+    return true;
+  }
+
+  return false;
 };
 
 const handleAllClicks = (event: Event) => {
-  // General click tracking
+  if (handleAnchorClicks(event)) return;
+
   trackMouseEvent(
     event as unknown as React.MouseEvent<HTMLElement>,
     "general_click",
@@ -84,21 +107,27 @@ const handleAllClicks = (event: Event) => {
       event_version: "0.1.0",
     },
   );
-  handleAnchorClicks(event);
 };
 
-let previousHash = window.location.hash;
+// --- Auto Hash Tracking ---
 const enableAutoHashTracking = () => {
-  window.addEventListener("hashchange", () => {
+  const onHashChange = () => {
     trackCustomEvent("hash_change", {
       new_hash: window.location.href,
       previous_hash: previousHash,
       event_version: "0.1.0",
     });
     previousHash = window.location.hash;
-  });
+  };
+
+  window.addEventListener("hashchange", onHashChange);
+
+  return () => {
+    window.removeEventListener("hashchange", onHashChange);
+  };
 };
 
+// --- Auto UTM Tracking ---
 const enableAutoUTMTracking = () => {
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.has("utm_campaign") || urlParams.has("utm_source")) {
@@ -114,8 +143,7 @@ const enableAutoUTMTracking = () => {
   }
 };
 
-let observer: MutationObserver;
-
+// --- Outbound link tracking ---
 function trackOutboundLink(event: Event) {
   const target = event.target as HTMLElement;
   if (!(target instanceof HTMLAnchorElement)) return;
@@ -158,30 +186,35 @@ const enableCustomAutoOutboundTracking = () => {
   });
 
   observer.observe(document.body, { childList: true, subtree: true });
+
+  return () => {
+    document.body.removeEventListener("click", handleBodyClick);
+    observer?.disconnect();
+  };
 };
 
-const disableCustomAutoOutboundTracking = () => {
-  document.body.removeEventListener("click", handleBodyClick);
-  observer?.disconnect();
-};
-
+// --- The main hook ---
 export const useTracking = () => {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     plausible.trackPageview();
-    enableCustomAutoPageviews();
-    enableAutoHashTracking();
-    enableAutoUTMTracking();
-    enableCustomAutoOutboundTracking();
+
+    const disablePageviews = enableCustomAutoPageviews();
+    const disableHashTracking = enableAutoHashTracking();
+    enableAutoUTMTracking(); // no cleanup needed
+    const disableOutboundTracking = enableCustomAutoOutboundTracking();
 
     document.addEventListener("click", handleAllClicks);
-
     const originalPushState = history.pushState;
 
     return () => {
       document.removeEventListener("click", handleAllClicks);
-      disableCustomAutoOutboundTracking();
+
+      disablePageviews();
+      disableHashTracking();
+      disableOutboundTracking();
+
       history.pushState = originalPushState;
     };
   }, []);
