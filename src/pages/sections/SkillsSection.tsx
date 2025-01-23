@@ -8,6 +8,7 @@ import { skillsData } from "../../data/skillsData";
 import { ThemeMode, useCustomPalette } from "../../theme";
 import ExperienceCategory from "../components/skills/ExperienceCategory";
 import SkillCategory from "../components/skills/SkillCategory";
+import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 
 interface SkillsSectionProps {
   backgroundColor: string;
@@ -27,6 +28,7 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
     const toggleStat = () => {
       setIsYearsOfExperience((prev) => !prev);
     };
+    const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
 
     return (
       <Box
@@ -46,7 +48,10 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
           {isYearsOfExperience ? "Experience" : "Skill Levels"}
         </Typography>
         <BouncingButton
+          id="skill-experience-toggle"
           onClick={toggleStat}
+          onMouseEnter={trackMouseEnter}
+          onMouseLeave={trackMouseLeave}
           sx={{
             mb: 17,
             py: 2,

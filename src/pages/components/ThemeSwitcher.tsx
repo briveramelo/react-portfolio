@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Menu, MenuItem, IconButton, Typography, Box } from "@mui/material";
 import { themeImages } from "../../theme.ts";
 import { ThemeContext } from "../../ThemeContext.tsx";
+import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 
 interface ThemeSwitcherProps {
   isBackgroundDark: boolean;
@@ -13,6 +14,9 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ isBackgroundDark }) => {
   const [currentThemeIndex, setCurrentThemeIndex] = useState(0);
   const open = Boolean(anchorEl);
   const imgSize = 24;
+
+  const selectedHover = useHoverTracking();
+  const menuItemHoverTrackers = themeImages.map((theme) => useHoverTracking());
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -40,6 +44,9 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ isBackgroundDark }) => {
         <img
           src={themeImages[currentThemeIndex].src}
           alt={themeImages[currentThemeIndex].name}
+          id={`theme_selected_${themeImages[currentThemeIndex].name}`}
+          onMouseEnter={selectedHover.trackMouseEnter}
+          onMouseLeave={selectedHover.trackMouseLeave}
           style={{
             width: "auto",
             height: imgSize,
@@ -60,24 +67,31 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ isBackgroundDark }) => {
           },
         }}
       >
-        {themeImages.map((theme, index) => (
-          <MenuItem
-            id={`theme_${theme.name}`}
-            key={theme.name}
-            onClick={() => handleThemeSelect(index)}
-            sx={{ display: "flex", alignItems: "center", gap: 1 }}
-          >
-            <img
-              src={theme.src}
-              alt={theme.name}
-              style={{
-                width: "auto",
-                height: imgSize,
-              }}
-            />
-            <Typography>{theme.name}</Typography>
-          </MenuItem>
-        ))}
+        {themeImages.map((theme, index) => {
+          const { trackMouseEnter, trackMouseLeave } =
+            menuItemHoverTrackers[index];
+          return (
+            <MenuItem
+              id={`theme_menu_item_${theme.name}`}
+              key={theme.name}
+              sx={{ display: "flex", alignItems: "center", gap: 1 }}
+              onClick={() => handleThemeSelect(index)}
+              onMouseEnter={trackMouseEnter}
+              onMouseLeave={trackMouseLeave}
+            >
+              <img
+                id={`theme_menu_item_img_${theme.name}`}
+                src={theme.src}
+                alt={theme.name}
+                style={{
+                  width: "auto",
+                  height: imgSize,
+                }}
+              />
+              <Typography>{theme.name}</Typography>
+            </MenuItem>
+          );
+        })}
       </Menu>
     </Box>
   );

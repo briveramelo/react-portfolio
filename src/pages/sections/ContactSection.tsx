@@ -12,6 +12,7 @@ import { useWindowSize } from "react-use";
 import { Footer } from "../components/Footer";
 import { cp } from "../../utils/utils";
 import { useFormTracking } from "../../tracking/useFormTracking";
+import { useHoverTracking } from "../../tracking/useHoverTracking";
 
 interface ContactSectionProps {
   backgroundColor: string;
@@ -29,6 +30,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
 
     const { trackFieldFocus, trackFieldBlur, trackFormSubmit } =
       useFormTracking(formID);
+    const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       setFormSubmitted(true);
@@ -124,9 +126,8 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
                 color: cp("text.paper"),
                 borderRadius: "16px",
                 p: 4,
-                "&:hover": { transform: "scale(1.02) !important" },
               }}
-              className="pop-shadow"
+              className="subtle-shadow"
             >
               <form
                 onSubmit={onSubmit}
@@ -141,6 +142,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
                   required
                   label="Email"
                   type="email"
+                  id="contact-email"
                   variant="outlined"
                   onFocus={() => trackFieldFocus("email")}
                   onBlur={() => trackFieldBlur("email")}
@@ -172,6 +174,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
                   label="Subject"
                   type="text"
                   variant="outlined"
+                  id="contact-subject"
                   onFocus={() => trackFieldFocus("subject")}
                   onBlur={() => trackFieldBlur("subject")}
                   fullWidth
@@ -201,6 +204,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
                   required
                   label="Message"
                   variant="outlined"
+                  id="contact-message"
                   onFocus={() => trackFieldFocus("message")}
                   onBlur={() => trackFieldBlur("message")}
                   fullWidth
@@ -239,6 +243,9 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
                 />
 
                 <Button
+                  id="contact-send"
+                  onMouseEnter={trackMouseEnter}
+                  onMouseLeave={trackMouseLeave}
                   ref={heartTriggerRef}
                   type="submit"
                   variant="contained"

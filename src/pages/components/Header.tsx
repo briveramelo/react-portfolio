@@ -4,6 +4,8 @@ import { LinkedIn } from "@mui/icons-material";
 import ThemeSwitcher from "./ThemeSwitcher.tsx";
 import { ThemeContext } from "../../ThemeContext.tsx";
 import { isColorDark } from "../../utils/utils.ts";
+import { themeImages } from "../../theme.ts";
+import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 
 interface HeaderProps {
   sectionRefs: React.RefObject<HTMLElement>[];
@@ -26,6 +28,8 @@ export function Header({
     { href: "#recent", label: "Recent" },
     { href: "#contact", label: "Contact" },
   ];
+  const navHoverTrackers = navigationLinks.map((nav) => useHoverTracking());
+  const linkedinHover = useHoverTracking();
 
   const headerRef = useRef<HTMLElement | null>(null);
   const [colors, setColors] = useState({
@@ -95,7 +99,7 @@ export function Header({
         position: "sticky",
         top: 0,
         background: colors.header,
-        zIndex: 3, //force top
+        zIndex: 9999, //force top
         overflow: "hidden", // ensure proper clipping
       }}
     >
@@ -113,32 +117,40 @@ export function Header({
       >
         {/* Navigation Links */}
         <Box sx={{ display: "flex", gap: 2 }}>
-          {navigationLinks.map((link) => (
-            <Button
-              id={link.href}
-              key={link.href}
-              color="inherit"
-              href={link.href}
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavClick(link.href);
-              }}
-              sx={{
-                textTransform: "none",
-                fontWeight: "bold",
-                color: colors.text,
-                "&:hover": { opacity: 0.8 },
-              }}
-            >
-              {link.label}
-            </Button>
-          ))}
+          {navigationLinks.map((link, index) => {
+            const { trackMouseEnter, trackMouseLeave } =
+              navHoverTrackers[index];
+            return (
+              <Button
+                id={link.href}
+                key={link.href}
+                color="inherit"
+                href={link.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(link.href);
+                }}
+                onMouseEnter={trackMouseEnter}
+                onMouseLeave={trackMouseLeave}
+                sx={{
+                  textTransform: "none",
+                  fontWeight: "bold",
+                  color: colors.text,
+                  "&:hover": { opacity: 0.8 },
+                }}
+              >
+                {link.label}
+              </Button>
+            );
+          })}
         </Box>
 
         {/* LinkedIn Icon */}
         <IconButton
           component="a"
           id="brandon-linkedin"
+          onMouseEnter={linkedinHover.trackMouseEnter}
+          onMouseLeave={linkedinHover.trackMouseLeave}
           href="https://www.linkedin.com/in/briveramelo"
           target="_blank"
           rel="noopener noreferrer"

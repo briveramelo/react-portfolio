@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
 import { cp } from "../../utils/utils.ts";
+import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 
 interface Project {
   title: string;
@@ -10,6 +11,8 @@ interface Project {
 }
 
 export function RecentProjectCard({ project }: { project: Project }) {
+  const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
+
   return (
     <Card
       sx={{
@@ -21,6 +24,9 @@ export function RecentProjectCard({ project }: { project: Project }) {
         overflow: "hidden",
       }}
       className="pop-shadow"
+      id={`recent_card_${project.title}`}
+      onMouseEnter={trackMouseEnter}
+      onMouseLeave={trackMouseLeave}
     >
       <CardMedia
         component="img"

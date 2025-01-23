@@ -5,6 +5,7 @@ import { HighlightedText } from "./reusable/HighlightedText.tsx";
 import { Project } from "../../data/projectData.ts";
 import InvertableImage from "./reusable/InvertableImage.tsx";
 import { cp } from "../../utils/utils.ts";
+import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 
 interface ProjectCardProps {
   projectData: Project;
@@ -27,9 +28,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   const isOnScreen = targetDestinationX === "0";
   const borderRadius = "8px";
+  const cardHover = useHoverTracking();
+  const learnMoreHover = useHoverTracking();
+
   return (
     <Box
-      onClick={onClick}
+      onMouseEnter={cardHover.trackMouseEnter}
+      onMouseLeave={cardHover.trackMouseLeave}
+      id={`project_card_${projectData.title}`}
       sx={{
         position: "relative",
         transition:
@@ -38,19 +44,15 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             : `transform ${slideDurationMs}ms ease-in-out !important`,
         transform: `translateX(${targetDestinationX})`,
         "&:hover": {
-          "& #learn-more-button": {
+          "& #learn_more_slide_target": {
             top: "-38px",
-          },
-          "& .pop-shadow": {
-            boxShadow: "var(--shadow-elevation-high) !important",
-            transform: "scale(1.02) !important",
           },
         },
       }}
     >
       {/* "Learn More" Button */}
       <Box
-        id="learn-more-button"
+        id="learn_more_slide_target"
         sx={{
           position: "absolute",
           top: "-5px",
@@ -63,8 +65,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         }}
       >
         <Box
+          id={`project_learn_more_${projectData.title}`}
           className={"pop-shadow"}
           component="button"
+          onClick={onClick}
+          onMouseEnter={learnMoreHover.trackMouseEnter}
+          onMouseLeave={learnMoreHover.trackMouseLeave}
           sx={{
             px: 3,
             py: 1.5,
@@ -83,7 +89,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       </Box>
 
       <Card
-        className="pop-shadow"
         sx={{
           position: "relative",
           zIndex: 2,
@@ -93,8 +98,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           backgroundColor: cp("background.paper"),
           borderRadius,
           overflow: "visible",
-          cursor: "pointer",
         }}
+        className="subtle-shadow"
       >
         {/* IMAGE */}
         <CardMedia
@@ -259,6 +264,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 }}
               >
                 <InvertableImage
+                  id={`${projectData.title}_skills_${skill.name}`}
                   src={useLight ? skill.srcLight : skill.srcDark}
                   alt={skill.name}
                   invert={useLight && !!skill.invertIfLight}

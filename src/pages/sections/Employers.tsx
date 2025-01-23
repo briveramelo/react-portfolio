@@ -3,6 +3,7 @@ import React, { forwardRef } from "react";
 import remarkBreaks from "remark-breaks";
 import ReactMarkdown from "react-markdown";
 import { featuredEmployerData } from "../../data/employerData";
+import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 
 interface EmployersProps {
   backgroundColor: string;
@@ -13,10 +14,15 @@ interface EmployersProps {
 
 export const Employers = forwardRef<HTMLElement, EmployersProps>(
   ({ backgroundColor, textColor, useDarkImages, id }, ref) => {
+    const sectionHover = useHoverTracking();
+    const employerHover = useHoverTracking();
+
     return (
       <Box
         component="section"
         id={id}
+        onMouseEnter={sectionHover.trackMouseEnter}
+        onMouseLeave={sectionHover.trackMouseLeave}
         sx={{
           py: 5,
           backgroundColor: backgroundColor,
@@ -55,6 +61,9 @@ export const Employers = forwardRef<HTMLElement, EmployersProps>(
             {featuredEmployerData.map((company, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
                 <Box
+                  id={`company_${company.name}`}
+                  onMouseEnter={employerHover.trackMouseEnter}
+                  onMouseLeave={employerHover.trackMouseLeave}
                   sx={{
                     position: "relative",
                     display: "flex",

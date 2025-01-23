@@ -2,8 +2,11 @@ import React, { useRef, useEffect } from "react";
 import { Box } from "@mui/material";
 import coffee from "@/assets/coffee.png";
 import { ThemeMode, useCustomPalette } from "../../../theme.ts";
+import { useHoverTracking } from "../../../tracking/useHoverTracking.ts";
 
 export function SteamingCoffee() {
+  const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
+
   // Create refs for the steam puffs
   const steamRefs = [
     useRef<HTMLDivElement>(null!),
@@ -98,8 +101,11 @@ export function SteamingCoffee() {
         zIndex: 1,
         marginTop: "-40px",
       }}
+      id="steaming-coffee-wrapper"
+      onMouseEnter={trackMouseEnter}
+      onMouseLeave={trackMouseLeave}
     >
-      <img src={coffee} alt="coffee" width={60} />
+      <img id="steaming-coffee" src={coffee} alt="coffee" width={60} />
       {steamRefs.map((steamRef, index) => (
         <Box
           key={index}

@@ -7,6 +7,7 @@ import andy from "@/assets/people/andy.jpeg";
 import laurenMee from "@/assets/people/laurenmee.jpeg";
 import alannaCarrol from "@/assets/people/alanna.jpeg";
 import { cp } from "../../utils/utils";
+import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 
 interface Testimonial {
   quote: string;
@@ -61,6 +62,7 @@ export const TestimonialsSection = forwardRef<
       link: "https://www.linkedin.com/in/alanna-carroll/",
     },
   ];
+  const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
 
   return (
     <Box
@@ -84,6 +86,9 @@ export const TestimonialsSection = forwardRef<
               href="https://www.linkedin.com/in/briveramelo/details/recommendations/?detailScreenTabIndex=0"
               target="_blank"
               rel="noopener noreferrer"
+              id="testimonials-header"
+              onMouseEnter={trackMouseEnter}
+              onMouseLeave={trackMouseLeave}
               style={{ textDecoration: "none", color: "inherit" }}
             >
               Testimonials

@@ -45,10 +45,14 @@ function getParentId(el: Element | null): string {
 
 export function getMouseProps(event: React.MouseEvent<HTMLElement> | null) {
   const targetElement = event?.target instanceof Element ? event.target : null;
+  const currentTargetElement =
+    event?.currentTarget instanceof Element ? event.currentTarget : null;
+
   return {
     parent_id: getParentId(targetElement),
     element_tag: targetElement?.tagName.toLowerCase() || "unknown",
     element_id: targetElement?.id || "unknown",
+    handler_element_id: currentTargetElement?.id || "unknown",
     mouse_x: event?.clientX || "",
     mouse_y: event?.clientY || "",
   };

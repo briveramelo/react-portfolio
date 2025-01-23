@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import { Box } from "@mui/material";
 import "./BeatingHeart.css";
+import { useHoverTracking } from "../../../tracking/useHoverTracking.ts";
 
 interface BeatingHeartProps {
   heartTriggerRef?: React.RefObject<HTMLButtonElement>;
@@ -13,15 +14,16 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
   const timeoutRef = useRef<number | null>(null);
   const [animationKey, setAnimationKey] = useState(0); // Key to force animation re-trigger
   const [isHovered, setIsHovered] = useState(false);
+  const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
 
   const minHeartRateBPM = 40.0;
   const maxHeartRateBPM = 160.0;
-  const fixedAnimationSec = 0.5;
+  const fixedAnimationDurationSec = 0.5;
 
   const calculatePauseDuration = useCallback(() => {
     const heartRateBPM = isHovered ? maxHeartRateBPM : minHeartRateBPM;
     const totalCycleDurationSec = 60.0 / heartRateBPM;
-    return totalCycleDurationSec - fixedAnimationSec;
+    return totalCycleDurationSec - fixedAnimationDurationSec;
   }, [isHovered]);
 
   const startHeartbeat = useCallback(() => {
@@ -33,9 +35,10 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
 
   const handleAnimationEnd = useCallback(() => {
     const pauseDurationSec = calculatePauseDuration();
-    timeoutRef.current = window.setTimeout(() => {
-      startHeartbeat();
-    }, pauseDurationSec * 1000);
+    timeoutRef.current = window.setTimeout(
+      startHeartbeat,
+      pauseDurationSec * 1000,
+    );
   }, [calculatePauseDuration, startHeartbeat]);
 
   const addHoverListeners = useCallback(
@@ -45,9 +48,13 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
       const handleMouseEnter = () => {
         setIsHovered(true);
         startHeartbeat();
+        trackMouseEnter();
       };
 
-      const handleMouseLeave = () => setIsHovered(false);
+      const handleMouseLeave = (event: Event) => {
+        setIsHovered(false);
+        trackMouseLeave(event as unknown as React.MouseEvent<HTMLElement>);
+      };
 
       element.addEventListener("mouseenter", handleMouseEnter);
       element.addEventListener("mouseleave", handleMouseLeave);
@@ -57,21 +64,30 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
         element.removeEventListener("mouseleave", handleMouseLeave);
       };
     },
-    [startHeartbeat],
+    [startHeartbeat, trackMouseEnter, trackMouseLeave],
   );
 
   useEffect(() => {
-    const removeTriggerListeners = addHoverListeners(heartRef?.current);
-    return () => removeTriggerListeners && removeTriggerListeners();
-  }, [heartRef, addHoverListeners]);
+    if (heartRef.current) {
+      const removeListeners = addHoverListeners(heartRef.current);
+      return () => removeListeners && removeListeners();
+    }
+  }, [addHoverListeners]);
 
   useEffect(() => {
-    const triggerElement = heartTriggerRef?.current ?? null;
-    if (triggerElement) {
-      const removeHeartListeners = addHoverListeners(triggerElement);
-      return () => removeHeartListeners && removeHeartListeners();
+    if (heartTriggerRef?.current) {
+      const removeListeners = addHoverListeners(heartTriggerRef.current);
+      return () => removeListeners && removeListeners();
     }
   }, [heartTriggerRef, addHoverListeners]);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <Box
@@ -96,13 +112,13 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
       />
       <Box
         style={{
-          animation: `cardiacCycle ${fixedAnimationSec}s linear 1`,
+          animation: `cardiacCycle ${fixedAnimationDurationSec}s linear 1`,
           fontSize: isHovered ? "70px" : "60px",
           lineHeight: "70px",
-          transition: "font-size 0.3s ease-in-out",
+          transition: "font-size 0.15s ease-in-out",
           cursor: "default",
         }}
-        key={animationKey} // Forces re-render of span
+        key={animationKey} // Forces re-render
         onAnimationEnd={handleAnimationEnd}
         aria-label="Beating Heart"
       >
