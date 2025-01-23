@@ -13,6 +13,7 @@ logging.basicConfig(level=logging.ERROR)
 # Environment variables for security
 SMTP_SERVER = os.getenv("SMTP_SERVER", "smtp.gmail.com")
 SMTP_PORT = int(os.getenv("SMTP_PORT", 587))
+EMAIL_RECEIVER = os.getenv("EMAIL_RECEIVER")
 EMAIL_USER = os.getenv("EMAIL_USER")
 EMAIL_PASS = os.environ.get("EMAIL_PASSWORD")  # Stored in GCP secrets
 MESSAGE_MAX_LENGTH = int(os.getenv("MESSAGE_MAX_LENGTH", 10000))
@@ -23,6 +24,8 @@ if not EMAIL_PASS:
     raise EnvironmentError("EMAIL_PASSWORD environment variable is missing.")
 if not EMAIL_USER:
     raise EnvironmentError("EMAIL_USER environment variable is missing.")
+if not EMAIL_RECEIVER:
+    raise EnvironmentError("EMAIL_RECEIVER environment variable is missing.")
 
 
 # Input validation function
@@ -88,7 +91,7 @@ def contact_form_handler(request):
 
         # Send email
         success = send_email_with_retry(
-            "brandon@riveramelo.com",
+            EMAIL_RECEIVER,
             sanitized_data["subject"],
             f"From: {sanitized_data['email']}\n\n{sanitized_data['message']}",
         )
