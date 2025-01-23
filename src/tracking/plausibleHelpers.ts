@@ -64,12 +64,28 @@ export function getCommonProps() {
     1,
   );
 
+  const now = new Date();
+  const timestamp = new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true, // Ensures AM/PM format
+  }).format(now);
+
+  // Replace commas and adjust formatting to match MM/DD/YYYY HH:mm:ss AM/PM
+  const formattedTimestamp = timestamp.replace(",", "");
+  const millis = now.getTime();
+  const sessionTimeMs = millis - sessionStartTime;
+
   return {
     session_id: sessionUUID,
     app_version: appVersion,
-    timestamp: new Date().toISOString(),
-    millis: new Date().getTime(),
-    session_time_ms: Date.now() - sessionStartTime,
+    timestamp: formattedTimestamp,
+    millis,
+    session_time_ms: sessionTimeMs,
     scroll_height: scrollHeight,
     scroll_position: scrollPosition,
     scroll_depth_percentage: scrollDepthPercentage,

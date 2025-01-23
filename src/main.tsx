@@ -3,6 +3,9 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { ThemeProvider } from "./ThemeContext";
+import { enablePerformanceTracking } from "./tracking/performanceTracking";
+
+enablePerformanceTracking();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
