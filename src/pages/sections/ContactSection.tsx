@@ -95,7 +95,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
             display: "flex",
             flexDirection: "column",
             gap: 4,
-            mb: formSubmitted ? 48 : 12,
+            mb: formSubmitted ? 44 : 8,
           }}
         >
           {/* Section Title */}
