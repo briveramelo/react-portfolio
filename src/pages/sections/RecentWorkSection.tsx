@@ -1,6 +1,6 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { Container, Typography, Grid, Box } from "@mui/material";
-import { ProjectCard } from "../../components/ProjectCard";
+import { RecentProjectCard } from "../components/RecentProjectCard";
 import pessimisticNight from "@/assets/projects/pessimistic-night.jpg";
 import digitalHealth from "@/assets/orgs/DigitalHealth4x3.jpg";
 
@@ -28,16 +28,26 @@ const projects: Project[] = [
   },
 ];
 
-export function RecentWorkSection({ backgroundColor, textColor }) {
+interface RecentWorkSectionProps {
+  backgroundColor: string;
+  id: string;
+  textColor: string;
+}
+
+export const RecentWorkSection = forwardRef<
+  HTMLElement,
+  RecentWorkSectionProps
+>(({ backgroundColor, textColor, id }, ref) => {
   return (
     <Box
       component="section"
-      id="recent"
+      id={id}
       sx={{
         py: 10,
         backgroundColor: backgroundColor,
         color: textColor,
       }}
+      ref={ref}
     >
       <Container maxWidth="lg">
         <Box sx={{ textAlign: "center", mb: 4 }}>
@@ -56,11 +66,11 @@ export function RecentWorkSection({ backgroundColor, textColor }) {
         <Grid container spacing={4}>
           {projects.map((project) => (
             <Grid item xs={12} md={6} key={project.title}>
-              <ProjectCard project={project} />
+              <RecentProjectCard project={project} />
             </Grid>
           ))}
         </Grid>
       </Container>
     </Box>
   );
-}
+});

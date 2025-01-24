@@ -1,7 +1,9 @@
-import React from "react";
 import { HomePage } from "./pages/Home";
+import { usePlausibleTracking } from "./tracking/usePlausibleTracking";
 
 function App() {
+  usePlausibleTracking();
+
   return <HomePage />;
 }
 

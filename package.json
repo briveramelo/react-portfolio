@@ -1,7 +1,7 @@
 {
   "name": "react-portfolio",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,15 +9,29 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "format": "prettier --write .",
-    "export": "./scripts/print-source.sh"
+    "concat": "scripts/concat.sh",
+    "sync-version": "node scripts/updateAppVersion.cjs"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,css,md}": "prettier --write"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@mui/icons-material": "^6.3.1",
     "@mui/material": "^6.3.1",
+    "firebase": "^11.2.0",
+    "plausible-tracker": "^0.3.9",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-confetti": "^6.2.2",
+    "react-dom": "^18.3.1",
+    "react-markdown": "^9.0.3",
+    "react-use": "^17.6.0",
+    "remark-breaks": "^4.0.0",
+    "web-vitals": "^4.2.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
@@ -25,11 +39,15 @@
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.20",
+    "dotenv": "^16.4.7",
     "eslint": "^9.17.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.1",
     "prettier": "^3.4.2",
+    "rollup-plugin-visualizer": "^5.14.0",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5"

@@ -1,232 +1,103 @@
-import React, { useState } from "react";
-import SkillCategory from "../../components/SkillCategory";
-import { Box, Button, Typography, Grid } from "@mui/material";
-import unityW from "@/assets/skills/unity-w.svg";
-import unity from "@/assets/skills/unity.svg";
-import csharp from "@/assets/skills/csharp.svg";
-import awsW from "@/assets/skills/aws-w.svg";
-import aws from "@/assets/skills/aws.svg";
-import googleCloud from "@/assets/skills/google-cloud.svg";
-import docker from "@/assets/skills/docker.svg";
-import html5 from "@/assets/skills/html5.svg";
-import css3 from "@/assets/skills/css3.svg";
-import javascript from "@/assets/skills/javascript.svg";
-import react from "@/assets/skills/react.svg";
-import jquery from "@/assets/skills/jquery.svg";
-import java from "@/assets/skills/java.svg";
-import python from "@/assets/skills/python.svg";
-import go from "@/assets/skills/go.svg";
-import sql from "@/assets/skills/sql.svg";
-import nosql from "@/assets/skills/nosql.svg";
-import cpp from "@/assets/skills/c++.svg";
-import bash from "@/assets/skills/bash.svg";
-import devops from "@/assets/skills/devops.png";
-import hipaa from "@/assets/skills/hipaa.svg";
+import React, { forwardRef, useRef, useState } from "react";
+import { Box, Typography, Grid } from "@mui/material";
+import { faCalendarCheck, faStar } from "@fortawesome/free-solid-svg-icons";
+import BouncingButton from "../components/reusable/BouncingButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
+import { skillsData } from "../../data/skillsData";
+import { ThemeMode, useCustomPalette } from "../../theme";
+import ExperienceCategory from "../components/skills/ExperienceCategory";
+import SkillCategory from "../components/skills/SkillCategory";
+import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 
-export function SkillsSection({ backgroundColor, textColor }) {
-  const [isYearsOfExperience, setIsYearsOfExperience] =
-    useState<boolean>(false);
-
-  const toggleStat = () => {
-    setIsYearsOfExperience((prev) => !prev);
-  };
-
-  const statsData = [
-    {
-      category: "Game Development",
-      stats: [
-        {
-          name: "Unity",
-          stat: 85,
-          year: 2014,
-          srcLight: unityW,
-          srcDark: unity,
-        },
-        {
-          name: "C#",
-          stat: 90,
-          year: 2014,
-          srcLight: csharp,
-          srcDark: csharp,
-        },
-      ],
-    },
-    {
-      category: "Cloud Services",
-      stats: [
-        {
-          name: "AWS",
-          stat: 75,
-          year: 2023,
-          srcLight: awsW,
-          srcDark: aws,
-        },
-        {
-          name: "GCP",
-          stat: 80,
-          year: 2024,
-          srcLight: googleCloud,
-          srcDark: googleCloud,
-        },
-        {
-          name: "Docker",
-          stat: 85,
-          year: 2020,
-          srcLight: docker,
-          srcDark: docker,
-        },
-      ],
-    },
-    {
-      category: "Web Front-end",
-      stats: [
-        {
-          name: "HTML",
-          stat: 75,
-          year: 2016,
-          srcLight: html5,
-          srcDark: html5,
-        },
-        {
-          name: "CSS",
-          stat: 75,
-          year: 2016,
-          srcLight: css3,
-          srcDark: css3,
-        },
-        {
-          name: "JS",
-          stat: 85,
-          year: 2016,
-          srcLight: javascript,
-          srcDark: javascript,
-        },
-        {
-          name: "React",
-          stat: 75,
-          year: 2024,
-          srcLight: react,
-          srcDark: react,
-        },
-        {
-          name: "jQuery",
-          stat: 85,
-          year: 2016,
-          srcLight: jquery,
-          srcDark: jquery,
-        },
-      ],
-    },
-    {
-      category: "Backend",
-      stats: [
-        {
-          name: "Java",
-          stat: 85,
-          year: 2016,
-          srcLight: java,
-          srcDark: java,
-        },
-        {
-          name: "Python",
-          stat: 80,
-          year: 2024,
-          srcLight: python,
-          srcDark: python,
-        },
-        {
-          name: "Go",
-          stat: 65,
-          year: 2024,
-          srcLight: go,
-          srcDark: go,
-        },
-        {
-          name: "SQL",
-          stat: 80,
-          year: 2016,
-          srcLight: sql,
-          srcDark: sql,
-        },
-        {
-          name: "NoSQL",
-          stat: 90,
-          year: 2024,
-          srcLight: nosql,
-          srcDark: nosql,
-        },
-      ],
-    },
-    {
-      category: "Other",
-      stats: [
-        {
-          name: "C++",
-          stat: 70,
-          year: 2019,
-          srcLight: cpp,
-          srcDark: cpp,
-        },
-        {
-          name: "Bash",
-          stat: 85,
-          year: 2019,
-          srcLight: bash,
-          srcDark: bash,
-          invertIfLight: true,
-        },
-        {
-          name: "DevOps",
-          stat: 80,
-          year: 2019,
-          srcLight: devops,
-          srcDark: devops,
-        },
-        {
-          name: "HIPAA",
-          stat: 90,
-          year: 2019,
-          srcLight: hipaa,
-          srcDark: hipaa,
-        },
-      ],
-    },
-  ];
-
-  return (
-    <Box
-      component="section"
-      id="skills"
-      sx={{
-        p: 6,
-        backgroundColor: backgroundColor,
-        color: textColor,
-        textAlign: "center",
-        py: 25,
-      }}
-    >
-      <Typography variant="h1" sx={{ mb: 1 }}>
-        Skills
-      </Typography>
-      <Button
-        variant="contained"
-        onClick={toggleStat}
-        sx={{
-          mb: 12,
-        }}
-      >
-        {isYearsOfExperience ? "See Stats" : "See Years of Experience"}
-      </Button>
-      <Grid container spacing={9} justifyContent="center">
-        {statsData.map((category, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={index}>
-            <SkillCategory
-              categoryData={category}
-              isYearsOfExperience={isYearsOfExperience}
-            />
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
-  );
+interface SkillsSectionProps {
+  backgroundColor: string;
+  id: string;
+  textColor: string;
 }
+
+export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
+  ({ backgroundColor, textColor, id }, ref) => {
+    const [isYearsOfExperience, setIsYearsOfExperience] =
+      useState<boolean>(true);
+    const sectionRef = useRef<HTMLDivElement>(null!);
+    const isVisible = useIntersectionObserver(sectionRef, { threshold: 0.1 });
+    const { mode } = useCustomPalette();
+    const useLight = mode !== ThemeMode.Light;
+
+    const toggleStat = () => {
+      setIsYearsOfExperience((prev) => !prev);
+    };
+    const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
+
+    return (
+      <Box
+        component="section"
+        id={id}
+        sx={{
+          backgroundColor: backgroundColor,
+          color: textColor,
+          textAlign: "center",
+          pt: 15,
+          pb: 20,
+          overflowX: "hidden",
+        }}
+        ref={ref}
+      >
+        <Typography variant="h1" sx={{ mb: 2 }}>
+          {isYearsOfExperience ? "Experience" : "Skill Levels"}
+        </Typography>
+        <BouncingButton
+          id="skill-experience-toggle"
+          onClick={toggleStat}
+          onMouseEnter={trackMouseEnter}
+          onMouseLeave={trackMouseLeave}
+          sx={{
+            mb: 17,
+            py: 2,
+          }}
+          variant="contained"
+          numBounces={2}
+          bounceDurationMs={1750}
+        >
+          <FontAwesomeIcon
+            icon={isYearsOfExperience ? faStar : faCalendarCheck}
+            style={{
+              marginRight: "8px",
+              marginTop: -3.25,
+            }}
+          />
+          <Typography variant="h6" fontWeight="bold">
+            {isYearsOfExperience ? "See Skill Levels" : "See Experience"}
+          </Typography>
+        </BouncingButton>
+        <Grid
+          container
+          rowSpacing={6}
+          columnSpacing={12}
+          px={9}
+          justifyContent="center"
+          ref={sectionRef}
+        >
+          {skillsData.map((category, index) => (
+            <Grid item xs={9} sm={6} md={4} lg={3} xl={2.4} key={index}>
+              {isYearsOfExperience ? (
+                <ExperienceCategory
+                  skillCategory={category}
+                  isVisible={isVisible}
+                  useLight={useLight}
+                />
+              ) : (
+                <SkillCategory
+                  skillCategory={category}
+                  isVisible={isVisible}
+                  useLight={useLight}
+                />
+              )}
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    );
+  },
+);
