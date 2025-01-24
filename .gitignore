@@ -27,3 +27,4 @@ dist-ssr
 *.sw?
 
 all_text.txt
+build-stats.html
