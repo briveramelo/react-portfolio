@@ -10,6 +10,12 @@
     ],
     "headers": [
       {
+        "source": "/index.html",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+        ]
+      },
+      {
         "source": "**/*.@(js|css|html|svg|png|jpg|jpeg|webp|woff|woff2|ttf|otf|json)",
         "headers": [
           {
