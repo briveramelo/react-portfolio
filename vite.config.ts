@@ -6,12 +6,12 @@ export default defineConfig({
   plugins: [
     react(),
     visualizer({
-      filename: 'build-stats.html', // Generate visualization file in project folder
-      template: 'treemap', // Choose visualization type: sunburst, treemap, network
+      filename: "build-stats.html", // Generate visualization file in project folder
+      template: "treemap", // Choose visualization type: sunburst, treemap, network
       open: true, // Automatically open report after build
       gzipSize: true, // Show gzip size in report
-      brotliSize: true // Show brotli size in report
-    })
+      brotliSize: true, // Show brotli size in report
+    }),
   ],
   build: {
     target: "es2020", // Matches modern browser support
