@@ -8,7 +8,6 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import firebase_functions as functions
 from firebase_functions import https
-from flask import jsonify
 
 # Configure logging
 logging.basicConfig(level=logging.ERROR)
@@ -69,6 +68,7 @@ def contact_form_handler(request: https.CallableRequest):
         # Validate and sanitize input
         is_valid, error_message, sanitized_data = validate_input(data)
         if not is_valid:
+            logging.error(f"Invalid args found: {error_message}")
             raise https.HttpsError("invalid-argument", error_message)
 
         success = send_email(sanitized_data["subject"], sanitized_data["message"], sanitized_data["email"])

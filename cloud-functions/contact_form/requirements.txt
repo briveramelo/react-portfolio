@@ -1,2 +1,3 @@
+firebase-functions
 bleach
 email-validator
