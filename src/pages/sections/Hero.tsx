@@ -179,6 +179,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
                   : `transform ${transitionDurationMs}ms ease`,
                 transform: `rotateY(${targetRotationDeg}deg)`,
                 pointerEvents: "none",
+                willChange: "transform",
               }}
               ref={containerRef}
             >

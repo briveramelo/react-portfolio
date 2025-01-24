@@ -137,6 +137,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
             sx={{
               position: "relative",
               transition: `transform ${slideDurationMs}ms ease-out, opacity ${slideDurationMs}ms ease-out, height ${slideDurationMs}ms ease-out`,
+              willChange: !animationComplete ? "transform, opacity, height" : "",
               opacity: isProjectSelected ? 1 : 0,
               height: detailsHeight,
             }}

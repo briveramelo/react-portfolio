@@ -193,7 +193,7 @@ export function Header({
       >
         <Box>
           <List>
-            {navigationLinks.map((link, index) => (
+            {navigationLinks.map((link) => (
               <ListItemButton
                 sx={{ pr: 10 }}
                 key={link.href}

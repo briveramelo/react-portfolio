@@ -42,10 +42,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           isOnScreen && animationComplete
             ? ""
             : `transform ${slideDurationMs}ms ease-in-out !important`,
-        transform: `translateX(${targetDestinationX})`,
+        transform: `translate3d(${targetDestinationX}, 0, 0)`,
+        willChange: !animationComplete ? "transform" : "",
         "&:hover": {
           "& #learn_more_slide_target": {
-            top: "-38px",
+            transform: "translateY(-38px)",
           },
         },
       }}
@@ -55,13 +56,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         id="learn_more_slide_target"
         sx={{
           position: "absolute",
-          top: "-5px",
+          transform: "translateY(-5px)",
           left: flipped ? "2px" : "auto",
           right: flipped ? "auto" : "2px",
           zIndex: 1,
           display: "flex",
           justifyContent: "flex-start",
-          transition: "top 0.3s ease !important",
+          transition: "transform 0.3s ease !important",
+          willChange: isOnScreen ? "transform" : "",
         }}
       >
         <Box
