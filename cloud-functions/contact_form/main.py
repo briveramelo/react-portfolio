@@ -6,8 +6,11 @@ import time
 from email_validator import validate_email, EmailNotValidError
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import firebase_functions as functions
-from firebase_functions import https
+from firebase_functions import https_fn
+from firebase_admin import initialize_app
+
+# Initialize Firebase Admin SDK (required for Firebase functions)
+initialize_app()
 
 # Configure logging
 logging.basicConfig(level=logging.ERROR)
@@ -35,9 +38,9 @@ def validate_input(data: dict) -> tuple[bool, str | None, dict | None]:
     message = bleach.clean(data.get("message", "").strip())
 
     if not (1 <= len(subject) <= SUBJECT_MAX_LENGTH):
-        return False, "Subject must be between 1 and 100 characters.", None
+        return False, f"Subject must be between 1 and {SUBJECT_MAX_LENGTH} characters.", None
     if not (1 <= len(message) <= MESSAGE_MAX_LENGTH):
-        return False, "Message must be between 1 and 10000 characters.", None
+        return False, f"Message must be between 1 and {MESSAGE_MAX_LENGTH} characters.", None
 
     return True, None, {"email": valid_email, "subject": subject, "message": message}
 
@@ -60,23 +63,23 @@ def send_email(subject: str, message: str, sender_email: str) -> bool:
         logging.error("Error sending email", exc_info=True)
         return False
 
-@functions.https.on_call
-def contact_form_handler(request: https.CallableRequest):
+@https_fn.on_call()
+def contact_form_handler(req: https_fn.CallableRequest) -> dict:
     try:
-        data = request.data
+        data = req.data
 
         # Validate and sanitize input
         is_valid, error_message, sanitized_data = validate_input(data)
         if not is_valid:
             logging.error(f"Invalid args found: {error_message}")
-            raise https.HttpsError("invalid-argument", error_message)
+            raise https_fn.HttpsError("invalid-argument", error_message)
 
         success = send_email(sanitized_data["subject"], sanitized_data["message"], sanitized_data["email"])
 
         if success:
             return {"message": "Email sent successfully."}
         else:
-            raise https.HttpsError("internal", "Failed to send email.")
-    except Exception as e:
+            raise https_fn.HttpsError("internal", "Failed to send email.")
+    except Exception:
         logging.error("Unexpected error occurred", exc_info=True)
-        raise https.HttpsError("internal", "An unexpected error occurred. Please try again.")
+        raise https_fn.HttpsError("internal", "An unexpected error occurred. Please try again.")
