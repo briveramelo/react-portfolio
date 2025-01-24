@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app";
-// https://firebase.google.com/docs/web/setup#available-libraries
 
 const firebaseConfig = {
   apiKey: "AIzaSyASyqmDhCBj51O_OOGL_Y5f04Jz01X5HbU",
@@ -11,5 +10,4 @@ const firebaseConfig = {
   measurementId: "G-K79DS2EXJ8",
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const firebaseApp = initializeApp(firebaseConfig);

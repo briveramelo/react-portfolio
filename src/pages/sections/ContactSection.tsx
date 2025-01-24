@@ -13,16 +13,37 @@ import { Footer } from "../components/Footer";
 import { cp } from "../../utils/utils";
 import { useFormTracking } from "../../tracking/useFormTracking";
 import { useHoverTracking } from "../../tracking/useHoverTracking";
+import { firebaseApp } from "../../firebaseConfig";
+import { getFunctions, httpsCallable } from "firebase/functions";
 
 interface ContactSectionProps {
   backgroundColor: string;
   id: string;
   textColor: string;
 }
+interface FormData {
+  email: string;
+  subject: string;
+  message: string;
+}
 
 export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
   ({ backgroundColor, textColor, id }, ref) => {
     const formID = "contact-form";
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
+
+    const [formData, setFormData] = useState<FormData>({
+      email: "",
+      subject: "",
+      message: "",
+    });
+    const [errors, setErrors] = useState<FormData>({
+      email: "",
+      subject: "",
+      message: "",
+    });
+
     const confettiRef = useRef<HTMLCanvasElement>(null);
     const [formSubmitted, setFormSubmitted] = useState(false);
     const { width, height } = useWindowSize();
@@ -31,13 +52,236 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
     const { trackFieldFocus, trackFieldBlur, trackFormSubmit } =
       useFormTracking(formID);
     const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
-    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+    const validateForm = () => {
+      let newErrors: FormData = { email: "", subject: "", message: "" };
+
+      // Email validation
+      if (!formData.email.trim()) {
+        newErrors.email = "Email is required.";
+      } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.email)) {
+        newErrors.email = "Invalid email format.";
+      }
+
+      // Subject validation
+      if (!formData.subject.trim()) {
+        newErrors.subject = "Subject is required.";
+      } else if (formData.subject.length < 1 || formData.subject.length > 100) {
+        newErrors.subject = "Subject must be between 1 and 100 characters.";
+      }
+
+      // Message validation
+      if (!formData.message.trim()) {
+        newErrors.message = "Message is required.";
+      } else if (
+        formData.message.length < 1 ||
+        formData.message.length > 10000
+      ) {
+        newErrors.message = "Message must be between 1 and 10,000 characters.";
+      }
+
+      setErrors(newErrors);
+      return Object.values(newErrors).every((value) => value === "");
+    };
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      setFormSubmitted(true);
+      if (!validateForm()) return;
+
+      setLoading(true);
       trackFormSubmit(formID);
 
-      //todo: connect to api
+      try {
+        const functions = getFunctions(firebaseApp);
+        const sendContactForm = httpsCallable<
+          FormData,
+          { success: boolean; error?: string }
+        >(functions, "contactFormHandler");
+        const response = await sendContactForm(formData);
+
+        if (response.data.success) {
+          setErrorMessage(null);
+          setFormSubmitted(true);
+          setFormData({ email: "", subject: "", message: "" });
+        } else {
+          setErrorMessage(response.data.error || "Failed to send message");
+        }
+      } catch (error) {
+        console.error("Form submission error:", error);
+        setErrorMessage("An error occurred. Please try again later.");
+      }
+      setLoading(false);
     };
+
+    const inputStyles = {
+      backgroundColor: cp("background.paper"),
+      color: cp("text.paper"),
+      borderRadius: "8px",
+      "& .MuiOutlinedInput-root": {
+        borderRadius: "8px",
+      },
+      "& .MuiInputLabel-root": {
+        color: cp("text.paper"),
+      },
+      "& .MuiInputLabel-shrink": {
+        color: cp("text.paper"),
+      },
+    };
+
+    const formContent = (
+      <Box
+        sx={{
+          backgroundColor: cp("background.paper"),
+          color: cp("text.paper"),
+          borderRadius: "16px",
+          p: 4,
+        }}
+        className="subtle-shadow"
+      >
+        <form
+          onSubmit={handleSubmit}
+          id={formID}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px",
+          }}
+        >
+          <TextField
+            required
+            label="Email"
+            type="email"
+            variant="outlined"
+            error={!!errors.email}
+            helperText={errors.email}
+            id="contact-email"
+            onFocus={() => trackFieldFocus("email")}
+            onBlur={() => trackFieldBlur("email")}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
+            fullWidth
+            InputProps={{
+              inputProps: {
+                style: {
+                  color: cp("text.paper"),
+                },
+              },
+            }}
+            sx={inputStyles}
+          />
+          <TextField
+            required
+            label="Subject"
+            type="text"
+            variant="outlined"
+            error={!!errors.subject}
+            helperText={errors.subject}
+            id="contact-subject"
+            onChange={(e) =>
+              setFormData({ ...formData, subject: e.target.value })
+            }
+            onFocus={() => trackFieldFocus("subject")}
+            onBlur={() => trackFieldBlur("subject")}
+            fullWidth
+            InputProps={{
+              inputProps: {
+                style: {
+                  color: cp("text.paper"),
+                },
+              },
+            }}
+            sx={inputStyles}
+          />
+          <TextField
+            required
+            label="Message"
+            variant="outlined"
+            error={!!errors.message}
+            helperText={errors.message}
+            id="contact-message"
+            onChange={(e) =>
+              setFormData({ ...formData, message: e.target.value })
+            }
+            onFocus={() => trackFieldFocus("message")}
+            onBlur={() => trackFieldBlur("message")}
+            fullWidth
+            InputProps={{
+              inputComponent: "textarea",
+              inputProps: {
+                style: {
+                  resize: "vertical",
+                  minHeight: "100px",
+                  padding: "16px",
+                  fontFamily: "inherit",
+                  fontSize: "16px",
+                  color: cp("text.paper"),
+                },
+              },
+            }}
+            sx={{
+              ...inputStyles,
+              "& textarea": {
+                marginTop: "12px",
+              },
+            }}
+          />
+
+          <Button
+            id="contact-send"
+            onMouseEnter={trackMouseEnter}
+            onMouseLeave={trackMouseLeave}
+            ref={heartTriggerRef}
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{
+              alignSelf: "center",
+              px: 4,
+              "&:hover": { transform: "scale(1.1) !important" },
+            }}
+            className="pop-shadow"
+            disabled={loading}
+          >
+            {loading ? "Sending..." : "Send"}
+          </Button>
+        </form>
+
+        <Alert
+          severity="error"
+          sx={{
+            mt: 2,
+            backgroundColor: cp("background.paper"),
+            alignContent: "center",
+            justifyContent: "center",
+            display: errorMessage ? "" : "none",
+          }}
+        >
+          <Typography
+            variant="body1"
+            sx={{ color: cp("text.paper"), mt: -0.1 }}
+          >
+            {errorMessage}
+          </Typography>
+        </Alert>
+      </Box>
+    );
+    const formSubmittedContent = (
+      <Alert
+        severity="success"
+        sx={{ mt: 4, backgroundColor: cp("background.paper") }}
+      >
+        <Typography
+          variant="h6"
+          sx={{ fontWeight: "bold", color: cp("text.paper") }}
+        >
+          Mission Success 🎉
+        </Typography>
+        <Typography variant="body1" sx={{ color: cp("text.paper") }}>
+          Your message has been sent. Thanks for reaching out!
+        </Typography>
+      </Alert>
+    );
 
     return (
       <Box
@@ -119,164 +363,12 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
           </Typography>
 
           {/* Form or Confirmation Message */}
-          {!formSubmitted ? (
-            <Box
-              sx={{
-                backgroundColor: cp("background.paper"),
-                color: cp("text.paper"),
-                borderRadius: "16px",
-                p: 4,
-              }}
-              className="subtle-shadow"
-            >
-              <form
-                onSubmit={onSubmit}
-                id={formID}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "16px",
-                }}
-              >
-                <TextField
-                  required
-                  label="Email"
-                  type="email"
-                  id="contact-email"
-                  variant="outlined"
-                  onFocus={() => trackFieldFocus("email")}
-                  onBlur={() => trackFieldBlur("email")}
-                  fullWidth
-                  InputProps={{
-                    inputProps: {
-                      style: {
-                        color: cp("text.paper"),
-                      },
-                    },
-                  }}
-                  sx={{
-                    backgroundColor: cp("background.paper"),
-                    color: cp("text.paper"),
-                    borderRadius: "8px",
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: "8px",
-                    },
-                    "& .MuiInputLabel-root": {
-                      color: cp("text.paper"),
-                    },
-                    "& .MuiInputLabel-shrink": {
-                      color: cp("text.paper"),
-                    },
-                  }}
-                />
-                <TextField
-                  required
-                  label="Subject"
-                  type="text"
-                  variant="outlined"
-                  id="contact-subject"
-                  onFocus={() => trackFieldFocus("subject")}
-                  onBlur={() => trackFieldBlur("subject")}
-                  fullWidth
-                  InputProps={{
-                    inputProps: {
-                      style: {
-                        color: cp("text.paper"),
-                      },
-                    },
-                  }}
-                  sx={{
-                    backgroundColor: cp("background.paper"),
-                    color: cp("text.paper"),
-                    borderRadius: "8px",
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: "8px",
-                    },
-                    "& .MuiInputLabel-root": {
-                      color: cp("text.paper"),
-                    },
-                    "& .MuiInputLabel-shrink": {
-                      color: cp("text.paper"),
-                    },
-                  }}
-                />
-                <TextField
-                  required
-                  label="Message"
-                  variant="outlined"
-                  id="contact-message"
-                  onFocus={() => trackFieldFocus("message")}
-                  onBlur={() => trackFieldBlur("message")}
-                  fullWidth
-                  InputProps={{
-                    inputComponent: "textarea",
-                    inputProps: {
-                      style: {
-                        resize: "vertical",
-                        minHeight: "100px",
-                        padding: "16px",
-                        fontFamily: "inherit",
-                        fontSize: "16px",
-                        color: cp("text.paper"),
-                      },
-                    },
-                  }}
-                  sx={{
-                    backgroundColor: cp("background.paper"),
-                    color: cp("text.paper"),
-                    borderRadius: "8px",
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: "8px",
-                    },
-                    "& .MuiInputLabel-root": {
-                      transform: "translate(14px, 14px) scale(1)",
-                      color: cp("text.paper"),
-                    },
-                    "& .MuiInputLabel-shrink": {
-                      transform: "translate(14px, -6px) scale(0.75)",
-                      color: cp("text.paper"),
-                    },
-                    "& textarea": {
-                      marginTop: "12px",
-                    },
-                  }}
-                />
-
-                <Button
-                  id="contact-send"
-                  onMouseEnter={trackMouseEnter}
-                  onMouseLeave={trackMouseLeave}
-                  ref={heartTriggerRef}
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    alignSelf: "center",
-                    px: 4,
-                    "&:hover": { transform: "scale(1.1) !important" },
-                  }}
-                  className="pop-shadow"
-                >
-                  Send
-                </Button>
-              </form>
-            </Box>
-          ) : (
-            <Alert
-              severity="success"
-              sx={{ mt: 4, backgroundColor: cp("background.paper") }}
-            >
-              <Typography
-                variant="h6"
-                sx={{ fontWeight: "bold", color: cp("text.paper") }}
-              >
-                Mission Success 🎉
-              </Typography>
-              <Typography variant="body1" sx={{ color: cp("text.paper") }}>
-                Your message has been sent. Thanks for reaching out!
-              </Typography>
-            </Alert>
-          )}
+          <Box sx={{ display: formSubmitted ? "none" : "block" }}>
+            {formContent}
+          </Box>
+          <Box sx={{ display: formSubmitted ? "block" : "none" }}>
+            {formSubmittedContent}
+          </Box>
         </Container>
 
         {/* Footer Component */}
