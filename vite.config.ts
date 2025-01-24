@@ -3,7 +3,16 @@ import react from "@vitejs/plugin-react-swc";
 import { visualizer } from "rollup-plugin-visualizer";
 
 export default defineConfig({
-  plugins: [react(), visualizer()],
+  plugins: [
+    react(),
+    visualizer({
+      filename: "build-stats.html", // Generate visualization file in project folder
+      template: "treemap", // Choose visualization type: sunburst, treemap, network
+      open: false, // Automatically open report after build
+      gzipSize: true, // Show gzip size in report
+      brotliSize: true, // Show brotli size in report
+    }),
+  ],
   build: {
     target: "es2020", // Matches modern browser support
     cssCodeSplit: true, // Separate CSS for better caching
@@ -11,15 +20,18 @@ export default defineConfig({
     chunkSizeWarningLimit: 500, // Increase chunk size limit warning
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ["react", "react-dom"], // Split vendor code into a separate chunk
+        manualChunks: (id) => {
+          if (id.includes("node_modules")) {
+            if (id.includes("react")) return "vendor-react";
+            return "vendor";
+          }
         },
       },
     },
   },
   resolve: {
     alias: {
-      "@": "/src", // Alias "@" to the "src" directory
+      "@": "/src", // Alias "@" to the "src" directory for cleaner imports
     },
   },
 });

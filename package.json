@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "tsc": "tsc -b",
+    "build": "vite build && ./scripts/printBuildSize.sh",
+    "deploy": "firebase deploy --only hosting --project brandon-portfolio-448520",
     "lint": "eslint .",
     "preview": "vite preview",
     "format": "prettier --write .",
@@ -13,7 +15,7 @@
     "sync-version": "node scripts/updateAppVersion.cjs"
   },
   "lint-staged": {
-    "*.{js,ts,tsx,css,md}": "prettier --write"
+    "*.{js,jsx,cjs,ts,tsx,css,md}": "prettier --write"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

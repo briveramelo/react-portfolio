@@ -9,6 +9,7 @@ lerna-debug.log*
 
 cloud-functions/**/.env
 
+.firebase
 venv
 node_modules
 dist
@@ -27,3 +28,4 @@ dist-ssr
 *.sw?
 
 all_text.txt
+build-stats.html

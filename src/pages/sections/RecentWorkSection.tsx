@@ -1,8 +1,8 @@
 import React, { forwardRef } from "react";
 import { Container, Typography, Grid, Box } from "@mui/material";
 import { RecentProjectCard } from "../components/RecentProjectCard";
-import pessimisticNight from "@/assets/projects/pessimistic-night.jpg";
-import digitalHealth from "@/assets/orgs/DigitalHealth4x3.jpg";
+import pessimisticNight from "@/assets/projects/pessimistic-night.webp";
+import digitalHealth from "@/assets/orgs/DigitalHealth4x3.webp";
 
 interface Project {
   title: string;

@@ -1,4 +1,4 @@
-import joshTilt2 from "@/assets/projects/josh-tilt-2.jpg";
+import joshTilt2 from "@/assets/projects/josh-tilt.webp";
 import abcmouse from "@/assets/projects/abcmouse.jpg";
 import clawface from "@/assets/projects/clawface.jpg";
 import { getSkills, SkillData } from "./skillsData";
