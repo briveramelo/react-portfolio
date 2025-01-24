@@ -119,7 +119,7 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
           lineHeight: "70px",
           transition: "font-size 0.15s ease-in-out",
           cursor: "default",
-          willChange: isVisible ? "transform" : "",
+          willChange: isVisible ? "transform" : "", //conditional is good: the first is not key, it's mostly hidden, and you get to see so many animations
         }}
         key={animationKey} // Forces re-render
         onAnimationEnd={handleAnimationEnd}

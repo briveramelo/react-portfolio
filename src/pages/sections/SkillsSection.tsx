@@ -21,7 +21,7 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
     const [isYearsOfExperience, setIsYearsOfExperience] =
       useState<boolean>(true);
     const sectionRef = useRef<HTMLDivElement>(null!);
-    const isVisible = useIntersectionObserver(sectionRef, { threshold: 0.1 });
+    const isSectionVisible = useIntersectionObserver(sectionRef, { threshold: 0.1 });
     const { mode } = useCustomPalette();
     const useLight = mode !== ThemeMode.Light;
 
@@ -84,13 +84,13 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
               {isYearsOfExperience ? (
                 <ExperienceCategory
                   skillCategory={category}
-                  isVisible={isVisible}
+                  isVisible={isSectionVisible}
                   useLight={useLight}
                 />
               ) : (
                 <SkillCategory
                   skillCategory={category}
-                  isVisible={isVisible}
+                  isSectionVisible={isSectionVisible}
                   useLight={useLight}
                 />
               )}

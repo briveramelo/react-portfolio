@@ -44,7 +44,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             ? ""
             : `transform ${slideDurationMs}ms ease-in-out !important`,
         transform: `translate3d(${targetDestinationX}, 0, 0)`,
-        willChange: !animationComplete ? "transform" : "",
+        willChange: "transform", // first time (and subsequent) appearance is key
         "&:hover": {
           "& #learn_more_slide_target": {
             transform: "translateY(-38px)",
@@ -64,7 +64,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           display: "flex",
           justifyContent: "flex-start",
           transition: "transform 0.3s ease !important",
-          willChange: isOnScreen ? "transform" : "",
+          willChange: isOnScreen ? "transform" : "", //conditional works well, since there is a delay in first animation
         }}
       >
         <Box

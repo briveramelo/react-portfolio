@@ -183,7 +183,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
                   : `transform ${transitionDurationMs}ms ease`,
                 transform: `rotateY(${targetRotationDeg}deg)`,
                 pointerEvents: "none",
-                willChange: isSectionVisible ? "transform" : "",
+                willChange: isSectionVisible ? "transform" : "", //conditional on visibility works well: the first animation is delayed, it's not always needed
               }}
               ref={containerRef}
             >

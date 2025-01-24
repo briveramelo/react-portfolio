@@ -6,13 +6,13 @@ import { SkillCategoryData } from "../../../data/skillsData.ts";
 
 interface SkillCategoryProps {
   skillCategory: SkillCategoryData;
-  isVisible: boolean;
+  isSectionVisible: boolean;
   useLight: boolean;
 }
 
 const SkillCategory: React.FC<SkillCategoryProps> = ({
   skillCategory,
-  isVisible,
+  isSectionVisible,
   useLight,
 }) => {
   const { category, skills } = skillCategory;
@@ -48,12 +48,12 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
       >
         <SkillArc
           key={
-            isVisible
+            isSectionVisible
               ? `${category}-star-arc-visible`
               : `${category}-star-arc-hidden`
           }
-          starCount={isVisible ? averageStars : 0}
-          isVisible={isVisible}
+          starCount={isSectionVisible ? averageStars : 0}
+          isSectionVisible={isSectionVisible}
         />
       </Box>
       <Box
@@ -68,7 +68,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
             key={`${skill.name}-star`}
             skill={skill}
             useLight={useLight}
-            isVisible={isVisible}
+            isVisible={isSectionVisible}
           />
         ))}
       </Box>

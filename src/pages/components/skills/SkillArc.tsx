@@ -12,12 +12,12 @@ import { useCustomPalette } from "../../../theme.ts";
 
 interface SkillCategoryArcProps {
   starCount: number; // Accepts full or half values (e.g. 1, 1.5, 2, 2.5)
-  isVisible: boolean;
+  isSectionVisible: boolean;
 }
 
 const SkillArc: React.FC<SkillCategoryArcProps> = ({
   starCount,
-  isVisible,
+  isSectionVisible,
 }) => {
   const { skills } = useCustomPalette();
   const { star, empty } = skills;
@@ -85,7 +85,7 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({
                   alignItems: "center",
                   width: "100%",
                   height: "100%",
-                  willChange: isVisible ? "transform, opacity" : "",
+                  willChange: isSectionVisible ? "transform, opacity" : "", //since it starts hidden, conditional works well
                 }}
               >
                 {isHalfStar ? (
