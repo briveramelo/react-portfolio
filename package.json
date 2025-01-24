@@ -7,6 +7,7 @@
     "dev": "vite",
     "tsc": "tsc -b",
     "build": "vite build && ./scripts/printBuildSize.sh",
+    "deploy": "firebase deploy --only hosting --project brandon-portfolio-448520",
     "lint": "eslint .",
     "preview": "vite preview",
     "format": "prettier --write .",

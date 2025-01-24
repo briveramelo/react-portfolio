@@ -8,7 +8,7 @@ export default defineConfig({
     visualizer({
       filename: "build-stats.html", // Generate visualization file in project folder
       template: "treemap", // Choose visualization type: sunburst, treemap, network
-      open: true, // Automatically open report after build
+      open: false, // Automatically open report after build
       gzipSize: true, // Show gzip size in report
       brotliSize: true, // Show brotli size in report
     }),
@@ -22,12 +22,7 @@ export default defineConfig({
       output: {
         manualChunks: (id) => {
           if (id.includes("node_modules")) {
-            if (id.includes("react-dom")) return "vendor-react-dom";
             if (id.includes("react")) return "vendor-react";
-            if (id.includes("firebase")) return "vendor-firebase";
-            if (id.includes("@mui")) return "vendor-mui";
-            if (id.includes("fontawesome")) return "vendor-fontawesome";
-            if (id.includes("plausible-tracker")) return "vendor-analytics";
             return "vendor";
           }
         },

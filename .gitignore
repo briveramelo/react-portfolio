@@ -9,6 +9,7 @@ lerna-debug.log*
 
 cloud-functions/**/.env
 
+.firebase
 venv
 node_modules
 dist
