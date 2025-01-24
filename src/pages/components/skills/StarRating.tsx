@@ -11,9 +11,10 @@ import { useCustomPalette } from "../../../theme.ts";
 
 interface StarRatingProps {
   count: number; // 1–5
+  isSectionVisible: boolean;
 }
 
-const StarRating: React.FC<StarRatingProps> = ({ count }) => {
+const StarRating: React.FC<StarRatingProps> = ({ count, isSectionVisible }) => {
   const animatedStarCount = getAnimatedValue(count, starPopAnimationDurationMs);
   const { skills } = useCustomPalette();
   const popAnimation = keyframes`
@@ -37,6 +38,7 @@ const StarRating: React.FC<StarRatingProps> = ({ count }) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              willChange: isSectionVisible ? "transform" : "",
             }}
           >
             <FontAwesomeIcon

@@ -68,7 +68,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
             key={`${skill.name}-star`}
             skill={skill}
             useLight={useLight}
-            isVisible={isSectionVisible}
+            isSectionVisible={isSectionVisible}
           />
         ))}
       </Box>

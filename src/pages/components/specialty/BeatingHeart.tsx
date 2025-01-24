@@ -16,7 +16,6 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
   const [animationKey, setAnimationKey] = useState(0); // Key to force animation re-trigger
   const [isHovered, setIsHovered] = useState(false);
   const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
-  const isVisible = useIntersectionObserver(heartRef, { threshold: 0.01 });
 
   const minHeartRateBPM = 40.0;
   const maxHeartRateBPM = 160.0;
@@ -119,7 +118,7 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
           lineHeight: "70px",
           transition: "font-size 0.15s ease-in-out",
           cursor: "default",
-          willChange: isVisible ? "transform" : "", //conditional is good: the first is not key, it's mostly hidden, and you get to see so many animations
+          willChange: "", //no need to optimize. looks fine
         }}
         key={animationKey} // Forces re-render
         onAnimationEnd={handleAnimationEnd}
