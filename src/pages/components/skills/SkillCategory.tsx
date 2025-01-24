@@ -53,6 +53,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
               : `${category}-star-arc-hidden`
           }
           starCount={isVisible ? averageStars : 0}
+          isVisible={isVisible}
         />
       </Box>
       <Box

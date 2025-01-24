@@ -19,6 +19,7 @@ import InvertableImage from "../reusable/InvertableImage.tsx";
 interface ExperienceProps {
   skill: SkillData;
   useLight: boolean;
+  isVisible: boolean;
 }
 
 const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -33,7 +34,7 @@ const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-const Experience: React.FC<ExperienceProps> = ({ skill, useLight }) => {
+const Experience: React.FC<ExperienceProps> = ({ skill, useLight, isVisible }) => {
   const { name, years, srcLight, srcDark, invertIfLight } = skill;
   const rawValue = years.length;
   const src = useLight ? srcLight : srcDark;
@@ -96,6 +97,7 @@ const Experience: React.FC<ExperienceProps> = ({ skill, useLight }) => {
               [`& .${linearProgressClasses.bar}`]: {
                 backgroundColor: getProgressColor(animatedValue, true),
                 transition: `width ${starArcAnimationDurationMs}ms ease`,
+                willChange: isVisible ? "width" : "",
               },
             }}
           />

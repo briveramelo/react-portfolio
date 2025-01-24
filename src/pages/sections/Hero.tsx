@@ -12,6 +12,7 @@ import remarkBreaks from "remark-breaks";
 import { cp } from "../../utils/utils";
 import { useFlareEffect } from "../components/specialty/useFlareEffect.ts";
 import { useHoverTracking } from "../../tracking/useHoverTracking";
+import { useIntersectionObserver } from "../../utils/useIntersectionObserver.ts";
 
 // Define the props for the Hero component
 interface HeroProps {
@@ -31,7 +32,10 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     const containerRef = useRef<HTMLDivElement>(null);
     const [isStarting, setIsStarting] = useState<boolean>(true);
     const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
-
+    const isSectionVisible = useIntersectionObserver(
+      ref as React.RefObject<HTMLElement>,
+      { threshold: 0.1 }
+    );
     useFlareEffect({
       canvasRef,
       containerRef,
@@ -179,7 +183,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
                   : `transform ${transitionDurationMs}ms ease`,
                 transform: `rotateY(${targetRotationDeg}deg)`,
                 pointerEvents: "none",
-                willChange: "transform",
+                willChange: isSectionVisible ? "transform" : "",
               }}
               ref={containerRef}
             >

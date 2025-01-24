@@ -60,6 +60,7 @@ const ExperienceCategory: React.FC<ExperienceCategoryProps> = ({
             key={`${skill.name}-exp`}
             skill={{ ...skill, years: isVisible ? skill.years : [] }}
             useLight={useLight}
+            isVisible={isVisible}
           />
         ))}
       </Box>
