@@ -99,7 +99,7 @@ export function Header({
         position: "sticky",
         top: 0,
         background: colors.header,
-        zIndex: 9999, //force top
+        zIndex: 3, //force top
         overflow: "hidden", // ensure proper clipping
       }}
     >
