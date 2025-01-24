@@ -170,8 +170,8 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
           >
             <Box
               sx={{
-                width: "400px",
-                height: "600px",
+                width: { sm: "400px", xs: "375px" },
+                height: { sm: "600px", xs: "562.5px" },
                 position: "relative",
                 transformStyle: "preserve-3d",
                 transition: instantFlip

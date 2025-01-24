@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Box, Button, IconButton, Toolbar } from "@mui/material";
-import { LinkedIn } from "@mui/icons-material";
+import { Box, Button, Drawer, IconButton, List, ListItemButton, ListItemText, Toolbar } from "@mui/material";
+import { LinkedIn, Menu } from "@mui/icons-material";
 import ThemeSwitcher from "./ThemeSwitcher.tsx";
 import { ThemeContext } from "../../ThemeContext.tsx";
 import { isColorDark } from "../../utils/utils.ts";
@@ -39,6 +39,7 @@ export function Header({
   const [isBackgroundDark, setIsBackgroundDark] = useState<boolean>(
     defaultIsBackgroundDark,
   );
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const handleNavClick = (href: string) => {
     const linkId = href.replace("#", "");
@@ -52,6 +53,7 @@ export function Header({
 
       window.history.pushState(null, "", href);
     }
+    setDrawerOpen(false);
   };
 
   // Header adapts to match section colors
@@ -114,8 +116,15 @@ export function Header({
           padding: "0 16px",
         }}
       >
-        {/* Navigation Links */}
-        <Box sx={{ display: "flex", gap: 2 }}>
+        {/* Hamburger menu for mobile */}
+        <Box sx={{ display: { xs: "block", md: "none" } }}>
+          <IconButton onClick={() => setDrawerOpen(true)} sx={{ color: colors.text }}>
+            <Menu />
+          </IconButton>
+        </Box>
+
+        {/* Desktop navigation links */}
+        <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
           {navigationLinks.map((link, index) => {
             const { trackMouseEnter, trackMouseLeave } =
               navHoverTrackers[index];
@@ -163,6 +172,19 @@ export function Header({
 
         <ThemeSwitcher isBackgroundDark={isBackgroundDark} />
       </Toolbar>
+
+      {/* Mobile Drawer */}
+      <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+        <Box>
+          <List>
+            {navigationLinks.map((link, index) => (
+              <ListItemButton sx={{ pr: 10 }} key={link.href} onClick={() => handleNavClick(link.href)}>
+                <ListItemText primary={link.label} />
+              </ListItemButton>
+            ))}
+          </List>
+        </Box>
+      </Drawer>
     </Box>
   );
 }

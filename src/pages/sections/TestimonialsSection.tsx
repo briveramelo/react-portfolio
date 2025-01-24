@@ -97,7 +97,6 @@ export const TestimonialsSection = forwardRef<
           </Typography>
           <Typography variant="body1" sx={{ color: textColor }}>
             I care about the quality of my work and the teams I support,
-            <br />
             but you should hear it from them.
           </Typography>
         </Box>
