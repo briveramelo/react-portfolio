@@ -9,6 +9,7 @@ lerna-debug.log*
 
 cloud-functions/**/.env
 
+venv
 node_modules
 dist
 dist-ssr

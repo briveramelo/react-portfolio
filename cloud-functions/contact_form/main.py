@@ -6,6 +6,9 @@ import time
 from email_validator import validate_email, EmailNotValidError
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import firebase_functions as functions
+from firebase_functions import https
+from flask import jsonify
 
 # Configure logging
 logging.basicConfig(level=logging.ERROR)
@@ -16,19 +19,14 @@ SMTP_PORT = int(os.getenv("SMTP_PORT", 587))
 EMAIL_RECEIVER = os.getenv("EMAIL_RECEIVER")
 EMAIL_SENDER = os.getenv("EMAIL_SENDER")
 EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD")
-MESSAGE_MAX_LENGTH = int(os.getenv("MESSAGE_MAX_LENGTH", 10000))
 SUBJECT_MAX_LENGTH = int(os.getenv("SUBJECT_MAX_LENGTH", 100))
+MESSAGE_MAX_LENGTH = int(os.getenv("MESSAGE_MAX_LENGTH", 10000))
 
-# Ensure required environment variables are set
-if not EMAIL_PASSWORD:
-    raise EnvironmentError("EMAIL_PASSWORD environment variable is missing.")
-if not EMAIL_SENDER:
-    raise EnvironmentError("EMAIL_SENDER environment variable is missing.")
-if not EMAIL_RECEIVER:
-    raise EnvironmentError("EMAIL_RECEIVER environment variable is missing.")
+if not EMAIL_PASSWORD or not EMAIL_SENDER or not EMAIL_RECEIVER:
+    raise EnvironmentError("Missing required email configuration environment variables.")
 
-
-def validate_input(data, subject_max_length, message_max_length):
+# Function to validate and sanitize input
+def validate_input(data: dict) -> tuple[bool, str | None, dict | None]:
     try:
         valid_email = validate_email(data.get("email", "").strip(), check_deliverability=False).email
     except EmailNotValidError:
@@ -37,73 +35,48 @@ def validate_input(data, subject_max_length, message_max_length):
     subject = bleach.clean(data.get("subject", "").strip())
     message = bleach.clean(data.get("message", "").strip())
 
-    if not (1 <= len(subject) <= subject_max_length):
-        return False, f"Subject must be between 1 and {subject_max_length} characters", None
+    if not (1 <= len(subject) <= SUBJECT_MAX_LENGTH):
+        return False, "Subject must be between 1 and 100 characters.", None
+    if not (1 <= len(message) <= MESSAGE_MAX_LENGTH):
+        return False, "Message must be between 1 and 10000 characters.", None
 
-    if not (1 <= len(message) <= message_max_length):
-        return False, f"Message must be between 1 and {message_max_length} characters", None
+    return True, None, {"email": valid_email, "subject": subject, "message": message}
 
-    sanitized_data = {
-        "email": valid_email,
-        "subject": subject,
-        "message": message
-    }
-
-    return True, None, sanitized_data
-
-def send_email(smtp_server, smtp_port, email_sender, email_password, to_email, subject, message):
+# Function to send the email
+def send_email(subject: str, message: str, sender_email: str) -> bool:
     msg = MIMEMultipart()
-    msg["From"] = email_sender
-    msg["To"] = to_email
+    msg["From"] = EMAIL_SENDER
+    msg["To"] = EMAIL_RECEIVER
     msg["Subject"] = subject
-
-    msg.attach(MIMEText(message, "plain"))
+    msg.attach(MIMEText(f"From: {sender_email}\n\n{message}", "plain"))
 
     try:
-        server = smtplib.SMTP(smtp_server, smtp_port)
+        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
         server.starttls()
-        server.login(email_sender, email_password)
-        server.sendmail(email_sender, to_email, msg.as_string())
+        server.login(EMAIL_SENDER, EMAIL_PASSWORD)
+        server.sendmail(EMAIL_SENDER, EMAIL_RECEIVER, msg.as_string())
         server.quit()
         return True
     except Exception:
         logging.error("Error sending email", exc_info=True)
         return False
 
-def send_email_with_retry(smtp_server, smtp_port, email_sender, email_password, to_email, subject, message, retries=2):
-    for attempt in range(retries):
-        if send_email(smtp_server, smtp_port, email_sender, email_password, to_email, subject, message):
-            return True
-        time.sleep(2 ** attempt)  # Exponential backoff
-    return False
-
-def contact_form_handler(request):
+@functions.https.on_call
+def contact_form_handler(request: https.CallableRequest):
     try:
-        request_json = request.get_json()
-        if not request_json:
-            return {"error": "Invalid request"}, 400
+        data = request.data
 
         # Validate and sanitize input
-        is_valid, error_message, sanitized_data = validate_input(request_json, SUBJECT_MAX_LENGTH, MESSAGE_MAX_LENGTH)
+        is_valid, error_message, sanitized_data = validate_input(data)
         if not is_valid:
-            return {"error": error_message}, 400
+            raise https.HttpsError("invalid-argument", error_message)
 
-        # Send email
-        success = send_email_with_retry(
-            SMTP_SERVER,
-            SMTP_PORT,
-            EMAIL_SENDER,
-            EMAIL_PASSWORD,
-            EMAIL_RECEIVER,
-            sanitized_data["subject"],
-            f"From: {sanitized_data['email']}\n\n{sanitized_data['message']}"
-        )
+        success = send_email(sanitized_data["subject"], sanitized_data["message"], sanitized_data["email"])
 
         if success:
-            return {"message": "Email sent successfully"}, 200
+            return {"message": "Email sent successfully."}
         else:
-            return {"error": "Failed to send email"}, 500
-
-    except Exception:
+            raise https.HttpsError("internal", "Failed to send email.")
+    except Exception as e:
         logging.error("Unexpected error occurred", exc_info=True)
-        return {"error": "An unexpected server error occurred. Please try again later."}, 500
+        raise https.HttpsError("internal", "An unexpected error occurred. Please try again.")
