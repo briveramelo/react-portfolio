@@ -1,5 +1,14 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Box, Button, Drawer, IconButton, List, ListItemButton, ListItemText, Toolbar } from "@mui/material";
+import {
+  Box,
+  Button,
+  Drawer,
+  IconButton,
+  List,
+  ListItemButton,
+  ListItemText,
+  Toolbar,
+} from "@mui/material";
 import { LinkedIn, Menu } from "@mui/icons-material";
 import ThemeSwitcher from "./ThemeSwitcher.tsx";
 import { ThemeContext } from "../../ThemeContext.tsx";
@@ -118,7 +127,10 @@ export function Header({
       >
         {/* Hamburger menu for mobile */}
         <Box sx={{ display: { xs: "block", md: "none" } }}>
-          <IconButton onClick={() => setDrawerOpen(true)} sx={{ color: colors.text }}>
+          <IconButton
+            onClick={() => setDrawerOpen(true)}
+            sx={{ color: colors.text }}
+          >
             <Menu />
           </IconButton>
         </Box>
@@ -174,11 +186,19 @@ export function Header({
       </Toolbar>
 
       {/* Mobile Drawer */}
-      <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      >
         <Box>
           <List>
             {navigationLinks.map((link, index) => (
-              <ListItemButton sx={{ pr: 10 }} key={link.href} onClick={() => handleNavClick(link.href)}>
+              <ListItemButton
+                sx={{ pr: 10 }}
+                key={link.href}
+                onClick={() => handleNavClick(link.href)}
+              >
                 <ListItemText primary={link.label} />
               </ListItemButton>
             ))}
