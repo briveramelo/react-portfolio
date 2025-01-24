@@ -38,6 +38,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       id={`project_card_${projectData.title}`}
       sx={{
         position: "relative",
+        visibility: !isOnScreen && animationComplete ? "hidden" : "visible",
         transition:
           isOnScreen && animationComplete
             ? ""

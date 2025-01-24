@@ -28,21 +28,22 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
     const detailsRef = useRef<HTMLDivElement>(null);
     const sectionRef = ref as React.RefObject<HTMLElement>;
 
-    const isVisibleLead = useIntersectionObserver(sectionRef, {
+    const isSectionVisibleLead = useIntersectionObserver(sectionRef, {
       threshold: 0.1,
-    });
-    const [isVisibleLag, setIsVisibleLag] = useState<boolean>(false);
+    }); //leading measure of if the section is visible
+    const [isSectionVisibleLag, setIsSectionVisibleLag] =
+      useState<boolean>(false); //lagging measure of if the section is visible
 
     useEffect(() => {
       setAnimationComplete(false);
-      setIsVisibleLag(isVisibleLead);
+      setIsSectionVisibleLag(isSectionVisibleLead);
 
       const timeoutId = setTimeout(() => {
         setAnimationComplete(true);
       }, slideDurationMs);
 
       return () => clearTimeout(timeoutId);
-    }, [isVisibleLead, slideDurationMs]);
+    }, [isSectionVisibleLead, slideDurationMs]);
 
     useEffect(() => {
       if (isProjectSelected && sectionRef.current) {
@@ -171,7 +172,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
                 useLight={useLight}
                 onClick={() => handleCardClick(project)}
                 targetDestinationX={
-                  isProjectSelected || !isVisibleLag
+                  isProjectSelected || !isSectionVisibleLag
                     ? index % 2 === 0
                       ? "-100vw"
                       : "100vw"
