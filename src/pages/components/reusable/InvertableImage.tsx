@@ -3,7 +3,7 @@ import React from "react";
 interface InvertableImageProps {
   src: string;
   alt: string;
-  invert: boolean; // Forces inversion when set, otherwise responds to theme
+  invert: boolean;
   id?: string;
 }
 

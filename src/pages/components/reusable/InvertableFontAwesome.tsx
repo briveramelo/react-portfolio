@@ -4,7 +4,7 @@ import { ThemeMode, useCustomPalette } from "../../../theme.ts";
 
 interface InvertableFontAwesomeProps {
   icon: any; // Icon object imported from Font Awesome, e.g., `faCalendarCheck`
-  invert?: boolean; // Force inversion
+  invert?: boolean;
 }
 
 const InvertableFontAwesome: React.FC<InvertableFontAwesomeProps> = ({

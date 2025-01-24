@@ -7,7 +7,7 @@ interface BouncingButtonProps extends ButtonProps {
   numBounces: number;
   bounceDurationMs: number;
   children: React.ReactNode;
-  sx?: object; // Optional style override
+  sx?: object;
 }
 
 const BouncingButton: React.FC<BouncingButtonProps> = ({

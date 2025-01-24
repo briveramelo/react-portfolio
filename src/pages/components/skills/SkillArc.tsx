@@ -3,12 +3,11 @@ import { Box, keyframes } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import {
-  starArcAnimationDurationMs,
   maxStarCount,
   starPopAnimationDurationMs,
 } from "../../../data/constants.ts";
 import { getAnimatedValue } from "../../../utils/getAnimatedValue.ts";
-import HalfStar from "./HalfStar.tsx"; // Import the custom HalfStar component
+import HalfStar from "./HalfStar.tsx";
 import { useCustomPalette } from "../../../theme.ts";
 
 interface SkillCategoryArcProps {

@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
-import { Toolbar, IconButton, Button, Box } from "@mui/material";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Box, Button, IconButton, Toolbar } from "@mui/material";
 import { LinkedIn } from "@mui/icons-material";
 import ThemeSwitcher from "./ThemeSwitcher.tsx";
 import { ThemeContext } from "../../ThemeContext.tsx";
 import { isColorDark } from "../../utils/utils.ts";
-import { themeImages } from "../../theme.ts";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 
 interface HeaderProps {
