@@ -44,7 +44,7 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
         }}
         ref={ref}
       >
-        <Typography variant="h1" sx={{ mb: 1 }}>
+        <Typography variant="h1" sx={{ mb: 2 }}>
           {isYearsOfExperience ? "Experience" : "Skill Levels"}
         </Typography>
         <BouncingButton

@@ -20,10 +20,9 @@ export function RecentProjectCard({ project }: { project: Project }) {
         flexDirection: "column",
         backgroundColor: cp("background.paper"),
         borderRadius: 2,
-        "&:hover": { transform: "scale(1.02) !important" },
         overflow: "hidden",
       }}
-      className="pop-shadow"
+      className="subtle-shadow"
       id={`recent_card_${project.title}`}
       onMouseEnter={trackMouseEnter}
       onMouseLeave={trackMouseLeave}

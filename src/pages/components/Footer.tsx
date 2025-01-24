@@ -44,7 +44,10 @@ export const Footer: React.FC<FooterProps> = ({
             gap: 0,
           }}
         >
-          <Typography variant="body1" sx={{ ml: -7, mr: 1, color: textColor }}>
+          <Typography
+            variant="body1"
+            sx={{ ml: -6.2, mr: 1, color: textColor }}
+          >
             Custom made with
           </Typography>
           <BeatingHeart heartTriggerRef={heartTriggerRef} />
