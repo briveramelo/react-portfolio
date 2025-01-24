@@ -15,7 +15,10 @@ interface SkillCategoryArcProps {
   isVisible: boolean;
 }
 
-const SkillArc: React.FC<SkillCategoryArcProps> = ({ starCount, isVisible }) => {
+const SkillArc: React.FC<SkillCategoryArcProps> = ({
+  starCount,
+  isVisible,
+}) => {
   const { skills } = useCustomPalette();
   const { star, empty } = skills;
   const arcSize = 300;

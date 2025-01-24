@@ -34,7 +34,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
     const isSectionVisible = useIntersectionObserver(
       ref as React.RefObject<HTMLElement>,
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
     useFlareEffect({
       canvasRef,
