@@ -240,6 +240,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
             variant="contained"
             color="primary"
             sx={{
+              zIndex: 1,
               alignSelf: "center",
               px: 4,
               "&:hover": { transform: "scale(1.1) !important" },
@@ -256,43 +257,45 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
             mt: 3,
             mb: -1,
             py: 0,
-            backgroundColor: cp("background.paper"),
+            width: "100%",
+            backgroundColor: cp("background.textError"),
             position: "relative",
             borderRadius: "8px",
-            display: "flex",
+            display: errorMessage ? "" : "none",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
+          <Alert
+            severity="error"
+            sx={{
+              position: "absolute",
+              left: "-8px",
+              top: "-8px",
+              backgroundColor: "transparent",
+            }}
+          />
           <Typography
             sx={{
               position: "relative",
               display: "inline-block",
               color: cp("text.paper"),
+              py: 0.5,
+              px: 5,
             }}
             variant="body1"
           >
-            <Alert
-              severity="error"
-              sx={{
-                position: "absolute",
-                top: "50%",
-                transform: "translate(-50%, -50%)",
-                pr: 5,
-                backgroundColor: "inherit",
-              }}
-            />
             {errorMessage}
           </Typography>
         </Box>
       </Box>
     );
-    const formSubmittedContent = (
+    const confirmationContent = (
       <Box
         sx={{
           mt: 4,
           py: 3,
-          backgroundColor: cp("background.paper"),
+          backgroundColor: cp("background.textSuccess"),
           display: "flex",
           alignItems: "center",
           flex: 1, // Takes full available width
@@ -405,7 +408,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
           {/* Form or Confirmation Message */}
           <Box sx={{ display: formSubmitted ? "none" : "" }}>{formContent}</Box>
           <Box sx={{ display: formSubmitted ? "" : "none" }}>
-            {formSubmittedContent}
+            {confirmationContent}
           </Box>
         </Container>
 

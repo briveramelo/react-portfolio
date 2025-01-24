@@ -22,9 +22,10 @@ interface HeroProps {
 
 export const Hero = forwardRef<HTMLElement, HeroProps>(
   ({ backgroundColor, textColor, id }, ref) => {
-    const [targetRotationDeg, setTargetRotationDeg] = useState<number>(0);
+    const [targetRotationDeg, setTargetRotationDeg] = useState<number>(180);
     const [instantFlip, setInstantFlip] = useState<boolean>(false);
-    const transitionDurationMs = 500; // Duration of the transition in ms
+    const [transitionDurationMs, setTransitionDurationMs] =
+      useState<number>(1000);
     const startTimeRefMs = useRef<number | null>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -41,26 +42,16 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     });
 
     useEffect(() => {
-      setTargetRotationDeg(180);
-      let timer2: any = undefined;
-      const timer1 = setTimeout(() => {
-        setInstantFlip(true);
-        setTargetRotationDeg((prev) => (prev === 180 ? -180 : 180));
-
-        // Wait a frame for the above to render with no transition
-        // Then re-enable transitions and smoothly rotate to 0
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            setInstantFlip(false);
-            setTargetRotationDeg(0);
-            timer2 = setTimeout(() => setIsStarting(false));
-          });
-        });
+      const timer = setTimeout(() => {
+        setTargetRotationDeg(0);
+        setTimeout(() => {
+          setIsStarting(false);
+          setTransitionDurationMs(500);
+        }, transitionDurationMs);
       }, transitionDurationMs);
 
       return () => {
-        clearTimeout(timer1);
-        clearTimeout(timer2);
+        clearTimeout(timer);
       };
     }, []);
 

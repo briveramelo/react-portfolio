@@ -45,12 +45,15 @@ export interface CustomPalette {
     default: string;
     paper: string;
     contrast: string;
+    textError: string;
+    textSuccess: string;
   };
   text: {
     primary: string;
     secondary: string;
     highlighting: string;
     paper: string;
+    dark: string;
   };
   primary: {
     main: string;
@@ -78,12 +81,15 @@ const Pop = createTheme({
       default: "rgb(24, 24, 24)",
       paper: "rgb(245, 245, 240)",
       contrast: "rgb(255, 255, 255)",
+      textError: "rgb(255,219,219)",
+      textSuccess: "rgb(213,255,213)",
     },
     text: {
       primary: "rgb(255, 255, 255)",
       secondary: "rgb(8, 8, 8)",
       highlighting: "rgb(173, 216, 230)",
       paper: "rgb(8, 8, 8)",
+      dark: "rgb(8, 8, 8)",
     },
     primary: {
       main: "rgb(98, 186, 27)",
@@ -116,12 +122,15 @@ const Dark = createTheme({
       default: "rgb(24, 24, 24)",
       paper: "rgb(48, 48, 48)",
       contrast: "rgb(0,19,56)",
+      textError: "rgb(85,0,0)",
+      textSuccess: "rgb(0,48,0)",
     },
     text: {
       primary: "rgb(255, 255, 255)",
       secondary: "rgb(236,236,236)",
       highlighting: "rgba(30, 136, 229, 0.75)",
       paper: "rgb(248,248,248)",
+      dark: "rgb(8, 8, 8)",
     },
     primary: {
       main: "rgb(98, 186, 27)",
@@ -154,12 +163,15 @@ const Light = createTheme({
       default: "rgb(255, 255, 255)",
       paper: "rgb(245, 245, 240)",
       contrast: "rgb(245, 245, 240)",
+      textError: "rgb(255,219,219)",
+      textSuccess: "rgb(213,255,213)",
     },
     text: {
       primary: "rgb(8, 8, 8)",
       secondary: "rgb(8, 8, 8)",
       highlighting: "rgb(173, 216, 230)",
       paper: "rgb(8, 8, 8)",
+      dark: "rgb(8, 8, 8)",
     },
     primary: {
       main: "rgb(98, 186, 27)",
