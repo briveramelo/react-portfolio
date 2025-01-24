@@ -86,6 +86,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+
       if (!validateForm()) return;
 
       setLoading(true);
@@ -93,24 +94,27 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
 
       try {
         const functions = getFunctions(firebaseApp);
-        const sendContactForm = httpsCallable<
-          FormData,
-          { success: boolean; error?: string }
-        >(functions, "contactFormHandler");
+        const sendContactForm = httpsCallable<FormData, { message: string }>(
+          functions,
+          "contactFormHandler",
+        );
         const response = await sendContactForm(formData);
 
-        if (response.data.success) {
+        if (response.data?.message) {
           setErrorMessage(null);
           setFormSubmitted(true);
           setFormData({ email: "", subject: "", message: "" });
         } else {
-          setErrorMessage(response.data.error || "Failed to send message");
+          setErrorMessage("Unexpected response from the server.");
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("Form submission error:", error);
-        setErrorMessage("An error occurred. Please try again later.");
+        const errorMessage =
+          error.message || "An unexpected error occurred. Please try again.";
+        setErrorMessage(errorMessage);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     const inputStyles = {
@@ -247,30 +251,66 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
           </Button>
         </form>
 
-        <Alert
-          severity="error"
+        <Box
           sx={{
-            mt: 2,
+            mt: 3,
+            mb: -1,
+            py: 0,
             backgroundColor: cp("background.paper"),
-            alignContent: "center",
+            position: "relative",
+            borderRadius: "8px",
+            display: "flex",
             justifyContent: "center",
-            display: errorMessage ? "" : "none",
+            alignItems: "center",
           }}
         >
           <Typography
+            sx={{
+              position: "relative",
+              display: "inline-block",
+              color: cp("text.paper"),
+            }}
             variant="body1"
-            sx={{ color: cp("text.paper"), mt: -0.1 }}
           >
+            <Alert
+              severity="error"
+              sx={{
+                position: "absolute",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
+                pr: 5,
+                backgroundColor: "inherit",
+              }}
+            />
             {errorMessage}
           </Typography>
-        </Alert>
+        </Box>
       </Box>
     );
     const formSubmittedContent = (
-      <Alert
-        severity="success"
-        sx={{ mt: 4, backgroundColor: cp("background.paper") }}
+      <Box
+        sx={{
+          mt: 4,
+          py: 3,
+          backgroundColor: cp("background.paper"),
+          display: "flex",
+          alignItems: "center",
+          flex: 1, // Takes full available width
+          flexDirection: "column",
+          textAlign: "center", // Centers text inside
+          position: "relative",
+          borderRadius: "8px",
+        }}
       >
+        <Alert
+          severity="success"
+          sx={{
+            backgroundColor: "inherit",
+            position: "absolute",
+            top: 0,
+            left: 0,
+          }}
+        />
         <Typography
           variant="h6"
           sx={{ fontWeight: "bold", color: cp("text.paper") }}
@@ -280,7 +320,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
         <Typography variant="body1" sx={{ color: cp("text.paper") }}>
           Your message has been sent. Thanks for reaching out!
         </Typography>
-      </Alert>
+      </Box>
     );
 
     return (
@@ -363,10 +403,8 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
           </Typography>
 
           {/* Form or Confirmation Message */}
-          <Box sx={{ display: formSubmitted ? "none" : "block" }}>
-            {formContent}
-          </Box>
-          <Box sx={{ display: formSubmitted ? "block" : "none" }}>
+          <Box sx={{ display: formSubmitted ? "none" : "" }}>{formContent}</Box>
+          <Box sx={{ display: formSubmitted ? "" : "none" }}>
             {formSubmittedContent}
           </Box>
         </Container>
