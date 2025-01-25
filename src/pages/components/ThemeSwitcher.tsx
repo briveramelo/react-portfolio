@@ -1,14 +1,18 @@
 import React, { useContext, useState } from "react";
 import { Menu, MenuItem, IconButton, Typography, Box } from "@mui/material";
-import { themeImages } from "../../theme.ts";
+import { themeImages, ThemeMode } from "../../theme.ts";
 import { ThemeContext } from "../../ThemeContext.tsx";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 
 interface ThemeSwitcherProps {
   isBackgroundDark: boolean;
+  onChange: (mode: ThemeMode) => void;
 }
 
-const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ isBackgroundDark }) => {
+const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
+  isBackgroundDark,
+  onChange,
+}) => {
   const { setMode } = useContext(ThemeContext);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [currentThemeIndex, setCurrentThemeIndex] = useState(0);
@@ -30,6 +34,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ isBackgroundDark }) => {
     setCurrentThemeIndex(index);
     setMode(themeImages[index].name);
     handleClose();
+    onChange(themeImages[index].name);
   };
 
   return (

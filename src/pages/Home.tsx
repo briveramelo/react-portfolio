@@ -8,51 +8,10 @@ import { RecentWorkSection } from "./sections/RecentWorkSection";
 import { ContactSection } from "./sections/ContactSection";
 import { Employers } from "./sections/Employers";
 import { ThemeMode, useCustomPalette } from "../theme";
-import { cp, isColorDark } from "../utils/utils";
+import { sectionStyles } from "../data/sectionStyles";
 
 export function HomePage() {
   const { mode } = useCustomPalette();
-
-  const sectionStyles: Record<
-    string,
-    { backgroundColor: string; textColor: string; isDark: boolean }
-  > = {
-    home: {
-      backgroundColor: cp("background.default"),
-      textColor: cp("text.primary"),
-      isDark: isColorDark(cp("background.default")),
-    },
-    employers: {
-      backgroundColor: cp("background.contrast"),
-      textColor: cp("text.secondary"),
-      isDark: isColorDark(cp("background.contrast")),
-    },
-    skills: {
-      backgroundColor: cp("background.default"),
-      textColor: cp("text.primary"),
-      isDark: isColorDark(cp("background.default")),
-    },
-    work: {
-      backgroundColor: cp("background.contrast"),
-      textColor: cp("text.secondary"),
-      isDark: isColorDark(cp("background.contrast")),
-    },
-    testimonials: {
-      backgroundColor: cp("background.default"),
-      textColor: cp("text.primary"),
-      isDark: isColorDark(cp("background.default")),
-    },
-    recent: {
-      backgroundColor: cp("background.contrast"),
-      textColor: cp("text.secondary"),
-      isDark: isColorDark(cp("background.contrast")),
-    },
-    contact: {
-      backgroundColor: cp("background.default"),
-      textColor: cp("text.primary"),
-      isDark: isColorDark(cp("background.default")),
-    },
-  };
 
   const currentSectionId = window.location.hash.replace("#", "");
   const initialColors =

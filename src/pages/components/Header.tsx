@@ -1,11 +1,21 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
-import { Toolbar, IconButton, Button, Box } from "@mui/material";
-import { LinkedIn } from "@mui/icons-material";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import {
+  Box,
+  Button,
+  Drawer,
+  IconButton,
+  List,
+  ListItemButton,
+  ListItemText,
+  Toolbar,
+} from "@mui/material";
+import { LinkedIn, Menu } from "@mui/icons-material";
 import ThemeSwitcher from "./ThemeSwitcher.tsx";
 import { ThemeContext } from "../../ThemeContext.tsx";
 import { isColorDark } from "../../utils/utils.ts";
-import { themeImages } from "../../theme.ts";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
+import { themes } from "../../theme.ts";
+import { sectionStyles } from "../../data/sectionStyles.ts";
 
 interface HeaderProps {
   sectionRefs: React.RefObject<HTMLElement>[];
@@ -30,7 +40,6 @@ export function Header({
   ];
   const navHoverTrackers = navigationLinks.map((nav) => useHoverTracking());
   const linkedinHover = useHoverTracking();
-
   const headerRef = useRef<HTMLElement | null>(null);
   const [colors, setColors] = useState({
     header: defaultBackgroundColor,
@@ -40,6 +49,7 @@ export function Header({
   const [isBackgroundDark, setIsBackgroundDark] = useState<boolean>(
     defaultIsBackgroundDark,
   );
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const handleNavClick = (href: string) => {
     const linkId = href.replace("#", "");
@@ -53,11 +63,31 @@ export function Header({
 
       window.history.pushState(null, "", href);
     }
+    setDrawerOpen(false);
   };
 
   // Header adapts to match section colors
-  const updateHeaderColors = () => {
+  const getThemeColors = (mode: string | undefined, sectionId: string) => {
+    if (!mode) return null;
+
+    const newTheme = Object.values(themes).find(
+      (theme) => theme.customPalette.mode === mode,
+    );
+
+    if (!newTheme) return null;
+
+    const section = sectionStyles[sectionId];
+    if (!section) return null;
+
+    return {
+      background: newTheme.customPalette.background[section.backgroundKey],
+      text: newTheme.customPalette.text[section.textKey],
+    };
+  };
+
+  const updateColorsFromActiveSection = (mode?: string) => {
     if (!headerRef.current) return;
+
     const headerHeight = headerRef.current.offsetHeight;
 
     const activeSection = sectionRefs.find((sectionRef) => {
@@ -67,26 +97,41 @@ export function Header({
       return rect.top <= headerHeight && rect.bottom > headerHeight;
     });
 
-    if (activeSection?.current) {
+    if (!activeSection?.current) return;
+
+    const sectionId = activeSection.current.id;
+    let newBackgroundColor: string;
+    let newTextColor: string;
+    if (mode) {
+      const themeColors = getThemeColors(mode, sectionId);
+      if (!themeColors) return;
+
+      newBackgroundColor = themeColors.background;
+      newTextColor = themeColors.text;
+    } else {
       const styles = window.getComputedStyle(activeSection.current);
-      const isDark = isColorDark(styles.backgroundColor);
-      setIsBackgroundDark(isDark);
-      setColors({
-        header: styles.backgroundColor,
-        text: styles.color,
-      });
+      newBackgroundColor = styles.backgroundColor;
+      newTextColor = styles.color;
     }
+
+    setIsBackgroundDark(isColorDark(newBackgroundColor));
+    setColors({
+      header: newBackgroundColor,
+      text: newTextColor,
+    });
   };
 
   // Update header on scroll
   useEffect(() => {
-    window.addEventListener("scroll", updateHeaderColors);
-    return () => window.removeEventListener("scroll", updateHeaderColors);
+    const handleScroll = () => updateColorsFromActiveSection();
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Update header when theme changes
   useEffect(() => {
-    updateHeaderColors();
+    updateColorsFromActiveSection();
   }, [mode]);
 
   return (
@@ -115,8 +160,18 @@ export function Header({
           padding: "0 16px",
         }}
       >
-        {/* Navigation Links */}
-        <Box sx={{ display: "flex", gap: 2 }}>
+        {/* Hamburger menu for mobile */}
+        <Box sx={{ display: { xs: "block", md: "none" } }}>
+          <IconButton
+            onClick={() => setDrawerOpen(true)}
+            sx={{ color: colors.text }}
+          >
+            <Menu />
+          </IconButton>
+        </Box>
+
+        {/* Desktop navigation links */}
+        <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
           {navigationLinks.map((link, index) => {
             const { trackMouseEnter, trackMouseLeave } =
               navHoverTrackers[index];
@@ -162,8 +217,32 @@ export function Header({
           <LinkedIn />
         </IconButton>
 
-        <ThemeSwitcher isBackgroundDark={isBackgroundDark} />
+        <ThemeSwitcher
+          isBackgroundDark={isBackgroundDark}
+          onChange={(mode) => updateColorsFromActiveSection(mode)}
+        />
       </Toolbar>
+
+      {/* Mobile Drawer */}
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      >
+        <Box>
+          <List>
+            {navigationLinks.map((link) => (
+              <ListItemButton
+                sx={{ pr: 10 }}
+                key={link.href}
+                onClick={() => handleNavClick(link.href)}
+              >
+                <ListItemText primary={link.label} />
+              </ListItemButton>
+            ))}
+          </List>
+        </Box>
+      </Drawer>
     </Box>
   );
 }

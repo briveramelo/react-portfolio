@@ -3,28 +3,62 @@ import ReactMarkdown from "react-markdown";
 import { HighlightedText } from "./reusable/HighlightedText.tsx";
 import { cp } from "../../utils/utils.ts";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
-
-interface Testimonial {
-  quote: string;
-  name: string;
-  title: string;
-  company: string;
-  photo: string;
-  link: string;
-}
+import { useEffect, useMemo, useState } from "react";
+import "./TestimonialCard.css";
+import { SiblingParagraph } from "./reusable/SiblingParagraph.tsx";
+import { Testimonial } from "../../data/testimonialData.ts";
 
 export function TestimonialCard({
   data,
   backgroundColor,
   textColor,
+  isSectionVisible,
 }: {
   data: Testimonial;
   backgroundColor: string;
   textColor: string;
+  isSectionVisible: boolean;
 }) {
   const cardHover = useHoverTracking();
   const avatarHover = useHoverTracking();
+  const [index, setIndex] = useState<number>(0);
+  useEffect(() => {
+    setIndex(index + 1);
+  }, [isSectionVisible]);
 
+  const memoMarkdown = useMemo(
+    () => (
+      <ReactMarkdown
+        key={index}
+        components={{
+          p: ({ children }) => (
+            <SiblingParagraph
+              className="fade-in-text"
+              variant="body1"
+              sx={{ color: cp("text.secondary") }}
+            >
+              {children}
+            </SiblingParagraph>
+          ),
+          strong: ({ children }) => (
+            <HighlightedText
+              className="highlight-animation"
+              style={{ color: cp("text.paper") }}
+            >
+              {children}
+            </HighlightedText>
+          ),
+        }}
+      >
+        {data.quote}
+      </ReactMarkdown>
+    ),
+    [index, data.quote],
+  );
+  const textStyle = {
+    color: textColor,
+    lineHeight: "1.2em",
+  };
   return (
     <Card
       sx={{
@@ -38,20 +72,7 @@ export function TestimonialCard({
       className="subtle-shadow"
     >
       <CardContent>
-        <ReactMarkdown
-          components={{
-            p: ({ children }) => (
-              <Typography variant="body1" sx={{ color: cp("text.secondary") }}>
-                {children}
-              </Typography>
-            ),
-            strong: ({ children }) => (
-              <HighlightedText>{children}</HighlightedText>
-            ),
-          }}
-        >
-          {data.quote}
-        </ReactMarkdown>
+        {memoMarkdown}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }} mt={3}>
           <a
             href={data.link}
@@ -72,18 +93,28 @@ export function TestimonialCard({
               className="pop-shadow"
             />
           </a>
-          <Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "left",
+              gap: -1,
+            }}
+          >
             <Typography
               variant="h5"
               sx={{ fontWeight: "bold", color: textColor }}
             >
               {data.name}
             </Typography>
-            <Typography variant="h6" sx={{ color: textColor }}>
+            <Typography variant="h6" sx={textStyle}>
               {data.title}
             </Typography>
-            <Typography variant="body1" sx={{ color: textColor }}>
+            <Typography variant="body1" sx={textStyle}>
               {data.company}
+            </Typography>
+            <Typography variant="body1" sx={textStyle}>
+              {data.relation}
             </Typography>
           </Box>
         </Box>

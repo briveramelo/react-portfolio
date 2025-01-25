@@ -3,19 +3,22 @@ import { Box, keyframes } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import {
-  starArcAnimationDurationMs,
   maxStarCount,
   starPopAnimationDurationMs,
 } from "../../../data/constants.ts";
 import { getAnimatedValue } from "../../../utils/getAnimatedValue.ts";
-import HalfStar from "./HalfStar.tsx"; // Import the custom HalfStar component
+import HalfStar from "./HalfStar.tsx";
 import { useCustomPalette } from "../../../theme.ts";
 
 interface SkillCategoryArcProps {
   starCount: number; // Accepts full or half values (e.g. 1, 1.5, 2, 2.5)
+  isSectionVisible: boolean;
 }
 
-const SkillArc: React.FC<SkillCategoryArcProps> = ({ starCount }) => {
+const SkillArc: React.FC<SkillCategoryArcProps> = ({
+  starCount,
+  isSectionVisible,
+}) => {
   const { skills } = useCustomPalette();
   const { star, empty } = skills;
   const arcSize = 300;
@@ -82,7 +85,7 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({ starCount }) => {
                   alignItems: "center",
                   width: "100%",
                   height: "100%",
-                  willChange: "transform, opacity",
+                  willChange: isSectionVisible ? "transform, opacity" : "", //since it starts hidden, conditional works well
                 }}
               >
                 {isHalfStar ? (

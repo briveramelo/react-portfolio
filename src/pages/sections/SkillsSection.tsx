@@ -21,7 +21,9 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
     const [isYearsOfExperience, setIsYearsOfExperience] =
       useState<boolean>(true);
     const sectionRef = useRef<HTMLDivElement>(null!);
-    const isVisible = useIntersectionObserver(sectionRef, { threshold: 0.1 });
+    const isSectionVisible = useIntersectionObserver(sectionRef, {
+      threshold: 0.1,
+    });
     const { mode } = useCustomPalette();
     const useLight = mode !== ThemeMode.Light;
 
@@ -80,17 +82,17 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
           ref={sectionRef}
         >
           {skillsData.map((category, index) => (
-            <Grid item xs={9} sm={6} md={4} lg={3} xl={2.4} key={index}>
+            <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={index}>
               {isYearsOfExperience ? (
                 <ExperienceCategory
                   skillCategory={category}
-                  isVisible={isVisible}
+                  isVisible={isSectionVisible}
                   useLight={useLight}
                 />
               ) : (
                 <SkillCategory
                   skillCategory={category}
-                  isVisible={isVisible}
+                  isSectionVisible={isSectionVisible}
                   useLight={useLight}
                 />
               )}

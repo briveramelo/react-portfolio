@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState, useCallback } from "react";
 import { Box } from "@mui/material";
 import "./BeatingHeart.css";
 import { useHoverTracking } from "../../../tracking/useHoverTracking.ts";
+import { useIntersectionObserver } from "../../../utils/useIntersectionObserver.ts";
 
 interface BeatingHeartProps {
   heartTriggerRef?: React.RefObject<HTMLButtonElement>;
@@ -117,6 +118,7 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
           lineHeight: "70px",
           transition: "font-size 0.15s ease-in-out",
           cursor: "default",
+          willChange: "", //no need to optimize. looks fine
         }}
         key={animationKey} // Forces re-render
         onAnimationEnd={handleAnimationEnd}

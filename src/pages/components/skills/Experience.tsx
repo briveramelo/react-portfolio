@@ -96,6 +96,7 @@ const Experience: React.FC<ExperienceProps> = ({ skill, useLight }) => {
               [`& .${linearProgressClasses.bar}`]: {
                 backgroundColor: getProgressColor(animatedValue, true),
                 transition: `width ${starArcAnimationDurationMs}ms ease`,
+                willChange: "width", //first time and subsequent must look great
               },
             }}
           />

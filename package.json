@@ -1,12 +1,12 @@
 {
   "name": "react-portfolio",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "tsc": "tsc -b",
-    "build": "vite build && ./scripts/printBuildSize.sh",
+    "build": "node scripts/updateAppVersion.cjs && vite build && ./scripts/printBuildSize.sh",
     "deploy": "firebase deploy --only hosting --project brandon-portfolio-448520",
     "lint": "eslint .",
     "preview": "vite preview",

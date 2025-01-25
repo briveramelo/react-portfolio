@@ -38,14 +38,16 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       id={`project_card_${projectData.title}`}
       sx={{
         position: "relative",
+        visibility: !isOnScreen && animationComplete ? "hidden" : "visible",
         transition:
           isOnScreen && animationComplete
             ? ""
             : `transform ${slideDurationMs}ms ease-in-out !important`,
-        transform: `translateX(${targetDestinationX})`,
+        transform: `translate3d(${targetDestinationX}, 0, 0)`,
+        willChange: "transform", // first time (and subsequent) appearance is key
         "&:hover": {
           "& #learn_more_slide_target": {
-            top: "-38px",
+            transform: "translateY(-38px)",
           },
         },
       }}
@@ -55,13 +57,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         id="learn_more_slide_target"
         sx={{
           position: "absolute",
-          top: "-5px",
+          transform: "translateY(-5px)",
           left: flipped ? "2px" : "auto",
           right: flipped ? "auto" : "2px",
           zIndex: 1,
           display: "flex",
           justifyContent: "flex-start",
-          transition: "top 0.3s ease !important",
+          transition: "transform 0.3s ease !important",
+          willChange: isOnScreen ? "transform" : "", //conditional works well, since there is a delay in first animation
         }}
       >
         <Box
