@@ -15,7 +15,13 @@ export const ProjectDetails = forwardRef<HTMLDivElement, ProjectDetailsProps>(
 
     return (
       <Box ref={ref}>
-        <Card sx={{ padding: 4, backgroundColor: cp("background.paper"), color: cp("text.paper") }}>
+        <Card
+          sx={{
+            padding: 4,
+            backgroundColor: cp("background.paper"),
+            color: cp("text.paper"),
+          }}
+        >
           <Typography variant="h4">{project.title}</Typography>
           <Typography variant="body1">Content coming soon</Typography>
           <Button
