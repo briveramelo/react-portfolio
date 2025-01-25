@@ -46,11 +46,11 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
         window.removeEventListener("resize", updateHeights);
       };
     }, []);
-    useEffect(()=>{
-      if(headerRef?.current){
+    useEffect(() => {
+      if (headerRef?.current) {
         setHeaderHeight(headerRef.current.scrollHeight);
       }
-    },[headerRef])
+    }, [headerRef]);
 
     // handle slide animation vars
     useEffect(() => {
@@ -75,7 +75,9 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
     const updateHeights = () => {
       if (projectsRef.current && detailsRef.current && headerRef.current) {
         setDetailsHeight(detailsRef.current.scrollHeight || 0);
-        setProjectsHeight(isProjectSelected ? 0 : projectsRef.current.scrollHeight || 0);
+        setProjectsHeight(
+          isProjectSelected ? 0 : projectsRef.current.scrollHeight || 0,
+        );
         setHeaderHeight(headerRef.current.scrollHeight || 0);
       }
     };
@@ -83,7 +85,6 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
     useEffect(() => {
       updateHeights();
     }, [isProjectSelected]);
-
 
     const handleCardClick = (project: Project) => {
       setSelectedProject(project);
@@ -183,7 +184,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
               display: "flex",
               flexDirection: "column",
               gap: 8,
-              height: {projectsHeight}
+              height: { projectsHeight },
             }}
             maxWidth="lg"
             ref={projectsRef}
