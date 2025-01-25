@@ -67,8 +67,27 @@ export function Header({
   };
 
   // Header adapts to match section colors
-  const updateHeaderColors = () => {
+  const getThemeColors = (mode: string | undefined, sectionId: string) => {
+    if (!mode) return null;
+
+    const newTheme = Object.values(themes).find(
+      (theme) => theme.customPalette.mode === mode
+    );
+
+    if (!newTheme) return null;
+
+    const section = sectionStyles[sectionId];
+    if (!section) return null;
+
+    return {
+      background: newTheme.customPalette.background[section.backgroundKey],
+      text: newTheme.customPalette.text[section.textKey],
+    };
+  };
+
+  const updateColorsFromActiveSection = (mode?: string) => {
     if (!headerRef.current) return;
+
     const headerHeight = headerRef.current.offsetHeight;
 
     const activeSection = sectionRefs.find((sectionRef) => {
@@ -78,26 +97,43 @@ export function Header({
       return rect.top <= headerHeight && rect.bottom > headerHeight;
     });
 
-    if (activeSection?.current) {
+    if (!activeSection?.current) return;
+
+    const sectionId = activeSection.current.id;
+    let newBackgroundColor: string;
+    let newTextColor: string;
+    if(mode){
+      const themeColors = getThemeColors(mode, sectionId);
+      if (!themeColors) return;
+
+      newBackgroundColor = themeColors.background;
+      newTextColor = themeColors.text;
+    } else{
       const styles = window.getComputedStyle(activeSection.current);
-      const isDark = isColorDark(styles.backgroundColor);
-      setIsBackgroundDark(isDark);
-      setColors({
-        header: styles.backgroundColor,
-        text: styles.color,
-      });
+      newBackgroundColor = styles.backgroundColor;
+      newTextColor = styles.color;
     }
+
+    setIsBackgroundDark(isColorDark(newBackgroundColor));
+    setColors({
+      header: newBackgroundColor,
+      text: newTextColor,
+    });
   };
+
+
 
   // Update header on scroll
   useEffect(() => {
-    window.addEventListener("scroll", updateHeaderColors);
-    return () => window.removeEventListener("scroll", updateHeaderColors);
+    const handleScroll = () => updateColorsFromActiveSection();
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Update header when theme changes
   useEffect(() => {
-    updateHeaderColors();
+    updateColorsFromActiveSection();
   }, [mode]);
 
   return (
@@ -185,46 +221,7 @@ export function Header({
 
         <ThemeSwitcher
           isBackgroundDark={isBackgroundDark}
-          onChange={(mode) => {
-            if (!headerRef.current) return;
-
-            // Get the header height to determine the active section
-            const headerHeight = headerRef.current.offsetHeight;
-            const activeSection = sectionRefs.find((sectionRef) => {
-              const section = sectionRef.current;
-              if (!section) return false;
-              const rect = section.getBoundingClientRect();
-              return rect.top <= headerHeight && rect.bottom > headerHeight;
-            });
-
-            if (activeSection?.current) {
-              const sectionId = activeSection.current.id;
-
-              // Retrieve the new theme based on the selected mode
-              const newTheme = Object.values(themes).find(
-                (theme) => theme.customPalette.mode === mode,
-              );
-
-              if (newTheme) {
-                // Retrieve section style instance
-                const section = sectionStyles[sectionId];
-
-                if (section) {
-                  // Get new section colors based on the selected theme
-                  const newSectionBackground =
-                    newTheme.customPalette.background[section.backgroundKey];
-                  const newSectionText =
-                    newTheme.customPalette.text[section.textKey];
-
-                  setIsBackgroundDark(isColorDark(newSectionBackground));
-                  setColors({
-                    header: newSectionBackground,
-                    text: newSectionText,
-                  });
-                }
-              }
-            }
-          }}
+          onChange={(mode) => updateColorsFromActiveSection(mode)}
         />
       </Toolbar>
 
