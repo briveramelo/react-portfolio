@@ -6,15 +6,7 @@ import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 import { useEffect, useMemo, useState } from "react";
 import "./TestimonialCard.css";
 import { SiblingParagraph } from "./reusable/SiblingParagraph.tsx";
-
-interface Testimonial {
-  quote: string;
-  name: string;
-  title: string;
-  company: string;
-  photo: string;
-  link: string;
-}
+import { Testimonial } from "../../data/testimonialData.ts";
 
 export function TestimonialCard({
   data,
@@ -49,7 +41,10 @@ export function TestimonialCard({
             </SiblingParagraph>
           ),
           strong: ({ children }) => (
-            <HighlightedText className="highlight-animation">
+            <HighlightedText
+              className="highlight-animation"
+              style={{ color: cp("text.paper") }}
+            >
               {children}
             </HighlightedText>
           ),
@@ -60,7 +55,10 @@ export function TestimonialCard({
     ),
     [index, data.quote],
   );
-
+  const textStyle = {
+    color: textColor,
+    lineHeight: "1.2em",
+  };
   return (
     <Card
       sx={{
@@ -95,18 +93,28 @@ export function TestimonialCard({
               className="pop-shadow"
             />
           </a>
-          <Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "left",
+              gap: -1,
+            }}
+          >
             <Typography
               variant="h5"
               sx={{ fontWeight: "bold", color: textColor }}
             >
               {data.name}
             </Typography>
-            <Typography variant="h6" sx={{ color: textColor }}>
+            <Typography variant="h6" sx={textStyle}>
               {data.title}
             </Typography>
-            <Typography variant="body1" sx={{ color: textColor }}>
+            <Typography variant="body1" sx={textStyle}>
               {data.company}
+            </Typography>
+            <Typography variant="body1" sx={textStyle}>
+              {data.relation}
             </Typography>
           </Box>
         </Box>

@@ -14,6 +14,8 @@ import ThemeSwitcher from "./ThemeSwitcher.tsx";
 import { ThemeContext } from "../../ThemeContext.tsx";
 import { isColorDark } from "../../utils/utils.ts";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
+import { themes } from "../../theme.ts";
+import { sectionStyles } from "../../data/sectionStyles.ts";
 
 interface HeaderProps {
   sectionRefs: React.RefObject<HTMLElement>[];
@@ -38,7 +40,6 @@ export function Header({
   ];
   const navHoverTrackers = navigationLinks.map((nav) => useHoverTracking());
   const linkedinHover = useHoverTracking();
-
   const headerRef = useRef<HTMLElement | null>(null);
   const [colors, setColors] = useState({
     header: defaultBackgroundColor,
@@ -182,7 +183,49 @@ export function Header({
           <LinkedIn />
         </IconButton>
 
-        <ThemeSwitcher isBackgroundDark={isBackgroundDark} />
+        <ThemeSwitcher
+          isBackgroundDark={isBackgroundDark}
+          onChange={(mode) => {
+            if (!headerRef.current) return;
+
+            // Get the header height to determine the active section
+            const headerHeight = headerRef.current.offsetHeight;
+            const activeSection = sectionRefs.find((sectionRef) => {
+              const section = sectionRef.current;
+              if (!section) return false;
+              const rect = section.getBoundingClientRect();
+              return rect.top <= headerHeight && rect.bottom > headerHeight;
+            });
+
+            if (activeSection?.current) {
+              const sectionId = activeSection.current.id;
+
+              // Retrieve the new theme based on the selected mode
+              const newTheme = Object.values(themes).find(
+                (theme) => theme.customPalette.mode === mode,
+              );
+
+              if (newTheme) {
+                // Retrieve section style instance
+                const section = sectionStyles[sectionId];
+
+                if (section) {
+                  // Get new section colors based on the selected theme
+                  const newSectionBackground =
+                    newTheme.customPalette.background[section.backgroundKey];
+                  const newSectionText =
+                    newTheme.customPalette.text[section.textKey];
+
+                  setIsBackgroundDark(isColorDark(newSectionBackground));
+                  setColors({
+                    header: newSectionBackground,
+                    text: newSectionText,
+                  });
+                }
+              }
+            }
+          }}
+        />
       </Toolbar>
 
       {/* Mobile Drawer */}
