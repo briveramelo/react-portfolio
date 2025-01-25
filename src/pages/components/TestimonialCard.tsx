@@ -3,6 +3,9 @@ import ReactMarkdown from "react-markdown";
 import { HighlightedText } from "./reusable/HighlightedText.tsx";
 import { cp } from "../../utils/utils.ts";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
+import { useEffect, useMemo, useState } from "react";
+import "./TestimonialCard.css";
+import { SiblingParagraph } from "./reusable/SiblingParagraph.tsx";
 
 interface Testimonial {
   quote: string;
@@ -17,13 +20,46 @@ export function TestimonialCard({
   data,
   backgroundColor,
   textColor,
+  isSectionVisible,
 }: {
   data: Testimonial;
   backgroundColor: string;
   textColor: string;
+  isSectionVisible: boolean;
 }) {
   const cardHover = useHoverTracking();
   const avatarHover = useHoverTracking();
+  const [index, setIndex] = useState<number>(0);
+  useEffect(() => {
+    setIndex(index + 1);
+  }, [isSectionVisible]);
+
+  const memoMarkdown = useMemo(
+    () => (
+      <ReactMarkdown
+        key={index}
+        components={{
+          p: ({ children }) => (
+            <SiblingParagraph
+              className="fade-in-text"
+              variant="body1"
+              sx={{ color: cp("text.secondary") }}
+            >
+              {children}
+            </SiblingParagraph>
+          ),
+          strong: ({ children }) => (
+            <HighlightedText className="highlight-animation">
+              {children}
+            </HighlightedText>
+          ),
+        }}
+      >
+        {data.quote}
+      </ReactMarkdown>
+    ),
+    [index, data.quote],
+  );
 
   return (
     <Card
@@ -38,20 +74,7 @@ export function TestimonialCard({
       className="subtle-shadow"
     >
       <CardContent>
-        <ReactMarkdown
-          components={{
-            p: ({ children }) => (
-              <Typography variant="body1" sx={{ color: cp("text.secondary") }}>
-                {children}
-              </Typography>
-            ),
-            strong: ({ children }) => (
-              <HighlightedText>{children}</HighlightedText>
-            ),
-          }}
-        >
-          {data.quote}
-        </ReactMarkdown>
+        {memoMarkdown}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }} mt={3}>
           <a
             href={data.link}

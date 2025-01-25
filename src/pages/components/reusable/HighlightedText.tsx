@@ -1,8 +1,13 @@
 import React from "react";
 import { useCustomPalette } from "../../../theme.ts";
 
-export const HighlightedText: React.FC<{ children: React.ReactNode }> = ({
+interface HighlightedTextProps extends React.HTMLAttributes<HTMLSpanElement> {
+  children: React.ReactNode;
+}
+
+export const HighlightedText: React.FC<HighlightedTextProps> = ({
   children,
+  ...props
 }) => {
   const { text } = useCustomPalette();
 
@@ -15,6 +20,7 @@ export const HighlightedText: React.FC<{ children: React.ReactNode }> = ({
         borderRadius: "4px",
         whiteSpace: "pre-wrap",
       }}
+      {...props}
     >
       {children}
     </span>

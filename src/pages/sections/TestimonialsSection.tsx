@@ -8,6 +8,7 @@ import laurenMee from "@/assets/people/laurenmee.jpeg";
 import alannaCarrol from "@/assets/people/alanna.jpeg";
 import { cp } from "../../utils/utils";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
+import { useIntersectionObserver } from "../../utils/useIntersectionObserver.ts";
 
 interface Testimonial {
   quote: string;
@@ -63,6 +64,10 @@ export const TestimonialsSection = forwardRef<
     },
   ];
   const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
+  const isSectionVisible = useIntersectionObserver(
+    ref as React.RefObject<HTMLElement>,
+    { threshold: 0.1 },
+  );
 
   return (
     <Box
@@ -108,6 +113,7 @@ export const TestimonialsSection = forwardRef<
                 data={testimonial}
                 backgroundColor={cp("background.paper")}
                 textColor={cp("text.paper")}
+                isSectionVisible={isSectionVisible}
               />
             </Grid>
           ))}
