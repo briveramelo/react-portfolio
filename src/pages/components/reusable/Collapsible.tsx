@@ -3,10 +3,12 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 
 export function Collapsible({
   isOpen,
+  isSectionVisible,
   durationMs,
   children,
 }: {
   isOpen: boolean;
+  isSectionVisible: boolean;
   durationMs: number;
   children: React.ReactNode;
 }) {
@@ -45,6 +47,7 @@ export function Collapsible({
           ? "none"
           : `height ${durationMs}ms ease-in-out`,
         height: height,
+        willChange: isSectionVisible ? "height" : "auto",
       }}
     >
       <Box ref={contentRef}>{children}</Box>

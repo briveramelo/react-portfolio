@@ -6,6 +6,7 @@ import { Project, projectData } from "../../data/projectData";
 import { ThemeMode, useCustomPalette } from "../../theme";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
 import { Collapsible } from "../components/reusable/Collapsible.tsx";
+import { cp } from "../../utils/utils.ts";
 
 interface ProjectsProps {
   backgroundColor: string;
@@ -85,6 +86,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
           color: textColor,
           position: "relative",
           overflow: "hidden",
+          minHeight: "500px",
         }}
         ref={ref}
       >
@@ -115,11 +117,17 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
           </Box>
 
           {/* Selected Project Details */}
-          <Collapsible durationMs={slideDurationMs} isOpen={isProjectSelected}>
+          <Collapsible
+            isSectionVisible={isSectionVisibleLead}
+            durationMs={slideDurationMs}
+            isOpen={isProjectSelected}
+          >
             <Box
               maxWidth="lg"
+              width={"100%"}
+              pr={6}
               sx={{
-                position: "relative",
+                position: "absolute", // Fixes position to prevent layout shifts //todo: will likely need to change this
                 transition: `opacity ${slideDurationMs}ms ease-out`,
                 opacity: isProjectSelected ? 1 : 0,
               }}
@@ -134,7 +142,11 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
           </Collapsible>
 
           {/* Project Cards */}
-          <Collapsible durationMs={slideDurationMs} isOpen={!isProjectSelected}>
+          <Collapsible
+            isSectionVisible={isSectionVisibleLead}
+            durationMs={slideDurationMs}
+            isOpen={!isProjectSelected}
+          >
             <Box
               sx={{
                 display: "flex",

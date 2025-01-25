@@ -2,6 +2,7 @@ import React, { forwardRef } from "react";
 import { Box, Typography, Card, Button } from "@mui/material";
 import { Project } from "../../data/projectData.ts";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
+import { cp } from "../../utils/utils";
 
 interface ProjectDetailsProps {
   project: Project;
@@ -14,7 +15,7 @@ export const ProjectDetails = forwardRef<HTMLDivElement, ProjectDetailsProps>(
 
     return (
       <Box ref={ref}>
-        <Card sx={{ padding: 4 }}>
+        <Card sx={{ padding: 4, backgroundColor: cp("background.paper"), color: cp("text.paper") }}>
           <Typography variant="h4">{project.title}</Typography>
           <Typography variant="body1">Content coming soon</Typography>
           <Button
