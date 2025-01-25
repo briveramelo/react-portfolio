@@ -71,7 +71,7 @@ export function Header({
     if (!mode) return null;
 
     const newTheme = Object.values(themes).find(
-      (theme) => theme.customPalette.mode === mode
+      (theme) => theme.customPalette.mode === mode,
     );
 
     if (!newTheme) return null;
@@ -102,13 +102,13 @@ export function Header({
     const sectionId = activeSection.current.id;
     let newBackgroundColor: string;
     let newTextColor: string;
-    if(mode){
+    if (mode) {
       const themeColors = getThemeColors(mode, sectionId);
       if (!themeColors) return;
 
       newBackgroundColor = themeColors.background;
       newTextColor = themeColors.text;
-    } else{
+    } else {
       const styles = window.getComputedStyle(activeSection.current);
       newBackgroundColor = styles.backgroundColor;
       newTextColor = styles.color;
@@ -120,8 +120,6 @@ export function Header({
       text: newTextColor,
     });
   };
-
-
 
   // Update header on scroll
   useEffect(() => {
