@@ -2,10 +2,10 @@ import { Box } from "@mui/material";
 import React, { useEffect, useRef, useState, useCallback } from "react";
 
 export function Collapsible({
-                              isOpen,
-                              durationMs,
-                              children
-                            }: {
+  isOpen,
+  durationMs,
+  children,
+}: {
   isOpen: boolean;
   durationMs: number;
   children: React.ReactNode;
@@ -44,7 +44,7 @@ export function Collapsible({
         transition: disableTransition
           ? "none"
           : `height ${durationMs}ms ease-in-out`,
-        height: height
+        height: height,
       }}
     >
       <Box ref={contentRef}>{children}</Box>

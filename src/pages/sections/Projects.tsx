@@ -162,7 +162,6 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
               ))}
             </Box>
           </Collapsible>
-
         </Container>
       </Box>
     );
