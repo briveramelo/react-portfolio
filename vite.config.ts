@@ -13,7 +13,7 @@ export default defineConfig({
       brotliSize: true, // Show brotli size in report
     }),
   ],
-  publicDir: 'public',
+  publicDir: "public",
   build: {
     target: "es2020", // Matches modern browser support
     cssCodeSplit: true, // Separate CSS for better caching
