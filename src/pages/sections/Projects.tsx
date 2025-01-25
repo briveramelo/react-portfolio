@@ -5,6 +5,7 @@ import { ProjectDetails } from "../components/ProjectDetails";
 import { Project, projectData } from "../../data/projectData";
 import { ThemeMode, useCustomPalette } from "../../theme";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
+import { Collapsible } from "../components/reusable/Collapsible.tsx";
 
 interface ProjectsProps {
   backgroundColor: string;
@@ -23,9 +24,6 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
     const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false); // keeping separate from 'selectedProject === null' supports transition state nuances
     const [animationComplete, setAnimationComplete] = useState<boolean>(true);
     const slideDurationMs = 750;
-
-    const [detailsHeight, setDetailsHeight] = useState(0);
-    const detailsRef = useRef<HTMLDivElement>(null);
     const sectionRef = ref as React.RefObject<HTMLElement>;
 
     const isSectionVisibleLead = useIntersectionObserver(sectionRef, {
@@ -50,14 +48,6 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
         sectionRef.current.scrollIntoView({ behavior: "smooth" });
       }
     }, [isProjectSelected, sectionRef]);
-
-    useEffect(() => {
-      const newHeight =
-        isProjectSelected && detailsRef.current
-          ? detailsRef.current.scrollHeight
-          : 0;
-      setDetailsHeight(newHeight);
-    }, [isProjectSelected]);
 
     const handleCardClick = (project: Project) => {
       setSelectedProject(project);
@@ -84,14 +74,6 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
         });
       }
     }, [isProjectSelected, ref]);
-
-    useEffect(() => {
-      const newHeight =
-        isProjectSelected && detailsRef?.current
-          ? detailsRef.current.scrollHeight
-          : 0;
-      setDetailsHeight(newHeight);
-    }, [isProjectSelected]);
 
     return (
       <Box
@@ -133,56 +115,54 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
           </Box>
 
           {/* Selected Project Details */}
-          <Box
-            maxWidth="lg"
-            sx={{
-              position: "relative",
-              transition: `transform ${slideDurationMs}ms ease-out, opacity ${slideDurationMs}ms ease-out, height ${slideDurationMs}ms ease-out`,
-              willChange: isSectionVisibleLead
-                ? "transform, opacity, height"
-                : "",
-              opacity: isProjectSelected ? 1 : 0,
-              height: detailsHeight,
-            }}
-          >
-            {selectedProject && (
-              <ProjectDetails
-                ref={detailsRef}
-                project={selectedProject}
-                onClose={handleCloseProjectDetails}
-              />
-            )}
-          </Box>
+          <Collapsible durationMs={slideDurationMs} isOpen={isProjectSelected}>
+            <Box
+              maxWidth="lg"
+              sx={{
+                position: "relative",
+                transition: `opacity ${slideDurationMs}ms ease-out`,
+                opacity: isProjectSelected ? 1 : 0,
+              }}
+            >
+              {selectedProject && (
+                <ProjectDetails
+                  project={selectedProject}
+                  onClose={handleCloseProjectDetails}
+                />
+              )}
+            </Box>
+          </Collapsible>
 
           {/* Project Cards */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 8,
-              maxHeight: isProjectSelected ? 0 : "10000px",
-              transition: `max-height ${slideDurationMs}ms ease-out !important`,
-            }}
-          >
-            {projectData.map((project, index) => (
-              <ProjectCard
-                key={project.title}
-                projectData={project}
-                flipped={index % 2 === 0}
-                useLight={useLight}
-                onClick={() => handleCardClick(project)}
-                targetDestinationX={
-                  isProjectSelected || !isSectionVisibleLag
-                    ? index % 2 === 0
-                      ? "-100vw"
-                      : "100vw"
-                    : "0"
-                }
-                animationComplete={animationComplete}
-                slideDurationMs={slideDurationMs}
-              />
-            ))}
-          </Box>
+          <Collapsible durationMs={slideDurationMs} isOpen={!isProjectSelected}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 8,
+              }}
+            >
+              {projectData.map((project, index) => (
+                <ProjectCard
+                  key={project.title}
+                  projectData={project}
+                  flipped={index % 2 === 0}
+                  useLight={useLight}
+                  onClick={() => handleCardClick(project)}
+                  targetDestinationX={
+                    isProjectSelected || !isSectionVisibleLag
+                      ? index % 2 === 0
+                        ? "-100vw"
+                        : "100vw"
+                      : "0"
+                  }
+                  animationComplete={animationComplete}
+                  slideDurationMs={slideDurationMs}
+                />
+              ))}
+            </Box>
+          </Collapsible>
+
         </Container>
       </Box>
     );
