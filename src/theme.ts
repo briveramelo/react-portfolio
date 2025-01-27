@@ -75,6 +75,11 @@ export interface CustomPalette {
 }
 
 const Pop = createTheme({
+  palette: {
+    background: {
+      default: "rgb(24, 24, 24)",
+    },
+  },
   customPalette: {
     mode: ThemeMode.Pop,
     background: {
@@ -116,6 +121,11 @@ const Pop = createTheme({
 });
 
 const Dark = createTheme({
+  palette: {
+    background: {
+      default: "rgb(24, 24, 24)",
+    },
+  },
   customPalette: {
     mode: ThemeMode.Dark,
     background: {
@@ -157,6 +167,11 @@ const Dark = createTheme({
 });
 
 const Light = createTheme({
+  palette: {
+    background: {
+      default: "rgb(255, 255, 255)",
+    },
+  },
   customPalette: {
     mode: ThemeMode.Light,
     background: {
@@ -210,8 +225,8 @@ export type ThemeImage = {
 
 export const themeImages: ThemeImage[] = [
   { name: ThemeMode.Pop, src: moustache },
-  { name: ThemeMode.Light, src: sun },
   { name: ThemeMode.Dark, src: moon },
+  { name: ThemeMode.Light, src: sun },
 ];
 
 export const useCustomPalette = () => {
