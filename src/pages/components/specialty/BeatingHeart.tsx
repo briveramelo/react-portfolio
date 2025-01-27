@@ -49,12 +49,10 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
       const handleMouseEnter = () => {
         setIsHovered(true);
         startHeartbeat();
-        trackMouseEnter();
       };
 
       const handleMouseLeave = (event: Event) => {
         setIsHovered(false);
-        trackMouseLeave(event as unknown as React.MouseEvent<HTMLElement>);
       };
 
       element.addEventListener("mouseenter", handleMouseEnter);
@@ -110,6 +108,9 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
           cursor: "default",
           zIndex: 2,
         }}
+        id="beating_heart_ref"
+        onMouseEnter={trackMouseEnter}
+        onMouseLeave={trackMouseLeave}
       />
       <Box
         style={{
@@ -123,6 +124,7 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
         key={animationKey} // Forces re-render
         onAnimationEnd={handleAnimationEnd}
         aria-label="Beating Heart"
+        id="beating_heart"
       >
         🫀
       </Box>

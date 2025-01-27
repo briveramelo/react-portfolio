@@ -40,6 +40,7 @@ export function Header({
   ];
   const navHoverTrackers = navigationLinks.map((nav) => useHoverTracking());
   const linkedinHover = useHoverTracking();
+  const hamburgerHover = useHoverTracking();
   const headerRef = useRef<HTMLElement | null>(null);
   const [colors, setColors] = useState({
     header: defaultBackgroundColor,
@@ -193,7 +194,12 @@ export function Header({
   );
 
   const hamburgerMenu = (
-    <IconButton onClick={() => setDrawerOpen(true)} sx={{ color: colors.text }}>
+    <IconButton
+      onClick={() => setDrawerOpen(true)} sx={{ color: colors.text }}
+      onMouseEnter={hamburgerHover.trackMouseEnter}
+      onMouseLeave={hamburgerHover.trackMouseLeave}
+      id="hamburger_menu"
+    >
       <Menu />
     </IconButton>
   );
@@ -277,11 +283,14 @@ export function Header({
       >
         <Box>
           <List>
-            {navigationLinks.map((link) => (
+            {navigationLinks.map((link, index) => (
               <ListItemButton
                 sx={{ pr: 10 }}
                 key={link.href}
                 onClick={() => handleNavClick(link.href)}
+                onMouseEnter={navHoverTrackers[index].trackMouseEnter}
+                onMouseLeave={navHoverTrackers[index].trackMouseLeave}
+                id={`hamburger_item_${link.label}`}
               >
                 <ListItemText primary={link.label} />
               </ListItemButton>
@@ -291,7 +300,7 @@ export function Header({
               sx={{ pr: 10 }}
               key="linkedinIcon"
               href={linkedInUrl}
-              id="brandon_linkedin"
+              id="hamburger_item_linkedin"
               onMouseEnter={linkedinHover.trackMouseEnter}
               onMouseLeave={linkedinHover.trackMouseLeave}
               target="_blank"
