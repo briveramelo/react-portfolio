@@ -21,7 +21,7 @@ const typography = {
   h5: { fontSize: "1.25rem", lineHeight: "1.5", fontWeight: 600 },
   h6: { fontSize: "1.1rem", lineHeight: "1.5", fontWeight: 500 },
   body1: { fontSize: "1rem", lineHeight: "1.5", fontWeight: 500 },
-  body2: { fontSize: "0.75rem", lineHeight: "1.5", fontWeight: 500 },
+  body2: { fontSize: "0.85rem", lineHeight: "1.25", fontWeight: 500 },
   button: { fontSize: "1rem", lineHeight: "1.5", fontWeight: 500 },
 } as const;
 

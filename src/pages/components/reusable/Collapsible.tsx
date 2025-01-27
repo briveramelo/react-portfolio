@@ -6,13 +6,15 @@ export function Collapsible({
   isSectionVisible,
   durationMs,
   children,
+  otherContentRef,
 }: {
   isOpen: boolean;
   isSectionVisible: boolean;
   durationMs: number;
   children: React.ReactNode;
+  otherContentRef?: any,
 }) {
-  const contentRef = useRef<HTMLDivElement>(null);
+  const contentRef = otherContentRef ?? useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
   const [disableTransition, setDisableTransition] = useState(false);
 
@@ -32,7 +34,7 @@ export function Collapsible({
   // Handle window resize events to adjust height immediately without transition
   useEffect(() => {
     const handleResize = () => {
-      setDisableTransition(true); // Disable transitions during resize
+      setDisableTransition(true);
       updateHeight();
     };
 
