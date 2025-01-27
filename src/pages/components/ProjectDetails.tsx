@@ -25,13 +25,22 @@ export const ProjectDetails = forwardRef<HTMLDivElement, ProjectDetailsProps>(
     const { story, images, techStack, github, liveDemo } = project;
 
     return (
-      <Box ref={contentRef} sx={{ maxWidth: "lg", mx: "auto", p: 1, overflow: "visible"}}>
-
+      <Box
+        ref={contentRef}
+        sx={{ maxWidth: "lg", mx: "auto", p: 1, overflow: "visible" }}
+      >
         {/* Storytelling */}
         <Grid container spacing={2}>
           {story.map((section, index) => (
-            <Grid item xs={12} sm={4} key={index} sx={{overflow: "visible"}}>
-              <Card sx={{ p: 1, backgroundColor: cp("background.paper"), borderRadius: "8px" }} className={"subtle-shadow"}>
+            <Grid item xs={12} sm={4} key={index} sx={{ overflow: "visible" }}>
+              <Card
+                sx={{
+                  p: 1,
+                  backgroundColor: cp("background.paper"),
+                  borderRadius: "8px",
+                }}
+                className={"subtle-shadow"}
+              >
                 <CardContent>
                   <Typography variant="h6">{section.title}</Typography>
                   <Typography variant="body2" color="text.secondary">
@@ -46,7 +55,11 @@ export const ProjectDetails = forwardRef<HTMLDivElement, ProjectDetailsProps>(
         <Box sx={{ height: 20 }} />
 
         {/* Image Carousel */}
-        <Carousel autoPlay navButtonsAlwaysVisible sx={{ overflow: "visible", backgroundColor: cp("background.paper") }}>
+        <Carousel
+          autoPlay
+          navButtonsAlwaysVisible
+          sx={{ overflow: "visible", backgroundColor: cp("background.paper") }}
+        >
           {images.map((img, idx) => (
             <Card
               key={idx}

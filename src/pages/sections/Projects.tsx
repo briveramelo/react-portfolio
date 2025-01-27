@@ -23,7 +23,8 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
     const [selectedProjectDetails, setSelectedProjectDetails] =
       useState<ProjectDetail | null>(null);
     const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false); // keeping separate from 'selectedProjectDetails === null' supports transition state nuances
-    const [isAnimationComplete, setIsAnimationComplete] = useState<boolean>(true);
+    const [isAnimationComplete, setIsAnimationComplete] =
+      useState<boolean>(true);
     const slideDurationMs = 750;
     const sectionRef = ref as React.RefObject<HTMLElement>;
     const projectDetailsRef = useRef<HTMLDivElement>(null);
@@ -143,8 +144,10 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
                 margin: "0 auto",
               }}
             >
-              {isProjectSelected ? selectedProjectDetails?.description : "Select a project to explore my technical expertise, innovation,\n" +
-                "                impact, and empathy."}
+              {isProjectSelected
+                ? selectedProjectDetails?.description
+                : "Select a project to explore my technical expertise, innovation,\n" +
+                  "                impact, and empathy."}
             </Typography>
           </Box>
 
@@ -152,7 +155,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
           <Collapsible
             isSectionVisible={isSectionVisibleLead}
             durationMs={slideDurationMs}
-            isOpen={(isProjectSelected && isAnimationComplete)}
+            isOpen={isProjectSelected && isAnimationComplete}
             otherContentRef={projectDetailsRef}
           >
             <Box
@@ -166,7 +169,10 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
               }}
             >
               {selectedProjectDetails && (
-                <ProjectDetails project={selectedProjectDetails} contentRef={projectDetailsRef} />
+                <ProjectDetails
+                  project={selectedProjectDetails}
+                  contentRef={projectDetailsRef}
+                />
               )}
             </Box>
           </Collapsible>

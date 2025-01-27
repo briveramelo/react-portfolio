@@ -12,7 +12,7 @@ export function Collapsible({
   isSectionVisible: boolean;
   durationMs: number;
   children: React.ReactNode;
-  otherContentRef?: any,
+  otherContentRef?: any;
 }) {
   const contentRef = otherContentRef ?? useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
