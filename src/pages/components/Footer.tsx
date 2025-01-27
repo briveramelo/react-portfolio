@@ -63,7 +63,7 @@ export const Footer: React.FC<FooterProps> = ({
             target="_blank"
             rel="noopener noreferrer"
             style={{ color: "inherit", textDecoration: "underline" }}
-            id="plausible-analytics-link"
+            id="plausible_analytics_link"
             onMouseEnter={trackMouseEnter}
             onMouseLeave={trackMouseLeave}
           >

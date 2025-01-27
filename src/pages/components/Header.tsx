@@ -171,7 +171,7 @@ export function Header({
   const linkedinIcon = (
     <IconButton
       component="a"
-      id="brandon-linkedin"
+      id="brandon_linkedin"
       onMouseEnter={linkedinHover.trackMouseEnter}
       onMouseLeave={linkedinHover.trackMouseLeave}
       href={linkedInUrl}
@@ -291,7 +291,7 @@ export function Header({
               sx={{ pr: 10 }}
               key="linkedinIcon"
               href={linkedInUrl}
-              id="brandon-linkedin"
+              id="brandon_linkedin"
               onMouseEnter={linkedinHover.trackMouseEnter}
               onMouseLeave={linkedinHover.trackMouseLeave}
               target="_blank"

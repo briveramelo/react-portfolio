@@ -232,7 +232,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
           />
 
           <Button
-            id="contact-send"
+            id="contact_send"
             onMouseEnter={trackMouseEnter}
             onMouseLeave={trackMouseLeave}
             ref={heartTriggerRef}
