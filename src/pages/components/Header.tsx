@@ -195,7 +195,8 @@ export function Header({
 
   const hamburgerMenu = (
     <IconButton
-      onClick={() => setDrawerOpen(true)} sx={{ color: colors.text }}
+      onClick={() => setDrawerOpen(true)}
+      sx={{ color: colors.text }}
       onMouseEnter={hamburgerHover.trackMouseEnter}
       onMouseLeave={hamburgerHover.trackMouseLeave}
       id="hamburger_menu"
