@@ -4,11 +4,14 @@ import { cp, isColorDark } from "../utils/utils";
 class SectionStyle {
   backgroundKey: keyof CustomPalette["background"];
   textKey: keyof CustomPalette["text"];
+  label: string;
 
   constructor(
+    label: string,
     backgroundKey: keyof CustomPalette["background"],
     textKey: keyof CustomPalette["text"],
   ) {
+    this.label = label;
     this.backgroundKey = backgroundKey;
     this.textKey = textKey;
   }
@@ -27,11 +30,11 @@ class SectionStyle {
 }
 
 export const sectionStyles: Record<string, SectionStyle> = {
-  home: new SectionStyle("default", "primary"),
-  employers: new SectionStyle("contrast", "secondary"),
-  skills: new SectionStyle("default", "primary"),
-  work: new SectionStyle("contrast", "secondary"),
-  testimonials: new SectionStyle("default", "primary"),
-  recent: new SectionStyle("contrast", "secondary"),
-  contact: new SectionStyle("default", "primary"),
+  home: new SectionStyle("Home", "default", "primary"),
+  employers: new SectionStyle("Employers", "contrast", "secondary"),
+  skills: new SectionStyle("Skills", "default", "primary"),
+  projects: new SectionStyle("Projects", "contrast", "secondary"),
+  testimonials: new SectionStyle("Testimonials", "default", "primary"),
+  recent: new SectionStyle("Recent", "contrast", "secondary"),
+  contact: new SectionStyle("Contact", "default", "primary"),
 };

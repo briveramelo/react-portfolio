@@ -8,6 +8,7 @@ import {
   ListItemButton,
   ListItemText,
   Toolbar,
+  Typography,
 } from "@mui/material";
 import { LinkedIn, Menu } from "@mui/icons-material";
 import ThemeSwitcher from "./ThemeSwitcher.tsx";
@@ -35,7 +36,6 @@ export function Header({
     { href: "#skills", label: "Skills" },
     { href: "#projects", label: "Projects" },
     { href: "#testimonials", label: "Testimonials" },
-    { href: "#recent", label: "Recent" },
     { href: "#contact", label: "Contact" },
   ];
   const navHoverTrackers = navigationLinks.map((nav) => useHoverTracking());
@@ -50,6 +50,8 @@ export function Header({
     defaultIsBackgroundDark,
   );
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [activeSectionLabel, setActiveSectionLabel] = useState("Home");
+  const linkedInUrl = "https://www.linkedin.com/in/briveramelo";
 
   const handleNavClick = (href: string) => {
     const linkId = href.replace("#", "");
@@ -100,6 +102,9 @@ export function Header({
     if (!activeSection?.current) return;
 
     const sectionId = activeSection.current.id;
+    const activeLabel = sectionStyles[sectionId].label;
+    setActiveSectionLabel(activeLabel);
+
     let newBackgroundColor: string;
     let newTextColor: string;
     if (mode) {
@@ -134,6 +139,65 @@ export function Header({
     updateColorsFromActiveSection();
   }, [mode]);
 
+  const desktopNavLinks = (
+    <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
+      {navigationLinks.map((link, index) => {
+        const { trackMouseEnter, trackMouseLeave } = navHoverTrackers[index];
+        return (
+          <Button
+            id={link.href}
+            key={link.href}
+            color="inherit"
+            href={link.href}
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick(link.href);
+            }}
+            onMouseEnter={trackMouseEnter}
+            onMouseLeave={trackMouseLeave}
+            sx={{
+              textTransform: "none",
+              fontWeight: "bold",
+              color: colors.text,
+              "&:hover": { opacity: 0.8 },
+            }}
+          >
+            {link.label}
+          </Button>
+        );
+      })}
+    </Box>
+  );
+  const linkedinIcon = (
+    <IconButton
+      component="a"
+      id="brandon-linkedin"
+      onMouseEnter={linkedinHover.trackMouseEnter}
+      onMouseLeave={linkedinHover.trackMouseLeave}
+      href={linkedInUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      sx={{
+        color: colors.text,
+        "&:hover": { opacity: 0.8 },
+      }}
+    >
+      <LinkedIn />
+    </IconButton>
+  );
+  const themeSwitcher = (
+    <ThemeSwitcher
+      isBackgroundDark={isBackgroundDark}
+      onChange={(mode) => updateColorsFromActiveSection(mode)}
+    />
+  );
+
+  const hamburgerMenu = (
+    <IconButton onClick={() => setDrawerOpen(true)} sx={{ color: colors.text }}>
+      <Menu />
+    </IconButton>
+  );
+
   return (
     <Box
       ref={headerRef}
@@ -160,67 +224,49 @@ export function Header({
           padding: "0 16px",
         }}
       >
-        {/* Hamburger menu for mobile */}
-        <Box sx={{ display: { xs: "block", md: "none" } }}>
-          <IconButton
-            onClick={() => setDrawerOpen(true)}
-            sx={{ color: colors.text }}
-          >
-            <Menu />
-          </IconButton>
-        </Box>
-
-        {/* Desktop navigation links */}
-        <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
-          {navigationLinks.map((link, index) => {
-            const { trackMouseEnter, trackMouseLeave } =
-              navHoverTrackers[index];
-            return (
-              <Button
-                id={link.href}
-                key={link.href}
-                color="inherit"
-                href={link.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavClick(link.href);
-                }}
-                onMouseEnter={trackMouseEnter}
-                onMouseLeave={trackMouseLeave}
-                sx={{
-                  textTransform: "none",
-                  fontWeight: "bold",
-                  color: colors.text,
-                  "&:hover": { opacity: 0.8 },
-                }}
-              >
-                {link.label}
-              </Button>
-            );
-          })}
-        </Box>
-
-        {/* LinkedIn Icon */}
-        <IconButton
-          component="a"
-          id="brandon-linkedin"
-          onMouseEnter={linkedinHover.trackMouseEnter}
-          onMouseLeave={linkedinHover.trackMouseLeave}
-          href="https://www.linkedin.com/in/briveramelo"
-          target="_blank"
-          rel="noopener noreferrer"
+        {/* Desktop */}
+        <Box
           sx={{
-            color: colors.text,
-            "&:hover": { opacity: 0.8 },
+            display: { xs: "none", md: "flex" },
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
           }}
         >
-          <LinkedIn />
-        </IconButton>
+          {desktopNavLinks}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            {linkedinIcon}
+            {themeSwitcher}
+          </Box>
+        </Box>
 
-        <ThemeSwitcher
-          isBackgroundDark={isBackgroundDark}
-          onChange={(mode) => updateColorsFromActiveSection(mode)}
-        />
+        {/* mobile */}
+        <Box
+          sx={{
+            display: { xs: "flex", md: "none" },
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          {/* Left-aligned content */}
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            {hamburgerMenu}
+          </Box>
+
+          {/* Centered content */}
+          <Typography
+            variant="h6"
+            sx={{ flexGrow: 1, textAlign: "center", color: colors.text }}
+          >
+            {activeSectionLabel}
+          </Typography>
+
+          {/* Right-aligned content */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            {themeSwitcher}
+          </Box>
+        </Box>
       </Toolbar>
 
       {/* Mobile Drawer */}
@@ -240,6 +286,20 @@ export function Header({
                 <ListItemText primary={link.label} />
               </ListItemButton>
             ))}
+            {/*{linkedinIcon}*/}
+            <ListItemButton
+              sx={{ pr: 10 }}
+              key="linkedinIcon"
+              href={linkedInUrl}
+              id="brandon-linkedin"
+              onMouseEnter={linkedinHover.trackMouseEnter}
+              onMouseLeave={linkedinHover.trackMouseLeave}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <ListItemText primary="LinkedIn" />
+              <LinkedIn />
+            </ListItemButton>
           </List>
         </Box>
       </Drawer>

@@ -1,8 +1,9 @@
 import { plausible } from "./plausibleConfig.ts";
+import { v4 as uuidv4 } from "uuid";
 
 // Generate or retrieve session UUID
 if (!sessionStorage.getItem("session_uuid")) {
-  const sessionUUID = crypto.randomUUID();
+  const sessionUUID = uuidv4();
   sessionStorage.setItem("session_uuid", sessionUUID);
 }
 

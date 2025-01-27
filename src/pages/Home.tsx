@@ -66,8 +66,8 @@ export function HomePage() {
       <Projects
         ref={projectsRef}
         id="projects"
-        backgroundColor={sectionStyles.work.backgroundColor}
-        textColor={sectionStyles.work.textColor}
+        backgroundColor={sectionStyles.projects.backgroundColor}
+        textColor={sectionStyles.projects.textColor}
       />
       <TestimonialsSection
         ref={testimonialsRef}
