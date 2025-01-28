@@ -113,15 +113,27 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
                   sx={{
                     position: "absolute",
                     left: 0,
+                    top: 13.5,
+                    contentAlign: "center",
+                    justifyContent: "center",
+                    padding: "8px 8px", // Ensure consistent spacing inside the button
+                    gap: 2, // Equal spacing between the icon and text
                     "&:hover": { transform: "scale(1.1) !important" },
+                    pr: { xs: "8px", sm: "16px" }, // Adjust right padding based on screen size
                   }}
                   id={`close_project_${selectedProjectDetails?.title}`}
                   onClick={handleCloseProjectDetails}
                   className="pop-shadow"
                 >
-                  <CloseIcon sx={{ position: "absolute", left: 5 }} />
-                  <Box sx={{ width: 20 }} />
-                  <Typography>CLOSE</Typography>
+                  <CloseIcon sx={{ fontSize: "1.25rem" }} />
+                  <Box
+                    sx={{
+                      display: { xs: "none", sm: "inline" }, // Hide on extra-small screens
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography>CLOSE</Typography>
+                  </Box>
                 </Button>
               )}
               <Typography
@@ -142,6 +154,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
                 color: textColor,
                 maxWidth: 600,
                 margin: "0 auto",
+                height: "2rem",
               }}
             >
               {isProjectSelected
