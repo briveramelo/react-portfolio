@@ -61,18 +61,15 @@ export const projectDetails: ProjectDetail[] = [
     story: [
       {
         title: "Content",
-        content:
-          "",
+        content: "",
       },
       {
         title: "Coming",
-        content:
-          "",
+        content: "",
       },
       {
         title: "Soon",
-        content:
-          "",
+        content: "",
       },
     ],
     images: [
@@ -85,8 +82,7 @@ export const projectDetails: ProjectDetail[] = [
         alt: "",
       },
     ],
-    skills:
-      projectData.find((elm) => elm.title === "ABCmouse")?.skills ?? null,
+    skills: projectData.find((elm) => elm.title === "ABCmouse")?.skills ?? null,
     github: "",
     liveDemo: "",
   },
@@ -97,7 +93,7 @@ export const projectDetails: ProjectDetail[] = [
     story: [
       {
         title: "Content",
-        content: ""
+        content: "",
       },
       {
         title: "Coming",
@@ -118,8 +114,7 @@ export const projectDetails: ProjectDetail[] = [
         alt: "",
       },
     ],
-    skills:
-      projectData.find((elm) => elm.title === "Clawface")?.skills ?? null,
+    skills: projectData.find((elm) => elm.title === "Clawface")?.skills ?? null,
     github: "",
     liveDemo: "",
   },
