@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React from "react";
 import { ProjectDetail } from "../../data/projectDetails.ts";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 import {
@@ -14,6 +14,7 @@ import { cp } from "../../utils/utils";
 import Carousel from "react-material-ui-carousel";
 import InvertableImage from "./reusable/InvertableImage.tsx";
 import { ThemeMode, useCustomPalette } from "../../theme.ts";
+import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
 interface ProjectDetailsProps {
   project: ProjectDetail;
@@ -46,6 +47,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
               sx={{
                 p: 1,
                 backgroundColor: cp("background.paper"),
+                color: cp("text.paper"),
                 borderRadius: "8px",
                 width: "100%",
               }}
@@ -53,9 +55,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
             >
               <CardContent>
                 <Typography variant="h6">{section.title}</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {section.content}
-                </Typography>
+                <Typography variant="body2">{section.content}</Typography>
               </CardContent>
             </Card>
           </Grid>

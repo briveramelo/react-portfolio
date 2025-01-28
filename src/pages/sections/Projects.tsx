@@ -8,6 +8,7 @@ import { ThemeMode, useCustomPalette } from "../../theme";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
 import { Collapsible } from "../components/reusable/Collapsible.tsx";
 import { ProjectDetail, projectDetails } from "../../data/projectDetails.ts";
+import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 
 interface ProjectsProps {
   backgroundColor: string;
@@ -27,6 +28,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
       useState<boolean>(true);
     const slideDurationMs = 750;
     const sectionRef = ref as React.RefObject<HTMLElement>;
+    const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
 
     const isSectionVisibleLead = useIntersectionObserver(sectionRef, {
       threshold: 0.1,
@@ -120,18 +122,24 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
                     "&:hover": { transform: "scale(1.1) !important" },
                     pr: { xs: "8px", sm: "16px" }, // Adjust right padding based on screen size
                   }}
-                  id={`close_project_${selectedProjectDetails?.title}`}
+                  id="close_project_button"
                   onClick={handleCloseProjectDetails}
+                  onMouseEnter={trackMouseEnter}
+                  onMouseLeave={trackMouseLeave}
                   className="pop-shadow"
                 >
-                  <CloseIcon sx={{ fontSize: "1.25rem" }} />
+                  <CloseIcon
+                    id="close_project_x"
+                    sx={{ fontSize: "1.25rem" }}
+                  />
                   <Box
+                    id="close_project_typography_wrapper"
                     sx={{
                       display: { xs: "none", sm: "inline" }, // Hide on extra-small screens
                       alignItems: "center",
                     }}
                   >
-                    <Typography>CLOSE</Typography>
+                    <Typography id="close_project_text">CLOSE</Typography>
                   </Box>
                 </Button>
               )}
