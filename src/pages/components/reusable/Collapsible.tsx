@@ -6,15 +6,13 @@ export function Collapsible({
   isSectionVisible,
   durationMs,
   children,
-  otherContentRef,
 }: {
   isOpen: boolean;
   isSectionVisible: boolean;
   durationMs: number;
   children: React.ReactNode;
-  otherContentRef?: any;
 }) {
-  const contentRef = otherContentRef ?? useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
   const [disableTransition, setDisableTransition] = useState(false);
 

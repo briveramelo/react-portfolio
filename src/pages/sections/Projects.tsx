@@ -146,42 +146,16 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
             >
               {isProjectSelected
                 ? selectedProjectDetails?.description
-                : "Select a project to explore my technical expertise, innovation,\n" +
+                : "Select a project to explore my technical expertise, innovation," +
                   "                impact, and empathy."}
             </Typography>
           </Box>
-
-          {/* Selected Project Details */}
-          <Collapsible
-            isSectionVisible={isSectionVisibleLead}
-            durationMs={slideDurationMs}
-            isOpen={isProjectSelected && isAnimationComplete}
-            otherContentRef={projectDetailsRef}
-          >
-            <Box
-              maxWidth="lg"
-              width={"100%"}
-              pr={6}
-              sx={{
-                position: "absolute", // Fixes position to prevent layout shifts //todo: will likely need to change this
-                transition: `opacity ${slideDurationMs}ms ease-out`,
-                opacity: isProjectSelected ? 1 : 0,
-              }}
-            >
-              {selectedProjectDetails && (
-                <ProjectDetails
-                  project={selectedProjectDetails}
-                  contentRef={projectDetailsRef}
-                />
-              )}
-            </Box>
-          </Collapsible>
 
           {/* Project Cards */}
           <Collapsible
             isSectionVisible={isSectionVisibleLead}
             durationMs={slideDurationMs}
-            isOpen={!isProjectSelected && isAnimationComplete}
+            isOpen={!isProjectSelected}
           >
             <Box
               sx={{
@@ -208,6 +182,30 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
                   slideDurationMs={slideDurationMs}
                 />
               ))}
+            </Box>
+          </Collapsible>
+
+          {/* Selected Project Details */}
+          <Collapsible
+            isSectionVisible={isSectionVisibleLead}
+            durationMs={slideDurationMs}
+            isOpen={isProjectSelected}
+          >
+            <Box
+              maxWidth="lg"
+              width={"100%"}
+              pr={6}
+              sx={{
+                transition: `opacity ${slideDurationMs}ms ease-out`,
+                opacity: isProjectSelected ? 1 : 0,
+              }}
+            >
+              {selectedProjectDetails && (
+                <ProjectDetails
+                  project={selectedProjectDetails}
+                  contentRef={projectDetailsRef}
+                />
+              )}
             </Box>
           </Collapsible>
         </Container>
