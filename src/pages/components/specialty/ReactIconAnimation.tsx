@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Box } from "@mui/material";
 
 export const ReactIconAnimation = () => {
+  const [isHovered, setIsHovered] = useState(false);
+
   const color = "#61DAFB";
   const bounce = 1;
   const size = 100;
@@ -21,21 +23,39 @@ export const ReactIconAnimation = () => {
     fill: "none",
   };
 
-  const sharedAnimationProps = {
+  const sharedEllipseAnimationProps = {
     rx: [30, 25, 30],
     ry: [10, 15, 10],
   };
 
-  const sharedInitialProps = {
+  const sharedEllipseInitialProps = {
     rx: 30,
     ry: 10,
   };
 
-  const sharedTransitionProps = {
+  const baseEllipseTransitionProps = {
     rotate: { duration: 6, ease: "linear", repeat: Infinity },
     rx: { duration: 2, ease: "easeInOut", repeat: Infinity, bounce },
     ry: { duration: 2, ease: "easeInOut", repeat: Infinity, bounce },
   };
+
+  const hoverEllipseTransitionProps = {
+    rotate: { duration: 2, ease: "linear", repeat: Infinity }, // Faster spin
+    rx: { duration: 1, ease: "easeInOut", repeat: Infinity, bounce },
+    ry: { duration: 1, ease: "easeInOut", repeat: Infinity, bounce },
+  };
+  const baseCircleProps = {
+    duration: 2,
+    ease: "easeInOut",
+    repeat: Infinity,
+    bounce,
+  }
+  const hoverCircleProps = {
+    duration: 1,
+    ease: "easeInOut",
+    repeat: Infinity,
+    bounce,
+  }
 
   return (
     <Box
@@ -48,30 +68,41 @@ export const ReactIconAnimation = () => {
         width: size,
         overflow: "visible",
       }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <motion.svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 100 100"
+        animate={{
+          scale: isHovered ? 1.2 : 1,
+        }}
+      >
         {/* Ring 1 */}
         <motion.ellipse
           {...sharedEllipseProps}
-          initial={{ rotate: 0, ...sharedInitialProps }}
-          animate={{ rotate: 360, ...sharedAnimationProps }}
-          transition={sharedTransitionProps}
+          initial={{ rotate: 0, ...sharedEllipseInitialProps }}
+          animate={{ rotate: 360, ...sharedEllipseAnimationProps }}
+          transition={isHovered ? hoverEllipseTransitionProps : baseEllipseTransitionProps}
+          key={isHovered ? "hov1" : "not1"}
         />
 
         {/* Ring 2 */}
         <motion.ellipse
           {...sharedEllipseProps}
-          initial={{ rotate: 120, ...sharedInitialProps }}
-          animate={{ rotate: 480, ...sharedAnimationProps }}
-          transition={sharedTransitionProps}
+          initial={{ rotate: 120, ...sharedEllipseInitialProps }}
+          animate={{ rotate: 480, ...sharedEllipseAnimationProps }}
+          transition={isHovered ? hoverEllipseTransitionProps : baseEllipseTransitionProps}
+          key={isHovered ? "hov2" : "not2"}
         />
 
         {/* Ring 3 */}
         <motion.ellipse
           {...sharedEllipseProps}
-          initial={{ rotate: 240, ...sharedInitialProps }}
-          animate={{ rotate: 600, ...sharedAnimationProps }}
-          transition={sharedTransitionProps}
+          initial={{ rotate: 240, ...sharedEllipseInitialProps }}
+          animate={{ rotate: 600, ...sharedEllipseAnimationProps }}
+          transition={isHovered ? hoverEllipseTransitionProps : baseEllipseTransitionProps}
+          key={isHovered ? "hov3" : "not3"}
         />
 
         {/* Center Nucleus */}
@@ -83,14 +114,10 @@ export const ReactIconAnimation = () => {
           animate={{
             scale: [1, 1.5, 1],
           }}
-          transition={{
-            duration: 2,
-            ease: "easeInOut",
-            repeat: Infinity,
-            bounce,
-          }}
+          transition={isHovered ? hoverCircleProps : baseCircleProps}
+          key={isHovered ? 'fastCirc' : 'slowCirc'}
         />
-      </svg>
+      </motion.svg>
     </Box>
   );
 };
