@@ -107,6 +107,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         {/* IMAGE */}
         <CardMedia
           component="img"
+          id={`project_card_img_${projectData.title}`}
           src={projectData.image}
           alt={projectData.title}
           sx={{
@@ -125,6 +126,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
         {/* TEXT + SKILLS COLUMN */}
         <CardContent
+          id={`project_card_content_${projectData.title}`}
           sx={{
             display: "flex",
             flexDirection: "column",

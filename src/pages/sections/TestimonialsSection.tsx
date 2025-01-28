@@ -45,7 +45,7 @@ export const TestimonialsSection = forwardRef<
               href="https://www.linkedin.com/in/briveramelo/details/recommendations/?detailScreenTabIndex=0"
               target="_blank"
               rel="noopener noreferrer"
-              id="testimonials-header"
+              id="testimonials_header"
               onMouseEnter={trackMouseEnter}
               onMouseLeave={trackMouseLeave}
               style={{ textDecoration: "none", color: "inherit" }}

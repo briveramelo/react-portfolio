@@ -101,7 +101,7 @@ export function SteamingCoffee() {
         zIndex: 1,
         marginTop: "-40px",
       }}
-      id="steaming-coffee-wrapper"
+      id="steaming_coffee_wrapper"
       onMouseEnter={trackMouseEnter}
       onMouseLeave={trackMouseLeave}
     >

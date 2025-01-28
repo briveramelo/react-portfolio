@@ -59,15 +59,15 @@ export function HomePage() {
       />
       <SkillsSection
         ref={skillsRef}
-        id="skills"
-        backgroundColor={sectionStyles.skills.backgroundColor}
-        textColor={sectionStyles.skills.textColor}
+        id="experience"
+        backgroundColor={sectionStyles.experience.backgroundColor}
+        textColor={sectionStyles.experience.textColor}
       />
       <Projects
         ref={projectsRef}
         id="projects"
-        backgroundColor={sectionStyles.work.backgroundColor}
-        textColor={sectionStyles.work.textColor}
+        backgroundColor={sectionStyles.projects.backgroundColor}
+        textColor={sectionStyles.projects.textColor}
       />
       <TestimonialsSection
         ref={testimonialsRef}

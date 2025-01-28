@@ -50,7 +50,7 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
           {isYearsOfExperience ? "Experience" : "Skill Levels"}
         </Typography>
         <BouncingButton
-          id="skill-experience-toggle"
+          id="skill_experience_toggle"
           onClick={toggleStat}
           onMouseEnter={trackMouseEnter}
           onMouseLeave={trackMouseLeave}

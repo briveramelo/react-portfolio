@@ -169,6 +169,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
               display: "block",
               position: "relative",
             }}
+            id="home_avatar_card"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >

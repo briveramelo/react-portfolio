@@ -3,6 +3,7 @@ import { Menu, MenuItem, IconButton, Typography, Box } from "@mui/material";
 import { themeImages, ThemeMode } from "../../theme.ts";
 import { ThemeContext } from "../../ThemeContext.tsx";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
+import { trackCustomEvent } from "../../tracking/plausibleHelpers.ts";
 
 interface ThemeSwitcherProps {
   isBackgroundDark: boolean;
@@ -31,6 +32,10 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
   };
 
   const handleThemeSelect = (index: number) => {
+    trackCustomEvent("theme_selected", {
+      selected_theme: themeImages[index].name,
+      event_version: "0.1.0",
+    });
     setCurrentThemeIndex(index);
     setMode(themeImages[index].name);
     handleClose();
@@ -45,13 +50,13 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
         aria-controls={open ? "theme-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
+        onMouseEnter={selectedHover.trackMouseEnter}
+        onMouseLeave={selectedHover.trackMouseLeave}
       >
         <img
           src={themeImages[currentThemeIndex].src}
           alt={themeImages[currentThemeIndex].name}
           id={`theme_selected_${themeImages[currentThemeIndex].name}`}
-          onMouseEnter={selectedHover.trackMouseEnter}
-          onMouseLeave={selectedHover.trackMouseLeave}
           style={{
             width: "auto",
             height: imgSize,

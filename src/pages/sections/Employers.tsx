@@ -82,6 +82,7 @@ export const Employers = forwardRef<HTMLElement, EmployersProps>(
                   {/* White Content Version */}
                   <img
                     className="white"
+                    id={`company_white_${company.name}`}
                     src={company.whiteSrc}
                     alt={company.name}
                     style={{
@@ -99,6 +100,7 @@ export const Employers = forwardRef<HTMLElement, EmployersProps>(
 
                   <img
                     className="colored"
+                    id={`company_color_${company.name}`}
                     src={company.colorSrc}
                     alt={`${company.name} colored`}
                     style={{
@@ -114,6 +116,7 @@ export const Employers = forwardRef<HTMLElement, EmployersProps>(
                   {/* Add Text Below Image */}
                   <Box
                     className="text"
+                    id={`company_text_${company.name}`}
                     sx={{
                       opacity: 0, // Default hidden
                       transition: "opacity 0.5s ease",

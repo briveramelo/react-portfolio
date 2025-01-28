@@ -1,4 +1,11 @@
-import { Card, CardContent, Typography, Box, Avatar } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  Avatar,
+  IconButton,
+} from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import { HighlightedText } from "./reusable/HighlightedText.tsx";
 import { cp } from "../../utils/utils.ts";
@@ -7,6 +14,7 @@ import { useEffect, useMemo, useState } from "react";
 import "./TestimonialCard.css";
 import { SiblingParagraph } from "./reusable/SiblingParagraph.tsx";
 import { Testimonial } from "../../data/testimonialData.ts";
+import { LinkedIn } from "@mui/icons-material";
 
 export function TestimonialCard({
   data,
@@ -73,14 +81,24 @@ export function TestimonialCard({
     >
       <CardContent>
         {memoMarkdown}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }} mt={3}>
-          <a
-            href={data.link}
-            id={`testimonial_card_avatar_${data.name}`}
-            onMouseEnter={avatarHover.trackMouseEnter}
-            onMouseLeave={avatarHover.trackMouseLeave}
-            target="_blank"
-            rel="noopener noreferrer"
+        <Box
+          sx={{
+            display: "flex",
+            position: "relative",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            gap: 2,
+          }}
+          mt={3}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              position: "relative",
+              alignItems: "center",
+              gap: 2,
+            }}
+            mt={3}
           >
             <Avatar
               src={data.photo}
@@ -88,35 +106,53 @@ export function TestimonialCard({
               sx={{
                 width: 100,
                 height: 100,
-                "&:hover": { transform: "scale(1.02) !important" },
               }}
-              className="pop-shadow"
             />
-          </a>
-          <Box
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "left",
+                gap: -1,
+              }}
+            >
+              <Typography
+                variant="h5"
+                sx={{ fontWeight: "bold", color: textColor }}
+              >
+                {data.name}
+              </Typography>
+              <Typography variant="h6" sx={textStyle}>
+                {data.title}
+              </Typography>
+              <Typography variant="body1" sx={textStyle}>
+                {data.company}
+              </Typography>
+              <Typography variant="body1" sx={textStyle}>
+                {data.relation}
+              </Typography>
+            </Box>
+          </Box>
+
+          <IconButton
+            component="a"
+            target="_blank"
+            rel="noopener noreferrer"
+            href={data.link}
+            id={`testimonial_card_linkedin_${data.name}`}
+            onMouseEnter={avatarHover.trackMouseEnter}
+            onMouseLeave={avatarHover.trackMouseLeave}
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "left",
-              gap: -1,
+              mb: -1.25,
+              color: textColor,
+              "&:hover": { transform: "scale(1.1)" },
+              transition: "0.15s ease-out !important",
+              position: "relative",
             }}
           >
-            <Typography
-              variant="h5"
-              sx={{ fontWeight: "bold", color: textColor }}
-            >
-              {data.name}
-            </Typography>
-            <Typography variant="h6" sx={textStyle}>
-              {data.title}
-            </Typography>
-            <Typography variant="body1" sx={textStyle}>
-              {data.company}
-            </Typography>
-            <Typography variant="body1" sx={textStyle}>
-              {data.relation}
-            </Typography>
-          </Box>
+            <Box sx={{ position: "absolute" }}></Box>
+            <LinkedIn sx={{ fontSize: 40 }} />
+          </IconButton>
         </Box>
       </CardContent>
     </Card>

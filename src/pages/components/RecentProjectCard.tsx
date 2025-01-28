@@ -36,6 +36,7 @@ export function RecentProjectCard({ project }: { project: Project }) {
           height: "auto",
           objectFit: "cover",
         }}
+        id={`recent_card_img_${project.title}`}
       />
       <CardContent
         sx={{
@@ -44,6 +45,7 @@ export function RecentProjectCard({ project }: { project: Project }) {
           gap: 2,
           p: 3,
         }}
+        id={`recent_card_content_${project.title}`}
       >
         <Typography
           variant="h3"

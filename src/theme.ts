@@ -21,11 +21,11 @@ const typography = {
   h5: { fontSize: "1.25rem", lineHeight: "1.5", fontWeight: 600 },
   h6: { fontSize: "1.1rem", lineHeight: "1.5", fontWeight: 500 },
   body1: { fontSize: "1rem", lineHeight: "1.5", fontWeight: 500 },
-  body2: { fontSize: "0.75rem", lineHeight: "1.5", fontWeight: 500 },
+  body2: { fontSize: "0.85rem", lineHeight: "1.25", fontWeight: 500 },
   button: { fontSize: "1rem", lineHeight: "1.5", fontWeight: 500 },
 } as const;
 
-const skills = {
+const experience = {
   red: "rgb(227,18,18)",
   orange: "rgb(255, 153, 0)",
   green: "rgb(30,206,30)",
@@ -71,10 +71,15 @@ export interface CustomPalette {
     primary: string;
     secondary: string;
   };
-  skills: typeof skills;
+  experience: typeof experience;
 }
 
 const Pop = createTheme({
+  palette: {
+    background: {
+      default: "rgb(24, 24, 24)",
+    },
+  },
   customPalette: {
     mode: ThemeMode.Pop,
     background: {
@@ -107,8 +112,8 @@ const Pop = createTheme({
       primary: "rgb(98, 186, 27)",
       secondary: "rgb(18,126,215)",
     },
-    skills: {
-      ...skills,
+    experience: {
+      ...experience,
       empty: "rgb(60,60,60)",
     },
   },
@@ -116,6 +121,11 @@ const Pop = createTheme({
 });
 
 const Dark = createTheme({
+  palette: {
+    background: {
+      default: "rgb(24, 24, 24)",
+    },
+  },
   customPalette: {
     mode: ThemeMode.Dark,
     background: {
@@ -148,8 +158,8 @@ const Dark = createTheme({
       primary: "rgb(98, 186, 27)",
       secondary: "rgb(18,126,215)",
     },
-    skills: {
-      ...skills,
+    experience: {
+      ...experience,
       empty: "rgb(60,60,60)",
     },
   },
@@ -157,6 +167,11 @@ const Dark = createTheme({
 });
 
 const Light = createTheme({
+  palette: {
+    background: {
+      default: "rgb(255, 255, 255)",
+    },
+  },
   customPalette: {
     mode: ThemeMode.Light,
     background: {
@@ -189,8 +204,8 @@ const Light = createTheme({
       primary: "rgb(18,126,215)",
       secondary: "rgb(98, 186, 27)",
     },
-    skills: {
-      ...skills,
+    experience: {
+      ...experience,
       empty: "rgb(218,218,218)",
     },
   },
@@ -210,8 +225,8 @@ export type ThemeImage = {
 
 export const themeImages: ThemeImage[] = [
   { name: ThemeMode.Pop, src: moustache },
-  { name: ThemeMode.Light, src: sun },
   { name: ThemeMode.Dark, src: moon },
+  { name: ThemeMode.Light, src: sun },
 ];
 
 export const useCustomPalette = () => {

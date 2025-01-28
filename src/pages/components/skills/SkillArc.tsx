@@ -19,8 +19,8 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({
   starCount,
   isSectionVisible,
 }) => {
-  const { skills } = useCustomPalette();
-  const { star, empty } = skills;
+  const { experience } = useCustomPalette();
+  const { star, empty } = experience;
   const arcSize = 300;
   const radius = arcSize / 2;
   const peakScale = 1.3;
@@ -56,15 +56,14 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({
   };
 
   const starPositions = getStarPositions();
-  const roundedCount = Math.round(animatedStarCount);
+  const halfRoundedValue = Math.round(animatedStarCount * 2) / 2;
 
   return (
     <Box position="relative">
       <svg height={90} width={arcSize}>
         {starPositions.map((pos, index) => {
-          const isGold = index < roundedCount;
-          const isHalfStar =
-            index === Math.floor(animatedStarCount) && starCount % 1 !== 0;
+          const isHalfStar = index + 0.5 === halfRoundedValue;
+          const isGold = index < halfRoundedValue;
 
           return (
             <foreignObject

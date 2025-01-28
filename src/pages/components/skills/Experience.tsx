@@ -26,7 +26,7 @@ const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
   borderRadius: 4,
   [`&.${linearProgressClasses.colorPrimary}`]: {
     // @ts-ignore
-    backgroundColor: theme.customPalette.skills.empty,
+    backgroundColor: theme.customPalette.experience.empty,
   },
   [`& .${linearProgressClasses.bar}`]: {
     borderRadius: 4,
