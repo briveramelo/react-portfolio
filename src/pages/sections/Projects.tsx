@@ -27,7 +27,6 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
       useState<boolean>(true);
     const slideDurationMs = 750;
     const sectionRef = ref as React.RefObject<HTMLElement>;
-    const projectDetailsRef = useRef<HTMLDivElement>(null);
 
     const isSectionVisibleLead = useIntersectionObserver(sectionRef, {
       threshold: 0.1,
@@ -95,9 +94,9 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
         }}
         ref={ref}
       >
-        <Container maxWidth="lg">
+        <Container maxWidth="xl">
           {/* Header */}
-          <Box sx={{ textAlign: "center", mb: 6 }}>
+          <Box maxWidth="lg" sx={{ textAlign: "center", mb: 6, mx: "auto" }}>
             <Box
               sx={{
                 display: "flex",
@@ -113,7 +112,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
                   sx={{
                     position: "absolute",
                     left: 0,
-                    top: 13.5,
+                    top: 14,
                     contentAlign: "center",
                     justifyContent: "center",
                     padding: "8px 8px", // Ensure consistent spacing inside the button
@@ -167,10 +166,12 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
           {/* Project Cards */}
           <Collapsible durationMs={slideDurationMs} isOpen={!isProjectSelected}>
             <Box
+              maxWidth="lg"
               sx={{
                 display: "flex",
                 flexDirection: "column",
                 gap: 8,
+                mx: "auto",
               }}
             >
               {projectData.map((project, index) => (
@@ -197,18 +198,13 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
           {/* Selected Project Details */}
           <Collapsible durationMs={slideDurationMs} isOpen={isProjectSelected}>
             <Box
-              maxWidth="lg"
-              width={"100%"}
               sx={{
                 transition: `opacity ${slideDurationMs}ms ease-out`,
                 opacity: isProjectSelected ? 1 : 0,
               }}
             >
               {selectedProjectDetails && (
-                <ProjectDetails
-                  project={selectedProjectDetails}
-                  contentRef={projectDetailsRef}
-                />
+                <ProjectDetails project={selectedProjectDetails} />
               )}
             </Box>
           </Collapsible>

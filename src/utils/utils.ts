@@ -7,15 +7,15 @@ export function getProgressColor(
   value: number,
   isYearsOfExperience: boolean = false,
 ): string {
-  const { skills } = useCustomPalette();
+  const { experience } = useCustomPalette();
   if (isYearsOfExperience) {
-    if (value < 2) return skills.red;
-    if (value < 5) return skills.orange;
-    return skills.green;
+    if (value < 2) return experience.red;
+    if (value < 5) return experience.orange;
+    return experience.green;
   } else {
-    if (value < 60) return skills.red;
-    if (value < 80) return skills.orange;
-    return skills.green;
+    if (value < 60) return experience.red;
+    if (value < 80) return experience.orange;
+    return experience.green;
   }
 }
 

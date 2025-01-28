@@ -32,7 +32,7 @@ class SectionStyle {
 export const sectionStyles: Record<string, SectionStyle> = {
   home: new SectionStyle("Home", "default", "primary"),
   employers: new SectionStyle("Employers", "contrast", "secondary"),
-  skills: new SectionStyle("Skills", "default", "primary"),
+  experience: new SectionStyle("Experience", "default", "primary"),
   projects: new SectionStyle("Projects", "contrast", "secondary"),
   testimonials: new SectionStyle("Testimonials", "default", "primary"),
   recent: new SectionStyle("Recent", "contrast", "secondary"),

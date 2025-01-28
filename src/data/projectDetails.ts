@@ -1,3 +1,6 @@
+import { getSkills, SkillData } from "./skillsData";
+import { projectData } from "./projectData.ts";
+
 export type ProjectDetail = {
   title: string;
   description: string;
@@ -9,7 +12,7 @@ export type ProjectDetail = {
     src: string;
     alt: string;
   }[];
-  techStack: string[];
+  skills: SkillData[] | null;
   github: string;
   liveDemo: string;
 };
@@ -46,7 +49,8 @@ export const projectDetails: ProjectDetail[] = [
         alt: "About page layout",
       },
     ],
-    techStack: ["React", "Vite", "Material UI", "Firebase"],
+    skills:
+      projectData.find((elm) => elm.title === "Tilt Tracker")?.skills ?? null,
     github: "",
     liveDemo: "",
   },
@@ -75,7 +79,7 @@ export const projectDetails: ProjectDetail[] = [
         alt: "About page layout",
       },
     ],
-    techStack: ["React", "Vite", "Material UI", "Firebase"],
+    skills: getSkills(""),
     github: "",
     liveDemo: "",
   },

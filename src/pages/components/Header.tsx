@@ -33,7 +33,7 @@ export function Header({
 }: HeaderProps) {
   const navigationLinks = [
     { href: "#home", label: "Home" },
-    { href: "#skills", label: "Skills" },
+    { href: "#experience", label: "Experience" },
     { href: "#projects", label: "Projects" },
     { href: "#testimonials", label: "Testimonials" },
     { href: "#contact", label: "Contact" },
