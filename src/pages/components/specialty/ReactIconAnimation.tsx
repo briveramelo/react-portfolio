@@ -100,7 +100,6 @@ export const ReactIconAnimation = () => {
     });
   };
 
-
   return (
     <Box
       sx={{
@@ -129,7 +128,10 @@ export const ReactIconAnimation = () => {
             {...sharedEllipseProps}
             key={`ellipse-${index}-${isHovered ? "hov" : ""}`}
             initial={{ rotate: initialRotation, ...sharedEllipseInitialProps }}
-            animate={{ rotate: 360 + initialRotation, ...sharedEllipseAnimationProps }}
+            animate={{
+              rotate: 360 + initialRotation,
+              ...sharedEllipseAnimationProps,
+            }}
             transition={
               isHovered
                 ? hoverEllipseTransitionProps
