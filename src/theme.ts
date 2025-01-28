@@ -21,11 +21,11 @@ const typography = {
   h5: { fontSize: "1.25rem", lineHeight: "1.5", fontWeight: 600 },
   h6: { fontSize: "1.1rem", lineHeight: "1.5", fontWeight: 500 },
   body1: { fontSize: "1rem", lineHeight: "1.5", fontWeight: 500 },
-  body2: { fontSize: "0.75rem", lineHeight: "1.5", fontWeight: 500 },
+  body2: { fontSize: "0.85rem", lineHeight: "1.25", fontWeight: 500 },
   button: { fontSize: "1rem", lineHeight: "1.5", fontWeight: 500 },
 } as const;
 
-const skills = {
+const experience = {
   red: "rgb(227,18,18)",
   orange: "rgb(255, 153, 0)",
   green: "rgb(30,206,30)",
@@ -71,7 +71,7 @@ export interface CustomPalette {
     primary: string;
     secondary: string;
   };
-  skills: typeof skills;
+  experience: typeof experience;
 }
 
 const Pop = createTheme({
@@ -112,8 +112,8 @@ const Pop = createTheme({
       primary: "rgb(98, 186, 27)",
       secondary: "rgb(18,126,215)",
     },
-    skills: {
-      ...skills,
+    experience: {
+      ...experience,
       empty: "rgb(60,60,60)",
     },
   },
@@ -158,8 +158,8 @@ const Dark = createTheme({
       primary: "rgb(98, 186, 27)",
       secondary: "rgb(18,126,215)",
     },
-    skills: {
-      ...skills,
+    experience: {
+      ...experience,
       empty: "rgb(60,60,60)",
     },
   },
@@ -204,8 +204,8 @@ const Light = createTheme({
       primary: "rgb(18,126,215)",
       secondary: "rgb(98, 186, 27)",
     },
-    skills: {
-      ...skills,
+    experience: {
+      ...experience,
       empty: "rgb(218,218,218)",
     },
   },

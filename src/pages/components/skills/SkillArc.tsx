@@ -19,8 +19,8 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({
   starCount,
   isSectionVisible,
 }) => {
-  const { skills } = useCustomPalette();
-  const { star, empty } = skills;
+  const { experience } = useCustomPalette();
+  const { star, empty } = experience;
   const arcSize = 300;
   const radius = arcSize / 2;
   const peakScale = 1.3;

@@ -13,7 +13,7 @@ interface ExperienceCategoryArcProps {
 }
 
 const ExperienceArc: React.FC<ExperienceCategoryArcProps> = ({ years }) => {
-  const { skills } = useCustomPalette();
+  const { experience } = useCustomPalette();
   const size = 120;
   const strokeWidth = 10;
   const radius = (size - strokeWidth) / 2;
@@ -40,7 +40,7 @@ const ExperienceArc: React.FC<ExperienceCategoryArcProps> = ({ years }) => {
           cy={size / 2}
           r={radius}
           fill="transparent"
-          stroke={skills.empty}
+          stroke={experience.empty}
           strokeWidth={strokeWidth}
           pathLength={circumference}
           strokeDasharray={circumference / 2}

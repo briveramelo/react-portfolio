@@ -1,12 +1,14 @@
 import React, { forwardRef, useEffect, useRef, useState } from "react";
-import { Container, Typography, Box } from "@mui/material";
+import { Container, Typography, Box, Button } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { ProjectCard } from "../components/ProjectCard";
 import { ProjectDetails } from "../components/ProjectDetails";
 import { Project, projectData } from "../../data/projectData";
 import { ThemeMode, useCustomPalette } from "../../theme";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
 import { Collapsible } from "../components/reusable/Collapsible.tsx";
-import { cp } from "../../utils/utils.ts";
+import { ProjectDetail, projectDetails } from "../../data/projectDetails.ts";
+import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 
 interface ProjectsProps {
   backgroundColor: string;
@@ -19,13 +21,14 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
     const { mode } = useCustomPalette();
     const useLight = mode === ThemeMode.Dark;
 
-    const [selectedProject, setSelectedProject] = useState<Project | null>(
-      null,
-    );
-    const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false); // keeping separate from 'selectedProject === null' supports transition state nuances
-    const [animationComplete, setAnimationComplete] = useState<boolean>(true);
+    const [selectedProjectDetails, setSelectedProjectDetails] =
+      useState<ProjectDetail | null>(null);
+    const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false); // keeping separate from 'selectedProjectDetails === null' supports transition state nuances
+    const [isAnimationComplete, setIsAnimationComplete] =
+      useState<boolean>(true);
     const slideDurationMs = 750;
     const sectionRef = ref as React.RefObject<HTMLElement>;
+    const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
 
     const isSectionVisibleLead = useIntersectionObserver(sectionRef, {
       threshold: 0.1,
@@ -34,11 +37,11 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
       useState<boolean>(false); //lagging measure of if the section is visible
 
     useEffect(() => {
-      setAnimationComplete(false);
+      setIsAnimationComplete(false);
       setIsSectionVisibleLag(isSectionVisibleLead);
 
       const timeoutId = setTimeout(() => {
-        setAnimationComplete(true);
+        setIsAnimationComplete(true);
       }, slideDurationMs);
 
       return () => clearTimeout(timeoutId);
@@ -51,20 +54,23 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
     }, [isProjectSelected, sectionRef]);
 
     const handleCardClick = (project: Project) => {
-      setSelectedProject(project);
+      const matchingDetails =
+        projectDetails.find((pd) => project.title === pd.title) ?? null;
+      if (matchingDetails === null) console.error("no matching details found");
+      setSelectedProjectDetails(matchingDetails);
       setIsProjectSelected(true);
-      setAnimationComplete(false);
+      setIsAnimationComplete(false);
       setTimeout(() => {
-        setAnimationComplete(true);
+        setIsAnimationComplete(true);
       }, slideDurationMs);
     };
 
     const handleCloseProjectDetails = () => {
       setIsProjectSelected(false);
-      setAnimationComplete(false);
+      setIsAnimationComplete(false);
       setTimeout(() => {
-        setSelectedProject(null);
-        setAnimationComplete(true);
+        setSelectedProjectDetails(null);
+        setIsAnimationComplete(true);
       }, slideDurationMs);
     };
 
@@ -90,68 +96,90 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
         }}
         ref={ref}
       >
-        <Container maxWidth="lg">
+        <Container maxWidth="xl">
           {/* Header */}
-          <Box sx={{ textAlign: "center", mb: 6 }}>
-            <Typography
-              variant="h1"
+          <Box maxWidth="lg" sx={{ textAlign: "center", mb: 6, mx: "auto" }}>
+            <Box
               sx={{
-                fontWeight: "bold",
-                color: textColor,
-                mb: 2,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
               }}
             >
-              Projects
-            </Typography>
+              {isProjectSelected && (
+                <Button
+                  color="error"
+                  variant="contained"
+                  sx={{
+                    position: "absolute",
+                    left: 0,
+                    top: 14,
+                    contentAlign: "center",
+                    justifyContent: "center",
+                    padding: "8px 8px", // Ensure consistent spacing inside the button
+                    gap: 2, // Equal spacing between the icon and text
+                    "&:hover": { transform: "scale(1.1) !important" },
+                    pr: { xs: "8px", sm: "16px" }, // Adjust right padding based on screen size
+                  }}
+                  id="close_project_button"
+                  onClick={handleCloseProjectDetails}
+                  onMouseEnter={trackMouseEnter}
+                  onMouseLeave={trackMouseLeave}
+                  className="pop-shadow"
+                >
+                  <CloseIcon
+                    id="close_project_x"
+                    sx={{ fontSize: "1.25rem" }}
+                  />
+                  <Box
+                    id="close_project_typography_wrapper"
+                    sx={{
+                      display: { xs: "none", sm: "inline" }, // Hide on extra-small screens
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography id="close_project_text">CLOSE</Typography>
+                  </Box>
+                </Button>
+              )}
+              <Typography
+                variant="h1"
+                sx={{
+                  fontWeight: "bold",
+                  color: textColor,
+                  mb: 2,
+                }}
+              >
+                {isProjectSelected ? selectedProjectDetails?.title : "Projects"}
+              </Typography>
+            </Box>
+
             <Typography
               variant="body1"
               sx={{
                 color: textColor,
                 maxWidth: 600,
                 margin: "0 auto",
+                height: "2rem",
               }}
             >
-              Select a project to explore my technical expertise, innovation,
-              impact, and empathy.
+              {isProjectSelected
+                ? selectedProjectDetails?.description
+                : "Select a project to explore my technical expertise, innovation," +
+                  "                impact, and empathy."}
             </Typography>
           </Box>
 
-          {/* Selected Project Details */}
-          <Collapsible
-            isSectionVisible={isSectionVisibleLead}
-            durationMs={slideDurationMs}
-            isOpen={isProjectSelected}
-          >
+          {/* Project Cards */}
+          <Collapsible durationMs={slideDurationMs} isOpen={!isProjectSelected}>
             <Box
               maxWidth="lg"
-              width={"100%"}
-              pr={6}
-              sx={{
-                position: "absolute", // Fixes position to prevent layout shifts //todo: will likely need to change this
-                transition: `opacity ${slideDurationMs}ms ease-out`,
-                opacity: isProjectSelected ? 1 : 0,
-              }}
-            >
-              {selectedProject && (
-                <ProjectDetails
-                  project={selectedProject}
-                  onClose={handleCloseProjectDetails}
-                />
-              )}
-            </Box>
-          </Collapsible>
-
-          {/* Project Cards */}
-          <Collapsible
-            isSectionVisible={isSectionVisibleLead}
-            durationMs={slideDurationMs}
-            isOpen={!isProjectSelected}
-          >
-            <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
                 gap: 8,
+                mx: "auto",
               }}
             >
               {projectData.map((project, index) => (
@@ -168,10 +196,24 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
                         : "100vw"
                       : "0"
                   }
-                  animationComplete={animationComplete}
+                  animationComplete={isAnimationComplete}
                   slideDurationMs={slideDurationMs}
                 />
               ))}
+            </Box>
+          </Collapsible>
+
+          {/* Selected Project Details */}
+          <Collapsible durationMs={slideDurationMs} isOpen={isProjectSelected}>
+            <Box
+              sx={{
+                transition: `opacity ${slideDurationMs}ms ease-out`,
+                opacity: isProjectSelected ? 1 : 0,
+              }}
+            >
+              {selectedProjectDetails && (
+                <ProjectDetails project={selectedProjectDetails} />
+              )}
             </Box>
           </Collapsible>
         </Container>

@@ -3,6 +3,7 @@ import { Container, Typography, Box } from "@mui/material";
 import { BeatingHeart } from "./specialty/BeatingHeart.tsx";
 import { SteamingCoffee } from "./specialty/SteamingCoffee.tsx";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
+import { ReactIconAnimation } from "./specialty/ReactIconAnimation.tsx";
 
 interface FooterProps {
   backgroundColor: string;
@@ -44,17 +45,14 @@ export const Footer: React.FC<FooterProps> = ({
             gap: 0,
           }}
         >
-          <Typography
-            variant="body1"
-            sx={{ ml: -6.2, mr: 1, color: textColor }}
-          >
+          <Typography variant="body1" sx={{ mr: 1, color: textColor }}>
             Custom made with
           </Typography>
           <BeatingHeart heartTriggerRef={heartTriggerRef} />
-          <Typography variant="body1" sx={{ ml: 1, mr: 2, color: textColor }}>
-            and
-          </Typography>
+          <Box sx={{ width: 10 }}></Box>
           <SteamingCoffee />
+          <Box sx={{ width: 20 }}></Box>
+          <ReactIconAnimation />
         </Box>
         <Typography variant="body2" sx={{ color: textColor }}>
           I use{" "}

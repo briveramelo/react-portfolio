@@ -16,7 +16,7 @@ interface StarRatingProps {
 
 const StarRating: React.FC<StarRatingProps> = ({ count, isSectionVisible }) => {
   const animatedStarCount = getAnimatedValue(count, starPopAnimationDurationMs);
-  const { skills } = useCustomPalette();
+  const { experience } = useCustomPalette();
   const popAnimation = keyframes`
       0% { transform: scale(0); opacity: 0; }
       50% { transform: scale(1.3); opacity: 1; }
@@ -44,7 +44,7 @@ const StarRating: React.FC<StarRatingProps> = ({ count, isSectionVisible }) => {
             <FontAwesomeIcon
               icon={faStar}
               style={{
-                color: isGold ? skills.star : skills.empty, // Immediately assign correct color
+                color: isGold ? experience.star : experience.empty, // Immediately assign correct color
                 marginRight: 4,
               }}
             />

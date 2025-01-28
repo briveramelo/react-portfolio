@@ -1,8 +1,7 @@
-import React, { useRef, useEffect, useState, useCallback } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
 import "./BeatingHeart.css";
 import { useHoverTracking } from "../../../tracking/useHoverTracking.ts";
-import { useIntersectionObserver } from "../../../utils/useIntersectionObserver.ts";
 
 interface BeatingHeartProps {
   heartTriggerRef?: React.RefObject<HTMLButtonElement>;
@@ -21,10 +20,19 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
   const maxHeartRateBPM = 160.0;
   const fixedAnimationDurationSec = 0.5;
 
+  const minHRVPercent = 0.05;
+  const maxHRVPercent = 0.2;
+
   const calculatePauseDuration = useCallback(() => {
     const heartRateBPM = isHovered ? maxHeartRateBPM : minHeartRateBPM;
     const totalCycleDurationSec = 60.0 / heartRateBPM;
-    return totalCycleDurationSec - fixedAnimationDurationSec;
+    const basePauseDurationSec =
+      totalCycleDurationSec - fixedAnimationDurationSec;
+    const variabilityFactor =
+      Math.random() * (maxHRVPercent - minHRVPercent) + minHRVPercent;
+    const variation =
+      basePauseDurationSec * variabilityFactor * (Math.random() < 0.5 ? -1 : 1);
+    return basePauseDurationSec + variation;
   }, [isHovered]);
 
   const startHeartbeat = useCallback(() => {
@@ -119,7 +127,7 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
           lineHeight: "70px",
           transition: "font-size 0.15s ease-in-out",
           cursor: "default",
-          willChange: "", //no need to optimize. looks fine
+          // willChange no need to optimize. looks fine
         }}
         key={animationKey} // Forces re-render
         onAnimationEnd={handleAnimationEnd}
