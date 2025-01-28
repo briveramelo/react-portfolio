@@ -49,13 +49,13 @@ export const ReactIconAnimation = () => {
     ease: "easeInOut",
     repeat: Infinity,
     bounce,
-  }
+  };
   const hoverCircleProps = {
     duration: 1,
     ease: "easeInOut",
     repeat: Infinity,
     bounce,
-  }
+  };
 
   return (
     <Box
@@ -83,7 +83,9 @@ export const ReactIconAnimation = () => {
           {...sharedEllipseProps}
           initial={{ rotate: 0, ...sharedEllipseInitialProps }}
           animate={{ rotate: 360, ...sharedEllipseAnimationProps }}
-          transition={isHovered ? hoverEllipseTransitionProps : baseEllipseTransitionProps}
+          transition={
+            isHovered ? hoverEllipseTransitionProps : baseEllipseTransitionProps
+          }
           key={isHovered ? "hov1" : "not1"}
         />
 
@@ -92,7 +94,9 @@ export const ReactIconAnimation = () => {
           {...sharedEllipseProps}
           initial={{ rotate: 120, ...sharedEllipseInitialProps }}
           animate={{ rotate: 480, ...sharedEllipseAnimationProps }}
-          transition={isHovered ? hoverEllipseTransitionProps : baseEllipseTransitionProps}
+          transition={
+            isHovered ? hoverEllipseTransitionProps : baseEllipseTransitionProps
+          }
           key={isHovered ? "hov2" : "not2"}
         />
 
@@ -101,7 +105,9 @@ export const ReactIconAnimation = () => {
           {...sharedEllipseProps}
           initial={{ rotate: 240, ...sharedEllipseInitialProps }}
           animate={{ rotate: 600, ...sharedEllipseAnimationProps }}
-          transition={isHovered ? hoverEllipseTransitionProps : baseEllipseTransitionProps}
+          transition={
+            isHovered ? hoverEllipseTransitionProps : baseEllipseTransitionProps
+          }
           key={isHovered ? "hov3" : "not3"}
         />
 
@@ -115,7 +121,7 @@ export const ReactIconAnimation = () => {
             scale: [1, 1.5, 1],
           }}
           transition={isHovered ? hoverCircleProps : baseCircleProps}
-          key={isHovered ? 'fastCirc' : 'slowCirc'}
+          key={isHovered ? "fastCirc" : "slowCirc"}
         />
       </motion.svg>
     </Box>
