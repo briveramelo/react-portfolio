@@ -42,11 +42,11 @@ export const projectDetails: ProjectDetail[] = [
     images: [
       {
         src: "",
-        alt: "Homepage design",
+        alt: "",
       },
       {
         src: "",
-        alt: "About page layout",
+        alt: "",
       },
     ],
     skills:
@@ -55,31 +55,71 @@ export const projectDetails: ProjectDetail[] = [
     liveDemo: "",
   },
   {
-    title: "Clawface",
+    title: "ABCmouse",
     description:
-      "A personal portfolio built with React, Vite, and Material UI.",
+      "ABCmouse is a digital education program for children ages 2–8 with over 18M users",
     story: [
-      { title: "Inception", content: "Started with wireframing and ideation." },
       {
-        title: "Development",
-        content: "Implemented modular components and styling.",
+        title: "Content",
+        content:
+          "",
       },
       {
-        title: "Deployment",
-        content: "Hosted on Firebase with CI/CD pipeline.",
+        title: "Coming",
+        content:
+          "",
+      },
+      {
+        title: "Soon",
+        content:
+          "",
       },
     ],
     images: [
       {
         src: "",
-        alt: "Homepage design",
+        alt: "",
       },
       {
         src: "",
-        alt: "About page layout",
+        alt: "",
       },
     ],
-    skills: getSkills(""),
+    skills:
+      projectData.find((elm) => elm.title === "ABCmouse")?.skills ?? null,
+    github: "",
+    liveDemo: "",
+  },
+  {
+    title: "Clawface",
+    description:
+      "Clawface is a twin-stick, arcade-style shooter published to Steam",
+    story: [
+      {
+        title: "Content",
+        content: ""
+      },
+      {
+        title: "Coming",
+        content: "",
+      },
+      {
+        title: "Soon",
+        content: "",
+      },
+    ],
+    images: [
+      {
+        src: "",
+        alt: "",
+      },
+      {
+        src: "",
+        alt: "",
+      },
+    ],
+    skills:
+      projectData.find((elm) => elm.title === "Clawface")?.skills ?? null,
     github: "",
     liveDemo: "",
   },
