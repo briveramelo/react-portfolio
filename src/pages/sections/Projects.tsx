@@ -152,11 +152,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
           </Box>
 
           {/* Project Cards */}
-          <Collapsible
-            isSectionVisible={isSectionVisibleLead}
-            durationMs={slideDurationMs}
-            isOpen={!isProjectSelected}
-          >
+          <Collapsible durationMs={slideDurationMs} isOpen={!isProjectSelected}>
             <Box
               sx={{
                 display: "flex",
@@ -186,15 +182,10 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
           </Collapsible>
 
           {/* Selected Project Details */}
-          <Collapsible
-            isSectionVisible={isSectionVisibleLead}
-            durationMs={slideDurationMs}
-            isOpen={isProjectSelected}
-          >
+          <Collapsible durationMs={slideDurationMs} isOpen={isProjectSelected}>
             <Box
               maxWidth="lg"
               width={"100%"}
-              pr={6}
               sx={{
                 transition: `opacity ${slideDurationMs}ms ease-out`,
                 opacity: isProjectSelected ? 1 : 0,

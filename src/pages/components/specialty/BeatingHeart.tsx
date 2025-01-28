@@ -119,7 +119,7 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
           lineHeight: "70px",
           transition: "font-size 0.15s ease-in-out",
           cursor: "default",
-          willChange: "", //no need to optimize. looks fine
+          // willChange no need to optimize. looks fine
         }}
         key={animationKey} // Forces re-render
         onAnimationEnd={handleAnimationEnd}

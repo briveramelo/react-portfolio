@@ -25,19 +25,27 @@ export const ProjectDetails = forwardRef<HTMLDivElement, ProjectDetailsProps>(
     const { story, images, techStack, github, liveDemo } = project;
 
     return (
-      <Box
-        ref={contentRef}
-        sx={{ maxWidth: "lg", mx: "auto", p: 1, overflow: "visible" }}
-      >
+      <Box ref={contentRef} sx={{ maxWidth: "lg", overflow: "visible" }}>
         {/* Storytelling */}
         <Grid container spacing={2}>
           {story.map((section, index) => (
-            <Grid item xs={12} sm={4} key={index} sx={{ overflow: "visible" }}>
+            <Grid
+              item
+              xs={12}
+              sm={4}
+              key={index}
+              sx={{
+                overflow: "visible",
+                display: "flex", // Ensures the content inside the grid item is centered
+                justifyContent: "center",
+              }}
+            >
               <Card
                 sx={{
                   p: 1,
                   backgroundColor: cp("background.paper"),
                   borderRadius: "8px",
+                  width: "100%",
                 }}
                 className={"subtle-shadow"}
               >
@@ -55,15 +63,11 @@ export const ProjectDetails = forwardRef<HTMLDivElement, ProjectDetailsProps>(
         <Box sx={{ height: 20 }} />
 
         {/* Image Carousel */}
-        <Carousel
-          autoPlay
-          navButtonsAlwaysVisible
-          sx={{ overflow: "visible", backgroundColor: cp("background.paper") }}
-        >
+        <Carousel autoPlay navButtonsAlwaysVisible sx={{ overflow: "visible" }}>
           {images.map((img, idx) => (
             <Card
               key={idx}
-              sx={{ boxShadow: 3, borderRadius: 2, overflow: "visible" }}
+              sx={{ boxShadow: 3, borderRadius: 2 }}
               className={"subtle-shadow"}
             >
               <CardMedia
