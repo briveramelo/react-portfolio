@@ -89,8 +89,11 @@ export const ReactIconAnimation = () => {
     return 0; // Default to 0 if no transform or angle is found
   }
 
-  const handleOnHover = (event: MouseEvent<HTMLDivElement> | null, isMouseEnter: boolean) => {
-    if(isMouseEnter){
+  const handleOnHover = (
+    event: MouseEvent<HTMLDivElement> | null,
+    isMouseEnter: boolean,
+  ) => {
+    if (isMouseEnter) {
       trackMouseEnter();
     } else if (event !== null) {
       trackMouseLeave(event);
@@ -122,7 +125,7 @@ export const ReactIconAnimation = () => {
     >
       <Box
         zIndex={1}
-        sx={{position: "absolute", height: size*.65, width: size*.65}}
+        sx={{ position: "absolute", height: size * 0.65, width: size * 0.65 }}
         onMouseLeave={(e) => handleOnHover(e, false)}
         onMouseEnter={() => handleOnHover(null, true)}
         id={"react-icon"}
