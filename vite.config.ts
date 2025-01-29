@@ -20,7 +20,7 @@ export default defineConfig({
     target: "es2024", // Matches modern browser support
     cssCodeSplit: true, // Separate CSS for better caching
     sourcemap: false, // Disable sourcemaps for smaller builds
-    chunkSizeWarningLimit: 500, // Increase chunk size limit warning
+    chunkSizeWarningLimit: 750, // Increase chunk size limit warning
     rollupOptions: {
       output: {
         manualChunks: (id) => {

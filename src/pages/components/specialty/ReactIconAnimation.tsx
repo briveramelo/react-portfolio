@@ -8,7 +8,7 @@ export const ReactIconAnimation = () => {
   const ellipseRefs = useRef<(SVGElement | null)[]>([]);
   const circleRef = useRef<SVGCircleElement | null>(null);
   const ellipseAnglesRef = useRef<number[]>([0, 120, 240]);
-  const lastTimeRef = useRef<number>(0);
+  const lastTimeRef = useRef<number>(performance.now());
 
   const setEllipseRef = (index: number, el: SVGElement | null) => {
     ellipseRefs.current[index] = el;
@@ -20,7 +20,6 @@ export const ReactIconAnimation = () => {
     const transform = style.getPropertyValue("transform");
 
     if (transform && transform !== "none") {
-      // transform is something like "matrix(a, b, c, d, tx, ty)"
       const values = transform
         .match(/matrix\(([^)]+)\)/)?.[1]
         .split(",")
@@ -47,70 +46,51 @@ export const ReactIconAnimation = () => {
       trackMouseLeave(event);
     }
 
-    // IMPORTANT: read current angles from the DOM so rotation doesn't reset
     ellipseRefs.current.forEach((ellipse, i) => {
       ellipseAnglesRef.current[i] = getCurrentAngleDeg(ellipse);
     });
   };
 
-  // Main animation loop via requestAnimationFrame
   useEffect(() => {
     let animId = 0;
 
     function animate(timestamp: number) {
-      if (!lastTimeRef.current) {
-        lastTimeRef.current = timestamp;
-      }
-
-      const dt = timestamp - lastTimeRef.current; // ms since last frame
+      const dt = timestamp - lastTimeRef.current;
       lastTimeRef.current = timestamp;
 
       const rotationSpeedDegPerSec = isHovered ? 180 : 60;
       const pulsingPeriodMs = isHovered ? 1000 : 2000;
 
-      // A simple sinusoid for "pulsing" from [1..0.833] in X, [1..1.5] in Y
-      // We'll param via cos(2π * t / period)
       const cosPart = Math.cos((2 * Math.PI * timestamp) / pulsingPeriodMs);
-      // Ellipse scale in X from 1 down to ~0.833, in Y up to 1.5
-      // We'll define them so that at cosPart=1 => scale is (1,1)
-      // and at cosPart=-1 => scale is (0.833, 1.5).
-      // A straightforward approach:
-      //   x(t): 0.91665 + 0.0833*cos(...) => range [0.8333..1]
-      //   y(t): 1.25 + 0.25*cos(...)      => range [1..1.5]
       const xScale = 0.91665 + 0.0833 * cosPart;
       const yScale = 1.25 + 0.25 * cosPart;
+      const circleScale = 1.25 + 0.5 * cosPart;
 
-      // For center circle, we want it from 1..1.5..1
-      // so scale(t) = 1.25 + 0.25*cos(...), same as yScale
-      const circleScale = 1.25 + 0.25 * cosPart;
-
-      // Update each ellipse
       ellipseRefs.current.forEach((ellipse, i) => {
         if (!ellipse) return;
 
-        // Advance the rotation
         ellipseAnglesRef.current[i] += rotationSpeedDegPerSec * (dt / 1000);
         const angle = ellipseAnglesRef.current[i];
 
+        // Pivot transform around (50,50)
         const transformStr = `
           rotate(${angle}deg)
           scale(${xScale}, ${yScale})
-        `.replace(/\s+/g, " "); // tidy up spaces
+        `.replace(/\s+/g, " ");
 
         (ellipse as SVGElement).style.transform = transformStr;
       });
 
       if (circleRef.current) {
-        circleRef.current.style.transform = `
+        const circleTransform = `
           scale(${circleScale})
         `.replace(/\s+/g, " ");
+        circleRef.current.style.transform = circleTransform;
       }
 
-      // Next frame
       animId = requestAnimationFrame(animate);
     }
 
-    // Start animation
     animId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animId);
   }, [isHovered]);
@@ -128,10 +108,7 @@ export const ReactIconAnimation = () => {
         position: "relative",
       }}
     >
-      {/*
-        Invisible Box that covers the same area as the icon
-        to capture hover events (enter/leave).
-      */}
+      {/* Invisible Box that covers the same area as the icon to capture hover events */}
       <Box
         zIndex={1}
         sx={{ position: "absolute", height: 65, width: 65 }}
@@ -141,6 +118,8 @@ export const ReactIconAnimation = () => {
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 100 100"
+        width="100"
+        height="100"
         style={{
           transform: isHovered ? "scale(1.2)" : "scale(1)",
           transition: "transform 0.3s ease",
@@ -158,18 +137,17 @@ export const ReactIconAnimation = () => {
             strokeWidth={3}
             fill="none"
             vectorEffect="non-scaling-stroke"
-            style={{ transformOrigin: "center", willChange: "transform" }}
+            style={{ transformOrigin: "50px 50px", willChange: "transform" }}
           />
         ))}
 
-        {/* Center "nucleus" circle */}
         <circle
           ref={circleRef}
           cx="50"
           cy="50"
           r="3"
           fill="#61DAFB"
-          style={{ transformOrigin: "center", willChange: "transform" }}
+          style={{ transformOrigin: "50px 50px", willChange: "transform" }}
         />
       </svg>
     </Box>
