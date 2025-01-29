@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { useState } from "react";
 import { ProjectDetail } from "../../data/projectDetails.ts";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 import {
@@ -6,54 +6,42 @@ import {
   Typography,
   Grid,
   Card,
-  CardMedia,
   CardContent,
   Button,
+  useMediaQuery,
 } from "@mui/material";
 import { cp } from "../../utils/utils";
-const Carousel = React.lazy(() => import("react-material-ui-carousel"));
+import ImageCarousel from "./reusable/ImageCarousel.tsx";
 import InvertableImage from "./reusable/InvertableImage.tsx";
 import { ThemeMode, useCustomPalette } from "../../theme.ts";
-import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import { useTheme } from "@mui/material/styles";
 
 interface ProjectDetailsProps {
   project: ProjectDetail;
-  loadContent: boolean;
 }
 
-export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
-  project,
-  loadContent,
-}) => {
+export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
   const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
-
-  //preloading for smoother render
-  useEffect(() => {
-    if (loadContent) {
-      import("react-material-ui-carousel");
-    }
-  }, [loadContent]);
-
-  const { story, images, skills, github, liveDemo } = project;
   const { mode } = useCustomPalette();
   const useLight = mode === ThemeMode.Dark;
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const { story, images, skills, github, liveDemo } = project;
+  const [selectedStoryIndex, setSelectedStoryIndex] = useState(0);
+
+  const handleImageChange = (newImageIndex: number) => {
+    setSelectedStoryIndex(newImageIndex);
+  };
 
   return (
     <Box sx={{ overflow: "visible" }}>
-      {/* Storytelling */}
-      <Grid container spacing={2}>
-        {story.map((section, index) => (
-          <Grid
-            item
-            xs={12}
-            sm={4}
-            key={index}
-            sx={{
-              overflow: "visible",
-              display: "flex", // Ensures the content inside the grid item is centered
-              justifyContent: "center",
-            }}
-          >
+      {/* Story and Images */}
+      <Grid container spacing={2} flexDirection={"row"} alignContent={"left"}>
+        {/* Story Cards */}
+        <Grid item lg={3} xs={12}>
+          {isMobile ? (
+            // Mobile: Show only one story card
             <Card
               sx={{
                 p: 1,
@@ -65,35 +53,57 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
               className={"subtle-shadow"}
             >
               <CardContent>
-                <Typography variant="h6">{section.title}</Typography>
-                <Typography variant="body2">{section.content}</Typography>
+                <Typography variant="h6">
+                  {story[selectedStoryIndex].title}
+                </Typography>
+                <Typography variant="body2">
+                  {story[selectedStoryIndex].content}
+                </Typography>
               </CardContent>
             </Card>
-          </Grid>
-        ))}
+          ) : (
+            // Desktop: Show all story cards
+            story.map((section, index) => (
+              <Box
+                key={index}
+                sx={{
+                  overflow: "visible",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  cursor: "pointer",
+                  transition: "border 0.3s ease",
+                  // maxHeight: index === selectedStoryIndex ? "" : "" //todo: indicate selection
+                }}
+                py={0.5}
+                onClick={() => setSelectedStoryIndex(index)}
+              >
+                <Card
+                  sx={{
+                    p: 1,
+                    backgroundColor: cp("background.paper"),
+                    color: cp("text.paper"),
+                    borderRadius: "8px",
+                    width: "100%",
+                  }}
+                  className={"subtle-shadow"}
+                >
+                  <CardContent>
+                    <Typography variant="h6">{section.title}</Typography>
+                    <Typography variant="body2">{section.content}</Typography>
+                  </CardContent>
+                </Card>
+              </Box>
+            ))
+          )}
+        </Grid>
+
+        {/* Image Carousel */}
+        <Grid item lg={9} md={12}>
+          <ImageCarousel images={images} onImageChange={handleImageChange} />
+        </Grid>
       </Grid>
 
       <Box sx={{ height: 20 }} />
-
-      {/* Image Carousel */}
-      <Suspense fallback={<div>Loading carousel...</div>}>
-        <Carousel autoPlay navButtonsAlwaysVisible sx={{ overflow: "visible" }}>
-          {images.map((img, idx) => (
-            <Card
-              key={idx}
-              sx={{ boxShadow: 3, borderRadius: 2 }}
-              className={"subtle-shadow"}
-            >
-              <CardMedia
-                component="img"
-                height="400"
-                image={img.src}
-                alt={img.alt}
-              />
-            </Card>
-          ))}
-        </Carousel>
-      </Suspense>
 
       {/* SKILLS */}
       <Box
@@ -108,7 +118,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
           position: "relative",
         }}
       >
-        <Typography sx={{ position: "absolute", left: 5, mt: -3.5 }}>
+        <Typography sx={{ position: "absolute", left: 5, mt: -3 }}>
           Built With:{" "}
         </Typography>
         {skills &&
