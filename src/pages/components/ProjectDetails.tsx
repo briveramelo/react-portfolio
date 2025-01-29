@@ -25,7 +25,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
   const { mode } = useCustomPalette();
   const useLight = mode === ThemeMode.Dark;
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   const { story, images, skills, github, liveDemo } = project;
   const [selectedStoryIndex, setSelectedStoryIndex] = useState<number>(0);
@@ -90,7 +90,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
                   cursor: "pointer",
                   transition: "transform 0.3s ease",
                   transform:
-                    index === selectedStoryIndex ? "scale(1.1)" : "scale(1)",
+                    index === selectedStoryIndex ? "scale(1.05)" : "scale(1)",
                   transformOrigin: "right center",
                 }}
                 py={0.5}
