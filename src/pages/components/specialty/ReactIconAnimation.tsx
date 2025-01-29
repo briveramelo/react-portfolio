@@ -1,9 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { MouseEvent, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Box } from "@mui/material";
+import { useHoverTracking } from "../../../tracking/useHoverTracking.ts";
 
 export const ReactIconAnimation = () => {
   const [isHovered, setIsHovered] = useState(false);
+  const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
 
   // State for initial rotation values of each ellipse
   const [ellipseRotations, setEllipseRotations] = useState([0, 120, 240]);
@@ -87,7 +89,13 @@ export const ReactIconAnimation = () => {
     return 0; // Default to 0 if no transform or angle is found
   }
 
-  const handleOnHover = (isMouseEnter: boolean) => {
+  const handleOnHover = (event: MouseEvent<HTMLDivElement> | null, isMouseEnter: boolean) => {
+    if(isMouseEnter){
+      trackMouseEnter();
+    } else if (event !== null) {
+      trackMouseLeave(event);
+    }
+
     setIsHovered(isMouseEnter);
 
     setEllipseRotations((prev) => {
@@ -111,9 +119,14 @@ export const ReactIconAnimation = () => {
         width: size,
         overflow: "visible",
       }}
-      onMouseEnter={() => handleOnHover(true)}
-      onMouseLeave={() => handleOnHover(false)}
     >
+      <Box
+        zIndex={1}
+        sx={{position: "absolute", height: size*.65, width: size*.65}}
+        onMouseLeave={(e) => handleOnHover(e, false)}
+        onMouseEnter={() => handleOnHover(null, true)}
+        id={"react-icon"}
+      />
       <motion.svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 100 100"
