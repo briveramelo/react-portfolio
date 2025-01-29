@@ -6,12 +6,14 @@ interface ImageCarouselProps {
   images: { src: string; alt: string }[];
   selectedIndex: number;
   onImageChange: (index: number) => void; // Callback to update story selection
+  height: number;
 }
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({
   images,
   selectedIndex,
   onImageChange,
+  height,
 }) => {
   const nextImage = () => {
     onImageChange((selectedIndex + 1) % images.length);
@@ -52,7 +54,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
       <Card sx={{ width: "100%", borderRadius: 2 }}>
         <CardMedia
           component="img"
-          height="600"
+          height={height}
           image={images[selectedIndex].src}
           alt={images[selectedIndex].alt}
           sx={{ objectFit: "cover" }}

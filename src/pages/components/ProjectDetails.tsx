@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { ProjectDetail } from "../../data/projectDetails.ts";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 import {
@@ -30,6 +30,17 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
   const { story, images, skills, github, liveDemo } = project;
   const [selectedStoryIndex, setSelectedStoryIndex] = useState<number>(0);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
+
+  const isXs = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmMd = useMediaQuery(theme.breakpoints.between("sm", "md"));
+  const isLgUp = useMediaQuery(theme.breakpoints.up("md"));
+
+  const getCarouselHeight = () => {
+    if (isXs) return 300;
+    if (isSmMd) return 400;
+    if (isLgUp) return 600;
+    return 600;
+  };
 
   const handleStoryClick = (index: number) => {
     setSelectedStoryIndex(index);
@@ -117,11 +128,12 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
         </Grid>
 
         {/* Image Carousel */}
-        <Grid item lg={9} md={12}>
+        <Grid item lg={9} xs={12}>
           <ImageCarousel
             images={images}
             onImageChange={handleImageChange}
             selectedIndex={selectedImageIndex}
+            height={getCarouselHeight()}
           />
         </Grid>
       </Grid>
