@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import { visualizer } from "rollup-plugin-visualizer";
+import svgr from "vite-plugin-svgr";
 
 export default defineConfig({
   plugins: [
@@ -12,6 +13,7 @@ export default defineConfig({
       gzipSize: true, // Show gzip size in report
       brotliSize: true, // Show brotli size in report
     }),
+    svgr(),
   ],
   publicDir: "public",
   build: {

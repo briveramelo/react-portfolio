@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, keyframes } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-const { faStar } = await import("@fortawesome/free-solid-svg-icons/faStar");
+import StarIcon from "@/assets/star.svg?react"
 import {
   maxStarCount,
   starPopAnimationDurationMs,
@@ -41,10 +40,10 @@ const StarRating: React.FC<StarRatingProps> = ({ count, isSectionVisible }) => {
               willChange: isSectionVisible ? "transform" : "",
             }}
           >
-            <FontAwesomeIcon
-              icon={faStar}
+            <StarIcon
               style={{
-                color: isGold ? experience.star : experience.empty, // Immediately assign correct color
+                height: 16,
+                fill: isGold ? experience.star : experience.empty, // Immediately assign correct color
                 marginRight: 4,
               }}
             />
