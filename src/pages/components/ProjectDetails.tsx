@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, useEffect } from "react";
 import { ProjectDetail } from "../../data/projectDetails.ts";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 import {
@@ -11,17 +11,28 @@ import {
   Button,
 } from "@mui/material";
 import { cp } from "../../utils/utils";
-import Carousel from "react-material-ui-carousel";
+const Carousel = React.lazy(() => import("react-material-ui-carousel"));
 import InvertableImage from "./reusable/InvertableImage.tsx";
 import { ThemeMode, useCustomPalette } from "../../theme.ts";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
 interface ProjectDetailsProps {
   project: ProjectDetail;
+  loadContent: boolean;
 }
 
-export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
+export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
+  project,
+  loadContent,
+}) => {
   const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
+
+  //preloading for smoother render
+  useEffect(() => {
+    if (loadContent) {
+      import("react-material-ui-carousel");
+    }
+  }, [loadContent]);
 
   const { story, images, skills, github, liveDemo } = project;
   const { mode } = useCustomPalette();
@@ -65,22 +76,24 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
       <Box sx={{ height: 20 }} />
 
       {/* Image Carousel */}
-      <Carousel autoPlay navButtonsAlwaysVisible sx={{ overflow: "visible" }}>
-        {images.map((img, idx) => (
-          <Card
-            key={idx}
-            sx={{ boxShadow: 3, borderRadius: 2 }}
-            className={"subtle-shadow"}
-          >
-            <CardMedia
-              component="img"
-              height="400"
-              image={img.src}
-              alt={img.alt}
-            />
-          </Card>
-        ))}
-      </Carousel>
+      <Suspense fallback={<div>Loading carousel...</div>}>
+        <Carousel autoPlay navButtonsAlwaysVisible sx={{ overflow: "visible" }}>
+          {images.map((img, idx) => (
+            <Card
+              key={idx}
+              sx={{ boxShadow: 3, borderRadius: 2 }}
+              className={"subtle-shadow"}
+            >
+              <CardMedia
+                component="img"
+                height="400"
+                image={img.src}
+                alt={img.alt}
+              />
+            </Card>
+          ))}
+        </Carousel>
+      </Suspense>
 
       {/* SKILLS */}
       <Box

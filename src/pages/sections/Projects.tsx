@@ -212,7 +212,10 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
               }}
             >
               {selectedProjectDetails && (
-                <ProjectDetails project={selectedProjectDetails} />
+                <ProjectDetails
+                  project={selectedProjectDetails}
+                  loadContent={isSectionVisibleLag}
+                />
               )}
             </Box>
           </Collapsible>

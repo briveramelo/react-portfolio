@@ -1,5 +1,5 @@
 import React, { MouseEvent, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { LazyMotion, domAnimation, m } from "framer-motion";
 import { Box } from "@mui/material";
 import { useHoverTracking } from "../../../tracking/useHoverTracking.ts";
 
@@ -112,63 +112,68 @@ export const ReactIconAnimation = () => {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignContent: "center",
-        alignItems: "center",
-        height: size,
-        width: size,
-        overflow: "visible",
-      }}
-    >
+    <LazyMotion features={domAnimation}>
       <Box
-        zIndex={1}
-        sx={{ position: "absolute", height: size * 0.65, width: size * 0.65 }}
-        onMouseLeave={(e) => handleOnHover(e, false)}
-        onMouseEnter={() => handleOnHover(null, true)}
-        id={"react-icon"}
-      />
-      <motion.svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 100 100"
-        animate={{
-          scale: isHovered ? 1.2 : 1,
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignContent: "center",
+          alignItems: "center",
+          height: size,
+          width: size,
+          overflow: "visible",
         }}
       >
-        {/* Dynamically render each ellipse */}
-        {ellipseRotations.map((initialRotation, index) => (
-          <motion.ellipse
-            ref={(element) => setRef(index, element)}
-            {...sharedEllipseProps}
-            key={`ellipse-${index}-${isHovered ? "hov" : ""}`}
-            initial={{ rotate: initialRotation, ...sharedEllipseInitialProps }}
-            animate={{
-              rotate: 360 + initialRotation,
-              ...sharedEllipseAnimationProps,
-            }}
-            transition={
-              isHovered
-                ? hoverEllipseTransitionProps
-                : baseEllipseTransitionProps
-            }
-          />
-        ))}
-
-        {/* Center Nucleus */}
-        <motion.circle
-          {...sharedCircleAndEllipseProps}
-          r="3"
-          fill={color}
-          initial={{ scale: 1 }}
-          animate={{
-            scale: [1, 1.5, 1],
-          }}
-          transition={isHovered ? hoverCircleProps : baseCircleProps}
-          key={isHovered ? "fastCirc" : "slowCirc"}
+        <Box
+          zIndex={1}
+          sx={{ position: "absolute", height: size * 0.65, width: size * 0.65 }}
+          onMouseLeave={(e) => handleOnHover(e, false)}
+          onMouseEnter={() => handleOnHover(null, true)}
+          id={"react-icon"}
         />
-      </motion.svg>
-    </Box>
+        <m.svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 100 100"
+          animate={{
+            scale: isHovered ? 1.2 : 1,
+          }}
+        >
+          {/* Dynamically render each ellipse */}
+          {ellipseRotations.map((initialRotation, index) => (
+            <m.ellipse
+              ref={(element) => setRef(index, element)}
+              {...sharedEllipseProps}
+              key={`ellipse-${index}-${isHovered ? "hov" : ""}`}
+              initial={{
+                rotate: initialRotation,
+                ...sharedEllipseInitialProps,
+              }}
+              animate={{
+                rotate: 360 + initialRotation,
+                ...sharedEllipseAnimationProps,
+              }}
+              transition={
+                isHovered
+                  ? hoverEllipseTransitionProps
+                  : baseEllipseTransitionProps
+              }
+            />
+          ))}
+
+          {/* Center Nucleus */}
+          <m.circle
+            {...sharedCircleAndEllipseProps}
+            r="3"
+            fill={color}
+            initial={{ scale: 1 }}
+            animate={{
+              scale: [1, 1.5, 1],
+            }}
+            transition={isHovered ? hoverCircleProps : baseCircleProps}
+            key={isHovered ? "fastCirc" : "slowCirc"}
+          />
+        </m.svg>
+      </Box>
+    </LazyMotion>
   );
 };
