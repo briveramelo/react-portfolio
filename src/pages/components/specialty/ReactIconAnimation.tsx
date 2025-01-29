@@ -1,8 +1,20 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { MouseEvent, useRef, useState } from "react";
+import { LazyMotion, domAnimation, m } from "framer-motion";
 import { Box } from "@mui/material";
+import { useHoverTracking } from "../../../tracking/useHoverTracking.ts";
 
 export const ReactIconAnimation = () => {
+  const [isHovered, setIsHovered] = useState(false);
+  const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
+
+  // State for initial rotation values of each ellipse
+  const [ellipseRotations, setEllipseRotations] = useState([0, 120, 240]);
+  const ellipseRefs = useRef<(SVGEllipseElement | null)[]>([]);
+  const setRef = (index: number, element: SVGEllipseElement | null) => {
+    if (element) {
+      ellipseRefs.current[index] = element;
+    }
+  };
   const color = "#61DAFB";
   const bounce = 1;
   const size = 100;
@@ -21,76 +33,147 @@ export const ReactIconAnimation = () => {
     fill: "none",
   };
 
-  const sharedAnimationProps = {
+  const sharedEllipseAnimationProps = {
     rx: [30, 25, 30],
     ry: [10, 15, 10],
   };
 
-  const sharedInitialProps = {
+  const sharedEllipseInitialProps = {
     rx: 30,
     ry: 10,
   };
 
-  const sharedTransitionProps = {
+  const baseEllipseTransitionProps = {
     rotate: { duration: 6, ease: "linear", repeat: Infinity },
     rx: { duration: 2, ease: "easeInOut", repeat: Infinity, bounce },
     ry: { duration: 2, ease: "easeInOut", repeat: Infinity, bounce },
   };
 
+  const hoverEllipseTransitionProps = {
+    rotate: { duration: 2, ease: "linear", repeat: Infinity }, // Faster spin
+    rx: { duration: 1, ease: "easeInOut", repeat: Infinity, bounce },
+    ry: { duration: 1, ease: "easeInOut", repeat: Infinity, bounce },
+  };
+  const baseCircleProps = {
+    duration: 2,
+    ease: "easeInOut",
+    repeat: Infinity,
+    bounce,
+  };
+  const hoverCircleProps = {
+    duration: 1,
+    ease: "easeInOut",
+    repeat: Infinity,
+    bounce,
+  };
+
+  function getCurrentAngle(element: SVGEllipseElement | null) {
+    if (!element) return 0;
+
+    const style = window.getComputedStyle(element);
+    const transform = style.transform;
+
+    if (transform && transform !== "none") {
+      // Extract the rotation value from the matrix
+      const values = transform
+        .match(/matrix\(([^)]+)\)/)?.[1]
+        .split(", ")
+        .map(Number);
+
+      if (values && values.length >= 4) {
+        const [a, b] = values;
+        return Math.round(Math.atan2(b, a) * (180 / Math.PI));
+      }
+    }
+
+    return 0; // Default to 0 if no transform or angle is found
+  }
+
+  const handleOnHover = (
+    event: MouseEvent<HTMLDivElement> | null,
+    isMouseEnter: boolean,
+  ) => {
+    if (isMouseEnter) {
+      trackMouseEnter();
+    } else if (event !== null) {
+      trackMouseLeave(event);
+    }
+
+    setIsHovered(isMouseEnter);
+
+    setEllipseRotations((prev) => {
+      if (!ellipseRefs.current) return prev;
+
+      return prev.map((_, i) => {
+        const currentRef = ellipseRefs.current[i];
+        return getCurrentAngle(currentRef);
+      });
+    });
+  };
+
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignContent: "center",
-        alignItems: "center",
-        height: size,
-        width: size,
-        overflow: "visible",
-      }}
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-        {/* Ring 1 */}
-        <motion.ellipse
-          {...sharedEllipseProps}
-          initial={{ rotate: 0, ...sharedInitialProps }}
-          animate={{ rotate: 360, ...sharedAnimationProps }}
-          transition={sharedTransitionProps}
+    <LazyMotion features={domAnimation}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignContent: "center",
+          alignItems: "center",
+          height: size,
+          width: size,
+          overflow: "visible",
+        }}
+      >
+        <Box
+          zIndex={1}
+          sx={{ position: "absolute", height: size * 0.65, width: size * 0.65 }}
+          onMouseLeave={(e) => handleOnHover(e, false)}
+          onMouseEnter={() => handleOnHover(null, true)}
+          id={"react-icon"}
         />
-
-        {/* Ring 2 */}
-        <motion.ellipse
-          {...sharedEllipseProps}
-          initial={{ rotate: 120, ...sharedInitialProps }}
-          animate={{ rotate: 480, ...sharedAnimationProps }}
-          transition={sharedTransitionProps}
-        />
-
-        {/* Ring 3 */}
-        <motion.ellipse
-          {...sharedEllipseProps}
-          initial={{ rotate: 240, ...sharedInitialProps }}
-          animate={{ rotate: 600, ...sharedAnimationProps }}
-          transition={sharedTransitionProps}
-        />
-
-        {/* Center Nucleus */}
-        <motion.circle
-          {...sharedCircleAndEllipseProps}
-          r="3"
-          fill={color}
-          initial={{ scale: 1 }}
+        <m.svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 100 100"
           animate={{
-            scale: [1, 1.5, 1],
+            scale: isHovered ? 1.2 : 1,
           }}
-          transition={{
-            duration: 2,
-            ease: "easeInOut",
-            repeat: Infinity,
-            bounce,
-          }}
-        />
-      </svg>
-    </Box>
+        >
+          {/* Dynamically render each ellipse */}
+          {ellipseRotations.map((initialRotation, index) => (
+            <m.ellipse
+              ref={(element) => setRef(index, element)}
+              {...sharedEllipseProps}
+              key={`ellipse-${index}-${isHovered ? "hov" : ""}`}
+              initial={{
+                rotate: initialRotation,
+                ...sharedEllipseInitialProps,
+              }}
+              animate={{
+                rotate: 360 + initialRotation,
+                ...sharedEllipseAnimationProps,
+              }}
+              transition={
+                isHovered
+                  ? hoverEllipseTransitionProps
+                  : baseEllipseTransitionProps
+              }
+            />
+          ))}
+
+          {/* Center Nucleus */}
+          <m.circle
+            {...sharedCircleAndEllipseProps}
+            r="3"
+            fill={color}
+            initial={{ scale: 1 }}
+            animate={{
+              scale: [1, 1.5, 1],
+            }}
+            transition={isHovered ? hoverCircleProps : baseCircleProps}
+            key={isHovered ? "fastCirc" : "slowCirc"}
+          />
+        </m.svg>
+      </Box>
+    </LazyMotion>
   );
 };

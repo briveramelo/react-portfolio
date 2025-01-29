@@ -1,6 +1,9 @@
 import React, { forwardRef, useRef, useState } from "react";
 import { Box, Typography, Grid } from "@mui/material";
-import { faCalendarCheck, faStar } from "@fortawesome/free-solid-svg-icons";
+const { faCalendarCheck } = await import(
+  "@fortawesome/free-solid-svg-icons/faCalendarCheck"
+);
+const { faStar } = await import("@fortawesome/free-solid-svg-icons/faStar");
 import BouncingButton from "../components/reusable/BouncingButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";

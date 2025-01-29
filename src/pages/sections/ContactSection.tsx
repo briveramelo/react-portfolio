@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useState } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import {
   Container,
   Typography,
@@ -7,13 +7,13 @@ import {
   Button,
   Alert,
 } from "@mui/material";
-import Confetti from "react-confetti";
+const Confetti = React.lazy(() => import("react-confetti"));
 import { useWindowSize } from "react-use";
 import { Footer } from "../components/Footer";
 import { cp } from "../../utils/utils";
 import { useFormTracking } from "../../tracking/useFormTracking";
 import { useHoverTracking } from "../../tracking/useHoverTracking";
-import { firebaseApp } from "../../firebaseConfig";
+import { firebaseConfig } from "../../firebaseConfig";
 import { getFunctions, httpsCallable } from "firebase/functions";
 
 interface ContactSectionProps {
@@ -31,7 +31,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
   ({ backgroundColor, textColor, id }, ref) => {
     const formID = "contact-form";
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
+    const [isSending, setIsSending] = useState(false);
 
     const [formData, setFormData] = useState<FormData>({
       email: "",
@@ -89,10 +89,16 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
 
       if (!validateForm()) return;
 
-      setLoading(true);
+      setIsSending(true);
       trackFormSubmit(formID);
 
       try {
+        const { initializeApp } = await import("firebase/app");
+        const { getFunctions, httpsCallable } = await import(
+          "firebase/functions"
+        );
+        const firebaseApp = initializeApp(firebaseConfig);
+
         const functions = getFunctions(firebaseApp);
         const sendContactForm = httpsCallable<FormData, { message: string }>(
           functions,
@@ -113,9 +119,15 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
           error.message || "An unexpected error occurred. Please try again.";
         setErrorMessage(errorMessage);
       } finally {
-        setLoading(false);
+        setIsSending(false);
       }
     };
+
+    useEffect(() => {
+      if (isSending) {
+        import("react-confetti");
+      }
+    }, [isSending]);
 
     const inputStyles = {
       backgroundColor: cp("background.paper"),
@@ -246,9 +258,9 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
               "&:hover": { transform: "scale(1.1) !important" },
             }}
             className="pop-shadow"
-            disabled={loading}
+            disabled={isSending}
           >
-            {loading ? "Sending..." : "Send"}
+            {isSending ? "Sending..." : "Send"}
           </Button>
         </form>
 
