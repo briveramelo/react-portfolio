@@ -1,5 +1,12 @@
 import React, { forwardRef, useEffect, useRef, useState } from "react";
-import { Container, Typography, Box, Button } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Box,
+  Button,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { ProjectCard } from "../components/ProjectCard";
 import { ProjectDetails } from "../components/ProjectDetails";
@@ -20,7 +27,8 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
   ({ backgroundColor, textColor, id }, ref) => {
     const { mode } = useCustomPalette();
     const useLight = mode === ThemeMode.Dark;
-
+    const theme = useTheme();
+    const isXs = useMediaQuery(theme.breakpoints.down("sm"));
     const [selectedProjectDetails, setSelectedProjectDetails] =
       useState<ProjectDetail | null>(null);
     const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false); // keeping separate from 'selectedProjectDetails === null' supports transition state nuances
@@ -98,7 +106,14 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
       >
         <Container maxWidth="xl">
           {/* Header */}
-          <Box maxWidth="lg" sx={{ textAlign: "center", mb: 6, mx: "auto" }}>
+          <Box
+            maxWidth="lg"
+            sx={{
+              textAlign: "center",
+              mb: 6,
+              mx: "auto",
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
@@ -108,40 +123,44 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
               }}
             >
               {isProjectSelected && (
-                <Button
-                  color="error"
-                  variant="contained"
-                  sx={{
-                    position: "absolute",
-                    left: 0,
-                    top: 14,
-                    contentAlign: "center",
-                    justifyContent: "center",
-                    padding: "8px 8px", // Ensure consistent spacing inside the button
-                    gap: 2, // Equal spacing between the icon and text
-                    "&:hover": { transform: "scale(1.1) !important" },
-                    pr: { xs: "8px", sm: "16px" }, // Adjust right padding based on screen size
-                  }}
-                  id="close_project_button"
-                  onClick={handleCloseProjectDetails}
-                  onMouseEnter={trackMouseEnter}
-                  onMouseLeave={trackMouseLeave}
-                  className="pop-shadow"
-                >
-                  <CloseIcon
-                    id="close_project_x"
-                    sx={{ fontSize: "1.25rem" }}
-                  />
-                  <Box
-                    id="close_project_typography_wrapper"
+                <>
+                  <Button
+                    color="error"
+                    variant="contained"
                     sx={{
-                      display: { xs: "none", sm: "inline" }, // Hide on extra-small screens
-                      alignItems: "center",
+                      position: isXs ? "static" : "absolute",
+                      left: isXs ? "auto" : 0,
+                      top: isXs ? "auto" : 14,
+                      contentAlign: "center",
+                      justifyContent: "center",
+                      padding: "8px 8px",
+                      gap: 2,
+                      "&:hover": { transform: "scale(1.1) !important" },
+                      pr: { xs: "8px", sm: "16px" },
+                      mt: { xs: "-18px", sm: "0px" },
                     }}
+                    id="close_project_button"
+                    onClick={handleCloseProjectDetails}
+                    onMouseEnter={trackMouseEnter}
+                    onMouseLeave={trackMouseLeave}
+                    className="pop-shadow"
                   >
-                    <Typography id="close_project_text">CLOSE</Typography>
-                  </Box>
-                </Button>
+                    <CloseIcon
+                      id="close_project_x"
+                      sx={{ fontSize: "1.25rem" }}
+                    />
+                    <Box
+                      id="close_project_typography_wrapper"
+                      sx={{
+                        display: { xs: "none", sm: "inline" }, // Hide on extra-small screens
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography id="close_project_text">CLOSE</Typography>
+                    </Box>
+                  </Button>
+                  <Box width={20}></Box>
+                </>
               )}
               <Typography
                 variant="h1"
@@ -149,6 +168,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
                   fontWeight: "bold",
                   color: textColor,
                   mb: 2,
+                  flexGrow: isXs ? 1 : "unset", // Allows text to take up remaining space in xs mode
                 }}
               >
                 {isProjectSelected ? selectedProjectDetails?.title : "Projects"}
@@ -161,7 +181,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
                 color: textColor,
                 maxWidth: 600,
                 margin: "0 auto",
-                height: "2rem",
+                height: isXs ? "3rem" : "2rem",
               }}
             >
               {isProjectSelected
