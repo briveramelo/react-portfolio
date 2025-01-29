@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, keyframes } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+const { faStar } = await import("@fortawesome/free-solid-svg-icons/faStar");
 import {
   maxStarCount,
   starPopAnimationDurationMs,

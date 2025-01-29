@@ -15,7 +15,7 @@ export default defineConfig({
   ],
   publicDir: "public",
   build: {
-    target: "es2020", // Matches modern browser support
+    target: "es2024", // Matches modern browser support
     cssCodeSplit: true, // Separate CSS for better caching
     sourcemap: false, // Disable sourcemaps for smaller builds
     chunkSizeWarningLimit: 500, // Increase chunk size limit warning
@@ -23,6 +23,15 @@ export default defineConfig({
       output: {
         manualChunks: (id) => {
           if (id.includes("node_modules")) {
+            if (id.includes("awesome")) return "vendor-awesome";
+            if (id.includes("firebase")) return "vendor-firebase";
+            if (
+              id.includes("plausible") ||
+              id.includes("vitals") ||
+              id.includes("uuid")
+            )
+              return "vendor-tracking";
+            if (id.includes("confetti")) return "vendor-confetti";
             if (id.includes("react")) return "vendor-react";
             return "vendor";
           }
