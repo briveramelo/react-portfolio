@@ -1,10 +1,10 @@
 import uhealthW from "@/assets/orgs/uhealth-w.png";
 import uhealth from "@/assets/orgs/uhealth.png";
-import gapplabW from "@/assets/orgs/gapplab-w.png";
-import gapplab from "@/assets/orgs/gapplab.png";
-import aolW from "@/assets/orgs/aol-w.png";
-import aol from "@/assets/orgs/aol.png";
-import hathos from "@/assets/orgs/hathos.jpg";
+import gapplabW from "@/assets/orgs/gapplab-w.webp";
+import gapplab from "@/assets/orgs/gapplab.webp";
+import aolW from "@/assets/orgs/aol-w.webp";
+import aol from "@/assets/orgs/aol.webp";
+import hathos from "@/assets/orgs/hathos.webp";
 
 export interface Employer {
   whiteSrc: string;

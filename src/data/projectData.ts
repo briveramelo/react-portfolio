@@ -1,5 +1,5 @@
-import joshTilt2 from "@/assets/projects/josh-tilt.webp";
-import abcmouse from "@/assets/projects/abcmouse.jpg";
+import joshTilt from "@/assets/projects/josh-tilt.webp";
+import abcmouse from "@/assets/projects/abcmouse.webp";
 import clawface from "@/assets/projects/clawface.jpg";
 import { getSkills, SkillData } from "./skillsData";
 import { Employer, getEmployers } from "./employerData";
@@ -24,7 +24,7 @@ export const projectData: Project[] = [
 
 I developed the **full-stack, HIPAA-compliant** system, piloted with 11 patients, and co-authored studies that highlight its life-changing impact.
 `,
-    image: joshTilt2,
+    image: joshTilt,
     link: "#",
     color: "#e53935",
     textColor: "#ffffff",

@@ -53,7 +53,7 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
         }}
         ref={ref}
       >
-        <Typography variant="h1" sx={{ mb: 2 }}>
+        <Typography variant="h1" sx={{ mb: 4 }}>
           {isYearsOfExperience ? "Experience" : "Skill Levels"}
         </Typography>
         <BouncingButton
@@ -62,7 +62,7 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
           onMouseEnter={trackMouseEnter}
           onMouseLeave={trackMouseLeave}
           sx={{
-            mb: 17,
+            mb: 15,
             py: 2,
           }}
           variant="contained"

@@ -49,9 +49,9 @@ export const Footer: React.FC<FooterProps> = ({
             Custom made with
           </Typography>
           <BeatingHeart heartTriggerRef={heartTriggerRef} />
-          <Box sx={{ width: 10 }}></Box>
+          <Box sx={{ width: 10 }} flexShrink={1}></Box>
           <SteamingCoffee />
-          <Box sx={{ width: 20 }}></Box>
+          <Box sx={{ width: 20 }} flexShrink={1}></Box>
           <ReactIconAnimation />
         </Box>
         <Typography variant="body2" sx={{ color: textColor }}>

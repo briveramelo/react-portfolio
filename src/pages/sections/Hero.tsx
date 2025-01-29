@@ -113,8 +113,8 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
         component="section"
         id={id}
         sx={{
-          mt: { xs: -7 },
-          py: { xs: 0, sm: 10 },
+          mt: { xs: -7, sm: 0 },
+          py: { xs: 0, sm: 9 },
           backgroundColor: backgroundColor,
           color: textColor,
           scrollMarginTop: "80px",

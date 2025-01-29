@@ -17,7 +17,7 @@ import sql from "@/assets/skills/sql.svg";
 import nosql from "@/assets/skills/nosql.svg";
 import cpp from "@/assets/skills/c++.svg";
 import bash from "@/assets/skills/bash.svg";
-import devops from "@/assets/skills/devops.png";
+import devops from "@/assets/skills/devops.webp";
 import hipaa from "@/assets/skills/hipaa.svg";
 
 export interface SkillData {

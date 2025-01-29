@@ -19,7 +19,7 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
   const minHeartRateBPM = 40.0;
   const maxHeartRateBPM = 160.0;
   const fixedAnimationDurationSec = 0.5;
-
+  const boxSize = 75;
   const minHRVPercent = 0.05;
   const maxHRVPercent = 0.2;
 
@@ -100,12 +100,13 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
     <Box
       display="inline-block"
       style={{
-        width: "70px",
-        height: "70px",
+        width: boxSize,
+        height: boxSize,
         textAlign: "center",
         position: "relative",
       }}
     >
+      {/* invisible box to catch interactions */}
       <Box
         ref={heartRef}
         style={{
@@ -122,19 +123,30 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
       />
       <Box
         style={{
-          animation: `cardiacCycle ${fixedAnimationDurationSec}s linear 1`,
-          fontSize: isHovered ? "70px" : "60px",
-          lineHeight: "70px",
-          transition: "font-size 0.15s ease-in-out",
+          position: "absolute",
+          transition: "transform 0.15s ease-in-out",
           cursor: "default",
-          // willChange no need to optimize. looks fine
+          left: "50%",
+          top: "50%",
+          transform: `translate(-50%, -50%) scale(${isHovered ? 1.2 : 1})`,
+          transformOrigin: "center",
         }}
-        key={animationKey} // Forces re-render
-        onAnimationEnd={handleAnimationEnd}
-        aria-label="Beating Heart"
-        id="beating_heart"
       >
-        🫀
+        <Box
+          style={{
+            fontSize: "60px",
+            animation: `cardiacCycle ${fixedAnimationDurationSec}s linear 1`,
+            cursor: "default",
+            transformOrigin: `${boxSize / 2}px ${boxSize / 2}px`,
+            // willChange no need to optimize. looks fine
+          }}
+          key={animationKey} // Forces re-render
+          onAnimationEnd={handleAnimationEnd}
+          aria-label="Beating Heart"
+          id="beating_heart"
+        >
+          🫀
+        </Box>
       </Box>
     </Box>
   );
