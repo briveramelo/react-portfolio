@@ -28,10 +28,27 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const { story, images, skills, github, liveDemo } = project;
-  const [selectedStoryIndex, setSelectedStoryIndex] = useState(0);
+  const [selectedStoryIndex, setSelectedStoryIndex] = useState<number>(0);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
+
+  const handleStoryClick = (index: number) => {
+    setSelectedStoryIndex(index);
+
+    const firstImageIndex = project.story[index].imageIndices[0];
+    if (firstImageIndex !== undefined) {
+      setSelectedImageIndex(firstImageIndex);
+    }
+  };
 
   const handleImageChange = (newImageIndex: number) => {
-    setSelectedStoryIndex(newImageIndex);
+    setSelectedImageIndex(newImageIndex);
+    const matchingStoryIndex = project.story.findIndex((story) =>
+      story.imageIndices.includes(newImageIndex),
+    );
+
+    if (matchingStoryIndex !== -1) {
+      setSelectedStoryIndex(matchingStoryIndex);
+    }
   };
 
   return (
@@ -71,11 +88,13 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
                   display: "flex",
                   justifyContent: "space-between",
                   cursor: "pointer",
-                  transition: "border 0.3s ease",
-                  // maxHeight: index === selectedStoryIndex ? "" : "" //todo: indicate selection
+                  transition: "transform 0.3s ease",
+                  transform:
+                    index === selectedStoryIndex ? "scale(1.1)" : "scale(1)",
+                  transformOrigin: "right center",
                 }}
                 py={0.5}
-                onClick={() => setSelectedStoryIndex(index)}
+                onClick={() => handleStoryClick(index)}
               >
                 <Card
                   sx={{
@@ -99,7 +118,11 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
 
         {/* Image Carousel */}
         <Grid item lg={9} md={12}>
-          <ImageCarousel images={images} onImageChange={handleImageChange} />
+          <ImageCarousel
+            images={images}
+            onImageChange={handleImageChange}
+            selectedIndex={selectedImageIndex}
+          />
         </Grid>
       </Grid>
 

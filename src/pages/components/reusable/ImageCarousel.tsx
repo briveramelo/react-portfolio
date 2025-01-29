@@ -4,28 +4,21 @@ import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
 interface ImageCarouselProps {
   images: { src: string; alt: string }[];
-  onImageChange?: (index: number) => void; // Callback to update story selection
+  selectedIndex: number;
+  onImageChange: (index: number) => void; // Callback to update story selection
 }
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({
   images,
+  selectedIndex,
   onImageChange,
 }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const changeImage = (newIndex: number) => {
-    setCurrentIndex(newIndex);
-    console.log(newIndex);
-    console.log(images);
-    if (onImageChange) onImageChange(newIndex);
-  };
-
   const nextImage = () => {
-    changeImage((currentIndex + 1) % images.length);
+    onImageChange((selectedIndex + 1) % images.length);
   };
 
   const prevImage = () => {
-    changeImage(currentIndex === 0 ? images.length - 1 : currentIndex - 1);
+    onImageChange(selectedIndex === 0 ? images.length - 1 : selectedIndex - 1);
   };
 
   return (
@@ -60,8 +53,8 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
         <CardMedia
           component="img"
           height="600"
-          image={images[currentIndex].src}
-          alt={images[currentIndex].alt}
+          image={images[selectedIndex].src}
+          alt={images[selectedIndex].alt}
           sx={{ objectFit: "cover" }}
         />
       </Card>
