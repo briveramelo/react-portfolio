@@ -39,10 +39,10 @@ export const ReactIconAnimation = () => {
 
   const handleOnHover = (
     event: MouseEvent<HTMLDivElement> | null,
-    isMouseEnter: boolean
+    isMouseEnter: boolean,
   ) => {
     setIsHovered(isMouseEnter);
-    if(isMouseEnter){
+    if (isMouseEnter) {
       trackMouseEnter();
     } else if (event !== null) {
       trackMouseLeave(event);
@@ -109,15 +109,35 @@ export const ReactIconAnimation = () => {
             transition={
               isHovered
                 ? {
-                  rotate: { duration: 2, ease: "linear", repeat: Infinity },
-                  rx: { duration: 1, ease: "easeInOut", repeat: Infinity, bounce: 1 },
-                  ry: { duration: 1, ease: "easeInOut", repeat: Infinity, bounce: 1 },
-                }
+                    rotate: { duration: 2, ease: "linear", repeat: Infinity },
+                    rx: {
+                      duration: 1,
+                      ease: "easeInOut",
+                      repeat: Infinity,
+                      bounce: 1,
+                    },
+                    ry: {
+                      duration: 1,
+                      ease: "easeInOut",
+                      repeat: Infinity,
+                      bounce: 1,
+                    },
+                  }
                 : {
-                  rotate: { duration: 6, ease: "linear", repeat: Infinity },
-                  rx: { duration: 2, ease: "easeInOut", repeat: Infinity, bounce: 1 },
-                  ry: { duration: 2, ease: "easeInOut", repeat: Infinity, bounce: 1 },
-                }
+                    rotate: { duration: 6, ease: "linear", repeat: Infinity },
+                    rx: {
+                      duration: 2,
+                      ease: "easeInOut",
+                      repeat: Infinity,
+                      bounce: 1,
+                    },
+                    ry: {
+                      duration: 2,
+                      ease: "easeInOut",
+                      repeat: Infinity,
+                      bounce: 1,
+                    },
+                  }
             }
           />
         ))}
