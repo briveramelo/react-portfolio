@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, keyframes } from "@mui/material";
-import StarIcon from "@/assets/star.svg?react"
+import StarIcon from "@/assets/star.svg?react";
 import {
   maxStarCount,
   starPopAnimationDurationMs,

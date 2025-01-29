@@ -1,7 +1,7 @@
 import React, { forwardRef, useRef, useState } from "react";
 import { Box, Typography, Grid } from "@mui/material";
 import CalendarIcon from "@/assets/calendar-check.svg?react";
-import StarIcon from '@/assets/star.svg?react';
+import StarIcon from "@/assets/star.svg?react";
 
 import BouncingButton from "../components/reusable/BouncingButton";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
@@ -22,7 +22,7 @@ const iconStyle = {
   height: 20,
   marginRight: "8px",
   marginTop: -3.25,
-}
+};
 export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
   ({ backgroundColor, textColor, id }, ref) => {
     const [isYearsOfExperience, setIsYearsOfExperience] =
@@ -70,7 +70,7 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
           bounceDurationMs={1750}
         >
           {isYearsOfExperience ? (
-            <StarIcon style={iconStyle}/>
+            <StarIcon style={iconStyle} />
           ) : (
             <CalendarIcon style={iconStyle} />
           )}

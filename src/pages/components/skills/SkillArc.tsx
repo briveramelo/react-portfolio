@@ -92,7 +92,7 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({
                   <StarIcon
                     style={{
                       fill: isGold ? star : empty,
-                      height: starSize
+                      height: starSize,
                     }}
                   />
                 )}
