@@ -58,9 +58,14 @@ export const projectDetails: ProjectDetail[] = [
     ],
     media: [
       {
-        src: joshTilt,
-        alt: "",
-        type: "image",
+        src: "tilt-tracker/stages-of-ulcer.webp",
+        alt: "stages of ulcer",
+        type: "firebaseImage",
+      },
+      {
+        src: "tilt-tracker/seat-tilt-sensor.webp",
+        alt: "wheelchair angle sensor",
+        type: "firebaseImage",
       },
       {
         src: "tilt-tracker/armrest-led.webp",
@@ -73,8 +78,8 @@ export const projectDetails: ProjectDetail[] = [
         type: "firebaseImage",
       },
       {
-        src: "tilt-tracker/interactive-graph-compressed.gif",
-        alt: "vibration motor",
+        src: "tilt-tracker/notifications.webp",
+        alt: "notification settings",
         type: "firebaseImage",
       },
       {
@@ -83,19 +88,45 @@ export const projectDetails: ProjectDetail[] = [
         type: "firebaseImage",
       },
       {
+        src: "tilt-tracker/interaction-diagram.webp",
+        alt: "notification settings",
+        type: "firebaseImage",
+        scaleFactor: 1.35,
+      },
+      {
         src: "tilt-tracker/sample-relief-report.pdf",
         alt: "pressure relief report",
         type: "firebasePdf",
       },
       {
-        src: "tilt-tracker/seat-tilt-sensor.webp",
-        alt: "wheelchair angle sensor",
+        src: "tilt-tracker/tilt-recline-heatmap.webp",
+        alt: "vibration motor",
         type: "firebaseImage",
       },
       {
-        src: "tilt-tracker/stages-of-ulcer.webp",
-        alt: "stages of ulcer",
+        src: "tilt-tracker/interactive-graph-compressed.gif",
+        alt: "vibration motor",
         type: "firebaseImage",
+      },
+      {
+        src: "tilt-tracker/pressure-relief-detection-model.webp",
+        alt: "vibration motor",
+        type: "firebaseImage",
+      },
+      {
+        src: "tilt-tracker/occupancy-detection-model.webp",
+        alt: "vibration motor",
+        type: "firebaseImage",
+      },
+      {
+        src: "tilt-tracker/logo.svg",
+        alt: "",
+        type: "firebaseImage",
+      },
+      {
+        src: joshTilt,
+        alt: "",
+        type: "image",
       },
     ],
     skills:

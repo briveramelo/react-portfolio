@@ -64,6 +64,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                 <FirebaseImage
                   firebaseImagePath={media[selectedIndex].src}
                   height={height}
+                  scaleFactor={media[selectedIndex].scaleFactor}
                 />
               );
             case "image":

@@ -4,11 +4,13 @@ import FirebaseAsset from "./FirebaseAsset";
 interface FirebaseImageProps {
   firebaseImagePath: string;
   height: number;
+  scaleFactor: number | undefined;
 }
 
 const FirebaseImage: React.FC<FirebaseImageProps> = ({
   firebaseImagePath,
   height,
+  scaleFactor,
 }) => {
   return (
     <FirebaseAsset
@@ -16,7 +18,12 @@ const FirebaseImage: React.FC<FirebaseImageProps> = ({
       height={height}
       render={(url) =>
         url ? (
-          <img src={url} alt="Firebase Image" width="100%" />
+          <img
+            src={url}
+            alt="Firebase Image"
+            height={(scaleFactor ?? 1) * height}
+            width="auto"
+          />
         ) : (
           <p>No image available</p>
         )
