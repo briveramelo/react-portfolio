@@ -11,7 +11,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { cp } from "../../utils/utils";
-import ImageCarousel from "./reusable/ImageCarousel.tsx";
+import ImageCarousel from "./reusable/MediaCarousel.tsx";
 import InvertableImage from "./reusable/InvertableImage.tsx";
 import { ThemeMode, useCustomPalette } from "../../theme.ts";
 import { useTheme } from "@mui/material/styles";
@@ -27,9 +27,9 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
-  const { story, images, skills, github, liveDemo } = project;
+  const { story, media, skills, github, liveDemo } = project;
   const [selectedStoryIndex, setSelectedStoryIndex] = useState<number>(0);
-  const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
+  const [selectedImageIndex, setSelectedMediaIndex] = useState<number>(0);
 
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmMd = useMediaQuery(theme.breakpoints.between("sm", "md"));
@@ -45,16 +45,16 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
   const handleStoryClick = (index: number) => {
     setSelectedStoryIndex(index);
 
-    const firstImageIndex = project.story[index].imageIndices[0];
-    if (firstImageIndex !== undefined) {
-      setSelectedImageIndex(firstImageIndex);
+    const firstMediaIndex = project.story[index].mediaIndices[0];
+    if (firstMediaIndex !== undefined) {
+      setSelectedMediaIndex(firstMediaIndex);
     }
   };
 
-  const handleImageChange = (newImageIndex: number) => {
-    setSelectedImageIndex(newImageIndex);
+  const handleMediaChange = (newMediaIndex: number) => {
+    setSelectedMediaIndex(newMediaIndex);
     const matchingStoryIndex = project.story.findIndex((story) =>
-      story.imageIndices.includes(newImageIndex),
+      story.mediaIndices.includes(newMediaIndex),
     );
 
     if (matchingStoryIndex !== -1) {
@@ -130,9 +130,9 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
         {/* Image Carousel */}
         <Grid item lg={9} xs={12}>
           <ImageCarousel
-            images={images}
-            onImageChange={handleImageChange}
+            media={media}
             selectedIndex={selectedImageIndex}
+            onMediaChange={handleMediaChange}
             height={getCarouselHeight()}
           />
         </Grid>
