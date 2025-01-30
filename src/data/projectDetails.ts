@@ -1,5 +1,8 @@
-import { getSkills, SkillData } from "./skillsData";
+import { SkillData } from "./skillsData";
 import { projectData } from "./projectData.ts";
+import joshTilt from "@/assets/projects/josh-tilt.webp";
+import abcmouse from "@/assets/projects/abcmouse.webp";
+import clawface from "@/assets/projects/clawface.jpg";
 
 export type ProjectDetail = {
   title: string;
@@ -7,6 +10,7 @@ export type ProjectDetail = {
   story: {
     title: string;
     content: string;
+    imageIndices: number[]; // Indices of images related to this story section
   }[];
   images: {
     src: string;
@@ -26,14 +30,17 @@ export const projectDetails: ProjectDetail[] = [
       {
         title: "Content",
         content: "",
+        imageIndices: [0],
       },
       {
         title: "Coming",
         content: "",
+        imageIndices: [1],
       },
       {
         title: "Soon",
         content: "",
+        imageIndices: [2],
       },
       // {
       //   title: "Inception",
@@ -53,11 +60,15 @@ export const projectDetails: ProjectDetail[] = [
     ],
     images: [
       {
-        src: "",
+        src: joshTilt,
         alt: "",
       },
       {
-        src: "",
+        src: abcmouse,
+        alt: "",
+      },
+      {
+        src: clawface,
         alt: "",
       },
     ],
@@ -74,23 +85,30 @@ export const projectDetails: ProjectDetail[] = [
       {
         title: "Content",
         content: "",
+        imageIndices: [0],
       },
       {
         title: "Coming",
         content: "",
+        imageIndices: [1],
       },
       {
         title: "Soon",
         content: "",
+        imageIndices: [2],
       },
     ],
     images: [
       {
-        src: "",
+        src: abcmouse,
         alt: "",
       },
       {
-        src: "",
+        src: joshTilt,
+        alt: "",
+      },
+      {
+        src: clawface,
         alt: "",
       },
     ],
@@ -106,23 +124,30 @@ export const projectDetails: ProjectDetail[] = [
       {
         title: "Content",
         content: "",
+        imageIndices: [0],
       },
       {
         title: "Coming",
         content: "",
+        imageIndices: [1],
       },
       {
         title: "Soon",
         content: "",
+        imageIndices: [2],
       },
     ],
     images: [
       {
-        src: "",
+        src: clawface,
         alt: "",
       },
       {
-        src: "",
+        src: abcmouse,
+        alt: "",
+      },
+      {
+        src: joshTilt,
         alt: "",
       },
     ],

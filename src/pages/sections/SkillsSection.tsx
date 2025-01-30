@@ -1,8 +1,9 @@
 import React, { forwardRef, useRef, useState } from "react";
 import { Box, Typography, Grid } from "@mui/material";
-import { faCalendarCheck, faStar } from "@fortawesome/free-solid-svg-icons";
+import CalendarIcon from "@/assets/calendar-check.svg?react";
+import StarIcon from "@/assets/star.svg?react";
+
 import BouncingButton from "../components/reusable/BouncingButton";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
 import { skillsData } from "../../data/skillsData";
 import { ThemeMode, useCustomPalette } from "../../theme";
@@ -16,6 +17,12 @@ interface SkillsSectionProps {
   textColor: string;
 }
 
+const iconStyle = {
+  fill: "white",
+  height: 20,
+  marginRight: "8px",
+  marginTop: -3.25,
+};
 export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
   ({ backgroundColor, textColor, id }, ref) => {
     const [isYearsOfExperience, setIsYearsOfExperience] =
@@ -46,7 +53,7 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
         }}
         ref={ref}
       >
-        <Typography variant="h1" sx={{ mb: 2 }}>
+        <Typography variant="h1" sx={{ mb: 4 }}>
           {isYearsOfExperience ? "Experience" : "Skill Levels"}
         </Typography>
         <BouncingButton
@@ -55,20 +62,18 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
           onMouseEnter={trackMouseEnter}
           onMouseLeave={trackMouseLeave}
           sx={{
-            mb: 17,
+            mb: 15,
             py: 2,
           }}
           variant="contained"
           numBounces={2}
           bounceDurationMs={1750}
         >
-          <FontAwesomeIcon
-            icon={isYearsOfExperience ? faStar : faCalendarCheck}
-            style={{
-              marginRight: "8px",
-              marginTop: -3.25,
-            }}
-          />
+          {isYearsOfExperience ? (
+            <StarIcon style={iconStyle} />
+          ) : (
+            <CalendarIcon style={iconStyle} />
+          )}
           <Typography variant="h6" fontWeight="bold">
             {isYearsOfExperience ? "See Skill Levels" : "See Experience"}
           </Typography>

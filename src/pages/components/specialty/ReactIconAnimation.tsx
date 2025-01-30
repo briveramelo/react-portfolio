@@ -1,41 +1,99 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
+import { useHoverTracking } from "../../../tracking/useHoverTracking.ts";
 
 export const ReactIconAnimation = () => {
-  const color = "#61DAFB";
-  const bounce = 1;
-  const size = 100;
+  const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
+  const [isHovered, setIsHovered] = useState(false);
+  const ellipseRefs = useRef<(SVGElement | null)[]>([]);
+  const circleRef = useRef<SVGCircleElement | null>(null);
+  const ellipseAnglesRef = useRef<number[]>([0, 120, 240]);
+  const lastTimeRef = useRef<number>(performance.now());
 
-  const sharedCircleAndEllipseProps = {
-    cx: "50",
-    cy: "50",
+  const setEllipseRef = (index: number, el: SVGElement | null) => {
+    ellipseRefs.current[index] = el;
   };
 
-  const sharedEllipseProps = {
-    ...sharedCircleAndEllipseProps,
-    rx: 30,
-    ry: 10,
-    stroke: color,
-    strokeWidth: 3,
-    fill: "none",
+  const getCurrentAngleDeg = (element: Element | null) => {
+    if (!element) return 0;
+    const style = window.getComputedStyle(element);
+    const transform = style.getPropertyValue("transform");
+
+    if (transform && transform !== "none") {
+      const values = transform
+        .match(/matrix\(([^)]+)\)/)?.[1]
+        .split(",")
+        .map((v) => parseFloat(v.trim()));
+
+      if (values && values.length >= 4) {
+        const [a, b] = values; // a = cosθ, b = sinθ
+        const angle = Math.atan2(b, a) * (180 / Math.PI);
+        return angle;
+      }
+    }
+    return 0;
   };
 
-  const sharedAnimationProps = {
-    rx: [30, 25, 30],
-    ry: [10, 15, 10],
+  const handleOnHover = (
+    event: MouseEvent<HTMLDivElement> | null,
+    entering: boolean,
+  ) => {
+    setIsHovered(entering);
+
+    if (entering) {
+      trackMouseEnter();
+    } else if (event) {
+      trackMouseLeave(event);
+    }
+
+    ellipseRefs.current.forEach((ellipse, i) => {
+      ellipseAnglesRef.current[i] = getCurrentAngleDeg(ellipse);
+    });
   };
 
-  const sharedInitialProps = {
-    rx: 30,
-    ry: 10,
-  };
+  useEffect(() => {
+    let animId = 0;
 
-  const sharedTransitionProps = {
-    rotate: { duration: 6, ease: "linear", repeat: Infinity },
-    rx: { duration: 2, ease: "easeInOut", repeat: Infinity, bounce },
-    ry: { duration: 2, ease: "easeInOut", repeat: Infinity, bounce },
-  };
+    function animate(timestamp: number) {
+      const dt = timestamp - lastTimeRef.current;
+      lastTimeRef.current = timestamp;
+
+      const rotationSpeedDegPerSec = isHovered ? 180 : 60;
+      const pulsingPeriodMs = isHovered ? 1000 : 2000;
+
+      const cosPart = Math.cos((2 * Math.PI * timestamp) / pulsingPeriodMs);
+      const xScale = 0.91665 + 0.0833 * cosPart;
+      const yScale = 1.25 + 0.25 * cosPart;
+      const circleScale = 1.25 + 0.5 * cosPart;
+
+      ellipseRefs.current.forEach((ellipse, i) => {
+        if (!ellipse) return;
+
+        ellipseAnglesRef.current[i] += rotationSpeedDegPerSec * (dt / 1000);
+        const angle = ellipseAnglesRef.current[i];
+
+        // Pivot transform around (50,50)
+        const transformStr = `
+          rotate(${angle}deg)
+          scale(${xScale}, ${yScale})
+        `.replace(/\s+/g, " ");
+
+        (ellipse as SVGElement).style.transform = transformStr;
+      });
+
+      if (circleRef.current) {
+        const circleTransform = `
+          scale(${circleScale})
+        `.replace(/\s+/g, " ");
+        circleRef.current.style.transform = circleTransform;
+      }
+
+      animId = requestAnimationFrame(animate);
+    }
+
+    animId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animId);
+  }, [isHovered]);
 
   return (
     <Box
@@ -44,51 +102,52 @@ export const ReactIconAnimation = () => {
         justifyContent: "center",
         alignContent: "center",
         alignItems: "center",
-        height: size,
-        width: size,
+        height: 100,
+        width: 100,
         overflow: "visible",
+        position: "relative",
       }}
     >
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-        {/* Ring 1 */}
-        <motion.ellipse
-          {...sharedEllipseProps}
-          initial={{ rotate: 0, ...sharedInitialProps }}
-          animate={{ rotate: 360, ...sharedAnimationProps }}
-          transition={sharedTransitionProps}
-        />
+      {/* Invisible Box that covers the same area as the icon to capture hover events */}
+      <Box
+        zIndex={1}
+        sx={{ position: "absolute", height: 65, width: 65 }}
+        onMouseEnter={() => handleOnHover(null, true)}
+        onMouseLeave={(e) => handleOnHover(e, false)}
+      />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 100 100"
+        width="100"
+        height="100"
+        style={{
+          transform: isHovered ? "scale(1.2)" : "scale(1)",
+          transition: "transform 0.3s ease",
+        }}
+      >
+        {[0, 1, 2].map((index) => (
+          <ellipse
+            key={index}
+            ref={(el) => setEllipseRef(index, el)}
+            cx="50"
+            cy="50"
+            rx="30"
+            ry="10"
+            stroke="#61DAFB"
+            strokeWidth={3}
+            fill="none"
+            vectorEffect="non-scaling-stroke"
+            style={{ transformOrigin: "50px 50px", willChange: "transform" }}
+          />
+        ))}
 
-        {/* Ring 2 */}
-        <motion.ellipse
-          {...sharedEllipseProps}
-          initial={{ rotate: 120, ...sharedInitialProps }}
-          animate={{ rotate: 480, ...sharedAnimationProps }}
-          transition={sharedTransitionProps}
-        />
-
-        {/* Ring 3 */}
-        <motion.ellipse
-          {...sharedEllipseProps}
-          initial={{ rotate: 240, ...sharedInitialProps }}
-          animate={{ rotate: 600, ...sharedAnimationProps }}
-          transition={sharedTransitionProps}
-        />
-
-        {/* Center Nucleus */}
-        <motion.circle
-          {...sharedCircleAndEllipseProps}
+        <circle
+          ref={circleRef}
+          cx="50"
+          cy="50"
           r="3"
-          fill={color}
-          initial={{ scale: 1 }}
-          animate={{
-            scale: [1, 1.5, 1],
-          }}
-          transition={{
-            duration: 2,
-            ease: "easeInOut",
-            repeat: Infinity,
-            bounce,
-          }}
+          fill="#61DAFB"
+          style={{ transformOrigin: "50px 50px", willChange: "transform" }}
         />
       </svg>
     </Box>

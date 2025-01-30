@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import { visualizer } from "rollup-plugin-visualizer";
+import svgr from "vite-plugin-svgr";
 
 export default defineConfig({
   plugins: [
@@ -12,17 +13,26 @@ export default defineConfig({
       gzipSize: true, // Show gzip size in report
       brotliSize: true, // Show brotli size in report
     }),
+    svgr(),
   ],
   publicDir: "public",
   build: {
-    target: "es2020", // Matches modern browser support
+    target: "es2024", // Matches modern browser support
     cssCodeSplit: true, // Separate CSS for better caching
     sourcemap: false, // Disable sourcemaps for smaller builds
-    chunkSizeWarningLimit: 500, // Increase chunk size limit warning
+    chunkSizeWarningLimit: 750, // Increase chunk size limit warning
     rollupOptions: {
       output: {
         manualChunks: (id) => {
           if (id.includes("node_modules")) {
+            if (id.includes("firebase")) return "vendor-firebase";
+            if (
+              id.includes("plausible") ||
+              id.includes("vitals") ||
+              id.includes("uuid")
+            )
+              return "vendor-tracking";
+            if (id.includes("confetti")) return "vendor-confetti";
             if (id.includes("react")) return "vendor-react";
             return "vendor";
           }

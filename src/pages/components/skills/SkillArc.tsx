@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, keyframes } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import StarIcon from "@/assets/star.svg?react";
 import {
   maxStarCount,
   starPopAnimationDurationMs,
@@ -25,7 +24,7 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({
   const radius = arcSize / 2;
   const peakScale = 1.3;
   const starContainerSize = 45 * peakScale;
-  const starFontSize = "30px";
+  const starSize = 30;
   const animatedStarCount = getAnimatedValue(
     starCount,
     starPopAnimationDurationMs,
@@ -90,11 +89,10 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({
                 {isHalfStar ? (
                   <HalfStar leftColor={star} rightColor={empty} size="35px" />
                 ) : (
-                  <FontAwesomeIcon
-                    icon={faStar}
+                  <StarIcon
                     style={{
-                      color: isGold ? star : empty,
-                      fontSize: starFontSize,
+                      fill: isGold ? star : empty,
+                      height: starSize,
                     }}
                   />
                 )}
