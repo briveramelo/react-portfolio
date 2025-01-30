@@ -42,7 +42,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
       containerRef,
       xOffset: -40,
       yAmpFactor: 0.65,
-      phaseOffset: Math.PI * .275,
+      phaseOffset: Math.PI * 0.275,
       durationMs: 15000,
     });
 
