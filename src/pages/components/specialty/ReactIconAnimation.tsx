@@ -9,6 +9,14 @@ export const ReactIconAnimation = () => {
   const circleRef = useRef<SVGCircleElement | null>(null);
   const ellipseAnglesRef = useRef<number[]>([0, 120, 240]);
   const lastTimeRef = useRef<number>(performance.now());
+  let hoverStartTime: number | null = null;
+  const prevAnimValuesRef = useRef({
+    xScale: 1,
+    yScale: 1,
+    circleScale: 1,
+    rotationSpeedDegPerSec: 60,
+    pulsingPeriodMs: 2000,
+  });
 
   const setEllipseRef = (index: number, el: SVGElement | null) => {
     ellipseRefs.current[index] = el;
@@ -38,6 +46,7 @@ export const ReactIconAnimation = () => {
     event: MouseEvent<HTMLDivElement> | null,
     entering: boolean,
   ) => {
+    hoverStartTime = performance.now();
     setIsHovered(entering);
 
     if (entering) {
@@ -55,36 +64,79 @@ export const ReactIconAnimation = () => {
     let animId = 0;
 
     function animate(timestamp: number) {
+      if (hoverStartTime === null) {
+        hoverStartTime = timestamp;
+      }
+
       const dt = timestamp - lastTimeRef.current;
       lastTimeRef.current = timestamp;
 
-      const rotationSpeedDegPerSec = isHovered ? 180 : 60;
+      const hoverScale = isHovered ? 2 : 1;
       const pulsingPeriodMs = isHovered ? 1000 : 2000;
+      const cosPart =
+        hoverScale * Math.cos((2 * Math.PI * timestamp) / pulsingPeriodMs);
+      const hoverTransitionDurationMs = 1000;
+      const lerpFactor = Math.min(
+        1,
+        (timestamp - hoverStartTime) / hoverTransitionDurationMs,
+      );
 
-      const cosPart = Math.cos((2 * Math.PI * timestamp) / pulsingPeriodMs);
-      const xScale = 0.91665 + 0.0833 * cosPart;
-      const yScale = 1.25 + 0.25 * cosPart;
-      const circleScale = 1.25 + 0.5 * cosPart;
+      const targetAnimValues = {
+        xScale: 0.91665 + 0.0833 * cosPart,
+        yScale: 1.5 + 0.35 * cosPart,
+        circleScale: 1.25 + 0.5 * cosPart,
+        rotationSpeedDegPerSec: isHovered ? 150 : 60,
+        pulsingPeriodMs: pulsingPeriodMs,
+      };
+
+      const smoothAnimValues = {
+        rotationSpeedDegPerSec:
+          prevAnimValuesRef.current.rotationSpeedDegPerSec +
+          (targetAnimValues.rotationSpeedDegPerSec -
+            prevAnimValuesRef.current.rotationSpeedDegPerSec) *
+            lerpFactor,
+        pulsingPeriodMs:
+          prevAnimValuesRef.current.pulsingPeriodMs +
+          (targetAnimValues.pulsingPeriodMs -
+            prevAnimValuesRef.current.pulsingPeriodMs) *
+            lerpFactor,
+        xScale:
+          prevAnimValuesRef.current.xScale +
+          (targetAnimValues.xScale - prevAnimValuesRef.current.xScale) *
+            lerpFactor,
+        yScale:
+          prevAnimValuesRef.current.yScale +
+          (targetAnimValues.yScale - prevAnimValuesRef.current.yScale) *
+            lerpFactor,
+        circleScale:
+          prevAnimValuesRef.current.circleScale +
+          (targetAnimValues.circleScale -
+            prevAnimValuesRef.current.circleScale) *
+            lerpFactor,
+      };
+
+      prevAnimValuesRef.current = smoothAnimValues;
 
       ellipseRefs.current.forEach((ellipse, i) => {
         if (!ellipse) return;
 
-        ellipseAnglesRef.current[i] += rotationSpeedDegPerSec * (dt / 1000);
+        ellipseAnglesRef.current[i] +=
+          smoothAnimValues.rotationSpeedDegPerSec * (dt / 1000);
         const angle = ellipseAnglesRef.current[i];
 
         // Pivot transform around (50,50)
         const transformStr = `
-          rotate(${angle}deg)
-          scale(${xScale}, ${yScale})
-        `.replace(/\s+/g, " ");
+                rotate(${angle}deg)
+                scale(${smoothAnimValues.xScale}, ${smoothAnimValues.yScale})
+            `.replace(/\s+/g, " ");
 
-        (ellipse as SVGElement).style.transform = transformStr;
+        ellipse.style.transform = transformStr;
       });
 
       if (circleRef.current) {
         const circleTransform = `
-          scale(${circleScale})
-        `.replace(/\s+/g, " ");
+                scale(${smoothAnimValues.circleScale})
+            `.replace(/\s+/g, " ");
         circleRef.current.style.transform = circleTransform;
       }
 
@@ -120,10 +172,6 @@ export const ReactIconAnimation = () => {
         viewBox="0 0 100 100"
         width="100"
         height="100"
-        style={{
-          transform: isHovered ? "scale(1.2)" : "scale(1)",
-          transition: "transform 0.3s ease",
-        }}
       >
         {[0, 1, 2].map((index) => (
           <ellipse
