@@ -5,7 +5,7 @@ import {
   maxStarCount,
   starPopAnimationDurationMs,
 } from "../../../data/constants.ts";
-import { getAnimatedValue } from "../../../utils/getAnimatedValue.ts";
+import { useAnimatedValue } from "../../../utils/useAnimatedValue.ts";
 import { useCustomPalette } from "../../../theme.ts";
 
 interface StarRatingProps {
@@ -14,7 +14,7 @@ interface StarRatingProps {
 }
 
 const StarRating: React.FC<StarRatingProps> = ({ count, isSectionVisible }) => {
-  const animatedStarCount = getAnimatedValue(count, starPopAnimationDurationMs);
+  const animatedStarCount = useAnimatedValue(count, starPopAnimationDurationMs);
   const { experience } = useCustomPalette();
   const popAnimation = keyframes`
       0% { transform: scale(0); opacity: 0; }

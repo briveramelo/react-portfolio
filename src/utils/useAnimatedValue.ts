@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
  * @param durationMs The duration of the animation in milliseconds.
  * @returns The current animated value.
  */
-export const getAnimatedValue = (
+export const useAnimatedValue = (
   targetValue: number,
   durationMs: number,
 ): number => {

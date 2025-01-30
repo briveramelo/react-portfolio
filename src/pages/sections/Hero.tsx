@@ -27,6 +27,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     const [instantFlip, setInstantFlip] = useState<boolean>(false);
     const [transitionDurationMs, setTransitionDurationMs] =
       useState<number>(1000);
+    const startTimeToShowMs = 1500;
     const startTimeRefMs = useRef<number | null>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -41,7 +42,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
       containerRef,
       xOffset: -40,
       yAmpFactor: 0.65,
-      phaseOffset: Math.PI * 0.5,
+      phaseOffset: Math.PI * 0.275,
       durationMs: 15000,
     });
 
@@ -52,7 +53,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
           setIsStarting(false);
           setTransitionDurationMs(500);
         }, transitionDurationMs);
-      }, transitionDurationMs);
+      }, startTimeToShowMs);
 
       return () => {
         clearTimeout(timer);

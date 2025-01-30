@@ -3,6 +3,7 @@ import { projectData } from "./projectData.ts";
 import joshTilt from "@/assets/projects/josh-tilt.webp";
 import abcmouse from "@/assets/projects/abcmouse.webp";
 import clawface from "@/assets/projects/clawface.jpg";
+import { MediaItem } from "./media.ts";
 
 export type ProjectDetail = {
   title: string;
@@ -10,12 +11,9 @@ export type ProjectDetail = {
   story: {
     title: string;
     content: string;
-    imageIndices: number[]; // Indices of images related to this story section
+    mediaIndices: number[]; // Indices of media related to this story section
   }[];
-  images: {
-    src: string;
-    alt: string;
-  }[];
+  media: MediaItem[]; // src = https://www.youtube.com/embed/{videoId} for type youtube
   skills: SkillData[] | null;
   github: string;
   liveDemo: string;
@@ -30,17 +28,17 @@ export const projectDetails: ProjectDetail[] = [
       {
         title: "Content",
         content: "",
-        imageIndices: [0],
+        mediaIndices: [0],
       },
       {
         title: "Coming",
         content: "",
-        imageIndices: [1],
+        mediaIndices: [1],
       },
       {
         title: "Soon",
         content: "",
-        imageIndices: [2],
+        mediaIndices: [2],
       },
       // {
       //   title: "Inception",
@@ -58,18 +56,77 @@ export const projectDetails: ProjectDetail[] = [
       //     "Although we were denied SBIR grant funding to mass produce the technology, we piloted the system with 11 patients, received rave reviews from patients and clinicians, and published several research articles on our work. The technology is currently dormant.",
       // },
     ],
-    images: [
+    media: [
+      {
+        src: "tilt-tracker/stages-of-ulcer.webp",
+        alt: "stages of ulcer",
+        type: "firebaseImage",
+      },
+      {
+        src: "tilt-tracker/seat-tilt-sensor.webp",
+        alt: "wheelchair angle sensor",
+        type: "firebaseImage",
+      },
+      {
+        src: "tilt-tracker/armrest-led.webp",
+        alt: "LED",
+        type: "firebaseImage",
+      },
+      {
+        src: "tilt-tracker/headrest-vibration-motor.webp",
+        alt: "vibration motor",
+        type: "firebaseImage",
+      },
+      {
+        src: "tilt-tracker/notifications.webp",
+        alt: "notification settings",
+        type: "firebaseImage",
+      },
+      {
+        src: "tilt-tracker/notification-settings.webp",
+        alt: "notification settings",
+        type: "firebaseImage",
+      },
+      {
+        src: "tilt-tracker/interaction-diagram.webp",
+        alt: "notification settings",
+        type: "firebaseImage",
+        scaleFactor: 1.35,
+      },
+      {
+        src: "tilt-tracker/sample-relief-report.pdf",
+        alt: "pressure relief report",
+        type: "firebasePdf",
+      },
+      {
+        src: "tilt-tracker/tilt-recline-heatmap.webp",
+        alt: "vibration motor",
+        type: "firebaseImage",
+      },
+      {
+        src: "tilt-tracker/interactive-graph-compressed.gif",
+        alt: "vibration motor",
+        type: "firebaseImage",
+      },
+      {
+        src: "tilt-tracker/pressure-relief-detection-model.webp",
+        alt: "vibration motor",
+        type: "firebaseImage",
+      },
+      {
+        src: "tilt-tracker/occupancy-detection-model.webp",
+        alt: "vibration motor",
+        type: "firebaseImage",
+      },
+      {
+        src: "tilt-tracker/logo.svg",
+        alt: "",
+        type: "firebaseImage",
+      },
       {
         src: joshTilt,
         alt: "",
-      },
-      {
-        src: abcmouse,
-        alt: "",
-      },
-      {
-        src: clawface,
-        alt: "",
+        type: "image",
       },
     ],
     skills:
@@ -85,31 +142,34 @@ export const projectDetails: ProjectDetail[] = [
       {
         title: "Content",
         content: "",
-        imageIndices: [0],
+        mediaIndices: [0],
       },
       {
         title: "Coming",
         content: "",
-        imageIndices: [1],
+        mediaIndices: [1],
       },
       {
         title: "Soon",
         content: "",
-        imageIndices: [2],
+        mediaIndices: [2],
       },
     ],
-    images: [
+    media: [
       {
         src: abcmouse,
         alt: "",
+        type: "image",
       },
       {
         src: joshTilt,
         alt: "",
+        type: "image",
       },
       {
         src: clawface,
         alt: "",
+        type: "image",
       },
     ],
     skills: projectData.find((elm) => elm.title === "ABCmouse")?.skills ?? null,
@@ -124,31 +184,34 @@ export const projectDetails: ProjectDetail[] = [
       {
         title: "Content",
         content: "",
-        imageIndices: [0],
+        mediaIndices: [0],
       },
       {
         title: "Coming",
         content: "",
-        imageIndices: [1],
+        mediaIndices: [1],
       },
       {
         title: "Soon",
         content: "",
-        imageIndices: [2],
+        mediaIndices: [2],
       },
     ],
-    images: [
+    media: [
       {
         src: clawface,
         alt: "",
+        type: "image",
       },
       {
         src: abcmouse,
         alt: "",
+        type: "image",
       },
       {
         src: joshTilt,
         alt: "",
+        type: "image",
       },
     ],
     skills: projectData.find((elm) => elm.title === "Clawface")?.skills ?? null,

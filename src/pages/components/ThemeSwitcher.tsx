@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Menu, MenuItem, IconButton, Typography, Box } from "@mui/material";
 import { themeImages, ThemeMode } from "../../theme.ts";
-import { ThemeContext } from "../../ThemeContext.tsx";
+import { ThemeContext } from "../../context/ThemeContext.tsx";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 import { trackCustomEvent } from "../../tracking/plausibleHelpers.ts";
 

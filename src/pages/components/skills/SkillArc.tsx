@@ -5,7 +5,7 @@ import {
   maxStarCount,
   starPopAnimationDurationMs,
 } from "../../../data/constants.ts";
-import { getAnimatedValue } from "../../../utils/getAnimatedValue.ts";
+import { useAnimatedValue } from "../../../utils/useAnimatedValue.ts";
 import HalfStar from "./HalfStar.tsx";
 import { useCustomPalette } from "../../../theme.ts";
 
@@ -25,7 +25,7 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({
   const peakScale = 1.3;
   const starContainerSize = 45 * peakScale;
   const starSize = 30;
-  const animatedStarCount = getAnimatedValue(
+  const animatedStarCount = useAnimatedValue(
     starCount,
     starPopAnimationDurationMs,
   );

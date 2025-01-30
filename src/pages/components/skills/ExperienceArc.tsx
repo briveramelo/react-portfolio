@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import { getProgressColor } from "../../../utils/utils.ts";
-import { getAnimatedValue } from "../../../utils/getAnimatedValue.ts";
+import { useAnimatedValue } from "../../../utils/useAnimatedValue.ts";
 import {
   starArcAnimationDurationMs,
   maxYearsOfExperience,
@@ -20,7 +20,7 @@ const ExperienceArc: React.FC<ExperienceCategoryArcProps> = ({ years }) => {
   const circumference = 2 * Math.PI * radius;
 
   const clampedYears = Math.min(years, maxYearsOfExperience);
-  const animatedValue = getAnimatedValue(
+  const animatedValue = useAnimatedValue(
     clampedYears,
     starArcAnimationDurationMs,
   );

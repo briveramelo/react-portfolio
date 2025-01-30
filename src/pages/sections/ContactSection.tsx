@@ -13,7 +13,7 @@ import { Footer } from "../components/Footer";
 import { cp } from "../../utils/utils";
 import { useFormTracking } from "../../tracking/useFormTracking";
 import { useHoverTracking } from "../../tracking/useHoverTracking";
-import { firebaseConfig } from "../../firebaseConfig";
+import { firebaseApp, firebaseConfig } from "../../firebaseConfig";
 import { getFunctions, httpsCallable } from "firebase/functions";
 
 interface ContactSectionProps {
@@ -93,12 +93,9 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
       trackFormSubmit(formID);
 
       try {
-        const { initializeApp } = await import("firebase/app");
         const { getFunctions, httpsCallable } = await import(
           "firebase/functions"
         );
-        const firebaseApp = initializeApp(firebaseConfig);
-
         const functions = getFunctions(firebaseApp);
         const sendContactForm = httpsCallable<FormData, { message: string }>(
           functions,
