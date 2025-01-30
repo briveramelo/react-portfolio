@@ -9,13 +9,12 @@ export const ReactIconAnimation = () => {
   const circleRef = useRef<SVGCircleElement | null>(null);
   const ellipseAnglesRef = useRef<number[]>([0, 120, 240]);
   const lastTimeRef = useRef<number>(performance.now());
-  let hoverStartTime: number | null = null;
+  const hoverStartTimeRef = useRef<number>(performance.now());
   const prevAnimValuesRef = useRef({
     xScale: 1,
     yScale: 1,
     circleScale: 1,
     rotationSpeedDegPerSec: 60,
-    pulsingPeriodMs: 2000,
   });
 
   const setEllipseRef = (index: number, el: SVGElement | null) => {
@@ -35,8 +34,8 @@ export const ReactIconAnimation = () => {
 
       if (values && values.length >= 4) {
         const [a, b] = values; // a = cosθ, b = sinθ
-        const angle = Math.atan2(b, a) * (180 / Math.PI);
-        return angle;
+        const angleDeg = Math.atan2(b, a) * (180 / Math.PI);
+        return angleDeg;
       }
     }
     return 0;
@@ -46,7 +45,7 @@ export const ReactIconAnimation = () => {
     event: MouseEvent<HTMLDivElement> | null,
     entering: boolean,
   ) => {
-    hoverStartTime = performance.now();
+    hoverStartTimeRef.current = performance.now();
     setIsHovered(entering);
 
     if (entering) {
@@ -60,62 +59,56 @@ export const ReactIconAnimation = () => {
     });
   };
 
+  function smootherstep(t: number): number {
+    return t * t * t * (t * (t * 6 - 15) + 10);
+  }
+
   useEffect(() => {
     let animId = 0;
 
     function animate(timestamp: number) {
-      if (hoverStartTime === null) {
-        hoverStartTime = timestamp;
-      }
-
       const dt = timestamp - lastTimeRef.current;
       lastTimeRef.current = timestamp;
 
-      const hoverScale = isHovered ? 2 : 1;
-      const pulsingPeriodMs = isHovered ? 1000 : 2000;
-      const cosPart =
-        hoverScale * Math.cos((2 * Math.PI * timestamp) / pulsingPeriodMs);
+      const hoverFactor = isHovered ? 2 : 1;
+      const targetPulsingPeriodMs = isHovered ? 1000 : 2000;
       const hoverTransitionDurationMs = 1000;
-      const lerpFactor = Math.min(
+      const progress = Math.min(
         1,
-        (timestamp - hoverStartTime) / hoverTransitionDurationMs,
+        (timestamp - hoverStartTimeRef.current) / hoverTransitionDurationMs,
       );
+      const smoothingFactor = smootherstep(progress);
+
+      const phase = (2 * Math.PI * timestamp) / targetPulsingPeriodMs;
+      const targetCosPart = hoverFactor * Math.cos(phase);
 
       const targetAnimValues = {
-        xScale: 0.91665 + 0.0833 * cosPart,
-        yScale: 1.5 + 0.35 * cosPart,
-        circleScale: 1.25 + 0.5 * cosPart,
-        rotationSpeedDegPerSec: isHovered ? 150 : 60,
-        pulsingPeriodMs: pulsingPeriodMs,
+        xScale: 0.91665 + 0.0833 * targetCosPart,
+        yScale: 1.5 + 0.35 * targetCosPart,
+        circleScale: 1.25 + 0.5 * targetCosPart,
+        rotationSpeedDegPerSec: isHovered ? 210 : 60,
       };
 
       const smoothAnimValues = {
-        rotationSpeedDegPerSec:
-          prevAnimValuesRef.current.rotationSpeedDegPerSec +
-          (targetAnimValues.rotationSpeedDegPerSec -
-            prevAnimValuesRef.current.rotationSpeedDegPerSec) *
-            lerpFactor,
-        pulsingPeriodMs:
-          prevAnimValuesRef.current.pulsingPeriodMs +
-          (targetAnimValues.pulsingPeriodMs -
-            prevAnimValuesRef.current.pulsingPeriodMs) *
-            lerpFactor,
         xScale:
           prevAnimValuesRef.current.xScale +
           (targetAnimValues.xScale - prevAnimValuesRef.current.xScale) *
-            lerpFactor,
+            smoothingFactor,
         yScale:
           prevAnimValuesRef.current.yScale +
           (targetAnimValues.yScale - prevAnimValuesRef.current.yScale) *
-            lerpFactor,
+            smoothingFactor,
         circleScale:
           prevAnimValuesRef.current.circleScale +
           (targetAnimValues.circleScale -
             prevAnimValuesRef.current.circleScale) *
-            lerpFactor,
+            smoothingFactor,
+        rotationSpeedDegPerSec:
+          prevAnimValuesRef.current.rotationSpeedDegPerSec +
+          (targetAnimValues.rotationSpeedDegPerSec -
+            prevAnimValuesRef.current.rotationSpeedDegPerSec) *
+            smoothingFactor,
       };
-
-      prevAnimValuesRef.current = smoothAnimValues;
 
       ellipseRefs.current.forEach((ellipse, i) => {
         if (!ellipse) return;
@@ -124,21 +117,17 @@ export const ReactIconAnimation = () => {
           smoothAnimValues.rotationSpeedDegPerSec * (dt / 1000);
         const angle = ellipseAnglesRef.current[i];
 
-        // Pivot transform around (50,50)
-        const transformStr = `
+        ellipse.style.transform = `
                 rotate(${angle}deg)
-                scale(${smoothAnimValues.xScale}, ${smoothAnimValues.yScale})
-            `.replace(/\s+/g, " ");
-
-        ellipse.style.transform = transformStr;
+                scale(${smoothAnimValues.xScale.toFixed(2)}, ${smoothAnimValues.yScale.toFixed(2)})
+            `.trim();
       });
 
       if (circleRef.current) {
-        const circleTransform = `
-                scale(${smoothAnimValues.circleScale})
-            `.replace(/\s+/g, " ");
-        circleRef.current.style.transform = circleTransform;
+        circleRef.current.style.transform = `scale(${smoothAnimValues.circleScale.toFixed(2)})`;
       }
+
+      prevAnimValuesRef.current = smoothAnimValues;
 
       animId = requestAnimationFrame(animate);
     }
