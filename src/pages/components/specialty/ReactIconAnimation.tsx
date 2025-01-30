@@ -63,6 +63,14 @@ export const ReactIconAnimation = () => {
     return t * t * t * (t * (t * 6 - 15) + 10);
   }
 
+  function getSmoothValue(
+    prev: number,
+    target: number,
+    smoothFactor: number,
+  ): number {
+    return prev + (target - prev) * smoothFactor;
+  }
+
   useEffect(() => {
     let animId = 0;
 
@@ -90,24 +98,26 @@ export const ReactIconAnimation = () => {
       };
 
       const smoothAnimValues = {
-        xScale:
-          prevAnimValuesRef.current.xScale +
-          (targetAnimValues.xScale - prevAnimValuesRef.current.xScale) *
-            smoothingFactor,
-        yScale:
-          prevAnimValuesRef.current.yScale +
-          (targetAnimValues.yScale - prevAnimValuesRef.current.yScale) *
-            smoothingFactor,
-        circleScale:
-          prevAnimValuesRef.current.circleScale +
-          (targetAnimValues.circleScale -
-            prevAnimValuesRef.current.circleScale) *
-            smoothingFactor,
-        rotationSpeedDegPerSec:
-          prevAnimValuesRef.current.rotationSpeedDegPerSec +
-          (targetAnimValues.rotationSpeedDegPerSec -
-            prevAnimValuesRef.current.rotationSpeedDegPerSec) *
-            smoothingFactor,
+        xScale: getSmoothValue(
+          prevAnimValuesRef.current.xScale,
+          targetAnimValues.xScale,
+          smoothingFactor,
+        ),
+        yScale: getSmoothValue(
+          prevAnimValuesRef.current.yScale,
+          targetAnimValues.yScale,
+          smoothingFactor,
+        ),
+        circleScale: getSmoothValue(
+          prevAnimValuesRef.current.circleScale,
+          targetAnimValues.circleScale,
+          smoothingFactor,
+        ),
+        rotationSpeedDegPerSec: getSmoothValue(
+          prevAnimValuesRef.current.rotationSpeedDegPerSec,
+          targetAnimValues.rotationSpeedDegPerSec,
+          smoothingFactor,
+        ),
       };
 
       ellipseRefs.current.forEach((ellipse, i) => {

@@ -9,7 +9,7 @@ import {
 import { styled } from "@mui/system";
 import { SkillData } from "../../../data/skillsData.ts";
 import { getProgressColor } from "../../../utils/utils.ts";
-import { getAnimatedValue } from "../../../utils/getAnimatedValue.ts";
+import { useAnimatedValue } from "../../../utils/useAnimatedValue.ts";
 import {
   starArcAnimationDurationMs,
   maxYearsOfExperience,
@@ -38,7 +38,7 @@ const Experience: React.FC<ExperienceProps> = ({ skill, useLight }) => {
   const rawValue = years.length;
   const src = useLight ? srcLight : srcDark;
   const clampedValue = Math.min(rawValue, maxYearsOfExperience);
-  const animatedValue = getAnimatedValue(
+  const animatedValue = useAnimatedValue(
     clampedValue,
     starArcAnimationDurationMs,
   );
