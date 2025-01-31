@@ -1,8 +1,14 @@
-import React, { useContext, useState } from "react";
-import { Menu, MenuItem, IconButton, Typography, Box } from "@mui/material";
+import React, { useContext, useState, useRef } from "react";
+import {
+  Popper,
+  Paper,
+  MenuItem,
+  IconButton,
+  Typography,
+  Box,
+} from "@mui/material";
 import { themeImages, ThemeMode } from "../../theme.ts";
 import { ThemeContext } from "../../context/ThemeContext.tsx";
-import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 import { trackCustomEvent } from "../../tracking/plausibleHelpers.ts";
 
 interface ThemeSwitcherProps {
@@ -16,19 +22,40 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
 }) => {
   const { setMode } = useContext(ThemeContext);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [currentThemeIndex, setCurrentThemeIndex] = useState(0);
-  const open = Boolean(anchorEl);
   const imgSize = 24;
+  const hideTimer = useRef<number | null>(null);
 
-  const selectedHover = useHoverTracking();
-  const menuItemHoverTrackers = themeImages.map((theme) => useHoverTracking());
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleIconMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+    if (hideTimer.current) {
+      clearTimeout(hideTimer.current);
+      hideTimer.current = null;
+    }
     setAnchorEl(event.currentTarget);
+    setMenuOpen(true);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleIconMouseLeave = () => {
+    hideTimer.current = window.setTimeout(() => {
+      setMenuOpen(false);
+      setAnchorEl(null);
+    }, 200);
+  };
+
+  const handlePopperMouseEnter = () => {
+    if (hideTimer.current) {
+      clearTimeout(hideTimer.current);
+      hideTimer.current = null;
+    }
+    setMenuOpen(true);
+  };
+
+  const handlePopperMouseLeave = () => {
+    hideTimer.current = window.setTimeout(() => {
+      setMenuOpen(false);
+      setAnchorEl(null);
+    }, 200);
   };
 
   const handleThemeSelect = (index: number) => {
@@ -38,20 +65,20 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
     });
     setCurrentThemeIndex(index);
     setMode(themeImages[index].name);
-    handleClose();
+    setMenuOpen(false);
+    setAnchorEl(null);
     onChange(themeImages[index].name);
   };
 
   return (
-    <Box>
+    <Box sx={{ position: "relative", display: "inline-block" }}>
       <IconButton
         id="theme-switcher"
-        onClick={handleClick}
-        aria-controls={open ? "theme-menu" : undefined}
+        onMouseEnter={handleIconMouseEnter}
+        onMouseLeave={handleIconMouseLeave}
+        aria-controls={menuOpen ? "theme-menu" : undefined}
         aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onMouseEnter={selectedHover.trackMouseEnter}
-        onMouseLeave={selectedHover.trackMouseLeave}
+        aria-expanded={menuOpen ? "true" : undefined}
       >
         <img
           src={themeImages[currentThemeIndex].src}
@@ -64,45 +91,36 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
           }}
         />
       </IconButton>
-      <Menu
-        id="theme-menu"
+
+      <Popper
+        open={menuOpen}
         anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        sx={{
-          ml: -1,
-          mt: 1,
-          "& .MuiPaper-root": {
-            boxShadow: "none",
-          },
-        }}
+        placement="top-start"
+        style={{ zIndex: 1300 }}
       >
-        {themeImages.map((theme, index) => {
-          const { trackMouseEnter, trackMouseLeave } =
-            menuItemHoverTrackers[index];
-          return (
+        <Paper
+          onMouseEnter={handlePopperMouseEnter}
+          onMouseLeave={handlePopperMouseLeave}
+          sx={{ ml: -1, boxShadow: "none" }}
+        >
+          {themeImages.map((theme, index) => (
             <MenuItem
               id={`theme_menu_item_${theme.name}`}
               key={theme.name}
               sx={{ display: "flex", alignItems: "center", gap: 1 }}
               onClick={() => handleThemeSelect(index)}
-              onMouseEnter={trackMouseEnter}
-              onMouseLeave={trackMouseLeave}
             >
               <img
                 id={`theme_menu_item_img_${theme.name}`}
                 src={theme.src}
                 alt={theme.name}
-                style={{
-                  width: "auto",
-                  height: imgSize,
-                }}
+                style={{ width: "auto", height: imgSize }}
               />
               <Typography>{theme.name}</Typography>
             </MenuItem>
-          );
-        })}
-      </Menu>
+          ))}
+        </Paper>
+      </Popper>
     </Box>
   );
 };
