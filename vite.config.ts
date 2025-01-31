@@ -45,4 +45,7 @@ export default defineConfig({
       "@": "/src", // Alias "@" to the "src" directory for cleaner imports
     },
   },
+  optimizeDeps: {
+    include: ["@mui/material", "@mui/icons-material"],
+  },
 });

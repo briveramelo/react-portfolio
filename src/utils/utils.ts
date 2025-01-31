@@ -1,4 +1,40 @@
 import { useCustomPalette } from "../theme";
+import { keyframes } from "@emotion/react";
+
+/**
+ * Generates a sinusoidal scaling keyframe animation.
+ *
+ * @param {number} baseline - The central scale value (e.g., 1 for neutral scaling).
+ * @param {number} amplitude - The maximum deviation from the baseline (e.g., 0.3 for ±0.3 scaling).
+ * @param {number} numKeyframes - The number of keyframes in the animation cycle (higher = smoother).
+ * @param {number} numDecimals - The number of decimal places to round scale values for cleaner CSS output.
+ * @returns Keyframes - A styled-components keyframes object representing the css animation.
+ *
+ * Example usage:
+ * const pulseAnimation = generateSinusoidalScaleKeyframes(1, 0.3, 20, 2);
+ */
+
+export const generateSinusoidalScaleKeyframes = (
+  baseline: number,
+  amplitude: number,
+  numKeyframes: number,
+  numDecimals: number,
+) => {
+  const scaleMin = baseline - amplitude;
+  const scaleMax = baseline + amplitude;
+
+  return keyframes`
+    ${[...Array(numKeyframes + 1)]
+      .map((_, i) => {
+        const percent = i * (100 / numKeyframes); // Evenly spaced keyframes
+        const radians = i * ((2 * Math.PI) / numKeyframes); // Full cosine wave (0 → 2π)
+        const scaleValue =
+          scaleMin + (scaleMax - scaleMin) * (0.5 + 0.5 * Math.cos(radians));
+        return `${percent.toFixed(2)}% { transform: scale(${scaleValue.toFixed(numDecimals)}); }`;
+      })
+      .join("\n    ")}
+  `;
+};
 
 /**
  * Return a color (red / yellow / green) based on numeric value

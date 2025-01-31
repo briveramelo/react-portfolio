@@ -9,10 +9,12 @@ import { Container, Typography, Box, Avatar } from "@mui/material";
 import brandon from "@/assets/people/brandon.webp";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
-import { cp } from "../../utils/utils";
+import { cp, generateSinusoidalScaleKeyframes } from "../../utils/utils";
 import { useFlareEffect } from "../components/specialty/useFlareEffect.ts";
 import { useHoverTracking } from "../../tracking/useHoverTracking";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver.ts";
+import { keyframes } from "@emotion/react";
+import { Refresh } from "@mui/icons-material";
 
 // Define the props for the Hero component
 interface HeroProps {
@@ -20,6 +22,7 @@ interface HeroProps {
   textColor: string;
   id: string;
 }
+const pulseAnimation = generateSinusoidalScaleKeyframes(1, 0.3, 20, 3);
 
 export const Hero = forwardRef<HTMLElement, HeroProps>(
   ({ backgroundColor, textColor, id }, ref) => {
@@ -32,6 +35,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const [isStarting, setIsStarting] = useState<boolean>(true);
+    const [hasHoveredCard, setHasHoveredCard] = useState<boolean>(false);
     const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
     const isSectionVisible = useIntersectionObserver(
       ref as React.RefObject<HTMLElement>,
@@ -60,11 +64,11 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
       };
     }, []);
 
-    // Track if the animation is halfway done
-    const hasTransitionElapsedHalfway = (): boolean => {
+    // Track if the animation has completed x (eg: 0.2 => 20%) of the total
+    const hasTransitionElapsedProportion = (proportion: number): boolean => {
       if (!startTimeRefMs.current) return false;
       const elapsedTimeMs = Date.now() - startTimeRefMs.current;
-      return elapsedTimeMs >= transitionDurationMs / 2;
+      return elapsedTimeMs >= transitionDurationMs * proportion;
     };
 
     // Determine if the mouse is on the right half of the card
@@ -84,9 +88,16 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     // Mouse leaves: either rotate back to 0 with or without an instant flip
     const handleMouseLeave = (event: MouseEvent<HTMLDivElement>): void => {
       if (isStarting) return;
+
+      // proxy for if the user knows the card is interactable
+      // then rotating icon can sit calmly
+      if (hasTransitionElapsedProportion(1)) {
+        setHasHoveredCard(true);
+      }
+
       const leavingRight = isRight(event);
       const shouldInstantFlip =
-        hasTransitionElapsedHalfway() &&
+        hasTransitionElapsedProportion(0.5) &&
         ((targetRotationDeg === 180 && leavingRight) ||
           (targetRotationDeg === -180 && !leavingRight));
 
@@ -108,6 +119,11 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
       startTimeRefMs.current = null; // Reset the start time
       trackMouseLeave(event);
     };
+
+    const spinAnimation = keyframes`
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    `;
 
     return (
       <Box
@@ -199,10 +215,10 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
                   left: 0,
                   width: "100%",
                   height: "100%",
-                  zIndex: 1,
+                  zIndex: 2,
                   backfaceVisibility: "hidden",
                 }}
-              ></canvas>
+              />
 
               {/* Front Side */}
               <Box
@@ -213,6 +229,30 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
                   backfaceVisibility: "hidden",
                 }}
               >
+                {/* Rotation Icon */}
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: 20,
+                    left: 20,
+                    borderRadius: "50%",
+                    zIndex: 1,
+                    color: "white",
+                    animation: hasHoveredCard
+                      ? ""
+                      : `${pulseAnimation} 2s infinite`,
+                  }}
+                >
+                  <Refresh
+                    sx={{
+                      fontSize: 30,
+                      animation: hasHoveredCard
+                        ? ""
+                        : `${spinAnimation} 2s linear infinite`,
+                    }}
+                  />
+                </Box>
+
                 <Avatar
                   src={brandon}
                   alt="Picture of Brandon"
