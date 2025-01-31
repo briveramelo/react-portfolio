@@ -1,15 +1,15 @@
 import React, { forwardRef, useRef, useState } from "react";
-import { Box, Typography, Grid } from "@mui/material";
+import { Box, Typography, Grid, Button } from "@mui/material";
 import CalendarIcon from "@/assets/calendar-check.svg?react";
 import StarIcon from "@/assets/star.svg?react";
 
-import BouncingButton from "../components/reusable/BouncingButton";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
 import { skillsData } from "../../data/skillsData";
 import { ThemeMode, useCustomPalette } from "../../theme";
 import ExperienceCategory from "../components/skills/ExperienceCategory";
 import SkillCategory from "../components/skills/SkillCategory";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
+import { generateGravityBounceScaleKeyframes } from "../../utils/keyframeGenerator.ts";
 
 interface SkillsSectionProps {
   backgroundColor: string;
@@ -17,24 +17,28 @@ interface SkillsSectionProps {
   textColor: string;
 }
 
-const iconStyle = {
-  fill: "white",
-  height: 20,
-  marginRight: "8px",
-  marginTop: -3.25,
-};
+const bounceAnim = generateGravityBounceScaleKeyframes(1, 1.1, 20, 3);
+const iconAnim = generateGravityBounceScaleKeyframes(1, 1.2, 20, 3);
 export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
   ({ backgroundColor, textColor, id }, ref) => {
     const [isYearsOfExperience, setIsYearsOfExperience] =
       useState<boolean>(true);
+    const [hasClickedButton, setHasClickedButton] = useState<boolean>(false);
     const sectionRef = useRef<HTMLDivElement>(null!);
     const isSectionVisible = useIntersectionObserver(sectionRef, {
       threshold: 0.1,
     });
     const { mode } = useCustomPalette();
     const useLight = mode !== ThemeMode.Light;
+    const iconStyle = {
+      fill: hasClickedButton ? "white" : "orange",
+      height: 20,
+      marginRight: "8px",
+      marginTop: 3.25,
+    };
 
-    const toggleStat = () => {
+    const handleButtonClick = () => {
+      setHasClickedButton(true);
       setIsYearsOfExperience((prev) => !prev);
     };
     const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
@@ -56,28 +60,33 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
         <Typography variant="h1" sx={{ mb: 4 }}>
           {isYearsOfExperience ? "Experience" : "Skill Levels"}
         </Typography>
-        <BouncingButton
+        <Button
           id="skill_experience_toggle"
-          onClick={toggleStat}
+          onClick={handleButtonClick}
           onMouseEnter={trackMouseEnter}
           onMouseLeave={trackMouseLeave}
           sx={{
             mb: 15,
             py: 2,
+            animation: hasClickedButton ? "" : `${bounceAnim} 2s infinite`,
           }}
           variant="contained"
-          numBounces={2}
-          bounceDurationMs={1750}
         >
-          {isYearsOfExperience ? (
-            <StarIcon style={iconStyle} />
-          ) : (
-            <CalendarIcon style={iconStyle} />
-          )}
+          <Box
+            sx={{
+              animation: hasClickedButton ? "" : `${iconAnim} 2s infinite`,
+            }}
+          >
+            {isYearsOfExperience ? (
+              <StarIcon style={iconStyle} />
+            ) : (
+              <CalendarIcon style={iconStyle} />
+            )}
+          </Box>
           <Typography variant="h6" fontWeight="bold">
             {isYearsOfExperience ? "See Skill Levels" : "See Experience"}
           </Typography>
-        </BouncingButton>
+        </Button>
         <Grid
           container
           rowSpacing={6}
