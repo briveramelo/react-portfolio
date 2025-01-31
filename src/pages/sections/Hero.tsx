@@ -15,6 +15,7 @@ import { useHoverTracking } from "../../tracking/useHoverTracking";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver.ts";
 import { keyframes } from "@emotion/react";
 import { Refresh } from "@mui/icons-material";
+import ScrollDownIndicator from "../components/reusable/ScrollDownIndicator.tsx";
 
 // Define the props for the Hero component
 interface HeroProps {
@@ -237,7 +238,9 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
                     left: 20,
                     borderRadius: "50%",
                     zIndex: 1,
-                    color: "white",
+                    color: hasHoveredCard
+                      ? "rgba(255, 255, 255, .8)"
+                      : "orange",
                     animation: hasHoveredCard
                       ? ""
                       : `${pulseAnimation} 2s infinite`,
@@ -322,6 +325,7 @@ Peruse the portfolio and see how we might build a healthier world at scale.
             </Box>
           </Box>
         </Container>
+        {hasHoveredCard && <ScrollDownIndicator color={"orange"} size={40} />}
       </Box>
     );
   },
