@@ -8,12 +8,12 @@ export const useHoverTracking = () => {
   const [hasBeenHovered, setHasBeenHovered] = useState<boolean>(false);
 
   const trackMouseEnter = () => {
-    setHoverStartTimeMillis(Date.now());
+    setHoverStartTimeMillis(performance.now());
   };
 
   const trackMouseLeave = (event: React.MouseEvent<HTMLElement>) => {
     if (hoverStartTimeMillis !== null) {
-      const dwellTimeMs = Date.now() - hoverStartTimeMillis;
+      const dwellTimeMs = performance.now() - hoverStartTimeMillis;
       if (dwellTimeMs >= 400) {
         setHasBeenHovered(true);
         trackMouseEvent(event, "hover", {

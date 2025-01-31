@@ -69,7 +69,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     // Track if the animation has completed x (eg: 0.2 => 20%) of the total
     const hasTransitionElapsedProportion = (proportion: number): boolean => {
       if (!startTimeRefMs.current) return false;
-      const elapsedTimeMs = Date.now() - startTimeRefMs.current;
+      const elapsedTimeMs = performance.now() - startTimeRefMs.current;
       return elapsedTimeMs >= transitionDurationMs * proportion;
     };
 
@@ -83,7 +83,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     const handleMouseEnter = (event: MouseEvent<HTMLDivElement>): void => {
       if (isStarting) return;
       setTargetRotationDeg(isRight(event) ? -180 : 180);
-      startTimeRefMs.current = Date.now();
+      startTimeRefMs.current = performance.now();
       trackMouseEnter();
     };
 
