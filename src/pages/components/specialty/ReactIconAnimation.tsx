@@ -3,7 +3,8 @@ import { Box } from "@mui/material";
 import { useHoverTracking } from "../../../tracking/useHoverTracking.ts";
 
 export const ReactIconAnimation = () => {
-  const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
+  const { trackMouseEnter, trackMouseLeave, hasBeenHovered } =
+    useHoverTracking();
   const [isHovered, setIsHovered] = useState(false);
   const ellipseRefs = useRef<(SVGElement | null)[]>([]);
   const circleRef = useRef<SVGCircleElement | null>(null);
@@ -193,7 +194,7 @@ export const ReactIconAnimation = () => {
           cx="50"
           cy="50"
           r="3"
-          fill="#61DAFB"
+          fill={hasBeenHovered ? "#61DAFB" : "orange"}
           style={{ transformOrigin: "50px 50px", willChange: "transform" }}
         />
       </svg>

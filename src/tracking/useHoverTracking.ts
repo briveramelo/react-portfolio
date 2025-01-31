@@ -5,6 +5,7 @@ export const useHoverTracking = () => {
   const [hoverStartTimeMillis, setHoverStartTimeMillis] = useState<
     number | null
   >(null);
+  const [hasBeenHovered, setHasBeenHovered] = useState<boolean>(false);
 
   const trackMouseEnter = () => {
     setHoverStartTimeMillis(Date.now());
@@ -14,6 +15,7 @@ export const useHoverTracking = () => {
     if (hoverStartTimeMillis !== null) {
       const dwellTimeMs = Date.now() - hoverStartTimeMillis;
       if (dwellTimeMs >= 400) {
+        setHasBeenHovered(true);
         trackMouseEvent(event, "hover", {
           event_version: "0.1.0",
           hover_duration_ms: dwellTimeMs,
@@ -39,5 +41,6 @@ export const useHoverTracking = () => {
   return {
     trackMouseEnter,
     trackMouseLeave,
+    hasBeenHovered,
   };
 };

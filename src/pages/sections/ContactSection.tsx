@@ -162,7 +162,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
         >
           <TextField
             required
-            label="Email"
+            label="Your email"
             type="email"
             variant="outlined"
             error={!!errors.email}
@@ -173,29 +173,6 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
             onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
             }
-            fullWidth
-            InputProps={{
-              inputProps: {
-                style: {
-                  color: cp("text.paper"),
-                },
-              },
-            }}
-            sx={inputStyles}
-          />
-          <TextField
-            required
-            label="Subject"
-            type="text"
-            variant="outlined"
-            error={!!errors.subject}
-            helperText={errors.subject}
-            id="contact-subject"
-            onChange={(e) =>
-              setFormData({ ...formData, subject: e.target.value })
-            }
-            onFocus={() => trackFieldFocus("subject")}
-            onBlur={() => trackFieldBlur("subject")}
             fullWidth
             InputProps={{
               inputProps: {
@@ -224,7 +201,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
               inputProps: {
                 style: {
                   resize: "vertical",
-                  minHeight: "100px",
+                  minHeight: "140px",
                   padding: "16px",
                   fontFamily: "inherit",
                   fontSize: "16px",
