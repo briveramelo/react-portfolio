@@ -20,7 +20,7 @@ export const projectData: Project[] = [
   {
     title: "Tilt Tracker",
     category: "Health Tech",
-    description: `Tilt Tracker is a groundbreaking, real-time health monitor for all power wheelchair users that **prevents pressure ulcers**. The IoT sensor attaches to the wheelchair, sends data to the cloud, reminds users to tilt, and keeps clinical care teams informed.
+    description: `Tilt Tracker is **like FitBit for power wheelchair users**; it **prevents pressure ulcers** with real-time reminders for patients and compliance reports for family and clinical care teams.
 
 I developed the **full-stack, HIPAA-compliant** system, piloted with 11 patients, and co-authored studies that highlight its life-changing impact.
 `,
@@ -48,7 +48,7 @@ I developed the **full-stack, HIPAA-compliant** system, piloted with 11 patients
   {
     title: "ABCmouse",
     category: "Game Dev",
-    description: `ABCmouse is the **#1 learning app** for children ages 2–8, trusted by over **18 million players** and their families who have completed more than 4 billion educational activities worldwide.
+    description: `ABCmouse is the **#1 learning app** for children ages 2–8, where over **18 million students** have completed more than **4 billion educational activities**, earning the trust of families worldwide.
 
 I contributed to 27 updates for the ABCmouse app, **improving load times by 50%**, adding features like Mastering Math, and **integrating A/B test tools** for user insights.
 I also upgraded the app's infrastructure to meet new platform requirements and ensure future compatibility.`,
@@ -62,7 +62,7 @@ I also upgraded the app's infrastructure to meet new platform requirements and e
   {
     title: "Clawface",
     category: "Game Dev",
-    description: `Clawface is a published video game on Steam, made with an indie studio. We received **Very Positive reviews and 35,000+ downloads.**
+    description: `Clawface is a published video game on Steam, made with an indie studio. We received **Very Positive reviews** and **45,000+ downloads.**
 
 I architected the codebase, **led the engineering team** of 6, and contributed to nearly every aspect of the final engineering product, including AI state machines, combat mechanics, UI design, and the Steam-Workshop-connected level editor.`,
     image: clawface,

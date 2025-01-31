@@ -361,7 +361,7 @@ Team Player`,
                   }}
                 >
                   {`**Professional Mission**
-Restore 1,000,000 quality-adjusted life years (QALYs) for those with disease and disability through use digital solutions like video games, apps, web services, and biometric sensors.
+Restore 1,000,000 quality-adjusted life years (QALYs) for those with disease and disability with digital solutions like video games, apps, web services, and biometric sensors.
 
 **My Why**
 As a Type 1 Diabetic, I rely on smart glucose management technology to stay healthy. This inspires me to create similar systems that restore balance and empower others to thrive.

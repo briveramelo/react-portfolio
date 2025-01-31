@@ -11,7 +11,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { cp } from "../../utils/utils";
-import ImageCarousel from "./reusable/MediaCarousel.tsx";
+import MediaCarousel from "./reusable/MediaCarousel.tsx";
 import InvertableImage from "./reusable/InvertableImage.tsx";
 import { ThemeMode, useCustomPalette } from "../../theme.ts";
 import { useTheme } from "@mui/material/styles";
@@ -29,7 +29,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
 
   const { story, media, skills, github, liveDemo } = project;
   const [selectedStoryIndex, setSelectedStoryIndex] = useState<number>(0);
-  const [selectedImageIndex, setSelectedMediaIndex] = useState<number>(0);
+  const [selectedMediaIndex, setSelectedMediaIndex] = useState<number>(0);
 
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmMd = useMediaQuery(theme.breakpoints.between("sm", "md"));
@@ -84,8 +84,8 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
                 <Typography variant="h6">
                   {story[selectedStoryIndex].title}
                 </Typography>
-                <Typography variant="body2">
-                  {story[selectedStoryIndex].content}
+                <Typography variant="body1">
+                  {media[selectedMediaIndex].text}
                 </Typography>
               </CardContent>
             </Card>
@@ -118,8 +118,14 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
                   className={"subtle-shadow"}
                 >
                   <CardContent>
-                    <Typography variant="h6">{section.title}</Typography>
-                    <Typography variant="body2">{section.content}</Typography>
+                    <Typography variant="h6" fontWeight={"bold"}>
+                      {section.title}
+                    </Typography>
+                    {index === selectedStoryIndex && (
+                      <Typography variant="body1">
+                        {media[selectedMediaIndex].text}
+                      </Typography>
+                    )}
                   </CardContent>
                 </Card>
               </Box>
@@ -127,11 +133,11 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
           )}
         </Grid>
 
-        {/* Image Carousel */}
+        {/* Mdeia Carousel */}
         <Grid item lg={9} xs={12}>
-          <ImageCarousel
+          <MediaCarousel
             media={media}
-            selectedIndex={selectedImageIndex}
+            selectedIndex={selectedMediaIndex}
             onMediaChange={handleMediaChange}
             height={getCarouselHeight()}
           />

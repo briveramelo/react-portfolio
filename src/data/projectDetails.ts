@@ -23,7 +23,7 @@ export const projectDetails: ProjectDetail[] = [
   {
     title: "Tilt Tracker",
     description:
-      "A revolutionary approach to pressure ulcer prevention, Tilt Tracker is like FitBit for power wheelchair users.",
+      "Tilt Tracker is like FitBit for power wheelchair users and a revolutionary approach to pressure ulcer prevention.",
     story: [
       {
         title: "Content",
@@ -59,36 +59,49 @@ export const projectDetails: ProjectDetail[] = [
     media: [
       {
         src: "tilt-tracker/stages-of-ulcer.webp",
+        text: `Sitting in the same position for too long can cause a pressure wound.`,
         alt: "stages of ulcer",
         type: "firebaseImage",
       },
       {
+        src: "tilt-tracker/nrh-patient-in-bed.webp",
+        text: `Pressure wounds are life-threatening, debilitating, costly, and time-consuming.`,
+        alt: "patient in hospital bed",
+        type: "firebaseImage",
+      },
+      {
         src: "tilt-tracker/seat-tilt-sensor.webp",
+        text: "Doing regular pressure reliefs by tilting back in the chair is the best prevention.",
         alt: "wheelchair angle sensor",
         type: "firebaseImage",
       },
       {
         src: "tilt-tracker/armrest-led.webp",
+        text: "Tilting your seat and reclining your backrest every 20-30 minutes is easy to forget.",
         alt: "LED",
         type: "firebaseImage",
       },
       {
         src: "tilt-tracker/headrest-vibration-motor.webp",
+        text: "Tilt Tracker's electronic hardware measures compliance and provides friendly reminders.",
         alt: "vibration motor",
         type: "firebaseImage",
       },
       {
         src: "tilt-tracker/notifications.webp",
+        text: "You can pick SMS or email for reports, and audio, vibration, LED, or SMS for reminders. ",
         alt: "notification settings",
         type: "firebaseImage",
       },
       {
         src: "tilt-tracker/notification-settings.webp",
+        text: "Watching a movie? Reminders can be disabled.",
         alt: "notification settings",
         type: "firebaseImage",
       },
       {
         src: "tilt-tracker/interaction-diagram.webp",
+        text: "Care teams rely on fuzzy memories of compliance. Tilt Tracker reports create transparency.",
         alt: "notification settings",
         type: "firebaseImage",
         scaleFactor: 1.35,

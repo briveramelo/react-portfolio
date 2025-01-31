@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 interface UseAnimatedTextProps {
-  texts: string[];
+  texts: (string | undefined)[];
   msPerCharAdd?: number;
   msPerCharDelete?: number;
   startingPauseMs?: number;
@@ -38,20 +38,23 @@ export const useAnimatedText = ({
     }
   }, [triggerRestart]);
 
-  const getRandomizedSpeed = (baseSpeed: number, char: string) => {
+  const getRandomizedDelayMs = (baseDelayMs: number, char: string) => {
     let variation = Math.random() * variationFactor;
-    let speed =
-      baseSpeed * (1 + (Math.random() > 0.5 ? variation : -variation));
+    let delayMs =
+      baseDelayMs * (1 + (Math.random() > 0.5 ? variation : -variation));
 
-    // Slow down spaces slightly, speed up punctuation
-    if (char === " ") speed *= 1.2;
-    if (/[.,!?]/.test(char)) speed *= 0.8;
+    // speed up spaces slightly, slow down punctuation
+    if (char === " ") delayMs *= 0.9;
+    if (/[.!?]/.test(char)) delayMs *= 1.2;
 
-    return Math.max(10, speed);
+    return Math.max(1, delayMs);
   };
 
   useEffect(() => {
     if (texts.length === 0 || animationComplete) return;
+
+    const fullText = texts[selectedTextIndex];
+    if (!fullText) return;
 
     if (!hasStarted) {
       if (startingPauseMs <= 0) {
@@ -63,7 +66,6 @@ export const useAnimatedText = ({
     }
 
     let timeout: NodeJS.Timeout;
-    const fullText = texts[selectedTextIndex];
 
     if (!isDeleting) {
       if (animatedText.length < fullText.length) {
@@ -72,7 +74,7 @@ export const useAnimatedText = ({
           () => {
             setAnimatedText(fullText.slice(0, animatedText.length + 1));
           },
-          getRandomizedSpeed(msPerCharAdd, nextChar),
+          getRandomizedDelayMs(msPerCharAdd, nextChar),
         );
       } else {
         timeout = setTimeout(() => {
@@ -90,7 +92,7 @@ export const useAnimatedText = ({
           () => {
             setAnimatedText(fullText.slice(0, animatedText.length - 1));
           },
-          getRandomizedSpeed(msPerCharDelete, lastChar),
+          getRandomizedDelayMs(msPerCharDelete, lastChar),
         );
       } else {
         setIsDeleting(false);
