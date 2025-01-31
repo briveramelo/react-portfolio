@@ -17,6 +17,7 @@ import { useIntersectionObserver } from "../../utils/useIntersectionObserver.ts"
 import { keyframes } from "@emotion/react";
 import { Refresh } from "@mui/icons-material";
 import ScrollDownIndicator from "../components/reusable/ScrollDownIndicator.tsx";
+import { useAnimatedText } from "../../utils/useAnimatedText.ts";
 
 // Define the props for the Hero component
 interface HeroProps {
@@ -127,6 +128,23 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
       100% { transform: rotate(360deg); }
     `;
 
+    const rolesText = useAnimatedText({
+      texts: [
+        `Health Tech Innovator
+Lead Software Engineer
+Game Developer
+Project Manager
+Team Player`,
+      ],
+      msPerCharAdd: 60,
+      msPerCharDelete: 30,
+      startingPauseMs: 2000,
+      endingPauseMs: 1000,
+      loopAnimation: false,
+      variationFactor: 0.4,
+      triggerRestart: isSectionVisible,
+    });
+
     return (
       <Box
         component="section"
@@ -167,16 +185,46 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
               Rivera-Melo
             </Typography>
 
+            <Box
+              sx={{
+                mt: 2,
+                minHeight: "8.25rem",
+                lineHeight: "8.25rem",
+              }}
+            >
+              <ReactMarkdown
+                remarkPlugins={[remarkBreaks]}
+                components={{
+                  p: ({ children }) => (
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        fontSize: "1.25rem",
+                        color: textColor,
+                        maxWidth: "600px",
+                        minHeight: "1.25rem",
+                        lineHeight: "1.65rem",
+                      }}
+                    >
+                      {children}
+                    </Typography>
+                  ),
+                }}
+              >
+                {rolesText}
+              </ReactMarkdown>
+            </Box>
+
             <Typography
               variant="body1"
               sx={{
                 fontSize: "1.25rem",
-                mt: 2,
+                mt: 6,
                 color: textColor,
                 maxWidth: "600px",
               }}
             >
-              Crafting a healthier world with
+              Building a healthier world with
               <br />
               <i>tech and play</i>
             </Typography>

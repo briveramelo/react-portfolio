@@ -18,7 +18,7 @@ interface SkillsSectionProps {
 }
 
 const bounceAnim = generateGravityBounceScaleKeyframes(1, 1.1, 20, 3);
-const iconAnim = generateGravityBounceScaleKeyframes(1, 1.2, 20, 3);
+const iconAnim = generateGravityBounceScaleKeyframes(1, 1.3, 20, 3);
 export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
   ({ backgroundColor, textColor, id }, ref) => {
     const [isYearsOfExperience, setIsYearsOfExperience] =
@@ -75,6 +75,7 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
           <Box
             sx={{
               animation: hasClickedButton ? "" : `${iconAnim} 2s infinite`,
+              animationDelay: "-1s",
             }}
           >
             {isYearsOfExperience ? (
