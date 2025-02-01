@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Card, CardMedia, IconButton } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { MediaItem } from "../../../data/media";
@@ -22,11 +22,14 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
 }) => {
   const nextMedia = () => {
     onMediaChange((selectedIndex + 1) % media.length);
+    setHasBeenClicked(true);
   };
 
   const prevMedia = () => {
     onMediaChange(selectedIndex === 0 ? media.length - 1 : selectedIndex - 1);
+    setHasBeenClicked(true);
   };
+  const [hasBeenClicked, setHasBeenClicked] = useState<boolean>(false);
 
   return (
     <Box
@@ -47,9 +50,9 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
           position: "absolute",
           left: 10,
           zIndex: 2,
-          backgroundColor: "rgba(0,0,0,0.3)",
+          backgroundColor: hasBeenClicked ? "rgba(0,0,0,0.3)" : "rgba(255,106,0,0.5)",
           color: "white",
-          "&:hover": { backgroundColor: "rgba(0,0,0,0.5)" },
+          "&:hover": { backgroundColor: hasBeenClicked ? "rgba(0,0,0,0.3)" : "rgba(255,106,0,1)", },
         }}
       >
         <ArrowBack />
@@ -122,9 +125,9 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
           position: "absolute",
           right: 10,
           zIndex: 2,
-          backgroundColor: "rgba(0,0,0,0.3)",
+          backgroundColor: hasBeenClicked ? "rgba(0,0,0,0.3)" : "rgba(255,106,0,0.5)",
           color: "white",
-          "&:hover": { backgroundColor: "rgba(0,0,0,0.5)" },
+          "&:hover": { backgroundColor: hasBeenClicked ? "rgba(0,0,0,0.3)" : "rgba(255,106,0,1)", },
         }}
       >
         <ArrowForward />

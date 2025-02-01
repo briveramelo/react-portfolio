@@ -229,7 +229,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
               alignSelf: "center",
               px: 4,
               backgroundColor: "orange",
-              color: cp("text.paper"),
+              color: "black",
               "&:hover": { transform: "scale(1.1) !important" },
             }}
             className="pop-shadow"
