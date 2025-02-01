@@ -155,6 +155,7 @@ Team Player`,
           backgroundColor: backgroundColor,
           color: textColor,
           scrollMarginTop: "80px",
+          minHeight: "100vh",
         }}
         ref={ref}
       >

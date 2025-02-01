@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import { HighlightedText } from "./reusable/HighlightedText.tsx";
@@ -7,7 +7,6 @@ import InvertableImage from "./reusable/InvertableImage.tsx";
 import { cp } from "../../utils/utils.ts";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 import { Collapsible } from "./reusable/Collapsible.tsx";
-import AnimatedCursor from "./specialty/AnimatedCursor.tsx";
 import { useCursor } from "../../context/CursorContext.tsx";
 
 interface ProjectCardProps {
@@ -17,6 +16,7 @@ interface ProjectCardProps {
   targetDestinationX: string;
   slideDurationMs: number;
   animationComplete: boolean;
+  hasAnyBeenClicked: boolean;
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -26,15 +26,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   targetDestinationX,
   slideDurationMs,
   animationComplete,
+  hasAnyBeenClicked,
 }) => {
   const isOnScreen = targetDestinationX === "0";
   const borderRadius = "8px";
   const cardHover = useHoverTracking();
-  const { setIsHovered } = useCursor();
-
-  useEffect(() => {
-    setIsHovered(cardHover.isHovered);
-  }, [cardHover.isHovered]);
+  const hoverKey = "card";
+  const { onHoverChange } = useCursor();
 
   return (
     <Box
@@ -60,9 +58,22 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           borderRadius,
         }}
         className="pop-shadow"
-        onMouseEnter={cardHover.trackMouseEnter}
-        onMouseLeave={cardHover.trackMouseLeave}
-        onClick={onClick}
+        onMouseEnter={() => {
+          if (!hasAnyBeenClicked) {
+            onHoverChange(hoverKey, true);
+          }
+          cardHover.trackMouseEnter();
+        }}
+        onMouseLeave={(event: React.MouseEvent<HTMLElement>) => {
+          if (!hasAnyBeenClicked) {
+            onHoverChange(hoverKey, false);
+          }
+          cardHover.trackMouseLeave(event);
+        }}
+        onClick={() => {
+          onHoverChange(hoverKey, false);
+          onClick();
+        }}
         id={`project_card_${projectData.title}`}
       >
         {/* IMAGE */}

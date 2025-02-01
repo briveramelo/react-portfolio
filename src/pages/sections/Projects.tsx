@@ -33,6 +33,8 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
     const [selectedProjectDetails, setSelectedProjectDetails] =
       useState<ProjectDetail | null>(null);
     const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false); // keeping separate from 'selectedProjectDetails === null' supports transition state nuances
+    const [hasProjectBeenSelected, setHasProjectBeenSelected] =
+      useState<boolean>(false);
     const [isAnimationComplete, setIsAnimationComplete] =
       useState<boolean>(true);
     const slideDurationMs = 750;
@@ -68,6 +70,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
       if (matchingDetails === null) console.error("no matching details found");
       setSelectedProjectDetails(matchingDetails);
       setIsProjectSelected(true);
+      setHasProjectBeenSelected(true);
       setIsAnimationComplete(false);
       setTimeout(() => {
         setIsAnimationComplete(true);
@@ -96,12 +99,12 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
         component="section"
         id={id}
         sx={{
-          py: 10,
+          pt: 10,
           backgroundColor: backgroundColor,
           color: textColor,
           position: "relative",
           overflow: "hidden",
-          minHeight: "500px",
+          minHeight: "100vh",
         }}
         ref={ref}
       >
@@ -210,6 +213,7 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
                   }
                   animationComplete={isAnimationComplete}
                   slideDurationMs={slideDurationMs}
+                  hasAnyBeenClicked={hasProjectBeenSelected}
                 />
               ))}
             </HoverExpandContainer>
