@@ -224,11 +224,12 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
             ref={heartTriggerRef}
             type="submit"
             variant="contained"
-            color="primary"
             sx={{
               zIndex: 1,
               alignSelf: "center",
               px: 4,
+              backgroundColor: "orange",
+              color: cp("text.paper"),
               "&:hover": { transform: "scale(1.1) !important" },
             }}
             className="pop-shadow"
