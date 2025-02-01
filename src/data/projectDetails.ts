@@ -104,7 +104,6 @@ export const projectDetails: ProjectDetail[] = [
         text: "Care teams rely on fuzzy memories of compliance. Tilt Tracker reports create transparency.",
         alt: "notification settings",
         type: "firebaseImage",
-        scaleFactor: 1.35,
       },
       {
         src: "tilt-tracker/sample-relief-report.pdf",
@@ -133,12 +132,12 @@ export const projectDetails: ProjectDetail[] = [
       },
       {
         src: "tilt-tracker/logo.svg",
-        alt: "",
+        alt: "tilt tracker logo",
         type: "firebaseImage",
       },
       {
         src: joshTilt,
-        alt: "",
+        alt: "man in chair looking out window",
         type: "image",
       },
     ],

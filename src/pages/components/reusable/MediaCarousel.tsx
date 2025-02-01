@@ -56,7 +56,14 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
       </IconButton>
 
       {/* Media Display */}
-      <Card sx={{ width: "100%", borderRadius: 2, height }}>
+      <Card
+        sx={{
+          width: "100%",
+          borderRadius: 2,
+          height,
+          backgroundColor: "transparent",
+        }}
+      >
         {(() => {
           switch (media[selectedIndex].type) {
             case "firebaseImage":
@@ -64,7 +71,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                 <FirebaseImage
                   firebaseImagePath={media[selectedIndex].src}
                   height={height}
-                  scaleFactor={media[selectedIndex].scaleFactor}
+                  alt={media[selectedIndex].alt}
                 />
               );
             case "image":
