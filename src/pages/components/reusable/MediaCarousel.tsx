@@ -50,9 +50,15 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
           position: "absolute",
           left: 10,
           zIndex: 2,
-          backgroundColor: hasBeenClicked ? "rgba(0,0,0,0.3)" : "rgba(255,106,0,0.5)",
+          backgroundColor: hasBeenClicked
+            ? "rgba(0,0,0,0.3)"
+            : "rgba(255,106,0,0.5)",
           color: "white",
-          "&:hover": { backgroundColor: hasBeenClicked ? "rgba(0,0,0,0.3)" : "rgba(255,106,0,1)", },
+          "&:hover": {
+            backgroundColor: hasBeenClicked
+              ? "rgba(0,0,0,0.3)"
+              : "rgba(255,106,0,1)",
+          },
         }}
       >
         <ArrowBack />
@@ -125,9 +131,15 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
           position: "absolute",
           right: 10,
           zIndex: 2,
-          backgroundColor: hasBeenClicked ? "rgba(0,0,0,0.3)" : "rgba(255,106,0,0.5)",
+          backgroundColor: hasBeenClicked
+            ? "rgba(0,0,0,0.3)"
+            : "rgba(255,106,0,0.5)",
           color: "white",
-          "&:hover": { backgroundColor: hasBeenClicked ? "rgba(0,0,0,0.3)" : "rgba(255,106,0,1)", },
+          "&:hover": {
+            backgroundColor: hasBeenClicked
+              ? "rgba(0,0,0,0.3)"
+              : "rgba(255,106,0,1)",
+          },
         }}
       >
         <ArrowForward />
