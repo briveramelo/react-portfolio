@@ -17,13 +17,7 @@ export const HoverExpandContainer: React.FC<HoverExpandContainerProps> = ({
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <Box
-      display="flex"
-      flexDirection="row"
-      flexWrap="wrap"
-      gap={2}
-      mx="auto"
-    >
+    <Box display="flex" flexDirection="row" flexWrap="wrap" gap={2} mx="auto">
       {React.Children.map(children, (child, index) => (
         <Box
           sx={{

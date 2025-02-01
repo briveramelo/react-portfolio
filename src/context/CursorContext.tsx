@@ -5,14 +5,16 @@ interface CursorContextProps {
   setIsHovered: (hovered: boolean) => void;
 }
 
-export const CursorContext = createContext<CursorContextProps | undefined>(undefined);
+export const CursorContext = createContext<CursorContextProps | undefined>(
+  undefined,
+);
 
 export const CursorProvider = ({ children }: { children: ReactNode }) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
   return (
     <CursorContext.Provider value={{ isHovered, setIsHovered }}>
-        {children}
+      {children}
     </CursorContext.Provider>
   );
 };

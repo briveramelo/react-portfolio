@@ -34,7 +34,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
   useEffect(() => {
     setIsHovered(cardHover.isHovered);
-  },[cardHover.isHovered])
+  }, [cardHover.isHovered]);
 
   return (
     <Box
@@ -191,7 +191,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                       <Typography
                         variant="body1"
                         fontSize={{ xs: "1rem", md: "1rem" }}
-                        sx={{ color: cp("text.secondary"), whiteSpace: "normal" }}
+                        sx={{
+                          color: cp("text.secondary"),
+                          whiteSpace: "normal",
+                        }}
                       >
                         {children}
                       </Typography>

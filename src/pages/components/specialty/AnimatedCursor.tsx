@@ -9,7 +9,11 @@ interface AnimatedCursorProps {
   durationMs: number;
 }
 
-export const AnimatedCursor: React.FC<AnimatedCursorProps> = ({ color, size, durationMs }) => {
+export const AnimatedCursor: React.FC<AnimatedCursorProps> = ({
+  color,
+  size,
+  durationMs,
+}) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const { isHovered } = useCursor();
 
@@ -37,22 +41,26 @@ export const AnimatedCursor: React.FC<AnimatedCursorProps> = ({ color, size, dur
     animation: `${expandAnimation} 2s infinite linear`,
   };
 
-  return (isHovered && (
-    <Box
-      sx={{
-        position: "fixed",
-        top: position.y,
-        left: position.x,
-        width: size,
-        height: size,
-        pointerEvents: "none",
-        zIndex: 10000,
-      }}
-    >
-      <RadioButtonUncheckedIcon sx={{ ...animStyle }} />
-      <RadioButtonUncheckedIcon sx={{ ...animStyle, animationDelay: `${durationMs}ms` }} />
-    </Box>
-  ));
+  return (
+    isHovered && (
+      <Box
+        sx={{
+          position: "fixed",
+          top: position.y,
+          left: position.x,
+          width: size,
+          height: size,
+          pointerEvents: "none",
+          zIndex: 10000,
+        }}
+      >
+        <RadioButtonUncheckedIcon sx={{ ...animStyle }} />
+        <RadioButtonUncheckedIcon
+          sx={{ ...animStyle, animationDelay: `${durationMs}ms` }}
+        />
+      </Box>
+    )
+  );
 };
 
 export default AnimatedCursor;
