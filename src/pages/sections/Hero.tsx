@@ -73,9 +73,11 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
             ? FIRST_ANIMATION_START_DELAY_MS
             : ANIMATION_START_DELAY_MS,
           action: () => {
-            setTransitionDurationMs(isFirstAnimation
-              ? FIRST_ANIMATED_TRANSITION_DURATION_MS
-              : ANIMATED_TRANSITION_DURATION_MS);
+            setTransitionDurationMs(
+              isFirstAnimation
+                ? FIRST_ANIMATED_TRANSITION_DURATION_MS
+                : ANIMATED_TRANSITION_DURATION_MS,
+            );
             setTargetRotationDeg(360);
           },
         },
@@ -195,9 +197,10 @@ Team Player`,
       ],
       msPerCharAdd: 60,
       msPerCharDelete: 30,
-      startingPauseMs: isFirstAnimation ?
-        FIRST_ANIMATION_START_DELAY_MS + FIRST_ANIMATED_TRANSITION_DURATION_MS/2
-        : ANIMATION_START_DELAY_MS + ANIMATED_TRANSITION_DURATION_MS/2,
+      startingPauseMs: isFirstAnimation
+        ? FIRST_ANIMATION_START_DELAY_MS +
+          FIRST_ANIMATED_TRANSITION_DURATION_MS / 2
+        : ANIMATION_START_DELAY_MS + ANIMATED_TRANSITION_DURATION_MS / 2,
       endingPauseMs: 1000,
       loopAnimation: false,
       variationFactor: 0.4,
