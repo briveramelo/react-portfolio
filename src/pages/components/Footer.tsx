@@ -52,7 +52,7 @@ export const Footer: React.FC<FooterProps> = ({
           <Box sx={{ width: 10 }} flexShrink={1}></Box>
           <SteamingCoffee />
           <Box sx={{ width: 20 }} flexShrink={1}></Box>
-          <ReactIconAnimation />
+          <ReactIconAnimation triggerRef={heartTriggerRef} />
         </Box>
         <Typography variant="body2" sx={{ color: textColor }}>
           I use{" "}

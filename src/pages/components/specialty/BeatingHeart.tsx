@@ -71,7 +71,7 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
         element.removeEventListener("mouseleave", handleMouseLeave);
       };
     },
-    [startHeartbeat, trackMouseEnter, trackMouseLeave],
+    [startHeartbeat],
   );
 
   useEffect(() => {

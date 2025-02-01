@@ -1,11 +1,24 @@
-import React, { MouseEvent, useEffect, useRef, useState } from "react";
+import React, {
+  MouseEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Box } from "@mui/material";
 import { useHoverTracking } from "../../../tracking/useHoverTracking.ts";
 
-export const ReactIconAnimation = () => {
+interface ReactIconAnimationProps {
+  triggerRef?: React.RefObject<HTMLButtonElement>;
+}
+
+export const ReactIconAnimation: React.FC<ReactIconAnimationProps> = ({
+  triggerRef,
+}) => {
   const { trackMouseEnter, trackMouseLeave, hasBeenHovered } =
     useHoverTracking();
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const boxRef = useRef<HTMLElement | null>(null);
   const ellipseRefs = useRef<(SVGElement | null)[]>([]);
   const circleRef = useRef<SVGCircleElement | null>(null);
   const ellipseAnglesRef = useRef<number[]>([0, 120, 240]);
@@ -42,19 +55,9 @@ export const ReactIconAnimation = () => {
     return 0;
   };
 
-  const handleOnHover = (
-    event: MouseEvent<HTMLDivElement> | null,
-    entering: boolean,
-  ) => {
-    hoverStartTimeRef.current = performance.now();
+  const handleOnHover = (entering: boolean) => {
     setIsHovered(entering);
-
-    if (entering) {
-      trackMouseEnter();
-    } else if (event) {
-      trackMouseLeave(event);
-    }
-
+    hoverStartTimeRef.current = performance.now();
     ellipseRefs.current.forEach((ellipse, i) => {
       ellipseAnglesRef.current[i] = getCurrentAngleDeg(ellipse);
     });
@@ -147,6 +150,40 @@ export const ReactIconAnimation = () => {
     return () => cancelAnimationFrame(animId);
   }, [isHovered]);
 
+  const addHoverListeners = useCallback((element: HTMLElement | null) => {
+    if (!element) return;
+
+    const handleMouseEnter = () => {
+      handleOnHover(true);
+    };
+
+    const handleMouseLeave = () => {
+      handleOnHover(false);
+    };
+
+    element.addEventListener("mouseenter", handleMouseEnter);
+    element.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      element.removeEventListener("mouseenter", handleMouseEnter);
+      element.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (triggerRef?.current) {
+      const removeListeners = addHoverListeners(triggerRef.current);
+      return () => removeListeners && removeListeners();
+    }
+  }, [triggerRef, addHoverListeners]);
+
+  useEffect(() => {
+    if (boxRef?.current) {
+      const removeListeners = addHoverListeners(boxRef.current);
+      return () => removeListeners && removeListeners();
+    }
+  }, [boxRef, addHoverListeners]);
+
   return (
     <Box
       sx={{
@@ -164,8 +201,9 @@ export const ReactIconAnimation = () => {
       <Box
         zIndex={1}
         sx={{ position: "absolute", height: 65, width: 65 }}
-        onMouseEnter={() => handleOnHover(null, true)}
-        onMouseLeave={(e) => handleOnHover(e, false)}
+        ref={boxRef}
+        onMouseEnter={trackMouseEnter}
+        onMouseLeave={trackMouseLeave}
       />
       <svg
         xmlns="http://www.w3.org/2000/svg"
