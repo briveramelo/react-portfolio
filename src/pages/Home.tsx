@@ -9,6 +9,7 @@ import { ContactSection } from "./sections/ContactSection";
 import { Employers } from "./sections/Employers";
 import { ThemeMode, useCustomPalette } from "../theme";
 import { sectionStyles } from "../data/sectionStyles";
+import AnimatedCursor from "./components/specialty/AnimatedCursor.tsx";
 
 export function HomePage() {
   const { mode } = useCustomPalette();
@@ -87,6 +88,7 @@ export function HomePage() {
         backgroundColor={sectionStyles.contact.backgroundColor}
         textColor={sectionStyles.contact.textColor}
       />
+      <AnimatedCursor size={30} durationMs={1000} color={"orange"}/>
     </>
   );
 }

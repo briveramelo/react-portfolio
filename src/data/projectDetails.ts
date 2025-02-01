@@ -1,6 +1,6 @@
 import { SkillData } from "./skillsData";
 import { projectData } from "./projectData.ts";
-import joshTilt from "@/assets/projects/josh-tilt.webp";
+import joshTilt from "@/assets/projects/josh-tilt-cropped.webp";
 import abcmouse from "@/assets/projects/abcmouse.webp";
 import clawface from "@/assets/projects/clawface.jpg";
 import { MediaItem } from "./media.ts";

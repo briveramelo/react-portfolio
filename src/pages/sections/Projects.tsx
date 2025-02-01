@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useRef, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import {
   Container,
   Typography,
@@ -16,6 +16,7 @@ import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
 import { Collapsible } from "../components/reusable/Collapsible.tsx";
 import { ProjectDetail, projectDetails } from "../../data/projectDetails.ts";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
+import { HoverExpandContainer } from "../components/reusable/HoverExpandContainer.tsx";
 
 interface ProjectsProps {
   backgroundColor: string;
@@ -193,34 +194,25 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
 
           {/* Project Cards */}
           <Collapsible durationMs={slideDurationMs} isOpen={!isProjectSelected}>
-            <Box
-              maxWidth="lg"
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 8,
-                mx: "auto",
-              }}
+            <HoverExpandContainer
+              maxFlex={2}
+              minFlex={1}
+              transitionDurationMs={600}
             >
               {projectData.map((project, index) => (
                 <ProjectCard
                   key={project.title}
                   projectData={project}
-                  flipped={index % 2 === 0}
                   useLight={useLight}
                   onClick={() => handleCardClick(project)}
                   targetDestinationX={
-                    isProjectSelected || !isSectionVisibleLag
-                      ? index % 2 === 0
-                        ? "-100vw"
-                        : "100vw"
-                      : "0"
+                    isProjectSelected || !isSectionVisibleLag ? "-100vw" : "0"
                   }
                   animationComplete={isAnimationComplete}
                   slideDurationMs={slideDurationMs}
                 />
               ))}
-            </Box>
+            </HoverExpandContainer>
           </Collapsible>
 
           {/* Selected Project Details */}

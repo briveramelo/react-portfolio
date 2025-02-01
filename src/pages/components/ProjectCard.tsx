@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import { HighlightedText } from "./reusable/HighlightedText.tsx";
@@ -6,10 +6,12 @@ import { Project } from "../../data/projectData.ts";
 import InvertableImage from "./reusable/InvertableImage.tsx";
 import { cp } from "../../utils/utils.ts";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
+import { Collapsible } from "./reusable/Collapsible.tsx";
+import AnimatedCursor from "./specialty/AnimatedCursor.tsx";
+import { useCursor } from "../../context/CursorContext.tsx";
 
 interface ProjectCardProps {
   projectData: Project;
-  flipped?: boolean;
   useLight: boolean;
   onClick: () => void;
   targetDestinationX: string;
@@ -19,7 +21,6 @@ interface ProjectCardProps {
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
   projectData,
-  flipped = false,
   useLight,
   onClick,
   targetDestinationX,
@@ -29,13 +30,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   const isOnScreen = targetDestinationX === "0";
   const borderRadius = "8px";
   const cardHover = useHoverTracking();
-  const learnMoreHover = useHoverTracking();
+  const { setIsHovered } = useCursor();
+
+  useEffect(() => {
+    setIsHovered(cardHover.isHovered);
+  },[cardHover.isHovered])
 
   return (
     <Box
-      onMouseEnter={cardHover.trackMouseEnter}
-      onMouseLeave={cardHover.trackMouseLeave}
-      id={`project_card_${projectData.title}`}
       sx={{
         position: "relative",
         visibility: !isOnScreen && animationComplete ? "hidden" : "visible",
@@ -44,65 +46,24 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             ? ""
             : `transform ${slideDurationMs}ms ease-in-out !important`,
         transform: `translate3d(${targetDestinationX}, 0, 0)`,
+        cursor: "pointer",
         willChange: "transform", // first time (and subsequent) appearance is key
-        "&:hover": {
-          "& #learn_more_slide_target": {
-            transform: "translateY(-38px)",
-          },
-        },
       }}
     >
-      {/* "Learn More" Button */}
-      <Box
-        id="learn_more_slide_target"
-        sx={{
-          position: "absolute",
-          transform: "translateY(-5px)",
-          left: flipped ? "2px" : "auto",
-          right: flipped ? "auto" : "2px",
-          zIndex: 1,
-          display: "flex",
-          justifyContent: "flex-start",
-          transition: "transform 0.3s ease !important",
-          willChange: isOnScreen ? "transform" : "", //conditional works well, since there is a delay in first animation
-        }}
-      >
-        <Box
-          id={`project_learn_more_${projectData.title}`}
-          className={"pop-shadow"}
-          component="button"
-          onClick={onClick}
-          onMouseEnter={learnMoreHover.trackMouseEnter}
-          onMouseLeave={learnMoreHover.trackMouseLeave}
-          sx={{
-            px: 3,
-            py: 1.5,
-            borderRadius: "8px 8px 0px 0px",
-            fontSize: "0.875rem",
-            fontWeight: "bold",
-            backgroundColor: projectData.color,
-            color: projectData.textColor,
-            border: "none",
-            cursor: "pointer",
-            textTransform: "uppercase",
-          }}
-        >
-          Learn More
-        </Box>
-      </Box>
-
       <Card
         sx={{
           position: "relative",
-          zIndex: 2,
           display: "flex",
-          flexDirection: { xs: "column", md: flipped ? "row-reverse" : "row" },
+          flexDirection: "column",
           alignItems: "stretch",
           backgroundColor: cp("background.paper"),
           borderRadius,
-          overflow: "visible",
         }}
-        className="subtle-shadow"
+        className="pop-shadow"
+        onMouseEnter={cardHover.trackMouseEnter}
+        onMouseLeave={cardHover.trackMouseLeave}
+        onClick={onClick}
+        id={`project_card_${projectData.title}`}
       >
         {/* IMAGE */}
         <CardMedia
@@ -111,16 +72,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           src={projectData.image}
           alt={projectData.title}
           sx={{
-            width: { xs: "100%", md: "50%" },
-            height: "auto",
-            objectFit: "cover",
-            flexShrink: 1,
-            borderRadius: {
-              xs: `${borderRadius} ${borderRadius} 0 0`, // Rounded top corners on small screens
-              md: flipped
-                ? `0 ${borderRadius} ${borderRadius} 0`
-                : `${borderRadius} 0 0 ${borderRadius}`, // Rounded outer corners on large screens
-            },
+            minHeight: "250px",
+            maxHeight: "600px",
+            minWidth: "300px",
+            borderRadius: `${borderRadius} ${borderRadius} 0 0`,
           }}
         />
 
@@ -133,7 +88,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             p: 3,
             gap: 3,
             flexGrow: 1,
-            overflow: "visible", // So text isn't clipped
           }}
         >
           {/* MAIN CONTENT AREA */}
@@ -189,6 +143,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 sx={{
                   display: "flex",
                   alignItems: "center",
+                  alignContent: "center",
+                  justifyContent: "center",
                   gap: 1,
                   flexWrap: "wrap",
                 }}
@@ -204,7 +160,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                     }}
                   >
                     <img
-                      src={employer.colorSrc}
+                      src={employer.logoSrc}
                       alt={employer.name}
                       style={{
                         maxHeight: "100%",
@@ -219,32 +175,36 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             </Box>
 
             {/* DESCRIPTION */}
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 2,
-              }}
-            >
-              <ReactMarkdown
-                components={{
-                  p: ({ children }) => (
-                    <Typography
-                      variant="body1"
-                      fontSize={{ xs: "1rem", md: "1.25rem" }}
-                      sx={{ color: cp("text.secondary"), whiteSpace: "normal" }}
-                    >
-                      {children}
-                    </Typography>
-                  ),
-                  strong: ({ children }) => (
-                    <HighlightedText>{children}</HighlightedText>
-                  ),
+            <Collapsible durationMs={200} isOpen={cardHover.isHovered}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 2,
+                  opacity: cardHover.isHovered ? 1 : 0,
+                  transition: "opacity 0.5s ease",
                 }}
               >
-                {projectData.description}
-              </ReactMarkdown>
-            </Box>
+                <ReactMarkdown
+                  components={{
+                    p: ({ children }) => (
+                      <Typography
+                        variant="body1"
+                        fontSize={{ xs: "1rem", md: "1rem" }}
+                        sx={{ color: cp("text.secondary"), whiteSpace: "normal" }}
+                      >
+                        {children}
+                      </Typography>
+                    ),
+                    strong: ({ children }) => (
+                      <HighlightedText>{children}</HighlightedText>
+                    ),
+                  }}
+                >
+                  {projectData.description}
+                </ReactMarkdown>
+              </Box>
+            </Collapsible>
           </Box>
 
           {/* SKILLS */}
@@ -252,7 +212,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             sx={{
               display: "flex",
               flexWrap: "wrap",
-              gap: 1.5,
+              gap: 1.17,
               mt: "auto",
             }}
           >

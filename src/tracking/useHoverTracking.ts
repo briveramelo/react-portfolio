@@ -6,9 +6,11 @@ export const useHoverTracking = () => {
     number | null
   >(null);
   const [hasBeenHovered, setHasBeenHovered] = useState<boolean>(false);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
 
   const trackMouseEnter = () => {
     setHoverStartTimeMillis(performance.now());
+    setIsHovered(true);
   };
 
   const trackMouseLeave = (event: React.MouseEvent<HTMLElement>) => {
@@ -23,6 +25,7 @@ export const useHoverTracking = () => {
       }
     }
     setHoverStartTimeMillis(null);
+    setIsHovered(false);
   };
 
   // Cleanup in case of unmounting or window changes
@@ -42,5 +45,6 @@ export const useHoverTracking = () => {
     trackMouseEnter,
     trackMouseLeave,
     hasBeenHovered,
+    isHovered,
   };
 };
