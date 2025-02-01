@@ -19,31 +19,37 @@ import { Refresh } from "@mui/icons-material";
 import ScrollDownIndicator from "../components/reusable/ScrollDownIndicator.tsx";
 import { useAnimatedText } from "../../utils/useAnimatedText.ts";
 
-// Define the props for the Hero component
 interface HeroProps {
   backgroundColor: string;
   textColor: string;
   id: string;
 }
 const pulseAnimation = generateSinusoidalScaleKeyframes(1, 0.3, 20, 3);
+const FIRST_ANIMATION_START_DELAY_MS = 1500;
+const ANIMATION_START_DELAY_MS = 750;
+const FIRST_ANIMATED_TRANSITION_DURATION_MS = 4000;
+const ANIMATED_TRANSITION_DURATION_MS = 3000; // used when the script controls the animation
+const USER_TRANSITION_DURATION_MS = 500; // used when the user controls it on hover
 
 export const Hero = forwardRef<HTMLElement, HeroProps>(
   ({ backgroundColor, textColor, id }, ref) => {
-    const [targetRotationDeg, setTargetRotationDeg] = useState<number>(180);
+    const [targetRotationDeg, setTargetRotationDeg] = useState<number>(0);
     const [instantFlip, setInstantFlip] = useState<boolean>(false);
-    const [transitionDurationMs, setTransitionDurationMs] =
-      useState<number>(1000);
-    const startTimeToShowMs = 1500;
-    const startTimeRefMs = useRef<number | null>(null);
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-    const containerRef = useRef<HTMLDivElement>(null);
-    const [isStarting, setIsStarting] = useState<boolean>(true);
+    const [transitionDurationMs, setTransitionDurationMs] = useState<number>(
+      FIRST_ANIMATED_TRANSITION_DURATION_MS,
+    );
+    const [isFirstAnimation, setIsFirstAnimation] = useState<boolean>(true);
+    const [isAnimating, setIsAnimating] = useState<boolean>(true);
     const [hasHoveredCard, setHasHoveredCard] = useState<boolean>(false);
     const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
     const isSectionVisible = useIntersectionObserver(
       ref as React.RefObject<HTMLElement>,
       { threshold: 0.1 },
     );
+    const startTimeRefMs = useRef<number | null>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+
     useFlareEffect({
       canvasRef,
       containerRef,
@@ -53,19 +59,80 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
       durationMs: 15000,
     });
 
-    useEffect(() => {
-      const timer = setTimeout(() => {
-        setTargetRotationDeg(0);
-        setTimeout(() => {
-          setIsStarting(false);
-          setTransitionDurationMs(500);
-        }, transitionDurationMs);
-      }, startTimeToShowMs);
+    const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
+    // Helper function that sequences the spin steps.
+    // Each step specifies a delay (relative to the previous step) and an action.
+    const runSpinSequence = (): ReturnType<typeof setTimeout>[] => {
+      const timers: ReturnType<typeof setTimeout>[] = [];
+      let accumulatedDelay = 0;
+      const sequence = [
+        {
+          // Do a flip
+          delay: isFirstAnimation
+            ? FIRST_ANIMATION_START_DELAY_MS
+            : ANIMATION_START_DELAY_MS,
+          action: () => {
+            setTransitionDurationMs(isFirstAnimation
+              ? FIRST_ANIMATED_TRANSITION_DURATION_MS
+              : ANIMATED_TRANSITION_DURATION_MS);
+            setTargetRotationDeg(360);
+          },
+        },
+        {
+          // Secretly reset rotation back to 0
+          delay: isFirstAnimation
+            ? FIRST_ANIMATED_TRANSITION_DURATION_MS
+            : ANIMATED_TRANSITION_DURATION_MS,
+          action: () => {
+            setInstantFlip(true);
+            setTargetRotationDeg(0);
+            setTransitionDurationMs(USER_TRANSITION_DURATION_MS);
+            requestAnimationFrame(() => {
+              setInstantFlip(false);
+              setIsAnimating(false);
+              setIsFirstAnimation(false);
+            });
+          },
+        },
+      ];
+
+      sequence.forEach((step) => {
+        accumulatedDelay += step.delay;
+        timers.push(setTimeout(step.action, accumulatedDelay));
+      });
+
+      return timers;
+    };
+
+    // Runs the interaction-encouragement-animation with cleanup
+    useEffect(() => {
+      if (isSectionVisible) {
+        // Reset to the front
+        setIsAnimating(true);
+        setInstantFlip(true);
+        setTargetRotationDeg(0);
+        requestAnimationFrame(() => setInstantFlip(false));
+
+        // Clear any existing timers before starting a new sequence.
+        timersRef.current.forEach((timer) => clearTimeout(timer));
+        timersRef.current = runSpinSequence();
+      } else {
+        // When leaving the section, clear any pending timers and reset animation state.
+        timersRef.current.forEach((timer) => clearTimeout(timer));
+        timersRef.current = [];
+        setIsAnimating(false);
+        setInstantFlip(true);
+        setTargetRotationDeg(0);
+        requestAnimationFrame(() => setInstantFlip(false));
+      }
+
+      // Cleanup if the component unmounts or dependencies change.
       return () => {
-        clearTimeout(timer);
+        timersRef.current.forEach((timer) => clearTimeout(timer));
+        timersRef.current = [];
       };
-    }, []);
+    }, [isSectionVisible]);
 
     // Track if the animation has completed x (eg: 0.2 => 20%) of the total
     const hasTransitionElapsedProportion = (proportion: number): boolean => {
@@ -80,46 +147,36 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
       return event.clientX - left > width / 2;
     };
 
-    // Mouse enters: spin left (-180) or spin right (180)
+    const entrySideRef = useRef<"left" | "right" | null>(null);
     const handleMouseEnter = (event: MouseEvent<HTMLDivElement>): void => {
-      if (isStarting) return;
-      setTargetRotationDeg(isRight(event) ? -180 : 180);
+      if (isAnimating) return;
+
+      const entrySide = isRight(event) ? "right" : "left";
+      entrySideRef.current = entrySide;
+
+      // Set an initial rotation: 180° if entering from left,
+      // -180° if entering from right.
+      setTargetRotationDeg(
+        (prev) => prev + (entrySide === "right" ? -180 : 180),
+      );
       startTimeRefMs.current = performance.now();
       trackMouseEnter();
     };
 
-    // Mouse leaves: either rotate back to 0 with or without an instant flip
     const handleMouseLeave = (event: MouseEvent<HTMLDivElement>): void => {
-      if (isStarting) return;
+      if (isAnimating || !entrySideRef.current) return;
 
-      // proxy for if the user knows the card is interactable
-      // then rotating icon can sit calmly
       if (hasTransitionElapsedProportion(1)) {
         setHasHoveredCard(true);
       }
+      const exitSide = isRight(event) ? "right" : "left";
+      const initialEffect = entrySideRef.current === "right" ? -180 : 180;
+      const additional =
+        exitSide === entrySideRef.current ? -initialEffect : initialEffect;
+      setTargetRotationDeg((prev) => prev + additional);
 
-      const leavingRight = isRight(event);
-      const shouldInstantFlip =
-        hasTransitionElapsedProportion(0.5) &&
-        ((targetRotationDeg === 180 && leavingRight) ||
-          (targetRotationDeg === -180 && !leavingRight));
-
-      if (shouldInstantFlip) {
-        setInstantFlip(true);
-        setTargetRotationDeg((prev) => (prev === 180 ? -180 : 180));
-
-        // Wait a frame for the above to render with no transition
-        // Then re-enable transitions and smoothly rotate to 0
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            setInstantFlip(false);
-            setTargetRotationDeg(0);
-          });
-        });
-      } else {
-        setTargetRotationDeg(0);
-      }
-      startTimeRefMs.current = null; // Reset the start time
+      startTimeRefMs.current = null;
+      entrySideRef.current = null;
       trackMouseLeave(event);
     };
 
@@ -138,7 +195,9 @@ Team Player`,
       ],
       msPerCharAdd: 60,
       msPerCharDelete: 30,
-      startingPauseMs: 2000,
+      startingPauseMs: isFirstAnimation ?
+        FIRST_ANIMATION_START_DELAY_MS + FIRST_ANIMATED_TRANSITION_DURATION_MS/2
+        : ANIMATION_START_DELAY_MS + ANIMATED_TRANSITION_DURATION_MS/2,
       endingPauseMs: 1000,
       loopAnimation: false,
       variationFactor: 0.4,

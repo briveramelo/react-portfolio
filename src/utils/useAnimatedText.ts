@@ -29,13 +29,12 @@ export const useAnimatedText = ({
 
   useEffect(() => {
     if (triggerRestart) {
-      setHasStarted(false);
       setSelectedTextIndex(0);
       setIsDeleting(false);
-      setAnimationComplete(false);
-    } else {
-      setAnimatedText("");
     }
+    setHasStarted(!triggerRestart);
+    setAnimationComplete(!triggerRestart);
+    setAnimatedText("");
   }, [triggerRestart]);
 
   const getRandomizedDelayMs = (baseDelayMs: number, char: string) => {
@@ -65,7 +64,7 @@ export const useAnimatedText = ({
       return () => clearTimeout(timeout);
     }
 
-    let timeout: NodeJS.Timeout;
+    let timeout: any;
 
     if (!isDeleting) {
       if (animatedText.length < fullText.length) {

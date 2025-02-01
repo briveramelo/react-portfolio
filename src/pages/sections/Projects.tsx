@@ -171,28 +171,12 @@ export const Projects = forwardRef<HTMLElement, ProjectsProps>(
                 sx={{
                   fontWeight: "bold",
                   color: textColor,
-                  mb: 2,
                   flexGrow: isXs ? 1 : "unset", // Allows text to take up remaining space in xs mode
                 }}
               >
                 {isProjectSelected ? selectedProjectDetails?.title : "Projects"}
               </Typography>
             </Box>
-
-            <Typography
-              variant="body1"
-              sx={{
-                color: textColor,
-                maxWidth: 600,
-                margin: "0 auto",
-                height: isXs ? "3rem" : "2rem",
-              }}
-            >
-              {isProjectSelected
-                ? selectedProjectDetails?.description
-                : "Select a project to explore my technical expertise, innovation," +
-                  "                impact, and empathy."}
-            </Typography>
           </Box>
 
           {/* Project Cards */}
