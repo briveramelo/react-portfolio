@@ -6,6 +6,7 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from "react";
+import ReactDOM from "react-dom";
 import { styled, useTheme, SxProps, Theme, keyframes } from "@mui/material";
 import Box from "@mui/material/Box";
 import { generateProjectileKeyframes } from "../../../utils/keyframeGenerator";
@@ -39,35 +40,33 @@ interface SparkProps {
 }
 
 const Spark = forwardRef<SparkHandle, SparkProps>(({ sparkAnimation }, ref) => {
-  // Internal state for position and a restart counter.
   const [state, setState] = useState<{
     left: number;
     top: number;
     restartKey: number;
   }>({
-    left: 0,
-    top: 0,
+    left: -9999, // hack to keep first few offscreen
+    top: -9999, // hack to keep first few offscreen
     restartKey: 0,
   });
 
-  // Expose an imperative method to update position (and restart the animation).
   useImperativeHandle(ref, () => ({
     restart(left: number, top: number) {
       setState((prev) => ({
         left,
         top,
-        restartKey: prev.restartKey + 1, // change the key so the sx prop re-evaluates
+        restartKey: prev.restartKey + 1, // change the key so the sx prop re‑evaluates
       }));
     },
   }));
 
-  // Use a Box so that we can leverage the sx prop.
+  // Spark components are rendered in a portal container that’s independent of the rest of the DOM.
   return (
     <Box
-      // We include the restartKey in the sx so that the animation is re-applied on change.
+      // We include the restartKey in the key so that the animation is re‑applied on change.
       key={state.restartKey}
       sx={{
-        position: "absolute",
+        position: "fixed", // fixed so that parent's transforms are not applied
         background: "radial-gradient(circle, #ffffff 0%, #ffa500 70%)",
         height: "8px",
         width: "8px",
@@ -85,31 +84,23 @@ Spark.displayName = "Spark";
 
 // Main component.
 const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
-  width,
-  height,
-  borderRadius,
-  fuseHeadLoopDurationMs = 2000,
-  sparkBurstCount = 3,
-  sparkBurstDurationMs = 500,
-}) => {
+                                                             width,
+                                                             height,
+                                                             borderRadius,
+                                                             fuseHeadLoopDurationMs = 2000,
+                                                             sparkBurstCount = 3,
+                                                             sparkBurstDurationMs = 500,
+                                                           }) => {
   const theme = useTheme();
-
   const breakpointMatches = useBreakpointMatches();
-  const effectiveWidth = resolveResponsiveValue(
-    width,
-    theme,
-    breakpointMatches,
-  );
-  const effectiveHeight = resolveResponsiveValue(
-    height,
-    theme,
-    breakpointMatches,
-  );
+  const effectiveWidth = resolveResponsiveValue(width, theme, breakpointMatches);
+  const effectiveHeight = resolveResponsiveValue(height, theme, breakpointMatches);
 
   // Construct an SVG path string for the container’s outline.
   const pathString = `M ${borderRadius},0 H ${effectiveWidth - borderRadius} Q ${effectiveWidth},0 ${effectiveWidth},${borderRadius} V ${effectiveHeight - borderRadius} Q ${effectiveWidth},${effectiveHeight} ${effectiveWidth - borderRadius},${effectiveHeight} H ${borderRadius} Q 0,${effectiveHeight} 0,${effectiveHeight - borderRadius} V ${borderRadius} Q 0,0 ${borderRadius},0 Z`;
 
-  // The overlay container fills its parent.
+  // The overlay container for the fuse head – this may be transformed,
+  // but note that sparks will be rendered in a portal so they won’t be affected.
   const OverlayContainer = styled(Box)({
     position: "absolute",
     top: 0,
@@ -140,20 +131,17 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
     animation: `${fuseHeadAnim} ${fuseHeadLoopDurationMs}ms linear infinite`,
   });
 
-  // Refs to get DOM nodes.
   const fuseHeadRef = useRef<HTMLDivElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
 
   /**
-   * Helper to get the fuse head's position relative to the overlay container.
+   * Helper to get the fuse head's position in viewport coordinates.
    */
   const getFuseHeadPosition = (): { x: number; y: number } | null => {
-    if (fuseHeadRef.current && overlayRef.current) {
+    if (fuseHeadRef.current) {
       const fuseRect = fuseHeadRef.current.getBoundingClientRect();
-      const overlayRect = overlayRef.current.getBoundingClientRect();
       return {
-        x: fuseRect.left - overlayRect.left + fuseRect.width / 2,
-        y: fuseRect.top - overlayRect.top + fuseRect.height / 2,
+        x: fuseRect.left + fuseRect.width / 2,
+        y: fuseRect.top + fuseRect.height / 2,
       };
     }
     return null;
@@ -165,7 +153,6 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
     const MAX_VELOCITY = 250;
     const MIN_ANGLE = 15;
     const MAX_ANGLE = 165;
-    // Define the opacity animation once.
     const opacityAnim = keyframes`
       0% { opacity: 1; }
       100% { opacity: 0; }
@@ -186,13 +173,9 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
     });
   }, [sparkBurstCount, sparkBurstDurationMs]);
 
-  // Create a ref array for sparks. The sparks will be rendered once.
   const sparkRefs = useRef<Array<React.RefObject<SparkHandle>>>(
-    Array.from({ length: sparkBurstCount }, () =>
-      React.createRef<SparkHandle>(),
-    ),
+    Array.from({ length: sparkBurstCount }, () => React.createRef<SparkHandle>())
   );
-  // Track which spark to update next.
   const currentSparkIndex = useRef<number>(0);
 
   /**
@@ -226,17 +209,51 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
     return () => clearInterval(intervalId);
   }, [fuseHeadLoopDurationMs, sparkBurstCount]);
 
+  /**
+   * Create a portal container for the sparks so that their positions are not affected by any
+   * parent transformations. This container is appended to document.body.
+   */
+  const [sparkContainer, setSparkContainer] = useState<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const container = document.createElement("div");
+    // Make sure the container spans the viewport and does not interfere with pointer events.
+    Object.assign(container.style, {
+      position: "fixed",
+      top: "0",
+      left: "0",
+      width: "100%",
+      height: "100%",
+      pointerEvents: "none",
+      zIndex: "9999",
+    });
+    document.body.appendChild(container);
+    setSparkContainer(container);
+
+    return () => {
+      document.body.removeChild(container);
+    };
+  }, []);
+
   return (
-    <OverlayContainer ref={overlayRef}>
-      <FuseHead ref={fuseHeadRef} />
-      {Array.from({ length: sparkBurstCount }).map((_, index) => (
-        <Spark
-          key={index}
-          ref={sparkRefs.current[index]}
-          sparkAnimation={sparkAnimations[index]}
-        />
-      ))}
-    </OverlayContainer>
+    <>
+      <OverlayContainer>
+        <FuseHead ref={fuseHeadRef} />
+      </OverlayContainer>
+      {sparkContainer &&
+        ReactDOM.createPortal(
+          <>
+            {Array.from({ length: sparkBurstCount }).map((_, index) => (
+              <Spark
+                key={index}
+                ref={sparkRefs.current[index]}
+                sparkAnimation={sparkAnimations[index]}
+              />
+            ))}
+          </>,
+          sparkContainer
+        )}
+    </>
   );
 };
 
