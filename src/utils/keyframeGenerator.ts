@@ -69,3 +69,47 @@ export const generateGravityBounceScaleKeyframes = (
       .join("\n    ")}
   `;
 };
+
+/**
+ * Generates a keyframe animation for a projectile (baseball throw arc) effect.
+ *
+ * The animation calculates x and y positions based on standard projectile motion:
+ *   x(t) = v * cos(theta) * t
+ *   y(t) = v * sin(theta) * t - (1/2) * g * t²
+ *
+ * Since CSS coordinates have y increasing downward, the computed y is negated.
+ *
+ * @param initialAngleDeg - The initial angle (in degrees) of the throw.
+ * @param initialVelocityPxPerSec - The initial velocity (in pixels per second, or any consistent unit).
+ * @param numKeyframes - The number of keyframes to generate.
+ * @param numDecimals - The number of decimal places to use when rounding positions.
+ * @param gravity - The acceleration due to gravity
+ * @returns A keyframes animation that can be used with Emotion or MUI’s styled components.
+ */
+export const generateProjectileKeyframes = (
+  initialAngleDeg: number,
+  initialVelocityPxPerSec: number,
+  totalTimeMs: number,
+  numKeyframes: number,
+  numDecimals: number,
+  gravity: number = 100,
+) => {
+  const thetaRad = (initialAngleDeg * Math.PI) / 180;
+
+  return keyframes`
+    ${[...Array(numKeyframes + 1)]
+    .map((_, i) => {
+      const percent = (i * 100) / numKeyframes;
+      // Normalize time between 0 and totalTime
+      const t = (i / numKeyframes) * totalTimeMs / 1000;
+      // Calculate horizontal position (x) and vertical position (y)
+      const x = initialVelocityPxPerSec * Math.cos(thetaRad) * t;
+      const y = initialVelocityPxPerSec * Math.sin(thetaRad) * t - 0.5 * gravity * t * t;
+      // Negate y so that upward motion corresponds to a negative translateY in CSS.
+      return `${percent.toFixed(2)}% { transform: translate(${x.toFixed(
+        numDecimals,
+      )}px, ${(-y).toFixed(numDecimals)}px); }`;
+    })
+    .join("\n    ")}
+  `;
+};

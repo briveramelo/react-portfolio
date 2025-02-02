@@ -18,6 +18,7 @@ import { keyframes } from "@emotion/react";
 import { Refresh } from "@mui/icons-material";
 import ScrollDownIndicator from "../components/reusable/ScrollDownIndicator.tsx";
 import { useAnimatedText } from "../../utils/useAnimatedText.ts";
+import SparkFuseOutline from "../components/specialty/SparkFuseOutline.tsx";
 
 interface HeroProps {
   backgroundColor: string;
@@ -187,25 +188,26 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
       100% { transform: rotate(360deg); }
     `;
 
-    const rolesText = useAnimatedText({
-      texts: [
-        `Health Tech Innovator
-Lead Software Engineer
-Game Developer
-Project Manager
-Team Player`,
-      ],
-      msPerCharAdd: 60,
-      msPerCharDelete: 30,
-      startingPauseMs: isFirstAnimation
-        ? FIRST_ANIMATION_START_DELAY_MS +
-          FIRST_ANIMATED_TRANSITION_DURATION_MS / 2
-        : ANIMATION_START_DELAY_MS + ANIMATED_TRANSITION_DURATION_MS / 2,
-      endingPauseMs: 1000,
-      loopAnimation: false,
-      variationFactor: 0.4,
-      triggerRestart: isSectionVisible,
-    });
+    const rolesText = "Test";
+//     const rolesText = useAnimatedText({
+//       texts: [
+//         `Health Tech Innovator
+// Lead Software Engineer
+// Game Developer
+// Project Manager
+// Team Player`,
+//       ],
+//       msPerCharAdd: 60,
+//       msPerCharDelete: 30,
+//       startingPauseMs: isFirstAnimation
+//         ? FIRST_ANIMATION_START_DELAY_MS +
+//           FIRST_ANIMATED_TRANSITION_DURATION_MS / 2
+//         : ANIMATION_START_DELAY_MS + ANIMATED_TRANSITION_DURATION_MS / 2,
+//       endingPauseMs: 1000,
+//       loopAnimation: false,
+//       variationFactor: 0.4,
+//       triggerRestart: isSectionVisible,
+//     });
 
     return (
       <Box
@@ -294,148 +296,158 @@ Team Player`,
           </Box>
 
           {/* Image Section */}
-          <Box
-            sx={{
-              perspective: "1000px",
-              display: "block",
-              position: "relative",
-            }}
-            id="home_avatar_card"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
+
             <Box
               sx={{
-                width: { sm: "400px", xs: "375px" },
-                height: { sm: "600px", xs: "562.5px" },
+                perspective: "1000px",
+                display: "block",
                 position: "relative",
-                transformStyle: "preserve-3d",
-                transition: instantFlip
-                  ? "none"
-                  : `transform ${transitionDurationMs}ms ease`,
-                transform: `rotateY(${targetRotationDeg}deg)`,
-                pointerEvents: "none",
-                willChange: isSectionVisible ? "transform" : "", //conditional on visibility works well: the first animation is delayed, it's not always needed
               }}
-              ref={containerRef}
+              id="home_avatar_card"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             >
-              {/* Flare Effect Canvas Overlay */}
-              <canvas
-                ref={canvasRef}
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  zIndex: 2,
-                  backfaceVisibility: "hidden",
-                }}
-              />
-
-              {/* Front Side */}
               <Box
                 sx={{
-                  position: "absolute",
-                  width: "100%",
-                  height: "100%",
-                  backfaceVisibility: "hidden",
+                  width: { sm: "400px", xs: "375px" },
+                  height: { sm: "600px", xs: "562.5px" },
+                  position: "relative",
+                  transformStyle: "preserve-3d",
+                  transition: instantFlip
+                    ? "none"
+                    : `transform ${transitionDurationMs}ms ease`,
+                  transform: `rotateY(${targetRotationDeg}deg)`,
+                  pointerEvents: "none",
+                  willChange: isSectionVisible ? "transform" : "", //conditional on visibility works well: the first animation is delayed, it's not always needed
                 }}
+                ref={containerRef}
               >
-                {/* Rotation Icon */}
+                <SparkFuseOutline
+                  borderRadius={8}
+                  fuseHeadLoopDurationMs={2000}
+                  sparkBurstCount={20}
+                  sparkBurstDurationMs={2500}
+                  width={{ sm: "400px", xs: "375px" }}
+                  height={{ sm: "600px", xs: "562.5px" }}
+                />
+                {/* Flare Effect Canvas Overlay */}
+                <canvas
+                  ref={canvasRef}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    zIndex: 2,
+                    backfaceVisibility: "hidden",
+                  }}
+                />
+
+                {/* Front Side */}
                 <Box
                   sx={{
                     position: "absolute",
-                    top: 20,
-                    left: 20,
-                    borderRadius: "50%",
-                    zIndex: 1,
-                    color: hasHoveredCard
-                      ? "rgba(255, 255, 255, .8)"
-                      : "orange",
-                    animation: hasHoveredCard
-                      ? ""
-                      : `${pulseAnimation} 2s infinite`,
+                    width: "100%",
+                    height: "100%",
+                    backfaceVisibility: "hidden",
                   }}
                 >
-                  <Refresh
+                  {/* Rotation Icon */}
+                  <Box
                     sx={{
-                      fontSize: 30,
+                      position: "absolute",
+                      top: 20,
+                      left: 20,
+                      borderRadius: "50%",
+                      zIndex: 1,
+                      color: hasHoveredCard
+                        ? "rgba(255, 255, 255, .8)"
+                        : "orange",
                       animation: hasHoveredCard
                         ? ""
-                        : `${spinAnimation} 2s linear infinite`,
+                        : `${pulseAnimation} 2s infinite`,
                     }}
+                  >
+                    <Refresh
+                      sx={{
+                        fontSize: 30,
+                        animation: hasHoveredCard
+                          ? ""
+                          : `${spinAnimation} 2s linear infinite`,
+                      }}
+                    />
+                  </Box>
+
+                  <Avatar
+                    src={brandon}
+                    alt="Picture of Brandon"
+                    sx={{
+                      width: "100%",
+                      height: "100%",
+                      borderRadius: "20px",
+                      border: "8px solid",
+                      borderColor: cp("background.paper"),
+                    }}
+                    className="pop-shadow"
                   />
                 </Box>
 
-                <Avatar
-                  src={brandon}
-                  alt="Picture of Brandon"
+                {/* Back Side */}
+                <Box
                   sx={{
+                    position: "absolute",
                     width: "100%",
                     height: "100%",
+                    backgroundColor: cp("background.paper"),
                     borderRadius: "20px",
                     border: "8px solid",
                     borderColor: cp("background.paper"),
+                    backfaceVisibility: "hidden",
+                    transform: "rotateY(180deg)",
                   }}
                   className="pop-shadow"
-                />
-              </Box>
-
-              {/* Back Side */}
-              <Box
-                sx={{
-                  position: "absolute",
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: cp("background.paper"),
-                  borderRadius: "20px",
-                  border: "8px solid",
-                  borderColor: cp("background.paper"),
-                  backfaceVisibility: "hidden",
-                  transform: "rotateY(180deg)",
-                }}
-                className="pop-shadow"
-                padding={2}
-              >
-                <ReactMarkdown
-                  remarkPlugins={[remarkBreaks]}
-                  components={{
-                    p: ({ children }) => (
-                      <Typography
-                        variant="body1"
-                        fontSize="1.15rem"
-                        sx={{
-                          color: cp("text.paper"),
-                          marginBottom: "1.25rem",
-                        }}
-                      >
-                        {children}
-                      </Typography>
-                    ),
-                    br: () => (
-                      <span
-                        style={{
-                          display: "block",
-                          height: "0.01rem",
-                        }}
-                      />
-                    ),
-                  }}
+                  padding={2}
                 >
-                  {`**Professional Mission**
-Restore 1,000,000 quality-adjusted life years (QALYs) for those with disease and disability with digital solutions like video games, apps, web services, and biometric sensors.
-
-**My Why**
-As a Type 1 Diabetic, I rely on smart glucose management technology to stay healthy. This inspires me to create similar systems that restore balance and empower others to thrive.
-
-**Curious?**
-Peruse the portfolio and see how we might build a healthier world at scale. 
-`}
-                </ReactMarkdown>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkBreaks]}
+                    components={{
+                      p: ({ children }) => (
+                        <Typography
+                          variant="body1"
+                          fontSize="1.15rem"
+                          sx={{
+                            color: cp("text.paper"),
+                            marginBottom: "1.25rem",
+                          }}
+                        >
+                          {children}
+                        </Typography>
+                      ),
+                      br: () => (
+                        <span
+                          style={{
+                            display: "block",
+                            height: "0.01rem",
+                          }}
+                        />
+                      ),
+                    }}
+                  >
+                    {`**Professional Mission**
+  Restore 1,000,000 quality-adjusted life years (QALYs) for those with disease and disability with digital solutions like video games, apps, web services, and biometric sensors.
+  
+  **My Why**
+  As a Type 1 Diabetic, I rely on smart glucose management technology to stay healthy. This inspires me to create similar systems that restore balance and empower others to thrive.
+  
+  **Curious?**
+  Peruse the portfolio and see how we might build a healthier world at scale. 
+  `}
+                  </ReactMarkdown>
+                </Box>
               </Box>
             </Box>
-          </Box>
+
         </Container>
         {hasHoveredCard && <ScrollDownIndicator color={"orange"} size={40} />}
       </Box>
