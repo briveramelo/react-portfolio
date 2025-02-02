@@ -84,17 +84,25 @@ Spark.displayName = "Spark";
 
 // Main component.
 const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
-                                                             width,
-                                                             height,
-                                                             borderRadius,
-                                                             fuseHeadLoopDurationMs = 2000,
-                                                             sparkBurstCount = 3,
-                                                             sparkBurstDurationMs = 500,
-                                                           }) => {
+  width,
+  height,
+  borderRadius,
+  fuseHeadLoopDurationMs = 2000,
+  sparkBurstCount = 3,
+  sparkBurstDurationMs = 500,
+}) => {
   const theme = useTheme();
   const breakpointMatches = useBreakpointMatches();
-  const effectiveWidth = resolveResponsiveValue(width, theme, breakpointMatches);
-  const effectiveHeight = resolveResponsiveValue(height, theme, breakpointMatches);
+  const effectiveWidth = resolveResponsiveValue(
+    width,
+    theme,
+    breakpointMatches,
+  );
+  const effectiveHeight = resolveResponsiveValue(
+    height,
+    theme,
+    breakpointMatches,
+  );
 
   // Construct an SVG path string for the container’s outline.
   const pathString = `M ${borderRadius},0 H ${effectiveWidth - borderRadius} Q ${effectiveWidth},0 ${effectiveWidth},${borderRadius} V ${effectiveHeight - borderRadius} Q ${effectiveWidth},${effectiveHeight} ${effectiveWidth - borderRadius},${effectiveHeight} H ${borderRadius} Q 0,${effectiveHeight} 0,${effectiveHeight - borderRadius} V ${borderRadius} Q 0,0 ${borderRadius},0 Z`;
@@ -174,7 +182,9 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
   }, [sparkBurstCount, sparkBurstDurationMs]);
 
   const sparkRefs = useRef<Array<React.RefObject<SparkHandle>>>(
-    Array.from({ length: sparkBurstCount }, () => React.createRef<SparkHandle>())
+    Array.from({ length: sparkBurstCount }, () =>
+      React.createRef<SparkHandle>(),
+    ),
   );
   const currentSparkIndex = useRef<number>(0);
 
@@ -213,7 +223,9 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
    * Create a portal container for the sparks so that their positions are not affected by any
    * parent transformations. This container is appended to document.body.
    */
-  const [sparkContainer, setSparkContainer] = useState<HTMLDivElement | null>(null);
+  const [sparkContainer, setSparkContainer] = useState<HTMLDivElement | null>(
+    null,
+  );
 
   useEffect(() => {
     const container = document.createElement("div");
@@ -251,7 +263,7 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
               />
             ))}
           </>,
-          sparkContainer
+          sparkContainer,
         )}
     </>
   );
