@@ -40,10 +40,13 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     const [transitionDurationMs, setTransitionDurationMs] = useState<number>(
       FIRST_ANIMATED_TRANSITION_DURATION_MS,
     );
-    const [isFirstAnimation, setIsFirstAnimation] = useState<boolean>(true);
-    const [isAnimating, setIsAnimating] = useState<boolean>(true);
-    const [hasHoveredCard, setHasHoveredCard] = useState<boolean>(false);
-    const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
+    const [isFirstCardAnimation, setIsFirstCardAnimation] =
+      useState<boolean>(true);
+    const [isCardAnimating, setIsCardAnimating] = useState<boolean>(true);
+    const { trackMouseEnter, trackMouseLeave, hasBeenHovered } =
+      useHoverTracking({
+        hasBeenHoveredTimeMs: USER_TRANSITION_DURATION_MS,
+      });
     const isSectionVisible = useIntersectionObserver(
       ref as React.RefObject<HTMLElement>,
       { threshold: 0.1 },
@@ -71,12 +74,12 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
       const sequence = [
         {
           // Do a flip
-          delay: isFirstAnimation
+          delay: isFirstCardAnimation
             ? FIRST_ANIMATION_START_DELAY_MS
             : ANIMATION_START_DELAY_MS,
           action: () => {
             setTransitionDurationMs(
-              isFirstAnimation
+              isFirstCardAnimation
                 ? FIRST_ANIMATED_TRANSITION_DURATION_MS
                 : ANIMATED_TRANSITION_DURATION_MS,
             );
@@ -85,7 +88,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
         },
         {
           // Secretly reset rotation back to 0
-          delay: isFirstAnimation
+          delay: isFirstCardAnimation
             ? FIRST_ANIMATED_TRANSITION_DURATION_MS
             : ANIMATED_TRANSITION_DURATION_MS,
           action: () => {
@@ -94,8 +97,8 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
             setTransitionDurationMs(USER_TRANSITION_DURATION_MS);
             requestAnimationFrame(() => {
               setInstantFlip(false);
-              setIsAnimating(false);
-              setIsFirstAnimation(false);
+              setIsCardAnimating(false);
+              setIsFirstCardAnimation(false);
             });
           },
         },
@@ -113,7 +116,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     useEffect(() => {
       if (isSectionVisible) {
         // Reset to the front
-        setIsAnimating(true);
+        setIsCardAnimating(true);
         setInstantFlip(true);
         setTargetRotationDeg(0);
         requestAnimationFrame(() => setInstantFlip(false));
@@ -125,7 +128,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
         // When leaving the section, clear any pending timers and reset animation state.
         timersRef.current.forEach((timer) => clearTimeout(timer));
         timersRef.current = [];
-        setIsAnimating(false);
+        setIsCardAnimating(false);
         setInstantFlip(true);
         setTargetRotationDeg(0);
         requestAnimationFrame(() => setInstantFlip(false));
@@ -153,7 +156,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
 
     const entrySideRef = useRef<"left" | "right" | null>(null);
     const handleMouseEnter = (event: MouseEvent<HTMLDivElement>): void => {
-      if (isAnimating) return;
+      if (isCardAnimating) return;
 
       const entrySide = isRight(event) ? "right" : "left";
       entrySideRef.current = entrySide;
@@ -168,11 +171,8 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     };
 
     const handleMouseLeave = (event: MouseEvent<HTMLDivElement>): void => {
-      if (isAnimating || !entrySideRef.current) return;
+      if (isCardAnimating || !entrySideRef.current) return;
 
-      if (hasTransitionElapsedProportion(1)) {
-        setHasHoveredCard(true);
-      }
       const exitSide = isRight(event) ? "right" : "left";
       const initialEffect = entrySideRef.current === "right" ? -180 : 180;
       const additional =
@@ -201,7 +201,7 @@ Team Player`,
       ],
       msPerCharAdd: 60,
       msPerCharDelete: 30,
-      startingPauseMs: isFirstAnimation
+      startingPauseMs: isFirstCardAnimation
         ? FIRST_ANIMATION_START_DELAY_MS +
           FIRST_ANIMATED_TRANSITION_DURATION_MS / 2
         : ANIMATION_START_DELAY_MS + ANIMATED_TRANSITION_DURATION_MS / 2,
@@ -330,6 +330,7 @@ Team Player`,
                 fuseHeadLoopDurationMs={2000}
                 sparkBurstCount={20}
                 sparkBurstDurationMs={2500}
+                animationEnabled={!hasBeenHovered}
                 width={imageWidth}
                 height={imageHeight}
               />
@@ -364,10 +365,10 @@ Team Player`,
                     left: 20,
                     borderRadius: "50%",
                     zIndex: 1,
-                    color: hasHoveredCard
+                    color: hasBeenHovered
                       ? "rgba(255, 255, 255, .8)"
                       : "orange",
-                    animation: hasHoveredCard
+                    animation: hasBeenHovered
                       ? ""
                       : `${pulseAnimation} 2s infinite`,
                   }}
@@ -375,7 +376,7 @@ Team Player`,
                   <Refresh
                     sx={{
                       fontSize: 30,
-                      animation: hasHoveredCard
+                      animation: hasBeenHovered
                         ? ""
                         : `${spinAnimation} 2s linear infinite`,
                     }}
@@ -451,7 +452,7 @@ Team Player`,
             </Box>
           </Box>
         </Container>
-        {hasHoveredCard && <ScrollDownIndicator color={"orange"} size={40} />}
+        {hasBeenHovered && <ScrollDownIndicator color={"orange"} size={40} />}
       </Box>
     );
   },

@@ -24,6 +24,8 @@ export interface SparkFuseOutlineProps {
   fuseHeadLoopDurationMs?: number;
   sparkBurstCount?: number;
   sparkBurstDurationMs?: number;
+  /** Toggle the entire animation state (fuse head and sparks) */
+  animationEnabled?: boolean;
 }
 
 /**
@@ -50,6 +52,7 @@ const Spark = forwardRef<SparkHandle, SparkProps>(({ sparkAnimation }, ref) => {
     restartKey: 0,
   });
 
+  // Expose an imperative method to update position (and restart the animation).
   useImperativeHandle(ref, () => ({
     restart(left: number, top: number) {
       setState((prev) => ({
@@ -60,13 +63,11 @@ const Spark = forwardRef<SparkHandle, SparkProps>(({ sparkAnimation }, ref) => {
     },
   }));
 
-  // Spark components are rendered in a portal container that’s independent of the rest of the DOM.
   return (
     <Box
-      // We include the restartKey in the key so that the animation is re‑applied on change.
       key={state.restartKey}
       sx={{
-        position: "fixed", // fixed so that parent's transforms are not applied
+        position: "fixed", // fixed so parent's transforms are not applied
         background: "radial-gradient(circle, #ffffff 0%, #ffa500 70%)",
         height: "8px",
         width: "8px",
@@ -90,6 +91,7 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
   fuseHeadLoopDurationMs = 2000,
   sparkBurstCount = 3,
   sparkBurstDurationMs = 500,
+  animationEnabled = true,
 }) => {
   const theme = useTheme();
   const breakpointMatches = useBreakpointMatches();
@@ -105,7 +107,15 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
   );
 
   // Construct an SVG path string for the container’s outline.
-  const pathString = `M ${borderRadius},0 H ${effectiveWidth - borderRadius} Q ${effectiveWidth},0 ${effectiveWidth},${borderRadius} V ${effectiveHeight - borderRadius} Q ${effectiveWidth},${effectiveHeight} ${effectiveWidth - borderRadius},${effectiveHeight} H ${borderRadius} Q 0,${effectiveHeight} 0,${effectiveHeight - borderRadius} V ${borderRadius} Q 0,0 ${borderRadius},0 Z`;
+  const pathString = `M ${borderRadius},0 H ${
+    effectiveWidth - borderRadius
+  } Q ${effectiveWidth},0 ${effectiveWidth},${borderRadius} V ${
+    effectiveHeight - borderRadius
+  } Q ${effectiveWidth},${effectiveHeight} ${
+    effectiveWidth - borderRadius
+  } ${effectiveHeight} H ${borderRadius} Q 0,${effectiveHeight} 0,${
+    effectiveHeight - borderRadius
+  } V ${borderRadius} Q 0,0 ${borderRadius},0 Z`;
 
   // The overlay container for the fuse head – this may be transformed,
   // but note that sparks will be rendered in a portal so they won’t be affected.
@@ -125,20 +135,26 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
       0% { offset-distance: 0%; }
       100% { offset-distance: 100%; }
   `;
-  // Fuse head styled component that follows the SVG path using CSS offset-path.
-  const FuseHead = styled("div")({
-    position: "absolute",
-    width: "16px",
-    height: "16px",
-    borderRadius: "50%",
-    background: "radial-gradient(circle, #ffffff 0%, #ffa500 70%)",
-    filter: "drop-shadow(0 0 8px #ffa500)",
-    offsetPath: `path("${pathString}")`,
-    offsetDistance: "0%",
-    offsetRotate: "0deg",
-    animation: `${fuseHeadAnim} ${fuseHeadLoopDurationMs}ms linear infinite`,
-  });
 
+  // Fuse head styled component that follows the SVG path using CSS offset-path.
+  // We pass in animationEnabled to control the play state.
+  const FuseHead = styled("div")<{ animationEnabled: boolean }>(
+    ({ animationEnabled }) => ({
+      position: "absolute",
+      width: "16px",
+      height: "16px",
+      borderRadius: "50%",
+      background: "radial-gradient(circle, #ffffff 0%, #ffa500 70%)",
+      filter: "drop-shadow(0 0 8px #ffa500)",
+      offsetPath: `path("${pathString}")`,
+      offsetDistance: "0%",
+      offsetRotate: "0deg",
+      animation: `${fuseHeadAnim} ${fuseHeadLoopDurationMs}ms linear infinite`,
+      animationPlayState: animationEnabled ? "running" : "paused",
+    }),
+  );
+
+  // Ref to get the fuse head DOM node.
   const fuseHeadRef = useRef<HTMLDivElement>(null);
 
   /**
@@ -190,7 +206,7 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
 
   /**
    * Emit a spark by calling the corresponding spark’s restart method.
-   * This will update the spark’s internal state so that its SX prop (including its animation)
+   * This will update the spark’s internal state so that its sx prop (including its animation)
    * is re‑applied.
    */
   const emitSpark = () => {
@@ -211,13 +227,15 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
    * We trigger sparkBurstCount emissions evenly over each fuse head animation cycle.
    */
   useEffect(() => {
+    if (!animationEnabled) return;
+
     const intervalTime = fuseHeadLoopDurationMs / sparkBurstCount;
     const intervalId = setInterval(() => {
       emitSpark();
     }, intervalTime);
 
     return () => clearInterval(intervalId);
-  }, [fuseHeadLoopDurationMs, sparkBurstCount]);
+  }, [fuseHeadLoopDurationMs, sparkBurstCount, animationEnabled]);
 
   /**
    * Create a portal container for the sparks so that their positions are not affected by any
@@ -250,7 +268,7 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
   return (
     <>
       <OverlayContainer>
-        <FuseHead ref={fuseHeadRef} />
+        <FuseHead ref={fuseHeadRef} animationEnabled={animationEnabled} />
       </OverlayContainer>
       {sparkContainer &&
         ReactDOM.createPortal(

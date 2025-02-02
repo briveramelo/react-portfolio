@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { trackMouseEvent } from "./plausibleHelpers.ts";
 
-export const useHoverTracking = () => {
+export const useHoverTracking = ({
+  hasBeenHoveredTimeMs = 400,
+}: { hasBeenHoveredTimeMs?: number } = {}) => {
   const [hoverStartTimeMillis, setHoverStartTimeMillis] = useState<
     number | null
   >(null);
@@ -16,7 +18,7 @@ export const useHoverTracking = () => {
   const trackMouseLeave = (event: React.MouseEvent<HTMLElement>) => {
     if (hoverStartTimeMillis !== null) {
       const dwellTimeMs = performance.now() - hoverStartTimeMillis;
-      if (dwellTimeMs >= 400) {
+      if (dwellTimeMs >= hasBeenHoveredTimeMs) {
         setHasBeenHovered(true);
         trackMouseEvent(event, "hover", {
           event_version: "0.1.0",
@@ -27,6 +29,21 @@ export const useHoverTracking = () => {
     setHoverStartTimeMillis(null);
     setIsHovered(false);
   };
+
+  // Effect to check if dwell time exceeds threshold while hovering
+  useEffect(() => {
+    if (!hasBeenHovered && isHovered && hoverStartTimeMillis !== null) {
+      const interval = setInterval(() => {
+        const dwellTimeMs = performance.now() - hoverStartTimeMillis;
+        if (dwellTimeMs >= hasBeenHoveredTimeMs) {
+          setHasBeenHovered(true);
+          clearInterval(interval);
+        }
+      }, 50);
+
+      return () => clearInterval(interval);
+    }
+  }, [isHovered, hoverStartTimeMillis, hasBeenHoveredTimeMs]);
 
   // Cleanup in case of unmounting or window changes
   useEffect(() => {
