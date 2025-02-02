@@ -4,6 +4,7 @@ import React, {
   MouseEvent,
   forwardRef,
   useEffect,
+  useMemo,
 } from "react";
 import { Container, Typography, Box, Avatar } from "@mui/material";
 import brandon from "@/assets/people/brandon.webp";
@@ -187,27 +188,28 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     `;
+    const imageWidth = useMemo(() => ({ sm: "400px", xs: "375px" }), []);
+    const imageHeight = useMemo(() => ({ sm: "600px", xs: "562.5px" }), []);
 
-    const rolesText = "Test";
-    //     const rolesText = useAnimatedText({
-    //       texts: [
-    //         `Health Tech Innovator
-    // Lead Software Engineer
-    // Game Developer
-    // Project Manager
-    // Team Player`,
-    //       ],
-    //       msPerCharAdd: 60,
-    //       msPerCharDelete: 30,
-    //       startingPauseMs: isFirstAnimation
-    //         ? FIRST_ANIMATION_START_DELAY_MS +
-    //           FIRST_ANIMATED_TRANSITION_DURATION_MS / 2
-    //         : ANIMATION_START_DELAY_MS + ANIMATED_TRANSITION_DURATION_MS / 2,
-    //       endingPauseMs: 1000,
-    //       loopAnimation: false,
-    //       variationFactor: 0.4,
-    //       triggerRestart: isSectionVisible,
-    //     });
+    const rolesText = useAnimatedText({
+      texts: [
+        `Health Tech Innovator
+Lead Software Engineer
+Game Developer
+Project Manager
+Team Player`,
+      ],
+      msPerCharAdd: 60,
+      msPerCharDelete: 30,
+      startingPauseMs: isFirstAnimation
+        ? FIRST_ANIMATION_START_DELAY_MS +
+          FIRST_ANIMATED_TRANSITION_DURATION_MS / 2
+        : ANIMATION_START_DELAY_MS + ANIMATED_TRANSITION_DURATION_MS / 2,
+      endingPauseMs: 1000,
+      loopAnimation: false,
+      variationFactor: 0.4,
+      triggerRestart: isSectionVisible,
+    });
 
     return (
       <Box
@@ -220,6 +222,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
           color: textColor,
           scrollMarginTop: "80px",
           minHeight: "100vh",
+          overflow: "hidden",
         }}
         ref={ref}
       >
@@ -309,8 +312,8 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
           >
             <Box
               sx={{
-                width: { sm: "400px", xs: "375px" },
-                height: { sm: "600px", xs: "562.5px" },
+                width: imageWidth,
+                height: imageHeight,
                 position: "relative",
                 transformStyle: "preserve-3d",
                 transition: instantFlip
@@ -327,8 +330,8 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
                 fuseHeadLoopDurationMs={2000}
                 sparkBurstCount={20}
                 sparkBurstDurationMs={2500}
-                width={{ sm: "400px", xs: "375px" }}
-                height={{ sm: "600px", xs: "562.5px" }}
+                width={imageWidth}
+                height={imageHeight}
               />
               {/* Flare Effect Canvas Overlay */}
               <canvas

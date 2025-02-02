@@ -39,7 +39,7 @@ export const useFlareEffect = ({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const fire = new Flare(ctx, canvas);
+    const flare = new Flare(ctx, canvas);
     let animationFrameId: number;
 
     const animate = (timeMs: number) => {
@@ -49,7 +49,7 @@ export const useFlareEffect = ({
       const positionY =
         canvas.height / 2 - Math.sin(normalizedTime) * amplitude;
 
-      fire.update({ x: xOffset, y: positionY });
+      flare.update({ x: xOffset, y: positionY });
 
       animationFrameId = requestAnimationFrame(animate);
     };
