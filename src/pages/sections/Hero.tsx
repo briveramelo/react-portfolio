@@ -189,25 +189,25 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     `;
 
     const rolesText = "Test";
-//     const rolesText = useAnimatedText({
-//       texts: [
-//         `Health Tech Innovator
-// Lead Software Engineer
-// Game Developer
-// Project Manager
-// Team Player`,
-//       ],
-//       msPerCharAdd: 60,
-//       msPerCharDelete: 30,
-//       startingPauseMs: isFirstAnimation
-//         ? FIRST_ANIMATION_START_DELAY_MS +
-//           FIRST_ANIMATED_TRANSITION_DURATION_MS / 2
-//         : ANIMATION_START_DELAY_MS + ANIMATED_TRANSITION_DURATION_MS / 2,
-//       endingPauseMs: 1000,
-//       loopAnimation: false,
-//       variationFactor: 0.4,
-//       triggerRestart: isSectionVisible,
-//     });
+    //     const rolesText = useAnimatedText({
+    //       texts: [
+    //         `Health Tech Innovator
+    // Lead Software Engineer
+    // Game Developer
+    // Project Manager
+    // Team Player`,
+    //       ],
+    //       msPerCharAdd: 60,
+    //       msPerCharDelete: 30,
+    //       startingPauseMs: isFirstAnimation
+    //         ? FIRST_ANIMATION_START_DELAY_MS +
+    //           FIRST_ANIMATED_TRANSITION_DURATION_MS / 2
+    //         : ANIMATION_START_DELAY_MS + ANIMATED_TRANSITION_DURATION_MS / 2,
+    //       endingPauseMs: 1000,
+    //       loopAnimation: false,
+    //       variationFactor: 0.4,
+    //       triggerRestart: isSectionVisible,
+    //     });
 
     return (
       <Box
@@ -297,144 +297,144 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
 
           {/* Image Section */}
 
+          <Box
+            sx={{
+              perspective: "1000px",
+              display: "block",
+              position: "relative",
+            }}
+            id="home_avatar_card"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
             <Box
               sx={{
-                perspective: "1000px",
-                display: "block",
+                width: { sm: "400px", xs: "375px" },
+                height: { sm: "600px", xs: "562.5px" },
                 position: "relative",
+                transformStyle: "preserve-3d",
+                transition: instantFlip
+                  ? "none"
+                  : `transform ${transitionDurationMs}ms ease`,
+                transform: `rotateY(${targetRotationDeg}deg)`,
+                pointerEvents: "none",
+                willChange: isSectionVisible ? "transform" : "", //conditional on visibility works well: the first animation is delayed, it's not always needed
               }}
-              id="home_avatar_card"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
+              ref={containerRef}
             >
+              <SparkFuseOutline
+                borderRadius={8}
+                fuseHeadLoopDurationMs={2000}
+                sparkBurstCount={20}
+                sparkBurstDurationMs={2500}
+                width={{ sm: "400px", xs: "375px" }}
+                height={{ sm: "600px", xs: "562.5px" }}
+              />
+              {/* Flare Effect Canvas Overlay */}
+              <canvas
+                ref={canvasRef}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  zIndex: 2,
+                  backfaceVisibility: "hidden",
+                }}
+              />
+
+              {/* Front Side */}
               <Box
                 sx={{
-                  width: { sm: "400px", xs: "375px" },
-                  height: { sm: "600px", xs: "562.5px" },
-                  position: "relative",
-                  transformStyle: "preserve-3d",
-                  transition: instantFlip
-                    ? "none"
-                    : `transform ${transitionDurationMs}ms ease`,
-                  transform: `rotateY(${targetRotationDeg}deg)`,
-                  pointerEvents: "none",
-                  willChange: isSectionVisible ? "transform" : "", //conditional on visibility works well: the first animation is delayed, it's not always needed
+                  position: "absolute",
+                  width: "100%",
+                  height: "100%",
+                  backfaceVisibility: "hidden",
                 }}
-                ref={containerRef}
               >
-                <SparkFuseOutline
-                  borderRadius={8}
-                  fuseHeadLoopDurationMs={2000}
-                  sparkBurstCount={20}
-                  sparkBurstDurationMs={2500}
-                  width={{ sm: "400px", xs: "375px" }}
-                  height={{ sm: "600px", xs: "562.5px" }}
-                />
-                {/* Flare Effect Canvas Overlay */}
-                <canvas
-                  ref={canvasRef}
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    zIndex: 2,
-                    backfaceVisibility: "hidden",
-                  }}
-                />
-
-                {/* Front Side */}
+                {/* Rotation Icon */}
                 <Box
                   sx={{
                     position: "absolute",
-                    width: "100%",
-                    height: "100%",
-                    backfaceVisibility: "hidden",
+                    top: 20,
+                    left: 20,
+                    borderRadius: "50%",
+                    zIndex: 1,
+                    color: hasHoveredCard
+                      ? "rgba(255, 255, 255, .8)"
+                      : "orange",
+                    animation: hasHoveredCard
+                      ? ""
+                      : `${pulseAnimation} 2s infinite`,
                   }}
                 >
-                  {/* Rotation Icon */}
-                  <Box
+                  <Refresh
                     sx={{
-                      position: "absolute",
-                      top: 20,
-                      left: 20,
-                      borderRadius: "50%",
-                      zIndex: 1,
-                      color: hasHoveredCard
-                        ? "rgba(255, 255, 255, .8)"
-                        : "orange",
+                      fontSize: 30,
                       animation: hasHoveredCard
                         ? ""
-                        : `${pulseAnimation} 2s infinite`,
+                        : `${spinAnimation} 2s linear infinite`,
                     }}
-                  >
-                    <Refresh
-                      sx={{
-                        fontSize: 30,
-                        animation: hasHoveredCard
-                          ? ""
-                          : `${spinAnimation} 2s linear infinite`,
-                      }}
-                    />
-                  </Box>
-
-                  <Avatar
-                    src={brandon}
-                    alt="Picture of Brandon"
-                    sx={{
-                      width: "100%",
-                      height: "100%",
-                      borderRadius: "20px",
-                      border: "8px solid",
-                      borderColor: cp("background.paper"),
-                    }}
-                    className="pop-shadow"
                   />
                 </Box>
 
-                {/* Back Side */}
-                <Box
+                <Avatar
+                  src={brandon}
+                  alt="Picture of Brandon"
                   sx={{
-                    position: "absolute",
                     width: "100%",
                     height: "100%",
-                    backgroundColor: cp("background.paper"),
                     borderRadius: "20px",
                     border: "8px solid",
                     borderColor: cp("background.paper"),
-                    backfaceVisibility: "hidden",
-                    transform: "rotateY(180deg)",
                   }}
                   className="pop-shadow"
-                  padding={2}
+                />
+              </Box>
+
+              {/* Back Side */}
+              <Box
+                sx={{
+                  position: "absolute",
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: cp("background.paper"),
+                  borderRadius: "20px",
+                  border: "8px solid",
+                  borderColor: cp("background.paper"),
+                  backfaceVisibility: "hidden",
+                  transform: "rotateY(180deg)",
+                }}
+                className="pop-shadow"
+                padding={2}
+              >
+                <ReactMarkdown
+                  remarkPlugins={[remarkBreaks]}
+                  components={{
+                    p: ({ children }) => (
+                      <Typography
+                        variant="body1"
+                        fontSize="1.15rem"
+                        sx={{
+                          color: cp("text.paper"),
+                          marginBottom: "1.25rem",
+                        }}
+                      >
+                        {children}
+                      </Typography>
+                    ),
+                    br: () => (
+                      <span
+                        style={{
+                          display: "block",
+                          height: "0.01rem",
+                        }}
+                      />
+                    ),
+                  }}
                 >
-                  <ReactMarkdown
-                    remarkPlugins={[remarkBreaks]}
-                    components={{
-                      p: ({ children }) => (
-                        <Typography
-                          variant="body1"
-                          fontSize="1.15rem"
-                          sx={{
-                            color: cp("text.paper"),
-                            marginBottom: "1.25rem",
-                          }}
-                        >
-                          {children}
-                        </Typography>
-                      ),
-                      br: () => (
-                        <span
-                          style={{
-                            display: "block",
-                            height: "0.01rem",
-                          }}
-                        />
-                      ),
-                    }}
-                  >
-                    {`**Professional Mission**
+                  {`**Professional Mission**
   Restore 1,000,000 quality-adjusted life years (QALYs) for those with disease and disability with digital solutions like video games, apps, web services, and biometric sensors.
   
   **My Why**
@@ -443,11 +443,10 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
   **Curious?**
   Peruse the portfolio and see how we might build a healthier world at scale. 
   `}
-                  </ReactMarkdown>
-                </Box>
+                </ReactMarkdown>
               </Box>
             </Box>
-
+          </Box>
         </Container>
         {hasHoveredCard && <ScrollDownIndicator color={"orange"} size={40} />}
       </Box>
