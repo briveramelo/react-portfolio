@@ -29,7 +29,7 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
   fuseHeadLoopDurationMs = 2000,
   sparkBurstCount = 3,
   sparkBurstDurationMs = 500,
-  animationEnabled = true,
+  animationEnabled = false,
 }) => {
   const theme = useTheme();
   const breakpointMatches = useBreakpointMatches();
@@ -88,7 +88,8 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
       offsetDistance: "0%",
       offsetRotate: "0deg",
       animation: `${fuseHeadAnim} ${fuseHeadLoopDurationMs}ms linear infinite`,
-      animationPlayState: animationEnabled ? "running" : "paused",
+      opacity: animationEnabled ? 1 : 0,
+      transition: `opacity ${sparkBurstDurationMs}ms ease-in-out ${fuseHeadLoopDurationMs / sparkBurstCount}ms`,
     }),
   );
 
