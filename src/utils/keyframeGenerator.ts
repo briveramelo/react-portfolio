@@ -70,6 +70,14 @@ export const generateGravityBounceScaleKeyframes = (
   `;
 };
 
+export interface ProjectileKeyframesOptions {
+  initialAngleDeg: number;
+  initialVelocityPxPerSec: number;
+  totalTimeMs: number;
+  numKeyframes: number;
+  numDecimals: number;
+  gravity?: number; // optional with a default value
+}
 /**
  * Generates a keyframe animation for a projectile (baseball throw arc) effect.
  *
@@ -86,14 +94,14 @@ export const generateGravityBounceScaleKeyframes = (
  * @param gravity - The acceleration due to gravity
  * @returns A keyframes animation that can be used with Emotion or MUI’s styled components.
  */
-export const generateProjectileKeyframes = (
-  initialAngleDeg: number,
-  initialVelocityPxPerSec: number,
-  totalTimeMs: number,
-  numKeyframes: number,
-  numDecimals: number,
-  gravity: number = 100,
-) => {
+export const generateProjectileKeyframes = ({
+  initialAngleDeg,
+  initialVelocityPxPerSec,
+  totalTimeMs,
+  numKeyframes,
+  numDecimals,
+  gravity = 100, // default value
+}: ProjectileKeyframesOptions) => {
   const thetaRad = (initialAngleDeg * Math.PI) / 180;
 
   return keyframes`
