@@ -1,24 +1,23 @@
-import { useEffect, RefObject } from "react";
-import { Flare } from "./Flare.ts";
+import React, { RefObject, useEffect, useRef } from "react";
+import { Flare } from "./Flare";
 
-// Define the props for the hook
-interface UseFlareEffectProps {
-  canvasRef: RefObject<HTMLCanvasElement>;
-  containerRef: RefObject<HTMLDivElement>;
+interface FlareEffectProps {
+  containerRef: RefObject<HTMLElement>;
   xOffset: number;
   yAmpFactor: number;
-  durationMs: number;
   phaseOffset: number;
+  durationMs: number;
 }
 
-export const useFlareEffect = ({
-  canvasRef,
+export const FlareEffect: React.FC<FlareEffectProps> = ({
   containerRef,
   xOffset,
   yAmpFactor,
   phaseOffset,
   durationMs,
-}: UseFlareEffectProps) => {
+}) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
@@ -27,11 +26,11 @@ export const useFlareEffect = ({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Set canvas size based on the container dimensions
     canvas.width = container.clientWidth;
     canvas.height = container.clientHeight;
-  }, [canvasRef, containerRef]);
+  }, []);
 
+  // Animation effect using the Flare class.
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -44,13 +43,11 @@ export const useFlareEffect = ({
 
     const animate = (timeMs: number) => {
       const normalizedTime = (timeMs / durationMs) * Math.PI * 2 + phaseOffset;
-
       const amplitude = canvas.height * yAmpFactor;
       const positionY =
         canvas.height / 2 - Math.sin(normalizedTime) * amplitude;
 
       flare.update({ x: xOffset, y: positionY });
-
       animationFrameId = requestAnimationFrame(animate);
     };
 
@@ -59,5 +56,22 @@ export const useFlareEffect = ({
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [canvasRef]);
+  }, [durationMs, phaseOffset, xOffset, yAmpFactor]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        zIndex: 2,
+        backfaceVisibility: "hidden",
+      }}
+    />
+  );
 };
+
+export default FlareEffect;

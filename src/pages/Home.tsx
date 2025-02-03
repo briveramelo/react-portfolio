@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { Header } from "./components/Header";
-import { Hero } from "./sections/Hero";
+import { Hero } from "./sections/Hero.tsx";
 import { SkillsSection } from "./sections/SkillsSection";
 import { Projects } from "./sections/Projects";
 import { TestimonialsSection } from "./sections/TestimonialsSection";
