@@ -2,12 +2,12 @@ import React, { useRef, useEffect, useMemo, useState } from "react";
 import ReactDOM from "react-dom";
 import { styled, useTheme, SxProps, Theme, keyframes } from "@mui/material";
 import Box from "@mui/material/Box";
-import { generateProjectileKeyframes } from "../../../utils/keyframeGenerator";
+import { generateProjectileKeyframes } from "../../../utils/keyframeGenerator.ts";
 import {
   resolveResponsiveValue,
   useBreakpointMatches,
-} from "../../../utils/muiSizeUtils";
-import Spark, { SparkHandle } from "./Spark";
+} from "../../../utils/muiSizeUtils.ts";
+import Spark, { SparkHandle } from "./Spark.tsx";
 
 export interface SparkFuseOutlineProps {
   // @ts-ignore

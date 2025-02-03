@@ -14,7 +14,7 @@ import {
   starArcAnimationDurationMs,
   maxYearsOfExperience,
 } from "../../../data/constants.ts";
-import InvertableImage from "../reusable/InvertableImage.tsx";
+import InvertableImage from "../../components/reusable/InvertableImage.tsx";
 
 interface ExperienceProps {
   skill: SkillData;

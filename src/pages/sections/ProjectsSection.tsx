@@ -8,8 +8,8 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { ProjectCard } from "../components/ProjectCard";
-import { ProjectDetails } from "../components/ProjectDetails";
+import { ProjectCard } from "./Projects/ProjectCard.tsx";
+import { ProjectDetails } from "./Projects/ProjectDetails.tsx";
 import { Project, projectData } from "../../data/projectData";
 import { ThemeMode, useCustomPalette } from "../../theme";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
@@ -24,7 +24,7 @@ interface ProjectsProps {
   textColor: string;
 }
 
-export const Projects = forwardRef<HTMLElement, ProjectsProps>(
+export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
   ({ backgroundColor, textColor, id }, ref) => {
     const { mode } = useCustomPalette();
     const useLight = mode === ThemeMode.Dark;

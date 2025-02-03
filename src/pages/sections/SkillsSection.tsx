@@ -6,8 +6,8 @@ import StarIcon from "@/assets/star.svg?react";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
 import { skillsData } from "../../data/skillsData";
 import { ThemeMode, useCustomPalette } from "../../theme";
-import ExperienceCategory from "../components/skills/ExperienceCategory";
-import SkillCategory from "../components/skills/SkillCategory";
+import ExperienceCategory from "./Skills/ExperienceCategory";
+import SkillCategory from "./Skills/SkillCategory";
 import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 import { generateGravityBounceScaleKeyframes } from "../../utils/keyframeGenerator.ts";
 

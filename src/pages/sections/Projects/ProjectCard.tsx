@@ -1,13 +1,13 @@
 import React from "react";
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
 import ReactMarkdown from "react-markdown";
-import { HighlightedText } from "./reusable/HighlightedText.tsx";
-import { Project } from "../../data/projectData.ts";
-import InvertableImage from "./reusable/InvertableImage.tsx";
-import { cp } from "../../utils/utils.ts";
-import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
-import { Collapsible } from "./reusable/Collapsible.tsx";
-import { useCursor } from "../../context/CursorContext.tsx";
+import { HighlightedText } from "../../components/reusable/HighlightedText.tsx";
+import { Project } from "../../../data/projectData.ts";
+import InvertableImage from "../../components/reusable/InvertableImage.tsx";
+import { cp } from "../../../utils/utils.ts";
+import { useHoverTracking } from "../../../tracking/useHoverTracking.ts";
+import { Collapsible } from "../../components/reusable/Collapsible.tsx";
+import { useCursor } from "../../../context/CursorContext.tsx";
 
 interface ProjectCardProps {
   projectData: Project;

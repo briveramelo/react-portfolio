@@ -1,5 +1,5 @@
 import React from "react";
-import FirebaseAsset from "./FirebaseAsset";
+import FirebaseAsset from "./FirebaseAsset.tsx";
 
 interface FirebaseImageProps {
   firebaseImagePath: string;

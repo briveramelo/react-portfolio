@@ -3,7 +3,7 @@ import { Box, Container } from "@mui/material";
 import { HeroText } from "./Hero/HeroText";
 import HeroCard from "./Hero/HeroCard.tsx";
 import { useIntersectionObserver } from "../../utils/useIntersectionObserver.ts";
-import ScrollDownIndicator from "../components/reusable/ScrollDownIndicator.tsx";
+import ScrollDownIndicator from "../components/specialty/ScrollDownIndicator.tsx";
 
 interface HeroProps {
   backgroundColor: string;
@@ -11,7 +11,7 @@ interface HeroProps {
   id: string;
 }
 
-export const Hero = forwardRef<HTMLElement, HeroProps>(
+export const HeroSection = forwardRef<HTMLElement, HeroProps>(
   ({ backgroundColor, textColor, id }, ref) => {
     const isSectionVisible = useIntersectionObserver(
       ref as React.RefObject<HTMLElement>,

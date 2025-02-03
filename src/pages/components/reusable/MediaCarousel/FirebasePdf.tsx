@@ -1,6 +1,6 @@
 import React from "react";
-import FirebaseAsset from "./FirebaseAsset";
-import PdfViewer from "./PdfViewer";
+import FirebaseAsset from "./FirebaseAsset.tsx";
+import PdfViewer from "./PdfViewer.tsx";
 
 interface FirebasePdfProps {
   firebasePdfPath: string;

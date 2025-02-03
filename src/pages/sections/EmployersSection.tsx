@@ -12,7 +12,7 @@ interface EmployersProps {
   useDarkImages: boolean;
 }
 
-export const Employers = forwardRef<HTMLElement, EmployersProps>(
+export const EmployersSection = forwardRef<HTMLElement, EmployersProps>(
   ({ backgroundColor, textColor, useDarkImages, id }, ref) => {
     const sectionHover = useHoverTracking();
     const employerHover = useHoverTracking();

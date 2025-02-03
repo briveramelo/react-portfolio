@@ -1,12 +1,12 @@
 import React, { useRef } from "react";
 import { Header } from "./components/Header";
-import { Hero } from "./sections/Hero.tsx";
+import { HeroSection } from "./sections/HeroSection.tsx";
 import { SkillsSection } from "./sections/SkillsSection";
-import { Projects } from "./sections/Projects";
+import { ProjectsSection } from "./sections/ProjectsSection.tsx";
 import { TestimonialsSection } from "./sections/TestimonialsSection";
 import { RecentWorkSection } from "./sections/RecentWorkSection";
 import { ContactSection } from "./sections/ContactSection.tsx";
-import { Employers } from "./sections/Employers";
+import { EmployersSection } from "./sections/EmployersSection.tsx";
 import { ThemeMode, useCustomPalette } from "../theme";
 import { sectionStyles } from "../data/sectionStyles";
 import AnimatedCursor from "./components/specialty/AnimatedCursor.tsx";
@@ -44,13 +44,13 @@ export function HomePage() {
         defaultTextColor={initialColors.textColor}
         defaultIsBackgroundDark={initialColors.isDark}
       />
-      <Hero
+      <HeroSection
         ref={heroRef}
         id="home"
         backgroundColor={sectionStyles.home.backgroundColor}
         textColor={sectionStyles.home.textColor}
       />
-      <Employers
+      <EmployersSection
         ref={employersRef}
         id="employers"
         backgroundColor={sectionStyles.employers.backgroundColor}
@@ -63,7 +63,7 @@ export function HomePage() {
         backgroundColor={sectionStyles.experience.backgroundColor}
         textColor={sectionStyles.experience.textColor}
       />
-      <Projects
+      <ProjectsSection
         ref={projectsRef}
         id="projects"
         backgroundColor={sectionStyles.projects.backgroundColor}

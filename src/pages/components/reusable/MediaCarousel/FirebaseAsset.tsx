@@ -1,10 +1,10 @@
 import React, { useEffect, useState, ReactNode } from "react";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { CircularProgress, Box } from "@mui/material";
-import { firebaseApp } from "../../../firebaseConfig";
-import { useAuth } from "../../../context/AuthContext";
-import { useFirebaseCache } from "../../../context/FirebaseCacheContext";
-import { cacheAsset, loadAsset } from "../../../utils/cache";
+import { firebaseApp } from "../../../../firebaseConfig.ts";
+import { useAuth } from "../../../../context/AuthContext.tsx";
+import { useFirebaseCache } from "../../../../context/FirebaseCacheContext.tsx";
+import { cacheAsset, loadAsset } from "../../../../utils/cache.ts";
 
 interface FirebaseAssetProps {
   firebasePath: string; // Example: "tilt-tracker/manual.pdf"

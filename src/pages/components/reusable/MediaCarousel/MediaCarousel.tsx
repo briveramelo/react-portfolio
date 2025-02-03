@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Box, Card, CardMedia, IconButton } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import { MediaItem } from "../../../data/media";
-import PdfViewer from "./PdfViewer";
+import { MediaItem } from "../../../../data/media.ts";
+import PdfViewer from "./PdfViewer.tsx";
 import YouTubePlayer from "./YouTubePlayer.tsx";
 import FirebaseImage from "./FirebaseImage.tsx";
 import FirebasePdf from "./FirebasePdf.tsx";
