@@ -40,7 +40,7 @@ const Spark = forwardRef<SparkHandle, SparkProps>(({ sparkAnimation }, ref) => {
     <Box
       key={state.restartKey}
       sx={{
-        position: "fixed", // fixed so parent's transforms are not applied
+        position: "absolute",
         background: "radial-gradient(circle, #ffffff 0%, #ffa500 70%)",
         height: "8px",
         width: "8px",

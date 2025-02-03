@@ -188,7 +188,7 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
     const container = document.createElement("div");
     // Make sure the container spans the viewport and does not interfere with pointer events.
     Object.assign(container.style, {
-      position: "fixed",
+      position: "absolute",
       top: "0",
       left: "0",
       width: "100%",
