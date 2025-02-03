@@ -7,13 +7,13 @@ import {
   IconButton,
 } from "@mui/material";
 import ReactMarkdown from "react-markdown";
-import { HighlightedText } from "./reusable/HighlightedText.tsx";
-import { cp } from "../../utils/utils.ts";
-import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
+import { HighlightedText } from "../../components/reusable/HighlightedText.tsx";
+import { cp } from "../../../utils/utils.ts";
+import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
 import { useEffect, useMemo, useState } from "react";
 import "./TestimonialCard.css";
-import { SiblingParagraph } from "./reusable/SiblingParagraph.tsx";
-import { Testimonial } from "../../data/testimonialData.ts";
+import { SiblingParagraph } from "../../components/reusable/SiblingParagraph.tsx";
+import { Testimonial } from "../../../data/testimonialData.ts";
 import { LinkedIn } from "@mui/icons-material";
 
 export function TestimonialCard({

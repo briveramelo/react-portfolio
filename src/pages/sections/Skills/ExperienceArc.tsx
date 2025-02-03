@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import { getProgressColor } from "../../../utils/utils.ts";
-import { useAnimatedValue } from "../../../utils/useAnimatedValue.ts";
+import { useAnimatedValue } from "../../../utils/hooks/useAnimatedValue.ts";
 import {
   starArcAnimationDurationMs,
   maxYearsOfExperience,

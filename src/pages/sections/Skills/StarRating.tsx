@@ -5,7 +5,7 @@ import {
   maxStarCount,
   starPopAnimationDurationMs,
 } from "../../../data/constants.ts";
-import { useAnimatedValue } from "../../../utils/useAnimatedValue.ts";
+import { useAnimatedValue } from "../../../utils/hooks/useAnimatedValue.ts";
 import { useCustomPalette } from "../../../theme.ts";
 
 interface StarRatingProps {

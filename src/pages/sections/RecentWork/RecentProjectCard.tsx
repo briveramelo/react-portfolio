@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
-import { cp } from "../../utils/utils.ts";
-import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
+import { cp } from "../../../utils/utils.ts";
+import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
 
 interface Project {
   title: string;

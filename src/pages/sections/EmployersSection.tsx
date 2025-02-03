@@ -3,7 +3,7 @@ import React, { forwardRef } from "react";
 import remarkBreaks from "remark-breaks";
 import ReactMarkdown from "react-markdown";
 import { featuredEmployerData } from "../../data/employerData";
-import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
+import { useHoverTracking } from "../../utils/tracking/hooks/useHoverTracking.ts";
 
 interface EmployersProps {
   backgroundColor: string;

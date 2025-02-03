@@ -12,10 +12,10 @@ import { ProjectCard } from "./Projects/ProjectCard.tsx";
 import { ProjectDetails } from "./Projects/ProjectDetails.tsx";
 import { Project, projectData } from "../../data/projectData";
 import { ThemeMode, useCustomPalette } from "../../theme";
-import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
+import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import { Collapsible } from "../components/reusable/Collapsible.tsx";
 import { ProjectDetail, projectDetails } from "../../data/projectDetails.ts";
-import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
+import { useHoverTracking } from "../../utils/tracking/hooks/useHoverTracking.ts";
 import { HoverExpandContainer } from "../components/reusable/HoverExpandContainer.tsx";
 
 interface ProjectsProps {

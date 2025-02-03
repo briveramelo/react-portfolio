@@ -1,5 +1,5 @@
 import { HomePage } from "./pages/Home";
-import { usePlausibleTracking } from "./tracking/usePlausibleTracking";
+import { usePlausibleTracking } from "./utils/tracking/usePlausibleTracking.ts";
 
 function App() {
   usePlausibleTracking();

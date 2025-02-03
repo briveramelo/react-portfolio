@@ -9,7 +9,7 @@ import {
   isFormValid,
 } from "./Contact/contactFormUtils";
 import { cp } from "../../utils/utils";
-import { Footer } from "../components/Footer";
+import { Footer } from "./Contact/Footer/Footer.tsx";
 import { firebaseApp } from "../../firebaseConfig";
 import { getFunctions, httpsCallable } from "firebase/functions";
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { trackMouseEvent } from "./plausibleHelpers.ts";
+import { trackMouseEvent } from "../plausibleHelpers.ts";
 
 export const useHoverTracking = (hasBeenHoveredTimeMs: number = 400) => {
   const [hoverStartTimeMillis, setHoverStartTimeMillis] = useState<

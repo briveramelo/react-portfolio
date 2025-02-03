@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import { Box } from "@mui/material";
-import { useHoverTracking } from "../../../tracking/useHoverTracking.ts";
+import { useHoverTracking } from "../../../../utils/tracking/hooks/useHoverTracking.ts";
 
 interface ReactIconAnimationProps {
   triggerRef?: React.RefObject<HTMLButtonElement>;

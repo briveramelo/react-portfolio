@@ -5,7 +5,7 @@ import { HighlightedText } from "../../components/reusable/HighlightedText.tsx";
 import { Project } from "../../../data/projectData.ts";
 import InvertableImage from "../../components/reusable/InvertableImage.tsx";
 import { cp } from "../../../utils/utils.ts";
-import { useHoverTracking } from "../../../tracking/useHoverTracking.ts";
+import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
 import { Collapsible } from "../../components/reusable/Collapsible.tsx";
 import { useCursor } from "../../../context/CursorContext.tsx";
 

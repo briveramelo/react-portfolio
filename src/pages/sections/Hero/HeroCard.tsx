@@ -2,7 +2,7 @@ import React, { useState, useRef, MouseEvent, useEffect, useMemo } from "react";
 import { Box } from "@mui/material";
 import SparkFuseOutline from "./SparkFuseOutline.tsx";
 import { FlareEffect } from "./FlareEffect.tsx";
-import { useHoverTracking } from "../../../tracking/useHoverTracking";
+import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
 import {
   ANIMATED_TRANSITION_DURATION_MS,
   ANIMATION_START_DELAY_MS,

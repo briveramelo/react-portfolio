@@ -9,7 +9,7 @@ import {
 import { styled } from "@mui/system";
 import { SkillData } from "../../../data/skillsData.ts";
 import { getProgressColor } from "../../../utils/utils.ts";
-import { useAnimatedValue } from "../../../utils/useAnimatedValue.ts";
+import { useAnimatedValue } from "../../../utils/hooks/useAnimatedValue.ts";
 import {
   starArcAnimationDurationMs,
   maxYearsOfExperience,

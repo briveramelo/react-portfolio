@@ -1,10 +1,10 @@
 import React, { forwardRef } from "react";
 import { Container, Typography, Grid, Box } from "@mui/material";
-import { TestimonialCard } from "../components/TestimonialCard";
+import { TestimonialCard } from "./Testimonials/TestimonialCard.tsx";
 import { OpenInNew } from "@mui/icons-material";
 import { cp } from "../../utils/utils";
-import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
-import { useIntersectionObserver } from "../../utils/useIntersectionObserver.ts";
+import { useHoverTracking } from "../../utils/tracking/hooks/useHoverTracking.ts";
+import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import { testimonialsData } from "../../data/testimonialData.ts";
 
 interface TestimonialsSectionProps {

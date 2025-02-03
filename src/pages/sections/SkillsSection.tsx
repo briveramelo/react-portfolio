@@ -3,12 +3,12 @@ import { Box, Typography, Grid, Button } from "@mui/material";
 import CalendarIcon from "@/assets/calendar-check.svg?react";
 import StarIcon from "@/assets/star.svg?react";
 
-import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
+import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import { skillsData } from "../../data/skillsData";
 import { ThemeMode, useCustomPalette } from "../../theme";
 import ExperienceCategory from "./Skills/ExperienceCategory";
 import SkillCategory from "./Skills/SkillCategory";
-import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
+import { useHoverTracking } from "../../utils/tracking/hooks/useHoverTracking.ts";
 import { generateGravityBounceScaleKeyframes } from "../../utils/keyframeGenerator.ts";
 
 interface SkillsSectionProps {

@@ -1,5 +1,5 @@
 import { onCLS, onFID, onLCP, onTTFB, onINP } from "web-vitals";
-import { trackCustomEvent } from "./plausibleHelpers";
+import { trackCustomEvent } from "../plausibleHelpers.ts";
 
 /**
  * Sends performance metrics to Plausible using trackCustomEvent.

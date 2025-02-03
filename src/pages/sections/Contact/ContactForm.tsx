@@ -2,8 +2,8 @@ import React from "react";
 import { Box, TextField, Button, Alert, Typography } from "@mui/material";
 import { FormData, FormErrors } from "./contactFormUtils";
 import { cp } from "../../../utils/utils";
-import { useFormTracking } from "../../../tracking/useFormTracking";
-import { useHoverTracking } from "../../../tracking/useHoverTracking";
+import { useFormTracking } from "../../../utils/tracking/hooks/useFormTracking.ts";
+import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
 
 interface ContactFormProps {
   formData: FormData;

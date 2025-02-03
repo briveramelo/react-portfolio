@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ProjectDetail } from "../../../data/projectDetails.ts";
-import { useHoverTracking } from "../../../tracking/useHoverTracking.ts";
+import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
 import {
   Box,
   Typography,
@@ -11,7 +11,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { cp } from "../../../utils/utils.ts";
-import MediaCarousel from "../../components/reusable/MediaCarousel/MediaCarousel.tsx";
+import MediaCarousel from "./MediaCarousel/MediaCarousel.tsx";
 import InvertableImage from "../../components/reusable/InvertableImage.tsx";
 import { ThemeMode, useCustomPalette } from "../../../theme.ts";
 import { useTheme } from "@mui/material/styles";

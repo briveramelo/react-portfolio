@@ -14,7 +14,7 @@ import { LinkedIn, Menu } from "@mui/icons-material";
 import ThemeSwitcher from "./ThemeSwitcher.tsx";
 import { ThemeContext } from "../../context/ThemeContext.tsx";
 import { isColorDark } from "../../utils/utils.ts";
-import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
+import { useHoverTracking } from "../../utils/tracking/hooks/useHoverTracking.ts";
 import { themes } from "../../theme.ts";
 import { sectionStyles } from "../../data/sectionStyles.ts";
 

@@ -2,7 +2,7 @@ import React from "react";
 import { Typography, Box } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
-import { useAnimatedText } from "../../../utils/useAnimatedText";
+import { useAnimatedText } from "../../../utils/hooks/useAnimatedText.ts";
 import {
   ANIMATION_START_DELAY_MS,
   ANIMATED_TRANSITION_DURATION_MS,

@@ -2,7 +2,7 @@ import React, { forwardRef, useState } from "react";
 import { Box, Container } from "@mui/material";
 import { HeroText } from "./Hero/HeroText";
 import HeroCard from "./Hero/HeroCard.tsx";
-import { useIntersectionObserver } from "../../utils/useIntersectionObserver.ts";
+import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import ScrollDownIndicator from "../components/specialty/ScrollDownIndicator.tsx";
 
 interface HeroProps {

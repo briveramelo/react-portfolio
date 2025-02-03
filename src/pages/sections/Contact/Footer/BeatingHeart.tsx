@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
 import "./BeatingHeart.css";
-import { useHoverTracking } from "../../../tracking/useHoverTracking.ts";
+import { useHoverTracking } from "../../../../utils/tracking/hooks/useHoverTracking.ts";
 
 interface BeatingHeartProps {
   heartTriggerRef?: React.RefObject<HTMLButtonElement>;

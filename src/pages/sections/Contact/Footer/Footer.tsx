@@ -1,9 +1,9 @@
 import React from "react";
 import { Container, Typography, Box } from "@mui/material";
-import { BeatingHeart } from "./specialty/BeatingHeart.tsx";
-import { SteamingCoffee } from "./specialty/SteamingCoffee.tsx";
-import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
-import { ReactIconAnimation } from "./specialty/ReactIconAnimation.tsx";
+import { BeatingHeart } from "./BeatingHeart.tsx";
+import { SteamingCoffee } from "./SteamingCoffee.tsx";
+import { useHoverTracking } from "../../../../utils/tracking/hooks/useHoverTracking.ts";
+import { ReactIconAnimation } from "./ReactIconAnimation.tsx";
 
 interface FooterProps {
   backgroundColor: string;
