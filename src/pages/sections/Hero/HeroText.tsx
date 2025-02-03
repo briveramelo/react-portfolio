@@ -8,7 +8,7 @@ import {
   ANIMATED_TRANSITION_DURATION_MS,
   FIRST_ANIMATION_START_DELAY_MS,
   FIRST_ANIMATED_TRANSITION_DURATION_MS,
-} from "./HeroHelpers";
+} from "./heroHelpers.ts";
 
 interface HeroTextProps {
   textColor: string;

@@ -1,5 +1,5 @@
 import React, { RefObject, useEffect, useRef } from "react";
-import { Flare } from "./Flare.ts";
+import { Flare } from "./flare.ts";
 
 interface FlareEffectProps {
   containerRef: RefObject<HTMLElement>;

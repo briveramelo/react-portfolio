@@ -9,7 +9,7 @@ import {
   FIRST_ANIMATED_TRANSITION_DURATION_MS,
   FIRST_ANIMATION_START_DELAY_MS,
   USER_TRANSITION_DURATION_MS,
-} from "./HeroHelpers";
+} from "./heroHelpers.ts";
 import HeroCardBack from "./HeroCardBack.tsx";
 import HeroCardFront from "./HeroCardFront.tsx";
 

@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import { Container, Typography, Grid, Box } from "@mui/material";
 import { RecentProjectCard } from "./RecentWork/RecentProjectCard.tsx";
 import pessimisticNight from "@/assets/projects/pessimistic-night.webp";
-import digitalHealth from "@/assets/orgs/DigitalHealth4x3.webp";
+import digitalHealth from "@/assets/orgs/digital-health-4x3.webp";
 
 interface Project {
   title: string;

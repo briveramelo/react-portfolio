@@ -1,6 +1,6 @@
 import joshLevenson from "@/assets/people/josh-levenson.jpeg";
 import andy from "@/assets/people/andy.jpeg";
-import laurenMee from "@/assets/people/laurenmee.jpeg";
+import laurenMee from "@/assets/people/lauren-mee.jpeg";
 import alannaCarrol from "@/assets/people/alanna.jpeg";
 
 export interface Testimonial {
