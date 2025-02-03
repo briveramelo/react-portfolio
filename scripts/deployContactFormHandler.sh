@@ -13,7 +13,7 @@ gcloud functions deploy contactFormHandler \
     --trigger-http \
     --allow-unauthenticated \
     --entry-point contact_form_handler \
-    --set-env-vars "SMTP_SERVER=${SMTP_SERVER},SMTP_PORT=${SMTP_PORT},EMAIL_RECEIVER=${EMAIL_RECEIVER},EMAIL_SENDER=${EMAIL_SENDER},EMAIL_PASSWORD=${EMAIL_PASSWORD},MESSAGE_MAX_LENGTH=${MESSAGE_MAX_LENGTH},SUBJECT_MAX_LENGTH=${SUBJECT_MAX_LENGTH}" \
+    --set-env-vars "SMTP_SERVER=${SMTP_SERVER},SMTP_PORT=${SMTP_PORT},EMAIL_RECEIVER=${EMAIL_RECEIVER},EMAIL_SENDER=${EMAIL_SENDER},EMAIL_PASSWORD=${EMAIL_PASSWORD},MESSAGE_MAX_LENGTH=${MESSAGE_MAX_LENGTH},SUBJECT=${SUBJECT}" \
     --region us-central1 \
     --verbosity=debug
 

@@ -5,7 +5,7 @@ import { SkillsSection } from "./sections/SkillsSection";
 import { Projects } from "./sections/Projects";
 import { TestimonialsSection } from "./sections/TestimonialsSection";
 import { RecentWorkSection } from "./sections/RecentWorkSection";
-import { ContactSection } from "./sections/ContactSection";
+import { ContactSection } from "./sections/ContactSection.tsx";
 import { Employers } from "./sections/Employers";
 import { ThemeMode, useCustomPalette } from "../theme";
 import { sectionStyles } from "../data/sectionStyles";
@@ -18,7 +18,6 @@ export function HomePage() {
   const initialColors =
     sectionStyles[currentSectionId] || sectionStyles["home"];
 
-  // Create refs for each section
   const heroRef = useRef<HTMLElement | null>(null);
   const employersRef = useRef<HTMLElement | null>(null);
   const skillsRef = useRef<HTMLElement | null>(null);
