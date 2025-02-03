@@ -21,7 +21,11 @@ const peakScale = 1.3;
 const starContainerSize = 45 * peakScale;
 const starSize = 30;
 
-const SkillArc: React.FC<SkillCategoryArcProps> = ({ starCount, isVisible, isSectionVisible }) => {
+const SkillArc: React.FC<SkillCategoryArcProps> = ({
+  starCount,
+  isVisible,
+  isSectionVisible,
+}) => {
   const { experience } = useCustomPalette();
   const { star, empty } = experience;
   const animatedStarCount = useAnimatedValue(
