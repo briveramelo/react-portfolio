@@ -1,58 +1,54 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import Box from "@mui/material/Box";
 
-/**
- * A Spark component that exposes an imperative restart method.
- * Its animation is defined solely via its sx prop (using the memoized sparkAnimation value),
- * and its position (left/top) is controlled via its internal state.
- */
 export interface SparkHandle {
   restart: (left: number, top: number) => void;
 }
 
 interface SparkProps {
-  sparkAnimation: string;
+  keyframes: Keyframe[];
+  animationOptions: KeyframeAnimationOptions;
 }
 
-const Spark = forwardRef<SparkHandle, SparkProps>(({ sparkAnimation }, ref) => {
-  const [state, setState] = useState<{
-    left: number;
-    top: number;
-    restartKey: number;
-  }>({
-    left: -9999, // hack to keep first few offscreen
-    top: -9999, // hack to keep first few offscreen
-    restartKey: 0,
-  });
+const Spark = forwardRef<SparkHandle, SparkProps>(
+  ({ keyframes, animationOptions }, ref) => {
+    const size = 8;
+    const boxRef = useRef<HTMLDivElement>(null);
+    const animationRef = useRef<Animation | null>(null);
 
-  // Expose an imperative method to update position (and restart the animation).
-  useImperativeHandle(ref, () => ({
-    restart(left: number, top: number) {
-      setState((prev) => ({
-        left,
-        top,
-        restartKey: prev.restartKey + 1, // change the key so the sx prop re‑evaluates
-      }));
-    },
-  }));
+    useImperativeHandle(ref, () => ({
+      restart(left: number, top: number) {
+        if (boxRef.current) {
+          boxRef.current.style.left = `${left}px`;
+          boxRef.current.style.top = `${top}px`;
 
-  return (
-    <Box
-      key={state.restartKey}
-      sx={{
-        position: "absolute",
-        background: "radial-gradient(circle, #ffffff 0%, #ffa500 70%)",
-        height: "8px",
-        width: "8px",
-        borderRadius: "50%",
-        pointerEvents: "none",
-        left: state.left,
-        top: state.top,
-        animation: sparkAnimation,
-      }}
-    />
-  );
-});
+          if (animationRef.current) {
+            animationRef.current.cancel();
+          }
+
+          animationRef.current = boxRef.current.animate(
+            keyframes,
+            animationOptions,
+          );
+        }
+      },
+    }));
+
+    return (
+      <Box
+        ref={boxRef}
+        sx={{
+          position: "fixed",
+          background: "radial-gradient(circle, #ffffff 0%, #ffa500 70%)",
+          height: size,
+          width: size,
+          borderRadius: "50%",
+          pointerEvents: "none",
+        }}
+      />
+    );
+  },
+);
 
 Spark.displayName = "Spark";
 

@@ -15,8 +15,9 @@ export interface SparkFuseOutlineProps {
   // @ts-ignore
   height: SxProps<Theme>["height"];
   borderRadius: number;
+  sparksPerBurst: number;
+  burstIntervalMs: number;
   fuseHeadLoopDurationMs?: number;
-  sparkBurstCount?: number;
   sparkBurstDurationMs?: number;
   /** Toggle the entire animation state (fuse head and sparks) */
   animationEnabled?: boolean;
@@ -27,7 +28,8 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
   height,
   borderRadius,
   fuseHeadLoopDurationMs = 2000,
-  sparkBurstCount = 3,
+  sparksPerBurst = 3,
+  burstIntervalMs = 50,
   sparkBurstDurationMs = 500,
   animationEnabled = false,
 }) => {
@@ -42,6 +44,9 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
     height,
     theme,
     breakpointMatches,
+  );
+  const totalSparkCount = Math.ceil(
+    sparksPerBurst * (fuseHeadLoopDurationMs / burstIntervalMs),
   );
 
   // Construct an SVG path string for the container’s outline.
@@ -89,7 +94,7 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
       offsetRotate: "0deg",
       animation: `${fuseHeadAnim} ${fuseHeadLoopDurationMs}ms linear infinite`,
       opacity: animationEnabled ? 1 : 0,
-      transition: `opacity ${sparkBurstDurationMs}ms ease-in-out ${fuseHeadLoopDurationMs / sparkBurstCount}ms`,
+      transition: `opacity ${sparkBurstDurationMs}ms ease-in-out ${burstIntervalMs}ms`,
     }),
   );
 
@@ -110,34 +115,37 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
     return null;
   };
 
-  // Memoize an array of animation strings (one per spark).
   const sparkAnimations = useMemo(() => {
-    const MIN_VELOCITY = 175;
-    const MAX_VELOCITY = 250;
-    const MIN_ANGLE = 15;
-    const MAX_ANGLE = 165;
-    const opacityAnim = keyframes`
-      0% { opacity: 1; }
-      100% { opacity: 0; }
-    `;
-    return Array.from({ length: sparkBurstCount }, () => {
+    const MIN_VELOCITY = 250;
+    const MAX_VELOCITY = 350;
+    const MIN_ANGLE = 60;
+    const MAX_ANGLE = 120;
+    return Array.from({ length: totalSparkCount }).map(() => {
       const randomAngle = MIN_ANGLE + (MAX_ANGLE - MIN_ANGLE) * Math.random();
       const randomVelocity =
         MIN_VELOCITY + (MAX_VELOCITY - MIN_VELOCITY) * Math.random();
-      const projectileKeyframes = generateProjectileKeyframes({
+      const keyframes = generateProjectileKeyframes({
         initialAngleDeg: randomAngle,
         initialVelocityPxPerSec: randomVelocity,
-        totalTimeMs: 1500,
-        numKeyframes: 40,
+        totalTimeMs: sparkBurstDurationMs,
+        numKeyframes: 30,
         numDecimals: 3,
         gravity: 500,
       });
-      return `${projectileKeyframes} ${sparkBurstDurationMs}ms ease-out forwards, ${opacityAnim} ${sparkBurstDurationMs}ms ease-out forwards`;
+      const animationOptions: KeyframeAnimationOptions = {
+        duration: sparkBurstDurationMs,
+        easing: "ease-out",
+        fill: "forwards",
+      };
+      return {
+        keyframes,
+        animationOptions,
+      };
     });
-  }, [sparkBurstCount, sparkBurstDurationMs]);
+  }, [sparkBurstDurationMs, totalSparkCount]);
 
   const sparkRefs = useRef<Array<React.RefObject<SparkHandle>>>(
-    Array.from({ length: sparkBurstCount }, () =>
+    Array.from({ length: totalSparkCount }, () =>
       React.createRef<SparkHandle>(),
     ),
   );
@@ -157,7 +165,7 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
     if (sparkRef.current) {
       sparkRef.current.restart(pos.x, pos.y);
     }
-    currentSparkIndex.current = (index + 1) % sparkBurstCount;
+    currentSparkIndex.current = (index + 1) % totalSparkCount;
   };
 
   /**
@@ -168,13 +176,14 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
   useEffect(() => {
     if (!animationEnabled) return;
 
-    const intervalTime = fuseHeadLoopDurationMs / sparkBurstCount;
     const intervalId = setInterval(() => {
-      emitSpark();
-    }, intervalTime);
+      for (let i = 0; i < sparksPerBurst; i++) {
+        emitSpark();
+      }
+    }, burstIntervalMs);
 
     return () => clearInterval(intervalId);
-  }, [fuseHeadLoopDurationMs, sparkBurstCount, animationEnabled]);
+  }, [fuseHeadLoopDurationMs, totalSparkCount, animationEnabled]);
 
   /**
    * Create a portal container for the sparks so that their positions are not affected by any
@@ -188,13 +197,13 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
     const container = document.createElement("div");
     // Make sure the container spans the viewport and does not interfere with pointer events.
     Object.assign(container.style, {
-      position: "absolute",
+      position: "fixed",
       top: "0",
       left: "0",
       width: "100%",
       height: "100%",
       pointerEvents: "none",
-      zIndex: "9999",
+      zIndex: 3,
     });
     document.body.appendChild(container);
     setSparkContainer(container);
@@ -212,11 +221,12 @@ const SparkFuseOutline: React.FC<SparkFuseOutlineProps> = ({
       {sparkContainer &&
         ReactDOM.createPortal(
           <>
-            {Array.from({ length: sparkBurstCount }).map((_, index) => (
+            {Array.from({ length: totalSparkCount }).map((_, index) => (
               <Spark
                 key={index}
                 ref={sparkRefs.current[index]}
-                sparkAnimation={sparkAnimations[index]}
+                keyframes={sparkAnimations[index].keyframes}
+                animationOptions={sparkAnimations[index].animationOptions}
               />
             ))}
           </>,

@@ -78,8 +78,18 @@ export interface ProjectileKeyframesOptions {
   numDecimals: number;
   gravity?: number; // optional with a default value
 }
+
+export interface ProjectileKeyframesOptions {
+  initialAngleDeg: number;
+  initialVelocityPxPerSec: number;
+  totalTimeMs: number;
+  numKeyframes: number;
+  numDecimals: number;
+  gravity?: number;
+}
+
 /**
- * Generates a keyframe animation for a projectile (baseball throw arc) effect.
+ * Generates keyframes as an array of objects for the Web Animations API.
  *
  * The animation calculates x and y positions based on standard projectile motion:
  *   x(t) = v * cos(theta) * t
@@ -89,6 +99,7 @@ export interface ProjectileKeyframesOptions {
  *
  * @param initialAngleDeg - The initial angle (in degrees) of the throw.
  * @param initialVelocityPxPerSec - The initial velocity (in pixels per second, or any consistent unit).
+ * @param totalTimeMs - The total time the animation runs for.
  * @param numKeyframes - The number of keyframes to generate.
  * @param numDecimals - The number of decimal places to use when rounding positions.
  * @param gravity - The acceleration due to gravity
@@ -100,26 +111,24 @@ export const generateProjectileKeyframes = ({
   totalTimeMs,
   numKeyframes,
   numDecimals,
-  gravity = 100, // default value
-}: ProjectileKeyframesOptions) => {
+  gravity = 100,
+}: ProjectileKeyframesOptions): Keyframe[] => {
   const thetaRad = (initialAngleDeg * Math.PI) / 180;
+  const keyframes: Keyframe[] = [];
 
-  return keyframes`
-    ${[...Array(numKeyframes + 1)]
-      .map((_, i) => {
-        const percent = (i * 100) / numKeyframes;
-        // Normalize time between 0 and totalTime
-        const t = ((i / numKeyframes) * totalTimeMs) / 1000;
-        // Calculate horizontal position (x) and vertical position (y)
-        const x = initialVelocityPxPerSec * Math.cos(thetaRad) * t;
-        const y =
-          initialVelocityPxPerSec * Math.sin(thetaRad) * t -
-          0.5 * gravity * t * t;
-        // Negate y so that upward motion corresponds to a negative translateY in CSS.
-        return `${percent.toFixed(2)}% { transform: translate(${x.toFixed(
-          numDecimals,
-        )}px, ${(-y).toFixed(numDecimals)}px); }`;
-      })
-      .join("\n    ")}
-  `;
+  for (let i = 0; i <= numKeyframes; i++) {
+    const percent = i / numKeyframes;
+    const t = (percent * totalTimeMs) / 1000; // time in seconds
+    const x = initialVelocityPxPerSec * Math.cos(thetaRad) * t;
+    const y =
+      initialVelocityPxPerSec * Math.sin(thetaRad) * t - 0.5 * gravity * t * t;
+    keyframes.push({
+      transform: `translate(${x.toFixed(numDecimals)}px, ${(-y).toFixed(
+        numDecimals,
+      )}px)`,
+      opacity: 1 - percent, // fade out over the duration
+    });
+  }
+
+  return keyframes;
 };

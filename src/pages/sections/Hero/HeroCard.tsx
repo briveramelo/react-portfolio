@@ -8,6 +8,7 @@ import {
   ANIMATION_START_DELAY_MS,
   FIRST_ANIMATED_TRANSITION_DURATION_MS,
   FIRST_ANIMATION_START_DELAY_MS,
+  PROJECTILE_DURATION_MS,
   USER_TRANSITION_DURATION_MS,
 } from "./heroHelpers.ts";
 import HeroCardBack from "./HeroCardBack.tsx";
@@ -34,6 +35,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
   const { trackMouseEnter, trackMouseLeave, hasBeenHovered } = useHoverTracking(
     USER_TRANSITION_DURATION_MS,
   );
+  const [isFuseActive, setIsFuseActive] = useState<boolean>(true);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -108,6 +110,14 @@ const HeroCard: React.FC<HeroCardProps> = ({
     };
   }, [isSectionVisible]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (!hasBeenHovered) return;
+
+      setIsFuseActive(false);
+    }, PROJECTILE_DURATION_MS);
+  }, [hasBeenHovered]);
+
   const isRight = (event: MouseEvent<HTMLDivElement>): boolean => {
     const { left, width } = event.currentTarget.getBoundingClientRect();
     return event.clientX - left > width / 2;
@@ -172,15 +182,18 @@ const HeroCard: React.FC<HeroCardProps> = ({
           willChange: isSectionVisible ? "transform" : undefined,
         }}
       >
-        <SparkFuseOutline
-          borderRadius={8}
-          fuseHeadLoopDurationMs={2000}
-          sparkBurstCount={20}
-          sparkBurstDurationMs={2500}
-          animationEnabled={!hasBeenHovered}
-          width={imageWidth}
-          height={imageHeight}
-        />
+        {isFuseActive && (
+          <SparkFuseOutline
+            borderRadius={8}
+            fuseHeadLoopDurationMs={3000}
+            sparksPerBurst={2}
+            burstIntervalMs={50}
+            sparkBurstDurationMs={PROJECTILE_DURATION_MS}
+            animationEnabled={!hasBeenHovered}
+            width={imageWidth}
+            height={imageHeight}
+          />
+        )}
         <FlareEffect
           containerRef={containerRef}
           durationMs={15000}
@@ -190,7 +203,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
         />
 
         <HeroCardFront hasBeenHovered={hasBeenHovered} />
-        <HeroCardBack />
+        {isSectionVisible && <HeroCardBack />}
       </Box>
     </Box>
   );
