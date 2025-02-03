@@ -19,6 +19,7 @@ import InvertableImage from "../reusable/InvertableImage.tsx";
 interface ExperienceProps {
   skill: SkillData;
   useLight: boolean;
+  isVisible: boolean;
 }
 
 const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -33,7 +34,13 @@ const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-const Experience: React.FC<ExperienceProps> = ({ skill, useLight }) => {
+const SIZE = "50px";
+
+const Experience: React.FC<ExperienceProps> = ({
+  skill,
+  useLight,
+  isVisible,
+}) => {
   const { name, years, srcLight, srcDark, invertIfLight } = skill;
   const rawValue = years.length;
   const src = useLight ? srcLight : srcDark;
@@ -41,9 +48,9 @@ const Experience: React.FC<ExperienceProps> = ({ skill, useLight }) => {
   const animatedValue = useAnimatedValue(
     clampedValue,
     starArcAnimationDurationMs,
+    isVisible,
   );
   const roundedText = Math.round(animatedValue);
-  const size = "50px";
 
   return (
     <Grid
@@ -57,8 +64,8 @@ const Experience: React.FC<ExperienceProps> = ({ skill, useLight }) => {
       <Grid
         item
         sx={{
-          width: size,
-          height: size,
+          width: SIZE,
+          height: SIZE,
           display: "flex",
           justifyContent: "center",
         }}
@@ -71,7 +78,7 @@ const Experience: React.FC<ExperienceProps> = ({ skill, useLight }) => {
       </Grid>
 
       {/* Skill name / numeric text / progress bar */}
-      <Grid item xs sx={{ height: size }}>
+      <Grid item xs sx={{ height: SIZE }}>
         <Box>
           <Box
             display="flex"
@@ -106,4 +113,4 @@ const Experience: React.FC<ExperienceProps> = ({ skill, useLight }) => {
   );
 };
 
-export default Experience;
+export default React.memo(Experience);

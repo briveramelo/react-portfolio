@@ -11,33 +11,35 @@ import { useCustomPalette } from "../../../theme.ts";
 
 interface SkillCategoryArcProps {
   starCount: number; // Accepts full or half values (e.g. 1, 1.5, 2, 2.5)
+  isVisible: boolean;
   isSectionVisible: boolean;
 }
 
-const SkillArc: React.FC<SkillCategoryArcProps> = ({
-  starCount,
-  isSectionVisible,
-}) => {
+const arcSize = 300;
+const radius = arcSize / 2;
+const peakScale = 1.3;
+const starContainerSize = 45 * peakScale;
+const starSize = 30;
+
+const SkillArc: React.FC<SkillCategoryArcProps> = ({ starCount, isVisible, isSectionVisible }) => {
   const { experience } = useCustomPalette();
   const { star, empty } = experience;
-  const arcSize = 300;
-  const radius = arcSize / 2;
-  const peakScale = 1.3;
-  const starContainerSize = 45 * peakScale;
-  const starSize = 30;
   const animatedStarCount = useAnimatedValue(
     starCount,
     starPopAnimationDurationMs,
+    isVisible,
   );
 
-  const popAnimation = keyframes`
-      0% { transform: scale(0); opacity: 0; }
-      50% { transform: scale(${peakScale}); opacity: 1; }
-      100% { transform: scale(1); opacity: 1; }
-  `;
+  const popAnimation = React.useMemo(
+    () => keyframes`
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(${peakScale}); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  `,
+    [],
+  );
 
-  // Fixed star positions based on the maximum star count
-  const getStarPositions = () => {
+  const starPositions = React.useMemo(() => {
     const positions = [];
     const startAngle = -Math.PI / 2; // Top center
     const totalSpacing = Math.PI / 2; // Half-circle arc
@@ -50,32 +52,38 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({
       const y = arcSize / 2 + radius * Math.sin(angle);
       positions.push({ x, y });
     }
-
     return positions;
-  };
+  }, []);
 
-  const starPositions = getStarPositions();
   const halfRoundedValue = Math.round(animatedStarCount * 2) / 2;
+  const finalHalfRoundedValue = Math.round(starCount * 2) / 2;
+  const isAnimationComplete =
+    Math.abs(finalHalfRoundedValue - halfRoundedValue) < 0.01;
 
   return (
     <Box position="relative">
       <svg height={90} width={arcSize}>
         {starPositions.map((pos, index) => {
-          const isHalfStar = index + 0.5 === halfRoundedValue;
+          const isHalfStar = isAnimationComplete
+            ? Math.abs(index + 0.5 - finalHalfRoundedValue) < 0.01
+            : false;
           const isGold = index < halfRoundedValue;
-
+          const x = pos.x - starContainerSize / 2;
+          const y = pos.y - starContainerSize / 2 + 22.5;
           return (
             <foreignObject
               key={index}
-              x={pos.x - starContainerSize / 2}
-              y={pos.y - starContainerSize / 2 + 22.5}
+              x={x.toFixed(3)}
+              y={y.toFixed(3)}
               width={starContainerSize}
               height={starContainerSize}
             >
               <Box
                 component="div"
                 sx={{
-                  animation: `${popAnimation} ${starPopAnimationDurationMs}ms ease-out`,
+                  animation: isVisible
+                    ? `${popAnimation} ${starPopAnimationDurationMs}ms ease-out`
+                    : "",
                   animationDelay: `${index * 0.1}s`,
                   animationFillMode: "backwards",
                   display: "flex",
@@ -83,7 +91,10 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({
                   alignItems: "center",
                   width: "100%",
                   height: "100%",
-                  willChange: isSectionVisible ? "transform, opacity" : "", //since it starts hidden, conditional works well
+                  // Only apply animation-related styles when visible
+                  willChange: isSectionVisible
+                    ? "transform, opacity"
+                    : undefined,
                 }}
               >
                 {isHalfStar ? (
@@ -105,4 +116,4 @@ const SkillArc: React.FC<SkillCategoryArcProps> = ({
   );
 };
 
-export default SkillArc;
+export default React.memo(SkillArc);

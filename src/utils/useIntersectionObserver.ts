@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 export const useIntersectionObserver = (
   elementRef: React.RefObject<Element>,
@@ -6,21 +6,31 @@ export const useIntersectionObserver = (
 ): boolean => {
   const [isVisible, setIsVisible] = useState(false);
 
+  // Memoize the options within the hook.
+  const memoizedOptions = useMemo(
+    () => ({
+      root: options.root,
+      rootMargin: options.rootMargin,
+      threshold: options.threshold,
+    }),
+    [options.root, options.rootMargin, JSON.stringify(options.threshold)],
+  );
+
   useEffect(() => {
-    if (!elementRef.current) return;
+    const element = elementRef.current;
+    if (!element) return;
 
     const observer = new IntersectionObserver(([entry]) => {
       setIsVisible(entry.isIntersecting);
-    }, options);
+    }, memoizedOptions);
 
-    observer.observe(elementRef.current);
+    observer.observe(element);
 
     return () => {
-      if (elementRef.current) {
-        observer.unobserve(elementRef.current);
-      }
+      observer.unobserve(element);
+      observer.disconnect();
     };
-  }, [elementRef, options]);
+  }, [elementRef, memoizedOptions]);
 
   return isVisible;
 };

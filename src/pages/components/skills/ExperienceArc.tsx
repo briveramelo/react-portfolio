@@ -10,40 +10,46 @@ import { useCustomPalette } from "../../../theme.ts";
 
 interface ExperienceCategoryArcProps {
   years: number;
+  isVisible: boolean;
 }
 
-const ExperienceArc: React.FC<ExperienceCategoryArcProps> = ({ years }) => {
+const SIZE = 120;
+const STROKE_WIDTH = 10;
+const RADIUS = (SIZE - STROKE_WIDTH) / 2;
+const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+
+const ExperienceArc: React.FC<ExperienceCategoryArcProps> = ({
+  years,
+  isVisible,
+}) => {
   const { experience } = useCustomPalette();
-  const size = 120;
-  const strokeWidth = 10;
-  const radius = (size - strokeWidth) / 2;
-  const circumference = 2 * Math.PI * radius;
 
   const clampedYears = Math.min(years, maxYearsOfExperience);
   const animatedValue = useAnimatedValue(
     clampedYears,
     starArcAnimationDurationMs,
+    isVisible,
   );
   const currentProgress =
-    (animatedValue / maxYearsOfExperience) * (circumference / 2);
+    (animatedValue / maxYearsOfExperience) * (CIRCUMFERENCE / 2);
 
   return (
     <Box
       position="relative"
-      width={size}
-      height={size / 2}
+      width={SIZE}
+      height={SIZE / 2}
       sx={{ overflow: "hidden" }}
     >
-      <svg width={size} height={size}>
+      <svg width={SIZE} height={SIZE}>
         <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
+          cx={SIZE / 2}
+          cy={SIZE / 2}
+          r={RADIUS}
           fill="transparent"
           stroke={experience.empty}
-          strokeWidth={strokeWidth}
-          pathLength={circumference}
-          strokeDasharray={circumference / 2}
+          strokeWidth={STROKE_WIDTH}
+          pathLength={CIRCUMFERENCE}
+          strokeDasharray={CIRCUMFERENCE / 2}
           strokeDashoffset={0}
           style={{
             transform: "rotate(180deg)",
@@ -51,14 +57,14 @@ const ExperienceArc: React.FC<ExperienceCategoryArcProps> = ({ years }) => {
           }}
         />
         <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
+          cx={SIZE / 2}
+          cy={SIZE / 2}
+          r={RADIUS}
           fill="transparent"
-          strokeWidth={strokeWidth}
+          strokeWidth={STROKE_WIDTH}
           stroke={getProgressColor(animatedValue, true)}
-          pathLength={circumference}
-          strokeDasharray={`${currentProgress} ${circumference / 2 - currentProgress + 5}`} // the added 5 ensures the linecap butt doesn't appear
+          pathLength={CIRCUMFERENCE}
+          strokeDasharray={`${currentProgress.toFixed(3)} ${(CIRCUMFERENCE / 2 - currentProgress + 5).toFixed(3)}`} // the added 5 ensures the linecap butt doesn't appear
           strokeDashoffset={0}
           strokeLinecap="round"
           style={{
@@ -89,4 +95,4 @@ const ExperienceArc: React.FC<ExperienceCategoryArcProps> = ({ years }) => {
   );
 };
 
-export default ExperienceArc;
+export default React.memo(ExperienceArc);

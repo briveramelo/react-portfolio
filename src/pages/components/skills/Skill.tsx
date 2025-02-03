@@ -7,10 +7,16 @@ import StarRating from "./StarRating.tsx";
 interface SkillProps {
   skill: SkillData;
   useLight: boolean;
+  isVisible: boolean;
   isSectionVisible: boolean;
 }
 
-const Skill: React.FC<SkillProps> = ({ skill, useLight, isSectionVisible }) => {
+const Skill: React.FC<SkillProps> = ({
+  skill,
+  useLight,
+  isVisible,
+  isSectionVisible,
+}) => {
   const { name, starCount, srcLight, srcDark, invertIfLight } = skill;
   const src = useLight ? srcLight : srcDark;
   const iconSize = "50px";
@@ -80,8 +86,9 @@ const Skill: React.FC<SkillProps> = ({ skill, useLight, isSectionVisible }) => {
         }}
       >
         <StarRating
-          key={isSectionVisible ? `${name}-visible` : `${name}-hidden`}
+          key={name}
           count={starCount}
+          isVisible={isVisible}
           isSectionVisible={isSectionVisible}
         />
       </Grid>
@@ -89,4 +96,4 @@ const Skill: React.FC<SkillProps> = ({ skill, useLight, isSectionVisible }) => {
   );
 };
 
-export default Skill;
+export default React.memo(Skill);

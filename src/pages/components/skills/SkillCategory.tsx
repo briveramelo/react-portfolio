@@ -6,12 +6,14 @@ import { SkillCategoryData } from "../../../data/skillsData.ts";
 
 interface SkillCategoryProps {
   skillCategory: SkillCategoryData;
+  isVisible: boolean;
   isSectionVisible: boolean;
   useLight: boolean;
 }
 
 const SkillCategory: React.FC<SkillCategoryProps> = ({
   skillCategory,
+  isVisible,
   isSectionVisible,
   useLight,
 }) => {
@@ -47,12 +49,9 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
         }}
       >
         <SkillArc
-          key={
-            isSectionVisible
-              ? `${category}-star-arc-visible`
-              : `${category}-star-arc-hidden`
-          }
-          starCount={isSectionVisible ? averageStars : 0}
+          key={`${category}-star-arc`}
+          starCount={averageStars}
+          isVisible={isVisible}
           isSectionVisible={isSectionVisible}
         />
       </Box>
@@ -68,6 +67,7 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
             key={`${skill.name}-star`}
             skill={skill}
             useLight={useLight}
+            isVisible={isVisible}
             isSectionVisible={isSectionVisible}
           />
         ))}
@@ -76,4 +76,4 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
   );
 };
 
-export default SkillCategory;
+export default React.memo(SkillCategory);

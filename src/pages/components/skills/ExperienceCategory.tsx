@@ -52,14 +52,16 @@ const ExperienceCategory: React.FC<ExperienceCategoryProps> = ({
         <ExperienceArc
           key={`${category}-exp`}
           years={isVisible ? averageYears : 0}
+          isVisible={isVisible}
         />
       </Box>
       <Box sx={{ pt: "20px" }}>
         {skills.map((skill) => (
           <Experience
             key={`${skill.name}-exp`}
-            skill={{ ...skill, years: isVisible ? skill.years : [] }}
+            skill={skill}
             useLight={useLight}
+            isVisible={isVisible}
           />
         ))}
       </Box>
@@ -67,4 +69,4 @@ const ExperienceCategory: React.FC<ExperienceCategoryProps> = ({
   );
 };
 
-export default ExperienceCategory;
+export default React.memo(ExperienceCategory);
