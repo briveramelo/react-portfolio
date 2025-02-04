@@ -65,6 +65,7 @@ const SparkEmitter: React.FC<SparkEmitterProps> = ({
 
   const emitSpark = (pos: { x: number; y: number } | null) => {
     if (!pos) return;
+
     const index = currentSparkIndex.current;
     const sparkRef = sparkRefs.current[index];
     if (sparkRef.current) {
@@ -84,7 +85,7 @@ const SparkEmitter: React.FC<SparkEmitterProps> = ({
       width: "100%",
       height: "100%",
       pointerEvents: "none",
-      zIndex: 999, // Ensure it appears above other elements
+      zIndex: 2,
     });
     document.body.appendChild(container);
     sparkContainerRef.current = container;

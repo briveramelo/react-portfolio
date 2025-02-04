@@ -14,8 +14,8 @@ export function useCardMetrics(containerRef: React.RefObject<HTMLElement>) {
     const updateMetrics = () => {
       const rect = containerRef.current!.getBoundingClientRect();
       setMetrics({
-        left: rect.left,
-        top: rect.top,
+        left: rect.left + window.scrollX,
+        top: rect.top + window.scrollY,
         width: rect.width,
         height: rect.height,
       });
