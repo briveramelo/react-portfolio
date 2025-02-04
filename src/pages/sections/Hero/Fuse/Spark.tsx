@@ -18,19 +18,19 @@ const Spark = forwardRef<SparkHandle, SparkProps>(
 
     useImperativeHandle(ref, () => ({
       restart(left: number, top: number) {
-        if (boxRef.current) {
-          boxRef.current.style.left = `${left}px`;
-          boxRef.current.style.top = `${top}px`;
+        if (!boxRef.current) return;
 
-          if (animationRef.current) {
-            animationRef.current.cancel();
-          }
+        boxRef.current.style.left = `${left}px`;
+        boxRef.current.style.top = `${top}px`;
 
-          animationRef.current = boxRef.current.animate(
-            keyframes,
-            animationOptions,
-          );
+        if (animationRef.current) {
+          animationRef.current.cancel();
         }
+
+        animationRef.current = boxRef.current.animate(
+          keyframes,
+          animationOptions,
+        );
       },
     }));
 

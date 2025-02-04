@@ -13,21 +13,17 @@ import {
 } from "./heroHelpers";
 import HeroCardBack from "./HeroCardBack";
 import HeroCardFront from "./HeroCardFront";
-import { useCardMetrics } from "./Fuse/useCardMetrics";
 
 interface HeroCardProps {
   isSectionVisible: boolean;
   onHoveredChange: (value: boolean) => void;
 }
 
-const PERSPECTIVE = 1000;
-
 const HeroCard: React.FC<HeroCardProps> = ({
   isSectionVisible,
   onHoveredChange,
 }) => {
   const [targetRotationDeg, setTargetRotationDeg] = useState<number>(0);
-  const [startRotationDeg, setStartRotationDeg] = useState<number>(0);
   const [instantFlip, setInstantFlip] = useState<boolean>(false);
   const [transitionDurationMs, setTransitionDurationMs] = useState<number>(
     FIRST_ANIMATED_TRANSITION_DURATION_MS,
@@ -57,7 +53,6 @@ const HeroCard: React.FC<HeroCardProps> = ({
           ? FIRST_ANIMATION_START_DELAY_MS
           : ANIMATION_START_DELAY_MS,
         action: () => {
-          setStartRotationDeg(targetRotationDeg);
           transitionStartTimeRef.current = performance.now();
           setTransitionDurationMs(
             isFirstCardAnimation
@@ -73,7 +68,6 @@ const HeroCard: React.FC<HeroCardProps> = ({
           : ANIMATED_TRANSITION_DURATION_MS,
         action: () => {
           setInstantFlip(true);
-          setStartRotationDeg(targetRotationDeg);
           transitionStartTimeRef.current = performance.now();
           setTargetRotationDeg(0);
           setTransitionDurationMs(USER_TRANSITION_DURATION_MS);
@@ -137,7 +131,6 @@ const HeroCard: React.FC<HeroCardProps> = ({
     const entrySide = isRight(event) ? "right" : "left";
     entrySideRef.current = entrySide;
 
-    setStartRotationDeg(targetRotationDeg);
     setTargetRotationDeg((prev) => prev + (entrySide === "right" ? -180 : 180));
     transitionStartTimeRef.current = performance.now();
     trackMouseEnter();
@@ -150,7 +143,6 @@ const HeroCard: React.FC<HeroCardProps> = ({
     const initialEffect = entrySideRef.current === "right" ? -180 : 180;
     const additional =
       exitSide === entrySideRef.current ? -initialEffect : initialEffect;
-    setStartRotationDeg(targetRotationDeg);
     setTargetRotationDeg((prev) => prev + additional);
     transitionStartTimeRef.current = performance.now();
     entrySideRef.current = null;
@@ -163,33 +155,11 @@ const HeroCard: React.FC<HeroCardProps> = ({
 
   const imageWidth = useMemo(() => ({ sm: "400px", xs: "375px" }), []);
   const imageHeight = useMemo(() => ({ sm: "600px", xs: "562.5px" }), []);
-  const cardMetrics = useCardMetrics(containerRef);
-
-  // Bundle the card animation parameters as a memoized object.
-  const cardAnimationParams = useMemo(
-    () => ({
-      borderRadius: 8,
-      width: imageWidth,
-      height: imageHeight,
-      startRotationDeg,
-      targetRotationDeg,
-      transitionStartTime: transitionStartTimeRef.current,
-      transitionDurationMs,
-      perspective: PERSPECTIVE,
-    }),
-    [
-      imageWidth,
-      imageHeight,
-      startRotationDeg,
-      targetRotationDeg,
-      transitionDurationMs,
-    ],
-  );
 
   return (
     <Box
       sx={{
-        perspective: `${PERSPECTIVE}px`,
+        perspective: `1000px`,
         display: "block",
         position: "relative",
       }}
@@ -215,8 +185,9 @@ const HeroCard: React.FC<HeroCardProps> = ({
         {isFuseActive && (
           <FuseEffect
             // Passing the bundled card animation parameters.
-            {...cardAnimationParams}
-            cardMetrics={cardMetrics}
+            width={imageWidth}
+            height={imageHeight}
+            borderRadius={20}
             fuseHeadLoopDurationMs={3000}
             sparksPerBurst={2}
             burstIntervalMs={50}

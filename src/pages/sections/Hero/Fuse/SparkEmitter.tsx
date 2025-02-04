@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useEffect } from "react";
+import React, { useRef, useMemo, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import Spark from "./Spark";
 import { SparkHandle } from "./Spark";
@@ -74,8 +74,12 @@ const SparkEmitter: React.FC<SparkEmitterProps> = ({
     currentSparkIndex.current = (index + 1) % totalSparkCount;
   };
 
+  // Use state to store the container element.
+  const [sparkContainer, setSparkContainer] = useState<HTMLDivElement | null>(
+    null,
+  );
+
   // Create a container for the sparks that lives outside the card.
-  const sparkContainerRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const container = document.createElement("div");
     Object.assign(container.style, {
@@ -85,10 +89,11 @@ const SparkEmitter: React.FC<SparkEmitterProps> = ({
       width: "100%",
       height: "100%",
       pointerEvents: "none",
-      zIndex: 2,
+      zIndex: "2",
     });
     document.body.appendChild(container);
-    sparkContainerRef.current = container;
+    setSparkContainer(container);
+
     return () => {
       document.body.removeChild(container);
     };
@@ -112,7 +117,7 @@ const SparkEmitter: React.FC<SparkEmitterProps> = ({
     getFuseHeadPosition,
   ]);
 
-  if (!sparkContainerRef.current) return null;
+  if (!sparkContainer) return null;
 
   return ReactDOM.createPortal(
     <>
@@ -125,7 +130,7 @@ const SparkEmitter: React.FC<SparkEmitterProps> = ({
         />
       ))}
     </>,
-    sparkContainerRef.current,
+    sparkContainer,
   );
 };
 

@@ -4,7 +4,7 @@ import {
   resolveResponsiveValue,
   useBreakpointMatches,
 } from "../../../../utils/muiSizeUtils";
-import FuseHead, { CardMetrics, FuseHeadHandle } from "./FuseHead";
+import FuseHead, { FuseHeadHandle } from "./FuseHead";
 import SparkEmitter from "./SparkEmitter";
 
 export interface FuseEffectProps {
@@ -18,13 +18,6 @@ export interface FuseEffectProps {
   fuseHeadLoopDurationMs?: number;
   sparkBurstDurationMs?: number;
   animationEnabled?: boolean;
-  // Card animation specific parameters.
-  cardMetrics: CardMetrics;
-  startRotationDeg: number;
-  targetRotationDeg: number;
-  transitionStartTime: number;
-  transitionDurationMs: number;
-  perspective: number;
 }
 
 const FuseEffect: React.FC<FuseEffectProps> = ({
@@ -36,12 +29,6 @@ const FuseEffect: React.FC<FuseEffectProps> = ({
   fuseHeadLoopDurationMs = 2000,
   sparkBurstDurationMs = 500,
   animationEnabled = false,
-  cardMetrics,
-  startRotationDeg,
-  targetRotationDeg,
-  transitionStartTime,
-  transitionDurationMs,
-  perspective,
 }) => {
   const theme = useTheme();
   const breakpointMatches = useBreakpointMatches();
@@ -81,16 +68,10 @@ const FuseEffect: React.FC<FuseEffectProps> = ({
     <>
       <FuseHead
         ref={fuseHeadRef}
-        cardMetrics={cardMetrics}
         animationEnabled={animationEnabled}
         fuseHeadLoopDurationMs={fuseHeadLoopDurationMs}
         sparkBurstDurationMs={sparkBurstDurationMs}
         pathString={pathString}
-        startRotationDeg={startRotationDeg}
-        targetRotationDeg={targetRotationDeg}
-        transitionStartTime={transitionStartTime}
-        transitionDurationMs={transitionDurationMs}
-        perspective={perspective}
       />
 
       {animationEnabled && (
