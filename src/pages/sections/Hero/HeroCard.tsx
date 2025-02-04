@@ -118,7 +118,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
 
   useEffect(() => {
     setTimeout(() => {
-      if (!isSectionVisible || hasBeenHovered){
+      if (!isSectionVisible || hasBeenHovered) {
         setIsFuseActive(false);
       }
     }, PROJECTILE_DURATION_MS);
