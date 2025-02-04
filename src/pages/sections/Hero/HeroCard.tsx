@@ -1,4 +1,11 @@
-import React, { useState, useRef, MouseEvent, useEffect, useMemo } from "react";
+import React, {
+  useState,
+  useRef,
+  MouseEvent,
+  useEffect,
+  useMemo,
+  Ref,
+} from "react";
 import { Box } from "@mui/material";
 import FuseEffect from "./Fuse/FuseEffect";
 import { FlareEffect } from "./Flare/FlareEffect";
@@ -17,19 +24,19 @@ import HeroCardFront from "./HeroCardFront";
 interface HeroCardProps {
   isSectionVisible: boolean;
   onHoveredChange: (value: boolean) => void;
+  isFirstCardAnimationRef: React.MutableRefObject<boolean>;
 }
 
 const HeroCard: React.FC<HeroCardProps> = ({
   isSectionVisible,
   onHoveredChange,
+  isFirstCardAnimationRef,
 }) => {
   const [targetRotationDeg, setTargetRotationDeg] = useState<number>(0);
   const [instantFlip, setInstantFlip] = useState<boolean>(false);
   const [transitionDurationMs, setTransitionDurationMs] = useState<number>(
     FIRST_ANIMATED_TRANSITION_DURATION_MS,
   );
-  const [isFirstCardAnimation, setIsFirstCardAnimation] =
-    useState<boolean>(true);
   const [isCardAnimating, setIsCardAnimating] = useState<boolean>(true);
 
   const { trackMouseEnter, trackMouseLeave, hasBeenHovered } = useHoverTracking(
@@ -40,22 +47,22 @@ const HeroCard: React.FC<HeroCardProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const entrySideRef = useRef<"left" | "right" | null>(null);
-  // This ref records when a transition begins.
   const transitionStartTimeRef = useRef<number>(performance.now());
 
   // Spin sequence for the card animation.
   const runSpinSequence = (): ReturnType<typeof setTimeout>[] => {
     const timers: ReturnType<typeof setTimeout>[] = [];
     let accumulatedDelay = 0;
+
     const sequence = [
       {
-        delay: isFirstCardAnimation
+        delay: isFirstCardAnimationRef.current
           ? FIRST_ANIMATION_START_DELAY_MS
           : ANIMATION_START_DELAY_MS,
         action: () => {
           transitionStartTimeRef.current = performance.now();
           setTransitionDurationMs(
-            isFirstCardAnimation
+            isFirstCardAnimationRef.current
               ? FIRST_ANIMATED_TRANSITION_DURATION_MS
               : ANIMATED_TRANSITION_DURATION_MS,
           );
@@ -63,7 +70,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
         },
       },
       {
-        delay: isFirstCardAnimation
+        delay: isFirstCardAnimationRef.current
           ? FIRST_ANIMATED_TRANSITION_DURATION_MS
           : ANIMATED_TRANSITION_DURATION_MS,
         action: () => {
@@ -74,7 +81,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
           requestAnimationFrame(() => {
             setInstantFlip(false);
             setIsCardAnimating(false);
-            setIsFirstCardAnimation(false);
+            isFirstCardAnimationRef.current = false;
             if (!hasBeenHovered) {
               setIsFuseActive(true);
             }
@@ -207,7 +214,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
         />
 
         <HeroCardFront
-          showRotationIcon={!isCardAnimating}
+          showRotationIcon={isSectionVisible && !isCardAnimating}
           hasBeenHovered={hasBeenHovered}
         />
         {isSectionVisible && <HeroCardBack />}

@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useRef, useState } from "react";
 import { Box, Container } from "@mui/material";
 import { HeroText } from "./Hero/HeroText";
 import HeroCard from "./Hero/HeroCard.tsx";
@@ -20,7 +20,7 @@ export const HeroSection = forwardRef<HTMLElement, HeroProps>(
     );
     const [hasCardBeenHovered, setHasCardBeenHovered] =
       useState<boolean>(false);
-
+    const isFirstCardAnimationRef = useRef<boolean>(true);
     return (
       <Box
         component="section"
@@ -54,12 +54,13 @@ export const HeroSection = forwardRef<HTMLElement, HeroProps>(
         >
           <HeroText
             textColor={textColor}
-            isFirstCardAnimation={true}
+            isFirstCardAnimation={isFirstCardAnimationRef.current}
             isSectionVisible={isSectionVisible}
           />
           <HeroCard
             isSectionVisible={isSectionVisible}
             onHoveredChange={setHasCardBeenHovered}
+            isFirstCardAnimationRef={isFirstCardAnimationRef}
           />
         </Container>
         {hasCardBeenHovered && (
