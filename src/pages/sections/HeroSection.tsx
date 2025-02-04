@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useState } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import { Box, Container } from "@mui/material";
 import { HeroText } from "./Hero/HeroText";
 import HeroCard from "./Hero/HeroCard.tsx";
@@ -18,9 +18,29 @@ export const HeroSection = forwardRef<HTMLElement, HeroProps>(
       ref as React.RefObject<HTMLElement>,
       { threshold: 0.1 },
     );
+
+    const [isSectionVisibleDelayed, setIsSectionVisibleDelayed] =
+      useState<boolean>(true);
     const [hasCardBeenHovered, setHasCardBeenHovered] =
       useState<boolean>(false);
+    const [hasSectionLostVisibility, setHasSectionLostVisibility] =
+      useState<boolean>(false);
     const isFirstCardAnimationRef = useRef<boolean>(true);
+
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setIsSectionVisibleDelayed(isSectionVisible);
+      }, 500);
+
+      return () => clearTimeout(timer);
+    }, [isSectionVisible]);
+
+    useEffect(() => {
+      if (!isSectionVisibleDelayed) {
+        setHasSectionLostVisibility(true);
+      }
+    }, [isSectionVisibleDelayed]);
+
     return (
       <Box
         component="section"
@@ -35,7 +55,7 @@ export const HeroSection = forwardRef<HTMLElement, HeroProps>(
         id={id}
         ref={ref}
       >
-        {/* link target */}
+        {/* Link target */}
         <Box
           id={id}
           ref={heroLinkRef}
@@ -64,7 +84,10 @@ export const HeroSection = forwardRef<HTMLElement, HeroProps>(
           />
         </Container>
         {hasCardBeenHovered && (
-          <ScrollDownIndicator color={"orange"} size={40} />
+          <ScrollDownIndicator
+            color={hasSectionLostVisibility ? "white" : "orange"}
+            size={40}
+          />
         )}
       </Box>
     );
