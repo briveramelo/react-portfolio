@@ -1,8 +1,8 @@
 import React, { useRef, useMemo, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { generateProjectileKeyframes } from "../../../utils/keyframeGenerator";
-import Spark from "./Spark";
-import { SparkHandle } from "./Spark";
+import { generateProjectileKeyframes } from "../../../../utils/keyframeGenerator.ts";
+import Spark from "./Spark.tsx";
+import { SparkHandle } from "./Spark.tsx";
 
 export interface SparkEmitterProps {
   animationEnabled: boolean;

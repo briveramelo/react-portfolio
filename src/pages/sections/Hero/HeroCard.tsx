@@ -1,7 +1,7 @@
 import React, { useState, useRef, MouseEvent, useEffect, useMemo } from "react";
 import { Box } from "@mui/material";
-import SparkFuseOutline from "./SparkFuseOutline.tsx";
-import { FlareEffect } from "./FlareEffect.tsx";
+import FuseEffect from "./Fuse/FuseEffect.tsx";
+import { FlareEffect } from "./Flare/FlareEffect.tsx";
 import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
 import {
   ANIMATED_TRANSITION_DURATION_MS,
@@ -183,7 +183,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
         }}
       >
         {isFuseActive && (
-          <SparkFuseOutline
+          <FuseEffect
             borderRadius={8}
             fuseHeadLoopDurationMs={3000}
             sparksPerBurst={2}

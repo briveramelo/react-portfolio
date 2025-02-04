@@ -4,11 +4,11 @@ import Box from "@mui/material/Box";
 import {
   resolveResponsiveValue,
   useBreakpointMatches,
-} from "../../../utils/muiSizeUtils";
-import FuseHead from "./FuseHead";
-import SparkEmitter from "./SparkEmitter";
+} from "../../../../utils/muiSizeUtils.ts";
+import FuseHead from "./FuseHead.tsx";
+import SparkEmitter from "./SparkEmitter.tsx";
 
-export interface SparkFuseEffectProps {
+export interface FuseEffectProps {
   // @ts-ignore
   width: SxProps<Theme>["width"];
   // @ts-ignore
@@ -32,7 +32,7 @@ const OverlayContainer = styled(Box)({
   zIndex: 10,
 });
 
-const SparkFuseEffect: React.FC<SparkFuseEffectProps> = ({
+const FuseEffect: React.FC<FuseEffectProps> = ({
   width,
   height,
   borderRadius,
@@ -103,4 +103,4 @@ const SparkFuseEffect: React.FC<SparkFuseEffectProps> = ({
   );
 };
 
-export default React.memo(SparkFuseEffect);
+export default React.memo(FuseEffect);
