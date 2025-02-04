@@ -1,5 +1,6 @@
 import { plausible } from "./plausibleConfig.ts";
 import { v4 as uuidv4 } from "uuid";
+import React from "react";
 
 // Generate or retrieve session UUID
 if (!sessionStorage.getItem("session_uuid")) {

@@ -22,14 +22,12 @@ const SparkEmitter: React.FC<SparkEmitterProps> = ({
   sparkBurstDurationMs,
   getFuseHeadPosition,
 }) => {
-  // Compute the total number of sparks needed
   const totalSparkCount = useMemo(
     () =>
       Math.ceil(sparksPerBurst * (fuseHeadLoopDurationMs / burstIntervalMs)),
     [sparksPerBurst, fuseHeadLoopDurationMs, burstIntervalMs],
   );
 
-  // Create spark animations
   const sparkAnimations = useMemo(() => {
     const MIN_VELOCITY = 250;
     const MAX_VELOCITY = 350;
@@ -59,19 +57,17 @@ const SparkEmitter: React.FC<SparkEmitterProps> = ({
     });
   }, [sparkBurstDurationMs, totalSparkCount]);
 
-  // Create an array of refs for the Spark components.
   const sparkRefs = useRef<Array<React.RefObject<SparkHandle>>>(
     Array.from({ length: totalSparkCount }, () =>
       React.createRef<SparkHandle>(),
     ),
   );
 
-  // For rotating through sparks in a round-robin fashion.
   const currentSparkIndex = useRef(0);
 
-  const emitSpark = () => {
-    const pos = getFuseHeadPosition();
+  const emitSpark = (pos: { x: number; y: number } | null) => {
     if (!pos) return;
+
     const index = currentSparkIndex.current;
     const sparkRef = sparkRefs.current[index];
     if (sparkRef.current) {
@@ -84,8 +80,9 @@ const SparkEmitter: React.FC<SparkEmitterProps> = ({
   useEffect(() => {
     if (!animationEnabled) return;
     const intervalId = setInterval(() => {
+      const pos = getFuseHeadPosition();
       for (let i = 0; i < sparksPerBurst; i++) {
-        emitSpark();
+        emitSpark(pos);
       }
     }, burstIntervalMs);
     return () => clearInterval(intervalId);
