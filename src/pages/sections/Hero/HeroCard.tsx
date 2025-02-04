@@ -118,10 +118,11 @@ const HeroCard: React.FC<HeroCardProps> = ({
 
   useEffect(() => {
     setTimeout(() => {
-      if (!hasBeenHovered) return;
-      setIsFuseActive(false);
+      if (!isSectionVisible || hasBeenHovered){
+        setIsFuseActive(false);
+      }
     }, PROJECTILE_DURATION_MS);
-  }, [hasBeenHovered]);
+  }, [hasBeenHovered, isSectionVisible]);
 
   const isRight = (event: MouseEvent<HTMLDivElement>): boolean => {
     const { left, width } = event.currentTarget.getBoundingClientRect();
@@ -206,7 +207,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
         />
 
         <HeroCardFront
-          showRotationIcon={isFuseActive}
+          showRotationIcon={!isCardAnimating}
           hasBeenHovered={hasBeenHovered}
         />
         {isSectionVisible && <HeroCardBack />}
