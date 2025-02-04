@@ -9,10 +9,11 @@ interface HeroProps {
   backgroundColor: string;
   textColor: string;
   id: string;
+  heroLinkRef: React.RefObject<HTMLElement>;
 }
 
 export const HeroSection = forwardRef<HTMLElement, HeroProps>(
-  ({ backgroundColor, textColor, id }, ref) => {
+  ({ backgroundColor, textColor, id, heroLinkRef }, ref) => {
     const isSectionVisible = useIntersectionObserver(
       ref as React.RefObject<HTMLElement>,
       { threshold: 0.1 },
@@ -23,18 +24,23 @@ export const HeroSection = forwardRef<HTMLElement, HeroProps>(
     return (
       <Box
         component="section"
-        id={id}
         sx={{
           mt: { xs: -7, sm: 0 },
           py: { xs: 0, sm: 9 },
           backgroundColor: backgroundColor,
           color: textColor,
-          scrollMarginTop: "80px",
           minHeight: "100vh",
           overflow: "hidden",
         }}
+        id={id}
         ref={ref}
       >
+        {/* link target */}
+        <Box
+          id={id}
+          ref={heroLinkRef}
+          sx={{ position: "absolute", mt: -100 }}
+        ></Box>
         <Container
           maxWidth="md"
           sx={{
@@ -55,10 +61,10 @@ export const HeroSection = forwardRef<HTMLElement, HeroProps>(
             isSectionVisible={isSectionVisible}
             onHoveredChange={setHasCardBeenHovered}
           />
-          {hasCardBeenHovered && (
-            <ScrollDownIndicator color={"orange"} size={40} />
-          )}
         </Container>
+        {hasCardBeenHovered && (
+          <ScrollDownIndicator color={"orange"} size={40} />
+        )}
       </Box>
     );
   },

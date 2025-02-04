@@ -35,7 +35,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
   const { trackMouseEnter, trackMouseLeave, hasBeenHovered } = useHoverTracking(
     USER_TRANSITION_DURATION_MS,
   );
-  const [isFuseActive, setIsFuseActive] = useState<boolean>(true);
+  const [isFuseActive, setIsFuseActive] = useState<boolean>(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -75,6 +75,9 @@ const HeroCard: React.FC<HeroCardProps> = ({
             setInstantFlip(false);
             setIsCardAnimating(false);
             setIsFirstCardAnimation(false);
+            if (!hasBeenHovered) {
+              setIsFuseActive(true);
+            }
           });
         },
       },
@@ -184,7 +187,6 @@ const HeroCard: React.FC<HeroCardProps> = ({
       >
         {isFuseActive && (
           <FuseEffect
-            // Passing the bundled card animation parameters.
             width={imageWidth}
             height={imageHeight}
             borderRadius={20}
@@ -203,7 +205,10 @@ const HeroCard: React.FC<HeroCardProps> = ({
           yAmpFactor={0.65}
         />
 
-        <HeroCardFront hasBeenHovered={hasBeenHovered} />
+        <HeroCardFront
+          showRotationIcon={isFuseActive}
+          hasBeenHovered={hasBeenHovered}
+        />
         {isSectionVisible && <HeroCardBack />}
       </Box>
     </Box>

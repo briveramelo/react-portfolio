@@ -7,10 +7,14 @@ import { keyframes } from "@emotion/react";
 import brandon from "@/assets/people/brandon.webp";
 
 interface HeroCardFrontProps {
+  showRotationIcon: boolean;
   hasBeenHovered: boolean;
 }
 
-const HeroCardFront: React.FC<HeroCardFrontProps> = ({ hasBeenHovered }) => {
+const HeroCardFront: React.FC<HeroCardFrontProps> = ({
+  showRotationIcon,
+  hasBeenHovered,
+}) => {
   const pulseAnimation = useMemo(
     () => generateSinusoidalScaleKeyframes(1, 0.3, 20, 3),
     [],
@@ -43,6 +47,8 @@ const HeroCardFront: React.FC<HeroCardFrontProps> = ({ hasBeenHovered }) => {
           animation: hasBeenHovered
             ? undefined
             : `${pulseAnimation} 2s infinite`,
+          opacity: showRotationIcon ? 1 : 0,
+          transition: `opacity 0.6s ease-in-out`,
         }}
       >
         <Refresh

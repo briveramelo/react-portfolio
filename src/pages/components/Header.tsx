@@ -16,10 +16,11 @@ import { ThemeContext } from "../../context/ThemeContext.tsx";
 import { isColorDark } from "../../utils/utils.ts";
 import { useHoverTracking } from "../../utils/tracking/hooks/useHoverTracking.ts";
 import { themes } from "../../theme.ts";
-import { sectionStyles } from "../../data/sectionStyles.ts";
+import { NavLink, sectionStyles } from "../../data/sectionStyles.ts";
 
 interface HeaderProps {
   sectionRefs: React.RefObject<HTMLElement>[];
+  navigationLinks: NavLink[];
   defaultBackgroundColor: string;
   defaultTextColor: string;
   defaultIsBackgroundDark: boolean;
@@ -27,18 +28,12 @@ interface HeaderProps {
 
 export function Header({
   sectionRefs,
+  navigationLinks,
   defaultBackgroundColor,
   defaultTextColor,
   defaultIsBackgroundDark,
 }: HeaderProps) {
-  const navigationLinks = [
-    { href: "#home", label: "Home" },
-    { href: "#experience", label: "Experience" },
-    { href: "#projects", label: "Projects" },
-    { href: "#testimonials", label: "Testimonials" },
-    { href: "#contact", label: "Contact" },
-  ];
-  const navHoverTrackers = navigationLinks.map((nav) => useHoverTracking());
+  const navHoverTrackers = navigationLinks.map(() => useHoverTracking());
   const linkedinHover = useHoverTracking();
   const hamburgerHover = useHoverTracking();
   const headerRef = useRef<HTMLElement | null>(null);
@@ -55,18 +50,17 @@ export function Header({
   const linkedInUrl = "https://www.linkedin.com/in/briveramelo";
 
   const handleNavClick = (href: string) => {
-    const linkId = href.replace("#", "");
-    const targetSection = sectionRefs.find((ref) => ref.current?.id === linkId);
-    if (targetSection?.current) {
-      targetSection.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-      if (window.location.hash === href) return;
-
-      window.history.pushState(null, "", href);
-    }
     setDrawerOpen(false);
+    const navLink = navigationLinks.find((nav) => nav.href === href);
+    if (!navLink?.ref?.current) return;
+
+    navLink.ref.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+    if (window.location.hash === href) return;
+
+    window.history.pushState(null, "", href);
   };
 
   // Header adapts to match section colors
