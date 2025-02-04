@@ -1,8 +1,8 @@
 import React, { useRef, useMemo, useEffect } from "react";
+import ReactDOM from "react-dom";
 import Spark from "./Spark";
 import { SparkHandle } from "./Spark";
 import { generateProjectileKeyframes } from "../../../../utils/keyframeGenerator";
-import { Box } from "@mui/material";
 
 export interface SparkEmitterProps {
   animationEnabled: boolean;
@@ -10,7 +10,7 @@ export interface SparkEmitterProps {
   burstIntervalMs: number;
   fuseHeadLoopDurationMs: number;
   sparkBurstDurationMs: number;
-  /** Function that returns the current fuse head position */
+  /** Function that returns the current fuse head position in viewport coordinates */
   getFuseHeadPosition: () => { x: number; y: number } | null;
 }
 
@@ -54,6 +54,7 @@ const SparkEmitter: React.FC<SparkEmitterProps> = ({
     });
   }, [sparkBurstDurationMs, totalSparkCount]);
 
+  // Create refs for each spark.
   const sparkRefs = useRef<Array<React.RefObject<SparkHandle>>>(
     Array.from({ length: totalSparkCount }, () =>
       React.createRef<SparkHandle>(),
@@ -72,6 +73,27 @@ const SparkEmitter: React.FC<SparkEmitterProps> = ({
     currentSparkIndex.current = (index + 1) % totalSparkCount;
   };
 
+  // Create a container for the sparks that lives outside the card.
+  const sparkContainerRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const container = document.createElement("div");
+    Object.assign(container.style, {
+      position: "absolute",
+      top: "0",
+      left: "0",
+      width: "100%",
+      height: "100%",
+      pointerEvents: "none",
+      zIndex: 999, // Ensure it appears above other elements
+    });
+    document.body.appendChild(container);
+    sparkContainerRef.current = container;
+    return () => {
+      document.body.removeChild(container);
+    };
+  }, []);
+
+  // Set up an interval to emit sparks.
   useEffect(() => {
     if (!animationEnabled) return;
     const intervalId = setInterval(() => {
@@ -89,18 +111,10 @@ const SparkEmitter: React.FC<SparkEmitterProps> = ({
     getFuseHeadPosition,
   ]);
 
-  return (
-    <Box
-      sx={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        pointerEvents: "none",
-        zIndex: 3,
-      }}
-    >
+  if (!sparkContainerRef.current) return null;
+
+  return ReactDOM.createPortal(
+    <>
       {Array.from({ length: totalSparkCount }).map((_, index) => (
         <Spark
           key={index}
@@ -109,7 +123,8 @@ const SparkEmitter: React.FC<SparkEmitterProps> = ({
           animationOptions={sparkAnimations[index].animationOptions}
         />
       ))}
-    </Box>
+    </>,
+    sparkContainerRef.current,
   );
 };
 

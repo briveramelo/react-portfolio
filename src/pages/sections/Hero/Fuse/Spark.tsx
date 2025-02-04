@@ -38,12 +38,11 @@ const Spark = forwardRef<SparkHandle, SparkProps>(
       <Box
         ref={boxRef}
         sx={{
-          position: "fixed",
+          position: "absolute",
           background: "radial-gradient(circle, #ffffff 0%, #ffa500 70%)",
           height: size,
           width: size,
           borderRadius: "50%",
-          pointerEvents: "none",
         }}
       />
     );

@@ -1,10 +1,10 @@
 import React, { useRef, useCallback } from "react";
-import { useTheme, SxProps, Theme } from "@mui/material";
+import { useTheme, SxProps, Theme, Box } from "@mui/material";
 import {
   resolveResponsiveValue,
   useBreakpointMatches,
 } from "../../../../utils/muiSizeUtils";
-import FuseHead, { FuseHeadHandle } from "./FuseHead";
+import FuseHead, { CardMetrics, FuseHeadHandle } from "./FuseHead";
 import SparkEmitter from "./SparkEmitter";
 
 export interface FuseEffectProps {
@@ -18,17 +18,30 @@ export interface FuseEffectProps {
   fuseHeadLoopDurationMs?: number;
   sparkBurstDurationMs?: number;
   animationEnabled?: boolean;
+  // Card animation specific parameters.
+  cardMetrics: CardMetrics;
+  startRotationDeg: number;
+  targetRotationDeg: number;
+  transitionStartTime: number;
+  transitionDurationMs: number;
+  perspective: number;
 }
 
 const FuseEffect: React.FC<FuseEffectProps> = ({
   width,
   height,
   borderRadius,
+  sparksPerBurst,
+  burstIntervalMs,
   fuseHeadLoopDurationMs = 2000,
-  sparksPerBurst = 3,
-  burstIntervalMs = 50,
   sparkBurstDurationMs = 500,
   animationEnabled = false,
+  cardMetrics,
+  startRotationDeg,
+  targetRotationDeg,
+  transitionStartTime,
+  transitionDurationMs,
+  perspective,
 }) => {
   const theme = useTheme();
   const breakpointMatches = useBreakpointMatches();
@@ -43,7 +56,7 @@ const FuseEffect: React.FC<FuseEffectProps> = ({
     breakpointMatches,
   );
 
-  // an SVG path string that traces the container’s outline.
+  // An SVG path string that outlines the card (using the provided borderRadius).
   const pathString = `M ${borderRadius},0 H ${
     effectiveWidth - borderRadius
   } Q ${effectiveWidth},0 ${effectiveWidth},${borderRadius} V ${
@@ -54,6 +67,7 @@ const FuseEffect: React.FC<FuseEffectProps> = ({
     effectiveHeight - borderRadius
   } V ${borderRadius} Q 0,0 ${borderRadius},0 Z`;
 
+  // Create a ref to access FuseHead's public API.
   const fuseHeadRef = useRef<FuseHeadHandle>(null);
 
   const getFuseHeadPosition = useCallback(() => {
@@ -67,10 +81,16 @@ const FuseEffect: React.FC<FuseEffectProps> = ({
     <>
       <FuseHead
         ref={fuseHeadRef}
+        cardMetrics={cardMetrics}
         animationEnabled={animationEnabled}
         fuseHeadLoopDurationMs={fuseHeadLoopDurationMs}
         sparkBurstDurationMs={sparkBurstDurationMs}
         pathString={pathString}
+        startRotationDeg={startRotationDeg}
+        targetRotationDeg={targetRotationDeg}
+        transitionStartTime={transitionStartTime}
+        transitionDurationMs={transitionDurationMs}
+        perspective={perspective}
       />
 
       {animationEnabled && (

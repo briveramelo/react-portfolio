@@ -1,8 +1,8 @@
 import React, { useState, useRef, MouseEvent, useEffect, useMemo } from "react";
 import { Box } from "@mui/material";
-import FuseEffect from "./Fuse/FuseEffect.tsx";
-import { FlareEffect } from "./Flare/FlareEffect.tsx";
-import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
+import FuseEffect from "./Fuse/FuseEffect";
+import { FlareEffect } from "./Flare/FlareEffect";
+import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking";
 import {
   ANIMATED_TRANSITION_DURATION_MS,
   ANIMATION_START_DELAY_MS,
@@ -10,20 +10,24 @@ import {
   FIRST_ANIMATION_START_DELAY_MS,
   PROJECTILE_DURATION_MS,
   USER_TRANSITION_DURATION_MS,
-} from "./heroHelpers.ts";
-import HeroCardBack from "./HeroCardBack.tsx";
-import HeroCardFront from "./HeroCardFront.tsx";
+} from "./heroHelpers";
+import HeroCardBack from "./HeroCardBack";
+import HeroCardFront from "./HeroCardFront";
+import { useCardMetrics } from "./Fuse/useCardMetrics";
 
 interface HeroCardProps {
   isSectionVisible: boolean;
   onHoveredChange: (value: boolean) => void;
 }
 
+const PERSPECTIVE = 1000;
+
 const HeroCard: React.FC<HeroCardProps> = ({
   isSectionVisible,
   onHoveredChange,
 }) => {
   const [targetRotationDeg, setTargetRotationDeg] = useState<number>(0);
+  const [startRotationDeg, setStartRotationDeg] = useState<number>(0);
   const [instantFlip, setInstantFlip] = useState<boolean>(false);
   const [transitionDurationMs, setTransitionDurationMs] = useState<number>(
     FIRST_ANIMATED_TRANSITION_DURATION_MS,
@@ -40,8 +44,10 @@ const HeroCard: React.FC<HeroCardProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const entrySideRef = useRef<"left" | "right" | null>(null);
-  const startTimeRefMs = useRef<number | null>(null);
+  // This ref records when a transition begins.
+  const transitionStartTimeRef = useRef<number>(performance.now());
 
+  // Spin sequence for the card animation.
   const runSpinSequence = (): ReturnType<typeof setTimeout>[] => {
     const timers: ReturnType<typeof setTimeout>[] = [];
     let accumulatedDelay = 0;
@@ -51,6 +57,8 @@ const HeroCard: React.FC<HeroCardProps> = ({
           ? FIRST_ANIMATION_START_DELAY_MS
           : ANIMATION_START_DELAY_MS,
         action: () => {
+          setStartRotationDeg(targetRotationDeg);
+          transitionStartTimeRef.current = performance.now();
           setTransitionDurationMs(
             isFirstCardAnimation
               ? FIRST_ANIMATED_TRANSITION_DURATION_MS
@@ -65,6 +73,8 @@ const HeroCard: React.FC<HeroCardProps> = ({
           : ANIMATED_TRANSITION_DURATION_MS,
         action: () => {
           setInstantFlip(true);
+          setStartRotationDeg(targetRotationDeg);
+          transitionStartTimeRef.current = performance.now();
           setTargetRotationDeg(0);
           setTransitionDurationMs(USER_TRANSITION_DURATION_MS);
           requestAnimationFrame(() => {
@@ -86,13 +96,12 @@ const HeroCard: React.FC<HeroCardProps> = ({
 
   useEffect(() => {
     if (isSectionVisible) {
-      // Reset the card state
+      // Reset card state.
       setIsCardAnimating(true);
       setInstantFlip(true);
       setTargetRotationDeg(0);
       requestAnimationFrame(() => setInstantFlip(false));
 
-      // Clear existing timers
       timersRef.current.forEach((timer) => clearTimeout(timer));
       timersRef.current = runSpinSequence();
     } else {
@@ -113,7 +122,6 @@ const HeroCard: React.FC<HeroCardProps> = ({
   useEffect(() => {
     setTimeout(() => {
       if (!hasBeenHovered) return;
-
       setIsFuseActive(false);
     }, PROJECTILE_DURATION_MS);
   }, [hasBeenHovered]);
@@ -129,8 +137,9 @@ const HeroCard: React.FC<HeroCardProps> = ({
     const entrySide = isRight(event) ? "right" : "left";
     entrySideRef.current = entrySide;
 
+    setStartRotationDeg(targetRotationDeg);
     setTargetRotationDeg((prev) => prev + (entrySide === "right" ? -180 : 180));
-    startTimeRefMs.current = performance.now();
+    transitionStartTimeRef.current = performance.now();
     trackMouseEnter();
   };
 
@@ -141,9 +150,9 @@ const HeroCard: React.FC<HeroCardProps> = ({
     const initialEffect = entrySideRef.current === "right" ? -180 : 180;
     const additional =
       exitSide === entrySideRef.current ? -initialEffect : initialEffect;
+    setStartRotationDeg(targetRotationDeg);
     setTargetRotationDeg((prev) => prev + additional);
-
-    startTimeRefMs.current = null;
+    transitionStartTimeRef.current = performance.now();
     entrySideRef.current = null;
     trackMouseLeave(event);
   };
@@ -152,14 +161,35 @@ const HeroCard: React.FC<HeroCardProps> = ({
     onHoveredChange(hasBeenHovered);
   }, [hasBeenHovered, onHoveredChange]);
 
-  // Responsive image sizes
   const imageWidth = useMemo(() => ({ sm: "400px", xs: "375px" }), []);
   const imageHeight = useMemo(() => ({ sm: "600px", xs: "562.5px" }), []);
+  const cardMetrics = useCardMetrics(containerRef);
+
+  // Bundle the card animation parameters as a memoized object.
+  const cardAnimationParams = useMemo(
+    () => ({
+      borderRadius: 8,
+      width: imageWidth,
+      height: imageHeight,
+      startRotationDeg,
+      targetRotationDeg,
+      transitionStartTime: transitionStartTimeRef.current,
+      transitionDurationMs,
+      perspective: PERSPECTIVE,
+    }),
+    [
+      imageWidth,
+      imageHeight,
+      startRotationDeg,
+      targetRotationDeg,
+      transitionDurationMs,
+    ],
+  );
 
   return (
     <Box
       sx={{
-        perspective: "1000px",
+        perspective: `${PERSPECTIVE}px`,
         display: "block",
         position: "relative",
       }}
@@ -184,14 +214,14 @@ const HeroCard: React.FC<HeroCardProps> = ({
       >
         {isFuseActive && (
           <FuseEffect
-            borderRadius={8}
+            // Passing the bundled card animation parameters.
+            {...cardAnimationParams}
+            cardMetrics={cardMetrics}
             fuseHeadLoopDurationMs={3000}
             sparksPerBurst={2}
             burstIntervalMs={50}
             sparkBurstDurationMs={PROJECTILE_DURATION_MS}
             animationEnabled={!hasBeenHovered}
-            width={imageWidth}
-            height={imageHeight}
           />
         )}
         <FlareEffect
