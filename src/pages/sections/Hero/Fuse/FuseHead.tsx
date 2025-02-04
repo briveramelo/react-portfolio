@@ -44,6 +44,7 @@ const StyledFuseHead = styled("div")<{
     animation: `${fuseHeadAnim} ${fuseHeadLoopDurationMs}ms linear infinite`,
     opacity: animationEnabled ? 1 : 0,
     transition: `opacity ${sparkBurstDurationMs}ms ease-in-out`,
+    zIndex: 2,
   }),
 );
 
