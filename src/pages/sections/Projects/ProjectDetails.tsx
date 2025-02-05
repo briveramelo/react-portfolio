@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ProjectDetail } from "../../../data/projectDetails.ts";
+import { MediaItem, ProjectDetail } from "../../../data/projectDetails.ts";
 import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
 import {
   Box,
@@ -27,8 +27,8 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
-  const { story, media, skills, github, liveDemo } = project;
-  const [selectedStoryIndex, setSelectedStoryIndex] = useState<number>(0);
+  const { media, skills, github, liveDemo } = project;
+  const [sectionTitleIndex, setSectionTitleIndex] = useState<number>(0);
   const [selectedMediaIndex, setSelectedMediaIndex] = useState<number>(0);
 
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
@@ -43,23 +43,26 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
   };
 
   const handleStoryClick = (index: number) => {
-    setSelectedStoryIndex(index);
+    setSectionTitleIndex(index);
+    setSelectedMediaIndex(index);
+  };
 
-    const firstMediaIndex = project.story[index].mediaIndices[0];
-    if (firstMediaIndex !== undefined) {
-      setSelectedMediaIndex(firstMediaIndex);
+  const findCurrentSectionIndex = (
+    media: MediaItem[],
+    currentIndex: number,
+  ): number => {
+    for (let i = currentIndex; i >= 0; i--) {
+      if (media[i].sectionTitle) {
+        return i;
+      }
     }
+    return 0;
   };
 
   const handleMediaChange = (newMediaIndex: number) => {
     setSelectedMediaIndex(newMediaIndex);
-    const matchingStoryIndex = project.story.findIndex((story) =>
-      story.mediaIndices.includes(newMediaIndex),
-    );
-
-    if (matchingStoryIndex !== -1) {
-      setSelectedStoryIndex(matchingStoryIndex);
-    }
+    const newSectionIndex = findCurrentSectionIndex(media, newMediaIndex);
+    setSectionTitleIndex(newSectionIndex);
   };
 
   return (
@@ -82,7 +85,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
             >
               <CardContent>
                 <Typography variant="h6">
-                  {story[selectedStoryIndex].title}
+                  {media[sectionTitleIndex].sectionTitle}
                 </Typography>
                 <Typography variant="body1">
                   {media[selectedMediaIndex].text}
@@ -91,49 +94,59 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
             </Card>
           ) : (
             // Desktop: Show all story cards
-            story.map((section, index) => (
-              <Box
-                key={index}
-                sx={{
-                  overflow: "visible",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  cursor: "pointer",
-                  transition: "transform 0.3s ease",
-                  transform:
-                    index === selectedStoryIndex ? "scale(1.05)" : "scale(1)",
-                  transformOrigin: "right center",
-                }}
-                py={0.5}
-                onClick={() => handleStoryClick(index)}
-              >
-                <Card
-                  sx={{
-                    p: 1,
-                    backgroundColor: cp("background.paper"),
-                    color: cp("text.paper"),
-                    borderRadius: "8px",
-                    width: "100%",
-                  }}
-                  className={"subtle-shadow"}
-                >
-                  <CardContent>
-                    <Typography variant="h6" fontWeight={"bold"}>
-                      {section.title}
-                    </Typography>
-                    {index === selectedStoryIndex && (
-                      <Typography variant="body1">
-                        {media[selectedMediaIndex].text}
-                      </Typography>
-                    )}
-                  </CardContent>
-                </Card>
-              </Box>
-            ))
+            media.map(
+              (mediaItem, index) =>
+                mediaItem.sectionTitle && (
+                  <Box
+                    key={index}
+                    sx={{
+                      overflow: "visible",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      cursor: "pointer",
+                      transition: "transform 0.3s ease",
+                      transform:
+                        index === sectionTitleIndex
+                          ? "scale(1.05)"
+                          : "scale(1)",
+                      transformOrigin: "right center",
+                    }}
+                    py={0.5}
+                    onClick={() => handleStoryClick(index)}
+                  >
+                    <Card
+                      sx={{
+                        p: 1,
+                        backgroundColor: cp("background.paper"),
+                        color: cp("text.paper"),
+                        borderRadius: "8px",
+                        width: "100%",
+                      }}
+                      className={"subtle-shadow"}
+                    >
+                      <CardContent>
+                        <Typography variant="h6" fontWeight={"bold"}>
+                          {mediaItem.sectionTitle}
+                        </Typography>
+                        {index === sectionTitleIndex && (
+                          <Typography
+                            variant="body1"
+                            sx={{
+                              lineHeight: "1.25rem",
+                            }}
+                          >
+                            {media[selectedMediaIndex].text}
+                          </Typography>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </Box>
+                ),
+            )
           )}
         </Grid>
 
-        {/* Mdeia Carousel */}
+        {/* Media Carousel */}
         <Grid item lg={9} xs={12}>
           <MediaCarousel
             media={media}

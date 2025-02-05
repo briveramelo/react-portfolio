@@ -34,7 +34,7 @@ export function TestimonialCard({
     setIndex(index + 1);
   }, [isSectionVisible]);
 
-  const memoMarkdown = useMemo(
+  const markdownMemo = useMemo(
     () => (
       <ReactMarkdown
         key={index}
@@ -80,7 +80,7 @@ export function TestimonialCard({
       className="subtle-shadow"
     >
       <CardContent>
-        {memoMarkdown}
+        {markdownMemo}
         <Box
           sx={{
             display: "flex",
@@ -98,7 +98,6 @@ export function TestimonialCard({
               alignItems: "center",
               gap: 2,
             }}
-            mt={3}
           >
             <Avatar
               src={data.photo}

@@ -18,7 +18,7 @@ const FirebaseImage: React.FC<FirebaseImageProps> = ({
       height={height}
       render={(url) =>
         url ? (
-          <img src={url} alt={alt} width="auto" />
+          <img src={url} alt={alt} height="100%" />
         ) : (
           <p>No image available</p>
         )
