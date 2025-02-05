@@ -20,6 +20,8 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
   onMediaChange,
   height,
 }) => {
+  const [hasBeenClicked, setHasBeenClicked] = useState<boolean>(false);
+
   const nextMedia = () => {
     onMediaChange((selectedIndex + 1) % media.length);
     setHasBeenClicked(true);
@@ -29,7 +31,6 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
     onMediaChange(selectedIndex === 0 ? media.length - 1 : selectedIndex - 1);
     setHasBeenClicked(true);
   };
-  const [hasBeenClicked, setHasBeenClicked] = useState<boolean>(false);
 
   return (
     <Box
@@ -73,55 +74,50 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
           backgroundColor: "transparent",
         }}
       >
-        {(() => {
-          switch (media[selectedIndex].type) {
-            case "firebaseImage":
-              return (
-                <FirebaseImage
-                  firebaseImagePath={media[selectedIndex].src}
-                  height={height}
-                  alt={media[selectedIndex].alt}
-                />
-              );
-            case "image":
-              return (
-                <CardMedia
-                  component="img"
-                  height={height}
-                  image={media[selectedIndex].src}
-                  alt={media[selectedIndex].alt}
-                  sx={{ objectFit: "cover" }}
-                />
-              );
-            case "firebasePdf":
-              return (
-                <FirebasePdf
-                  firebasePdfPath={media[selectedIndex].src}
-                  height={height}
-                />
-              );
-            case "pdf":
-              return <PdfViewer pdfUrl={media[selectedIndex].src} />;
-            case "youtube":
-              return (
-                <YouTubePlayer src={media[selectedIndex].src} height={height} />
-              );
-            default:
-              return (
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100%",
-                    backgroundColor: "grey.200",
-                  }}
-                >
-                  Unsupported media type
-                </Box>
-              );
-          }
-        })()}
+        {media.map((item, index) => (
+          <Box
+            key={index}
+            sx={{
+              display: index === selectedIndex ? "block" : "none",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            {item.type === "firebaseImage" ? (
+              <FirebaseImage
+                firebaseImagePath={item.src}
+                height={height}
+                alt={item.alt}
+              />
+            ) : item.type === "image" ? (
+              <CardMedia
+                component="img"
+                height={height}
+                image={item.src}
+                alt={item.alt}
+                sx={{ objectFit: "cover" }}
+              />
+            ) : item.type === "firebasePdf" ? (
+              <FirebasePdf firebasePdfPath={item.src} height={height} />
+            ) : item.type === "pdf" ? (
+              <PdfViewer pdfUrl={item.src} />
+            ) : item.type === "youtube" ? (
+              <YouTubePlayer src={item.src} height={height} />
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%",
+                  backgroundColor: "grey.200",
+                }}
+              >
+                Unsupported media type
+              </Box>
+            )}
+          </Box>
+        ))}
       </Card>
 
       {/* Next Button */}

@@ -116,7 +116,6 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
                   >
                     <Card
                       sx={{
-                        p: 1,
                         backgroundColor: cp("background.paper"),
                         color: cp("text.paper"),
                         borderRadius: "8px",
