@@ -182,7 +182,7 @@ export const projectDetails: ProjectDetail[] = [
         src: "tilt-tracker/design-and-eval-article-working-copy.pdf",
         alt: "tilt tracker logo",
         type: "firebasePdf",
-        text: "In January 2025, another article was accepted for publication in IMWUT, a high-impact ACM journal on Interactive, Mobile, Wearable, and Ubiquitous Technologies. The paper received \"very significant impact\" scores from all reviewers. This is a working copy of the article, to be published soon.",
+        text: 'In January 2025, another article was accepted for publication in IMWUT, a high-impact ACM journal on Interactive, Mobile, Wearable, and Ubiquitous Technologies. The paper received "very significant impact" scores from all reviewers. This is a working copy of the article, to be published soon.',
       },
       {
         src: "tilt-tracker/logo.svg",
