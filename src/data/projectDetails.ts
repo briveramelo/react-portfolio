@@ -164,12 +164,12 @@ ${_}
 _"The sound... I really liked the sound, it just makes it easier to remind me if conversations are going on."_
 ${dash} Tilt Tracker user.
 ${_}
-This participant has my brother Nathan to thank for the audio design.`,
+This participant has my brother Nathan to thank for the audio design. Click to listen!`,
         audioButtons: [
-          { audioPath: "tilt-tracker/interval.mp3", x: 70, y: 15 },
-          { audioPath: "tilt-tracker/duration.mp3", x: 70, y: 39.5 },
-          { audioPath: "tilt-tracker/tilt.mp3", x: 70, y: 64 },
-          { audioPath: "tilt-tracker/recline.mp3", x: 70, y: 91 },
+          { audioPath: "tilt-tracker/interval.mp3", x: 73, y: 15 },
+          { audioPath: "tilt-tracker/duration.mp3", x: 73, y: 39.5 },
+          { audioPath: "tilt-tracker/tilt.mp3", x: 73, y: 64 },
+          { audioPath: "tilt-tracker/recline.mp3", x: 73, y: 91 },
         ],
       },
       {
@@ -196,7 +196,7 @@ ${dash} Tilt Tracker user.`,
         type: "firebaseImage",
         text: `Watching a movie? PR reminders (Interval Feedback) can be disabled from the website or a button press on the device.
 ${_}
-Users can also choose if they want fun beeps, buzzes, or flashes for the other key metrics for a proper PR, like if they've tilted for long enough (Duration), far enough (Tilt), or reclined far enough (Recline) too.`,
+Users can also choose if they want fun beeps, buzzes, or flashes for the other key metrics of a proper PR, like if they've tilted for long enough (Duration), far enough (Tilt), or reclined far enough (Recline) too.`,
       },
       {
         chapterTitle: "Contributions",

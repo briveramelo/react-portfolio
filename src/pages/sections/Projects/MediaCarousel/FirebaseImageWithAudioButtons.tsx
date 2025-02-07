@@ -8,9 +8,11 @@ import { AudioButtonData } from "../../../../data/projectDetails";
 import {
   cacheAsset,
   firebaseAssetCacheKey,
+  getCachedFirebaseAsset,
   loadAsset,
 } from "../../../../utils/cache.ts";
 import { generateGravityBounceScaleKeyframes } from "../../../../utils/keyframeGenerator.ts";
+import { useFirebaseCache } from "../../../../context/FirebaseCacheContext.tsx";
 
 interface FirebaseImageWithAudioButtonsProps {
   firebaseImagePath: string;
@@ -25,25 +27,21 @@ const FirebaseImageWithAudioButtons: React.FC<
   FirebaseImageWithAudioButtonsProps
 > = ({ firebaseImagePath, height, alt, audioButtons }) => {
   const [hasClickedButton, setHasClickedButton] = useState<boolean>(false);
+  const { urlCache, setUrlCache } = useFirebaseCache();
   const storage = getStorage(firebaseApp);
+
   const handlePlayAudio = async (audioPath: string) => {
     setHasClickedButton(true);
-    try {
-      const cachedAudioUrl = await loadAsset(firebaseAssetCacheKey, audioPath);
-      if (cachedAudioUrl) {
-        const audio = new Audio(cachedAudioUrl);
-        audio.play();
-        return;
-      }
-
-      const audioRef = ref(storage, audioPath);
-      const url = await getDownloadURL(audioRef);
-      const blobUrl = await cacheAsset(firebaseAssetCacheKey, url, audioPath);
-
+    const blobUrl = await getCachedFirebaseAsset(
+      audioPath,
+      storage,
+      firebaseAssetCacheKey,
+      urlCache,
+      setUrlCache,
+    );
+    if (blobUrl) {
       const audio = new Audio(blobUrl);
       audio.play();
-    } catch (error) {
-      console.error("Error playing audio:", error);
     }
   };
 
@@ -60,14 +58,11 @@ const FirebaseImageWithAudioButtons: React.FC<
               height: "100%",
             }}
           >
-            <img
-              src={url}
-              alt={alt}
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
+            <img src={url} alt={alt} height={"100%"} />
             {audioButtons.map((button, idx) => (
               <IconButton
                 key={idx}
+                id={button.audioPath}
                 onClick={() => handlePlayAudio(button.audioPath)}
                 sx={{
                   position: "absolute",
@@ -76,7 +71,7 @@ const FirebaseImageWithAudioButtons: React.FC<
                   backgroundColor:
                     hasClickedButton || idx !== 0
                       ? "rgba(0,0,0,0.3)"
-                      : "rgba(255,106,0,1)",
+                      : "rgba(255,106,0,.7)",
                   color: "white",
                   "&:hover": {
                     backgroundColor:

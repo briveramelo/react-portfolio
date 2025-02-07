@@ -1,17 +1,16 @@
 import React, { useEffect, useState, ReactNode } from "react";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { getStorage } from "firebase/storage";
 import { CircularProgress, Box } from "@mui/material";
-import { firebaseApp } from "../../../../firebaseConfig.ts";
+import { firebaseApp } from "../../../../firebaseConfig";
 import { useAuth } from "../../../../context/AuthContext.tsx";
 import { useFirebaseCache } from "../../../../context/FirebaseCacheContext.tsx";
 import {
-  cacheAsset,
   firebaseAssetCacheKey,
-  loadAsset,
-} from "../../../../utils/cache.ts";
+  getCachedFirebaseAsset,
+} from "../../../../utils/cache";
 
 interface FirebaseAssetProps {
-  firebasePath: string; // Example: "tilt-tracker/manual.pdf"
+  firebasePath: string;
   height: number;
   render: (url: string | null) => ReactNode;
 }
@@ -36,54 +35,26 @@ const FirebaseAsset: React.FC<FirebaseAssetProps> = ({
       return;
     }
 
-    const checkCacheAndLoad = async () => {
-      // Try to load from cache first
-      const cachedBlobUrl = await loadAsset(
-        firebaseAssetCacheKey,
+    const fetchAsset = async () => {
+      const blobUrl = await getCachedFirebaseAsset(
         firebasePath,
+        storage,
+        firebaseAssetCacheKey,
+        urlCache,
+        setUrlCache,
       );
-      if (cachedBlobUrl) {
-        setAssetUrl(cachedBlobUrl);
+      if (isMounted) {
+        setAssetUrl(blobUrl);
         setLoading(false);
-        return;
-      }
-
-      // If not in cache, check the cache context
-      if (urlCache[firebasePath]) {
-        setAssetUrl(urlCache[firebasePath]);
-        setLoading(false);
-        return;
-      }
-
-      const assetRef = ref(storage, firebasePath);
-      try {
-        const url = await getDownloadURL(assetRef);
-
-        if (isMounted) {
-          setUrlCache(firebasePath, url);
-          const blobUrl = await cacheAsset(
-            firebaseAssetCacheKey,
-            url,
-            firebasePath,
-          );
-          setAssetUrl(blobUrl);
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error("Error fetching asset:", error);
-        if (isMounted) {
-          setAssetUrl(null);
-          setLoading(false);
-        }
       }
     };
 
-    checkCacheAndLoad();
+    fetchAsset();
 
     return () => {
       isMounted = false;
     };
-  }, [firebasePath, user, urlCache, setUrlCache]);
+  }, [firebasePath, user, storage, urlCache, setUrlCache]);
 
   return (
     <Box
