@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { MediaItem, ProjectDetail } from "../../../data/projectDetails";
-import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking";
 import { Box, Typography, Grid, Button, useMediaQuery } from "@mui/material";
 import MediaCarousel from "./MediaCarousel/MediaCarousel";
 import InvertableImage from "../../components/reusable/InvertableImage";
@@ -8,13 +7,14 @@ import { ThemeMode, useCustomPalette } from "../../../theme";
 import { useTheme } from "@mui/material/styles";
 import StoryChapter from "./StoryChapter";
 import NavigationControls from "./NavigationControls";
+import { trackCustomEvent } from "../../../utils/tracking/plausibleHelpers.ts";
+import withDwellTimeTracking from "../../../utils/tracking/withDwellTimeTracking.tsx";
 
 interface ProjectDetailsProps {
   project: ProjectDetail;
 }
 
-export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
-  const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
+const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
   const { mode } = useCustomPalette();
   const useLight = mode === ThemeMode.Dark;
   const theme = useTheme();
@@ -37,8 +37,11 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
   };
 
   const handleChapterClick = (index: number) => {
-    setChapterTitleIndex(index);
-    setSelectedMediaIndex(index);
+    handleMediaChange(index);
+    trackCustomEvent("project_chapter_click", {
+      project_title: project.title,
+      new_chapter_title: media[index].chapterTitle,
+    });
   };
 
   const findCurrentChapterIndex = (
@@ -54,9 +57,31 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
   };
 
   const handleMediaChange = (newMediaIndex: number) => {
+    const currentMediaIndex = selectedMediaIndex;
+    const currentChapterIndex = findCurrentChapterIndex(
+      media,
+      selectedMediaIndex,
+    );
+
     setSelectedMediaIndex(newMediaIndex);
     const newChapterIndex = findCurrentChapterIndex(media, newMediaIndex);
     setChapterTitleIndex(newChapterIndex);
+
+    trackCustomEvent("project_media_change", {
+      project_title: project.title,
+
+      last_chapter_title: media[currentChapterIndex].chapterTitle,
+      new_chapter_title: media[newChapterIndex].chapterTitle,
+
+      last_media_index: currentMediaIndex,
+      new_media_index: newMediaIndex,
+
+      last_chapter_index: currentChapterIndex,
+      new_chapter_index: newChapterIndex,
+
+      last_media_progress: `${currentMediaIndex + 1}/${media.length}`,
+      new_media_progress: `${newMediaIndex + 1}/${media.length}`,
+    });
   };
 
   const nextMedia = () => {
@@ -193,3 +218,13 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
     </Box>
   );
 };
+
+const getProjectTrackingData = (props: ProjectDetailsProps) => ({
+  project_title: props.project.title,
+});
+
+export default withDwellTimeTracking(
+  ProjectDetails,
+  "project_details_dwell",
+  getProjectTrackingData,
+);

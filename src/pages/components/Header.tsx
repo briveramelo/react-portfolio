@@ -14,7 +14,6 @@ import { LinkedIn, Menu } from "@mui/icons-material";
 import ThemeSwitcher from "./ThemeSwitcher.tsx";
 import { ThemeContext } from "../../context/ThemeContext.tsx";
 import { isColorDark } from "../../utils/utils.ts";
-import { useHoverTracking } from "../../utils/tracking/hooks/useHoverTracking.ts";
 import { themes } from "../../theme.ts";
 import { NavLink, sectionStyles } from "../../data/sectionStyles.ts";
 
@@ -33,9 +32,6 @@ export function Header({
   defaultTextColor,
   defaultIsBackgroundDark,
 }: HeaderProps) {
-  const navHoverTrackers = navigationLinks.map(() => useHoverTracking());
-  const linkedinHover = useHoverTracking();
-  const hamburgerHover = useHoverTracking();
   const headerRef = useRef<HTMLElement | null>(null);
   const [colors, setColors] = useState({
     header: defaultBackgroundColor,
@@ -137,7 +133,6 @@ export function Header({
   const desktopNavLinks = (
     <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
       {navigationLinks.map((link, index) => {
-        const { trackMouseEnter, trackMouseLeave } = navHoverTrackers[index];
         return (
           <Button
             id={link.href}
@@ -148,8 +143,6 @@ export function Header({
               e.preventDefault();
               handleNavClick(link.href);
             }}
-            onMouseEnter={trackMouseEnter}
-            onMouseLeave={trackMouseLeave}
             sx={{
               textTransform: "none",
               fontWeight: "bold",
@@ -167,8 +160,6 @@ export function Header({
     <IconButton
       component="a"
       id="brandon_linkedin"
-      onMouseEnter={linkedinHover.trackMouseEnter}
-      onMouseLeave={linkedinHover.trackMouseLeave}
       href={linkedInUrl}
       target="_blank"
       rel="noopener noreferrer"
@@ -191,8 +182,6 @@ export function Header({
     <IconButton
       onClick={() => setDrawerOpen(true)}
       sx={{ color: colors.text }}
-      onMouseEnter={hamburgerHover.trackMouseEnter}
-      onMouseLeave={hamburgerHover.trackMouseLeave}
       id="hamburger_menu"
     >
       <Menu />
@@ -283,8 +272,6 @@ export function Header({
                 sx={{ pr: 10 }}
                 key={link.href}
                 onClick={() => handleNavClick(link.href)}
-                onMouseEnter={navHoverTrackers[index].trackMouseEnter}
-                onMouseLeave={navHoverTrackers[index].trackMouseLeave}
                 id={`hamburger_item_${link.label}`}
               >
                 <ListItemText primary={link.label} />
@@ -296,8 +283,6 @@ export function Header({
               key="linkedinIcon"
               href={linkedInUrl}
               id="hamburger_item_linkedin"
-              onMouseEnter={linkedinHover.trackMouseEnter}
-              onMouseLeave={linkedinHover.trackMouseLeave}
               target="_blank"
               rel="noopener noreferrer"
             >

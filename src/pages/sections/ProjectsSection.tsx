@@ -9,13 +9,12 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { ProjectCard } from "./Projects/ProjectCard.tsx";
-import { ProjectDetails } from "./Projects/ProjectDetails.tsx";
+import ProjectDetails from "./Projects/ProjectDetails.tsx";
 import { Project, projectData } from "../../data/projectData";
 import { ThemeMode, useCustomPalette } from "../../theme";
 import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import { Collapsible } from "../components/reusable/Collapsible.tsx";
 import { ProjectDetail, projectDetails } from "../../data/projectDetails.ts";
-import { useHoverTracking } from "../../utils/tracking/hooks/useHoverTracking.ts";
 import { HoverExpandContainer } from "../components/reusable/HoverExpandContainer.tsx";
 
 interface ProjectsProps {
@@ -39,7 +38,6 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
       useState<boolean>(true);
     const slideDurationMs = 750;
     const sectionRef = ref as React.RefObject<HTMLElement>;
-    const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
 
     const isSectionVisibleLead = useIntersectionObserver(sectionRef, {
       threshold: 0.1,
@@ -145,8 +143,6 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                     }}
                     id="close_project_button"
                     onClick={handleCloseProjectDetails}
-                    onMouseEnter={trackMouseEnter}
-                    onMouseLeave={trackMouseLeave}
                     className="pop-shadow"
                   >
                     <CloseIcon

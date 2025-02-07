@@ -2,7 +2,6 @@ import React from "react";
 import { Container, Typography, Box } from "@mui/material";
 import { BeatingHeart } from "./BeatingHeart.tsx";
 import { SteamingCoffee } from "./SteamingCoffee.tsx";
-import { useHoverTracking } from "../../../../utils/tracking/hooks/useHoverTracking.ts";
 import { ReactIconAnimation } from "./ReactIconAnimation.tsx";
 
 interface FooterProps {
@@ -16,8 +15,6 @@ export const Footer: React.FC<FooterProps> = ({
   textColor,
   heartTriggerRef,
 }) => {
-  const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
-
   return (
     <Box
       component="footer"
@@ -62,8 +59,6 @@ export const Footer: React.FC<FooterProps> = ({
             rel="noopener noreferrer"
             style={{ color: "inherit", textDecoration: "underline" }}
             id="plausible_analytics_link"
-            onMouseEnter={trackMouseEnter}
-            onMouseLeave={trackMouseLeave}
           >
             Plausible Analytics
           </a>

@@ -28,7 +28,6 @@ export function TestimonialCard({
   isSectionVisible: boolean;
 }) {
   const cardHover = useHoverTracking();
-  const avatarHover = useHoverTracking();
   const [index, setIndex] = useState<number>(0);
   useEffect(() => {
     setIndex(index + 1);
@@ -139,8 +138,6 @@ export function TestimonialCard({
             rel="noopener noreferrer"
             href={data.link}
             id={`testimonial_card_linkedin_${data.name}`}
-            onMouseEnter={avatarHover.trackMouseEnter}
-            onMouseLeave={avatarHover.trackMouseLeave}
             sx={{
               mb: -1.25,
               color: textColor,

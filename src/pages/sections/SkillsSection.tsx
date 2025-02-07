@@ -8,7 +8,6 @@ import { skillsData } from "../../data/skillsData";
 import { ThemeMode, useCustomPalette } from "../../theme";
 import ExperienceCategory from "./Skills/ExperienceCategory";
 import SkillCategory from "./Skills/SkillCategory";
-import { useHoverTracking } from "../../utils/tracking/hooks/useHoverTracking.ts";
 import { generateGravityBounceScaleKeyframes } from "../../utils/keyframeGenerator.ts";
 
 interface SkillsSectionProps {
@@ -41,7 +40,6 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
       setHasClickedButton(true);
       setIsYearsOfExperience((prev) => !prev);
     }, []);
-    const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
 
     return (
       <Box
@@ -63,8 +61,6 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
         <Button
           id="skill_experience_toggle"
           onClick={handleButtonClick}
-          onMouseEnter={trackMouseEnter}
-          onMouseLeave={trackMouseLeave}
           sx={{
             mb: 15,
             py: 2,
