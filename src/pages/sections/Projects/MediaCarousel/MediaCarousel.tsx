@@ -7,12 +7,14 @@ import YouTubePlayer from "./YouTubePlayer.tsx";
 import FirebaseImage from "./FirebaseImage.tsx";
 import FirebasePdf from "./FirebasePdf.tsx";
 import Quote from "./Quote.tsx";
+import ChangeMediaButton from "./ChangeMediaButton.tsx";
 
 interface MediaCarouselProps {
   media: MediaItem[];
   selectedIndex: number;
   onMediaChange: (index: number) => void;
   height: number;
+  showArrows: boolean;
 }
 
 const MediaCarousel: React.FC<MediaCarouselProps> = ({
@@ -20,6 +22,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
   selectedIndex,
   onMediaChange,
   height,
+  showArrows = true,
 }) => {
   const [hasBeenClicked, setHasBeenClicked] = useState<boolean>(false);
 
@@ -46,25 +49,11 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
       }}
     >
       {/* Previous Button */}
-      <IconButton
+      <ChangeMediaButton
+        hasBeenClicked={hasBeenClicked}
+        next={false}
         onClick={prevMedia}
-        sx={{
-          position: "absolute",
-          left: 10,
-          zIndex: 2,
-          backgroundColor: hasBeenClicked
-            ? "rgba(0,0,0,0.3)"
-            : "rgba(255,106,0,0.5)",
-          color: "white",
-          "&:hover": {
-            backgroundColor: hasBeenClicked
-              ? "rgba(0,0,0,0.3)"
-              : "rgba(255,106,0,1)",
-          },
-        }}
-      >
-        <ArrowBack />
-      </IconButton>
+      />
 
       {/* Media Display */}
       <Card
@@ -131,25 +120,11 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
       </Card>
 
       {/* Next Button */}
-      <IconButton
+      <ChangeMediaButton
+        hasBeenClicked={hasBeenClicked}
+        next={true}
         onClick={nextMedia}
-        sx={{
-          position: "absolute",
-          right: 10,
-          zIndex: 2,
-          backgroundColor: hasBeenClicked
-            ? "rgba(0,0,0,0.3)"
-            : "rgba(255,106,0,0.5)",
-          color: "white",
-          "&:hover": {
-            backgroundColor: hasBeenClicked
-              ? "rgba(0,0,0,0.3)"
-              : "rgba(255,106,0,1)",
-          },
-        }}
-      >
-        <ArrowForward />
-      </IconButton>
+      />
     </Box>
   );
 };

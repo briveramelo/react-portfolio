@@ -92,6 +92,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
         {/* Media Carousel */}
         <Grid item lg={9} xs={12}>
           <MediaCarousel
+            showArrows={true}
             media={media}
             selectedIndex={selectedMediaIndex}
             onMediaChange={handleMediaChange}
