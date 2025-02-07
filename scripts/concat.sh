@@ -2,8 +2,8 @@
 ## Concatenates all project files into a single .txt file.
 ## Optionally takes arguments to limit which files to include.
 ##
-## If a directory is passed as an argument, all files within that directory
-## are processed (without scanning for dependencies).
+## If a directory is passed as an argument, by default only files in the immediate
+## directory are processed. With --recursive or -r, files in all subdirectories are included.
 
 # Define the output file
 output_file="./all_text.txt"
@@ -32,21 +32,23 @@ explicit_files=(
 
 # Function to display help information
 show_help() {
-    echo "Usage: $0 [--help] [--config] [file_path|directory_path ...]"
+    echo "Usage: $0 [--help] [--config] [--recursive|-r] [file_path|directory_path ...]"
     echo ""
     echo "Options:"
     echo "  --help          Display this help message."
     echo "  --config        Process only the hard-coded configuration files."
     echo "                  When used with file or directory targets, the specified targets are also processed."
+    echo "  --recursive, -r If a directory target is provided, process files in all subdirectories recursively."
+    echo "                  By default, only files in the immediate directory are processed."
     echo "  [file_path|directory_path ...]"
     echo "                  Process specific files or directories."
     echo "                  • For file targets, the file is processed and its dependencies (imports) are recursively followed."
-    echo "                  • For directory targets, all files within the directory (and its subdirectories) are processed,"
-    echo "                    but dependencies are NOT followed."
+    echo "                  • For directory targets, files are processed as follows:"
+    echo "                      - By default, only files in the immediate directory are processed."
+    echo "                      - With --recursive/-r, files in all subdirectories are also processed."
     echo ""
     echo "If no arguments are provided, all project files (including configuration files) will be processed."
 }
-
 
 # Function to check if a file path already has a known extension.
 has_known_extension() {
@@ -115,6 +117,7 @@ process_file() {
 # Parse arguments
 process_config_only=false
 process_target_and_config=false
+recursive=false
 
 declare -a target_files=()
 
@@ -122,6 +125,9 @@ for arg in "$@"; do
     case $arg in
         --config)
             process_config_only=true
+            ;;
+        --recursive|-r)
+            recursive=true
             ;;
         --help)
             show_help
@@ -137,6 +143,21 @@ if [[ $process_config_only == true && ${#target_files[@]} -gt 0 ]]; then
     process_target_and_config=true
     process_config_only=false
 fi
+
+# Function to process directory targets based on the recursive flag.
+process_directory() {
+    local target="$1"
+    echo "[INFO] Processing directory: $target"
+    if [[ "$recursive" == "true" ]]; then
+        find "$target" -type f | while read -r file; do
+            process_file "$file" false
+        done
+    else
+        find "$target" -maxdepth 1 -type f | while read -r file; do
+            process_file "$file" false
+        done
+    fi
+}
 
 # Main logic to process files
 if [[ $process_config_only == true ]]; then
@@ -156,10 +177,7 @@ elif [[ $process_target_and_config == true ]]; then
     done
     for target in "${target_files[@]}"; do
         if [[ -d "$target" ]]; then
-            echo "[INFO] Processing directory: $target"
-            find "$target" -type f | while read -r file; do
-                process_file "$file" false
-            done
+            process_directory "$target"
         elif [[ -f "$target" ]]; then
             process_file "$target" true
         else
@@ -171,11 +189,7 @@ elif [[ ${#target_files[@]} -gt 0 ]]; then
     echo "[INFO] Processing specified targets"
     for target in "${target_files[@]}"; do
         if [[ -d "$target" ]]; then
-            echo "[INFO] Processing directory: $target"
-            # Process all files within the directory without scanning for dependencies.
-            find "$target" -type f | while read -r file; do
-                process_file "$file" false
-            done
+            process_directory "$target"
         elif [[ -f "$target" ]]; then
             process_file "$target" true
         else
