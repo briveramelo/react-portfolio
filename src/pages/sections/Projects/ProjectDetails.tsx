@@ -15,6 +15,9 @@ import MediaCarousel from "./MediaCarousel/MediaCarousel.tsx";
 import InvertableImage from "../../components/reusable/InvertableImage.tsx";
 import { ThemeMode, useCustomPalette } from "../../../theme.ts";
 import { useTheme } from "@mui/material/styles";
+import { HighlightedText } from "../../components/reusable/HighlightedText.tsx";
+import ReactMarkdown from "react-markdown";
+import remarkBreaks from "remark-breaks";
 
 interface ProjectDetailsProps {
   project: ProjectDetail;
@@ -128,14 +131,37 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
                           {mediaItem.sectionTitle}
                         </Typography>
                         {index === sectionTitleIndex && (
-                          <Typography
-                            variant="body1"
-                            sx={{
-                              lineHeight: "1.25rem",
+                          <ReactMarkdown
+                            remarkPlugins={[remarkBreaks]}
+                            components={{
+                              p: ({ children }) => (
+                                <Typography
+                                  variant="body1"
+                                  sx={{
+                                    color: cp("text.secondary"),
+                                    lineHeight: "1.25rem",
+                                  }}
+                                >
+                                  {children}
+                                </Typography>
+                              ),
+                              strong: ({ children }) => (
+                                <HighlightedText>{children}</HighlightedText>
+                              ),
+                              em: ({ children }) => (
+                                <Typography
+                                  component="span"
+                                  variant="body1"
+                                  className="fade-in-text"
+                                  sx={{ fontStyle: "italic" }}
+                                >
+                                  {children}
+                                </Typography>
+                              ),
                             }}
                           >
                             {media[selectedMediaIndex].text}
-                          </Typography>
+                          </ReactMarkdown>
                         )}
                       </CardContent>
                     </Card>

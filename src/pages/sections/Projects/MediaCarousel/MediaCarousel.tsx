@@ -6,6 +6,7 @@ import PdfViewer from "./PdfViewer.tsx";
 import YouTubePlayer from "./YouTubePlayer.tsx";
 import FirebaseImage from "./FirebaseImage.tsx";
 import FirebasePdf from "./FirebasePdf.tsx";
+import Quote from "./Quote.tsx";
 
 interface MediaCarouselProps {
   media: MediaItem[];
@@ -78,9 +79,16 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
           <Box
             key={index}
             sx={{
-              display: index === selectedIndex ? "block" : "none",
+              display:
+                index !== selectedIndex
+                  ? "none"
+                  : item.type === "quote"
+                    ? "flex"
+                    : "block",
               width: "100%",
               height: "100%",
+              justifyContent: "center", // centers horizontally
+              alignItems: "center", // centers vertically
             }}
           >
             {item.type === "firebaseImage" ? (
@@ -103,6 +111,8 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
               <PdfViewer pdfUrl={item.src} />
             ) : item.type === "youtube" ? (
               <YouTubePlayer src={item.src} height={height} />
+            ) : item.type === "quote" ? (
+              <Quote content={item.src} />
             ) : (
               <Box
                 sx={{

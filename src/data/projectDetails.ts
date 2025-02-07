@@ -6,9 +6,9 @@ import clawface from "@/assets/projects/clawface.jpg";
 
 export interface MediaItem {
   sectionTitle?: string;
-  src: string; // eg: https://www.youtube.com/embed/{videoId} for type youtube
+  src: string; // eg: https://www.youtube-nocookie.com/embed/{videoId}?rel=0 for privacy-enhanced youtube links
   alt: string;
-  type: "firebaseImage" | "image" | "firebasePdf" | "pdf" | "youtube"; // New type field
+  type: "firebaseImage" | "image" | "firebasePdf" | "pdf" | "youtube" | "quote";
   text?: string;
 }
 
@@ -20,6 +20,9 @@ export type ProjectDetail = {
   github: string;
   liveDemo: string;
 };
+
+const dash = "&#45;";
+const _ = "&nbsp;"; //whitespace character. When on its own line, produces a line break.
 
 export const projectDetails: ProjectDetail[] = [
   {
@@ -57,7 +60,9 @@ export const projectDetails: ProjectDetail[] = [
         src: "tilt-tracker/tilt-tracker-system-diagram.svg",
         alt: "Tilt Tracker system diagram",
         type: "firebaseImage",
-        text: "Tilt Tracker is a system that creates a cycle of positive reinforcement to improve pressure relief compliance and prevent pressure ulcers. It uses real-time feedback to motivate compliance and objective reporting to provide insight for clinical care.",
+        text: `Tilt Tracker is a system that creates a cycle of positive reinforcement to improve pressure relief compliance and prevent pressure ulcers.
+${_}
+It uses real-time feedback to motivate compliance and objective reporting to provide insight for clinical care.`,
       },
       {
         src: "tilt-tracker/seat-tilt-sensor.webp",
@@ -82,13 +87,15 @@ export const projectDetails: ProjectDetail[] = [
         src: "tilt-tracker/tilt-recline-heatmap.webp",
         alt: "tilt and recline relieve pressure",
         type: "firebaseImage",
-        text: "Performing both a seat tilt and a backrest recline is key for providing effective pressure relief.",
+        text: `Performing both a seat tilt and a backrest recline is key for providing effective pressure relief.
+${_}
+_Note: this is a one-off visual conducted in the lab and not available to Tilt Tracker users_`,
       },
       {
         src: "tilt-tracker/interactive-graph-compressed.gif",
         alt: "interactive graph animated",
         type: "firebaseImage",
-        text: "Researchers and clinicians can drill down into the details of a single PR for deep insights using an interactive web tool.",
+        text: "Researchers and clinicians can drill down into the details of a single PR for deep insights using an interactive web tool on the Tilt Tracker website.",
       },
       {
         src: "tilt-tracker/pressure-relief-detection-model.webp",
@@ -131,25 +138,38 @@ export const projectDetails: ProjectDetail[] = [
         src: "tilt-tracker/device-cables.webp",
         alt: "device cables",
         type: "firebaseImage",
-        text: "The device sends data to the cloud securely using MQTTS and in turn receives friendly reminders if no PR is detected, including fun audio ditties...",
+        text: `The device sends activity data to the cloud securely using MQTTS and in turn receives friendly reminders if no PR is detected, including fun audio ditties.
+${_}
+_"The sound... I really liked the sound, it just makes it easier to remind me if conversations are going on."_
+${dash} Tilt Tracker user.
+${_}
+This participant can thank my brother Nathan for the audio design.`,
       },
       {
         src: "tilt-tracker/headrest-vibration-motor.webp",
         alt: "vibration motor",
         type: "firebaseImage",
-        text: "... subtle vibrations ...",
+        text: `... subtle vibrations ...
+${_}
+_"I could tell that it was like, notifying me. But it wasn’t like honking a horn or distracting somebody else. And consistently, I could feel it, versus either seeing it or hearing it. So the feel of the vibration was much more apparent."_
+${dash} Tilt Tracker user.`,
       },
       {
         src: "tilt-tracker/armrest-led.webp",
         alt: "armrest LED",
         type: "firebaseImage",
-        text: "... and a blinking LED.",
+        text: `... and a blinking LED.
+${_}
+_"I do not have my phone with me a lot. I do not wear a watch. Or I am not a high tech. If [Tilt Tracker] reminds me, that’s all I want."_
+${dash} Tilt Tracker user.`,
       },
       {
         src: "tilt-tracker/notification-settings.webp",
         alt: "notification settings",
         type: "firebaseImage",
-        text: "Watching a movie? Reminders can be disabled from the website or a button press on the device.",
+        text: `Watching a movie? PR reminders (Interval Feedback) can be disabled from the website or a button press on the device.
+${_}
+Users can also choose if they want fun beeps, buzzes, or flashes for the other key metrics for a proper PR, like if they've tilted for long enough (Duration), far enough (Tilt), or reclined far enough (Recline) too.`,
       },
       {
         sectionTitle: "Contributions",
@@ -164,14 +184,18 @@ export const projectDetails: ProjectDetail[] = [
         type: "firebaseImage",
         text: "As the team downsized, I gradually took on the entire tech stack and client meetings. Dr. Jeffrey Rosenbluth M.D., project sponsor and Director of Spinal Cord Injury at the University of Utah, eventually hired me full time.",
       },
-      //todo: add gource video
+      {
+        src: "https://www.youtube-nocookie.com/embed/AgdABWQStZo?rel=0",
+        alt: "gource video",
+        type: "youtube",
+        text: "Here is a gource visualization of all code additions, deletions, and modifications made in git source control over time (excluding the original sensor prototype). You will see a directory depth of just one, including each of the submodule repositories in use: API (Java, Spring, Maven), Web (NodeJS, jQuery, HTML, CSS), Sensor (C++, Particle IoT), Db (MariaDB, SQL), Mqtt (mosquitto), Data, CI/CD (GitLab .yml, Bash), Singularity (Bash), and Super.",
+      },
       {
         src: "tilt-tracker/ross-worktable.webp",
         alt: "Ross at his worktable",
         type: "firebaseImage",
         text: "Although I took on the full tech stack, including C++ firmware and remote updates during clinical trials, our electrical engineer Ross Imburgia developed the electronics.",
       },
-      //todo: SBIR, funding mention
       {
         src: "tilt-tracker/ingenta-article.pdf",
         alt: "tilt tracker logo",
@@ -179,10 +203,23 @@ export const projectDetails: ProjectDetail[] = [
         text: "In 2018, we published a journal article to Technology and Innovation with the high level details of our approach.",
       },
       {
+        src: "tilt-tracker/tilt-sbir-elevator-pitch.pdf",
+        alt: "tilt tracker logo",
+        type: "firebasePdf",
+        text: "In 2022, we were invited to apply for SBIR (Small Business Innovation Research) funding, and we did. The full proposal is a 79-page pdf document with the full support of the Craig H. Neilsen Rehabilitation Hospital, a team of clinical staff, researchers, and business professionals. Like 90% of other applications, Tilt Tracker was denied an award. This is just the elevator pitch.",
+      },
+      {
         src: "tilt-tracker/design-and-eval-article-working-copy.pdf",
         alt: "tilt tracker logo",
         type: "firebasePdf",
-        text: 'In January 2025, another article was accepted for publication in IMWUT, a high-impact ACM journal on Interactive, Mobile, Wearable, and Ubiquitous Technologies. The paper received "very significant impact" scores from all reviewers. This is a working copy of the article, to be published soon.',
+        text: 'In January 2025, another article was accepted for publication in IMWUT, a high-impact ACM journal on Interactive, Mobile, Wearable, and Ubiquitous Technologies. The paper received "very significant impact" scores from all reviewers. We evaluated the feasibility of the aforementioned reminder and notification modalities to improve PR adherence and identified opportunities to facilitate reflection on personal data through data exploration.',
+      },
+      {
+        src: `"I think it would be **very beneficial to me to have this reminder** because in any situation, I would have the reminder to help me to go back to help **to not get pressures sores.**"
+- Tilt Tracker user`,
+        alt: "quote",
+        type: "quote",
+        text: "Clinical study participant expresses the value of Tilt Tracker.",
       },
       {
         src: "tilt-tracker/logo.svg",
