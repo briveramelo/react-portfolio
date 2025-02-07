@@ -4,7 +4,11 @@ import { CircularProgress, Box } from "@mui/material";
 import { firebaseApp } from "../../../../firebaseConfig.ts";
 import { useAuth } from "../../../../context/AuthContext.tsx";
 import { useFirebaseCache } from "../../../../context/FirebaseCacheContext.tsx";
-import { cacheAsset, loadAsset } from "../../../../utils/cache.ts";
+import {
+  cacheAsset,
+  firebaseAssetCacheKey,
+  loadAsset,
+} from "../../../../utils/cache.ts";
 
 interface FirebaseAssetProps {
   firebasePath: string; // Example: "tilt-tracker/manual.pdf"
@@ -22,7 +26,6 @@ const FirebaseAsset: React.FC<FirebaseAssetProps> = ({
   const { user } = useAuth();
   const storage = getStorage(firebaseApp);
   const { urlCache, setUrlCache } = useFirebaseCache();
-  const cacheName = "firebase-asset-cache";
 
   useEffect(() => {
     let isMounted = true;
@@ -34,15 +37,18 @@ const FirebaseAsset: React.FC<FirebaseAssetProps> = ({
     }
 
     const checkCacheAndLoad = async () => {
-      // Try to load from IndexedDB first
-      const cachedBlobUrl = await loadAsset(cacheName, firebasePath);
+      // Try to load from cache first
+      const cachedBlobUrl = await loadAsset(
+        firebaseAssetCacheKey,
+        firebasePath,
+      );
       if (cachedBlobUrl) {
         setAssetUrl(cachedBlobUrl);
         setLoading(false);
         return;
       }
 
-      // If not in IndexedDB, check the cache context
+      // If not in cache, check the cache context
       if (urlCache[firebasePath]) {
         setAssetUrl(urlCache[firebasePath]);
         setLoading(false);
@@ -55,7 +61,11 @@ const FirebaseAsset: React.FC<FirebaseAssetProps> = ({
 
         if (isMounted) {
           setUrlCache(firebasePath, url);
-          const blobUrl = await cacheAsset(cacheName, url, firebasePath);
+          const blobUrl = await cacheAsset(
+            firebaseAssetCacheKey,
+            url,
+            firebasePath,
+          );
           setAssetUrl(blobUrl);
           setLoading(false);
         }

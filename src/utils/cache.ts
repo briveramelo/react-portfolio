@@ -1,3 +1,4 @@
+export const firebaseAssetCacheKey = "firebase-asset-cache";
 export const cacheAsset = async (
   cacheName: string,
   url: string,

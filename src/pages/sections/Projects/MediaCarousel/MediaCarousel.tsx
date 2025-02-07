@@ -7,6 +7,7 @@ import FirebaseImage from "./FirebaseImage.tsx";
 import FirebasePdf from "./FirebasePdf.tsx";
 import Quote from "./Quote.tsx";
 import ChangeMediaButton from "./ChangeMediaButton.tsx";
+import FirebaseImageWithAudioButtons from "./FirebaseImageWithAudioButtons.tsx";
 
 interface MediaCarouselProps {
   media: MediaItem[];
@@ -86,6 +87,13 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                 firebaseImagePath={item.src}
                 height={height}
                 alt={item.alt}
+              />
+            ) : item.type === "firebaseImageWithAudioButtons" ? (
+              <FirebaseImageWithAudioButtons
+                firebaseImagePath={item.src}
+                height={height}
+                alt={item.alt}
+                audioButtons={item.audioButtons || []}
               />
             ) : item.type === "image" ? (
               <CardMedia

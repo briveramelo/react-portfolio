@@ -4,12 +4,27 @@ import joshTilt from "@/assets/projects/josh-tilt-cropped.webp";
 import abcmouse from "@/assets/projects/abcmouse.webp";
 import clawface from "@/assets/projects/clawface.jpg";
 
+export interface AudioButtonData {
+  audioPath: string;
+  // x and y can be defined as percentages (0 to 100) of the image width/height
+  x: number;
+  y: number;
+}
+
 export interface MediaItem {
   chapterTitle?: string;
   src: string; // eg: https://www.youtube-nocookie.com/embed/{videoId}?rel=0 for privacy-enhanced youtube links
   alt: string;
-  type: "firebaseImage" | "image" | "firebasePdf" | "pdf" | "youtube" | "quote";
+  type:
+    | "firebaseImage"
+    | "image"
+    | "firebasePdf"
+    | "pdf"
+    | "youtube"
+    | "quote"
+    | "firebaseImageWithAudioButtons";
   text?: string;
+  audioButtons?: AudioButtonData[];
 }
 
 export type ProjectDetail = {
@@ -138,12 +153,24 @@ _Note: this is a one-off visual conducted in the lab and not available to Tilt T
         src: "tilt-tracker/device-cables.webp",
         alt: "device cables",
         type: "firebaseImage",
-        text: `The device sends activity data to the cloud securely using MQTTS and in turn receives friendly reminders if no PR is detected, including fun audio ditties.
+        text: "The device attaches to the wheelchair backing, sends activity data to the cloud securely using MQTTS, and in turn receives friendly reminders if no PR is detected.",
+      },
+      {
+        src: "tilt-tracker/audio-goal-feedback-v1.webp",
+        alt: "audio goal feedback",
+        type: "firebaseImageWithAudioButtons",
+        text: `These reminders come in various formats, including audio ...
 ${_}
 _"The sound... I really liked the sound, it just makes it easier to remind me if conversations are going on."_
 ${dash} Tilt Tracker user.
 ${_}
 This participant has my brother Nathan to thank for the audio design.`,
+        audioButtons: [
+          { audioPath: "tilt-tracker/interval.mp3", x: 70, y: 15 },
+          { audioPath: "tilt-tracker/duration.mp3", x: 70, y: 39.5 },
+          { audioPath: "tilt-tracker/tilt.mp3", x: 70, y: 64 },
+          { audioPath: "tilt-tracker/recline.mp3", x: 70, y: 91 },
+        ],
       },
       {
         src: "tilt-tracker/headrest-vibration-motor.webp",

@@ -10,7 +10,7 @@ interface ChangeMediaButtonProps {
 }
 
 const buttonAnim = generateGravityBounceScaleKeyframes(1, 1.3, 20, 3);
-const arrowAnim = generateGravityBounceScaleKeyframes(1, 1.25, 20, 3);
+const arrowAnim = generateGravityBounceScaleKeyframes(1, 1.4, 20, 3);
 const ChangeMediaButton: React.FC<ChangeMediaButtonProps> = ({
   next,
   onClick,
@@ -18,7 +18,6 @@ const ChangeMediaButton: React.FC<ChangeMediaButtonProps> = ({
 }) => {
   const arrowStyle = {
     animation: hasBeenClicked ? undefined : `${arrowAnim} 2s infinite`,
-    animationDelay: "-1s",
   };
 
   return (
@@ -31,7 +30,7 @@ const ChangeMediaButton: React.FC<ChangeMediaButtonProps> = ({
         color: "white",
         "&:hover": {
           backgroundColor: hasBeenClicked
-            ? "rgba(0,0,0,0.3)"
+            ? "rgba(0,0,0,0.5)"
             : "rgba(255,106,0,1)",
         },
         animation: hasBeenClicked ? undefined : `${buttonAnim} 2s infinite`,

@@ -6,7 +6,7 @@ import InvertableImage from "../../components/reusable/InvertableImage";
 import { ThemeMode, useCustomPalette } from "../../../theme";
 import { useTheme } from "@mui/material/styles";
 import StoryChapter from "./StoryChapter";
-import NavigationControls from "./NavigationControls";
+import NavigationControls from "./MediaCarousel/NavigationControls.tsx";
 import { trackCustomEvent } from "../../../utils/tracking/plausibleHelpers.ts";
 import withDwellTimeTracking from "../../../utils/tracking/withDwellTimeTracking.tsx";
 

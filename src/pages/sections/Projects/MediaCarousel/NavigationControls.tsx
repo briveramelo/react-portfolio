@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import ChangeMediaButton from "./MediaCarousel/ChangeMediaButton";
+import ChangeMediaButton from "./ChangeMediaButton.tsx";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import { MediaItem } from "../../../data/projectDetails";
+import { MediaItem } from "../../../../data/projectDetails.ts";
 
 interface NavigationControlsProps {
   media: MediaItem[];
@@ -81,7 +81,6 @@ const NavigationControls: React.FC<NavigationControlsProps> = ({
           alignItems: "center",
           gap: 0.5,
           mt: -2,
-          color: "rgba(0,0,0,.5)",
         }}
       >
         {Array.from({ length: totalInChapter }).map((_, idx) => {
@@ -101,9 +100,25 @@ const NavigationControls: React.FC<NavigationControlsProps> = ({
               }}
             >
               {isSelected ? (
-                <FiberManualRecordIcon sx={{ fontSize: 19 }} />
+                <FiberManualRecordIcon
+                  sx={{
+                    fontSize: 19,
+                    color: "rgba(0,0,0,.3)",
+                    "&:hover": {
+                      color: "rgba(0,0,0,.5)",
+                    },
+                  }}
+                />
               ) : (
-                <RadioButtonUncheckedIcon sx={{ fontSize: 15 }} />
+                <RadioButtonUncheckedIcon
+                  sx={{
+                    fontSize: 15,
+                    color: "rgba(0,0,0,.3)",
+                    "&:hover": {
+                      color: "rgba(0,0,0,.5)",
+                    },
+                  }}
+                />
               )}
             </Box>
           );
