@@ -4,7 +4,6 @@ import React, {
   MouseEvent,
   useEffect,
   useMemo,
-  Ref,
 } from "react";
 import { Box } from "@mui/material";
 import FuseEffect from "./Fuse/FuseEffect";

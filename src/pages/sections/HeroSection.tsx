@@ -60,7 +60,7 @@ export const HeroSection = forwardRef<HTMLElement, HeroProps>(
           id={id}
           ref={heroLinkRef}
           sx={{ position: "absolute", mt: -100 }}
-        ></Box>
+        />
         <Container
           maxWidth="md"
           sx={{

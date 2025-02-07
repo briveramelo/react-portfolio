@@ -13,9 +13,10 @@ export const ScrollDownIndicator: React.FC<ScrollDownIndicatorProps> = ({
 }) => {
   const scrollDown = keyframes`
       0% { transform: translateY(0); opacity: 0; }
-      50% { transform: translateY(20px); opacity: 1; }
-      100% { transform: translateY(40px); opacity: 0; }
+      50% { transform: translateY(${size / 2}px); opacity: 1; }
+      100% { transform: translateY(${size}px); opacity: 0; }
   `;
+
   const anim = {
     fontSize: size,
     color: color,
@@ -28,9 +29,9 @@ export const ScrollDownIndicator: React.FC<ScrollDownIndicatorProps> = ({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        position: "absolute",
-        bottom: size / 2,
         width: "100%",
+        mt: { xs: -5, sm: 0 },
+        pb: { xs: 5, sm: 0 },
       }}
     >
       <ExpandMoreIcon sx={anim} />
