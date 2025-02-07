@@ -143,7 +143,7 @@ ${_}
 _"The sound... I really liked the sound, it just makes it easier to remind me if conversations are going on."_
 ${dash} Tilt Tracker user.
 ${_}
-This participant can thank my brother Nathan for the audio design.`,
+This participant has my brother Nathan to thank for the audio design.`,
       },
       {
         src: "tilt-tracker/headrest-vibration-motor.webp",

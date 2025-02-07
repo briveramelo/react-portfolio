@@ -1,23 +1,12 @@
 import React, { useState } from "react";
-import { MediaItem, ProjectDetail } from "../../../data/projectDetails.ts";
-import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
-import {
-  Box,
-  Typography,
-  Grid,
-  Card,
-  CardContent,
-  Button,
-  useMediaQuery,
-} from "@mui/material";
-import { cp } from "../../../utils/utils.ts";
-import MediaCarousel from "./MediaCarousel/MediaCarousel.tsx";
-import InvertableImage from "../../components/reusable/InvertableImage.tsx";
-import { ThemeMode, useCustomPalette } from "../../../theme.ts";
+import { MediaItem, ProjectDetail } from "../../../data/projectDetails";
+import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking";
+import { Box, Typography, Grid, Button, useMediaQuery } from "@mui/material";
+import MediaCarousel from "./MediaCarousel/MediaCarousel";
+import InvertableImage from "../../components/reusable/InvertableImage";
+import { ThemeMode, useCustomPalette } from "../../../theme";
 import { useTheme } from "@mui/material/styles";
-import { HighlightedText } from "../../components/reusable/HighlightedText.tsx";
-import ReactMarkdown from "react-markdown";
-import remarkBreaks from "remark-breaks";
+import StoryChapter from "./StoryChapter";
 
 interface ProjectDetailsProps {
   project: ProjectDetail;
@@ -71,101 +60,30 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
   return (
     <Box sx={{ overflow: "visible" }}>
       {/* Story and Images */}
-      <Grid container spacing={2} flexDirection={"row"} alignContent={"left"}>
-        {/* Story Cards */}
+      <Grid container spacing={2} flexDirection="row" alignContent="left">
+        {/* Story Chapters */}
         <Grid item lg={3} xs={12}>
           {isMobile ? (
-            // Mobile: Show only one story card
-            <Card
-              sx={{
-                p: 1,
-                backgroundColor: cp("background.paper"),
-                color: cp("text.paper"),
-                borderRadius: "8px",
-                width: "100%",
-              }}
-              className={"subtle-shadow"}
-            >
-              <CardContent>
-                <Typography variant="h6">
-                  {media[sectionTitleIndex].sectionTitle}
-                </Typography>
-                <Typography variant="body1">
-                  {media[selectedMediaIndex].text}
-                </Typography>
-              </CardContent>
-            </Card>
+            // Mobile: Render a single story chapter
+            <StoryChapter
+              mobile
+              sectionTitle={media[sectionTitleIndex].sectionTitle}
+              isActive={true}
+              onClick={() => {}}
+              text={media[selectedMediaIndex].text}
+            />
           ) : (
-            // Desktop: Show all story cards
+            // Desktop: Render all story chapters
             media.map(
               (mediaItem, index) =>
                 mediaItem.sectionTitle && (
-                  <Box
+                  <StoryChapter
                     key={index}
-                    sx={{
-                      overflow: "visible",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      cursor: "pointer",
-                      transition: "transform 0.3s ease",
-                      transform:
-                        index === sectionTitleIndex
-                          ? "scale(1.05)"
-                          : "scale(1)",
-                      transformOrigin: "right center",
-                    }}
-                    py={0.5}
+                    sectionTitle={mediaItem.sectionTitle}
+                    isActive={index === sectionTitleIndex}
                     onClick={() => handleStoryClick(index)}
-                  >
-                    <Card
-                      sx={{
-                        backgroundColor: cp("background.paper"),
-                        color: cp("text.paper"),
-                        borderRadius: "8px",
-                        width: "100%",
-                      }}
-                      className={"subtle-shadow"}
-                    >
-                      <CardContent>
-                        <Typography variant="h6" fontWeight={"bold"}>
-                          {mediaItem.sectionTitle}
-                        </Typography>
-                        {index === sectionTitleIndex && (
-                          <ReactMarkdown
-                            remarkPlugins={[remarkBreaks]}
-                            components={{
-                              p: ({ children }) => (
-                                <Typography
-                                  variant="body1"
-                                  sx={{
-                                    color: cp("text.secondary"),
-                                    lineHeight: "1.25rem",
-                                  }}
-                                >
-                                  {children}
-                                </Typography>
-                              ),
-                              strong: ({ children }) => (
-                                <HighlightedText>{children}</HighlightedText>
-                              ),
-                              em: ({ children }) => (
-                                <Typography
-                                  component="span"
-                                  variant="body1"
-                                  className="fade-in-text"
-                                  sx={{ fontStyle: "italic" }}
-                                >
-                                  {children}
-                                </Typography>
-                              ),
-                            }}
-                          >
-                            {media[selectedMediaIndex].text}
-                          </ReactMarkdown>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </Box>
+                    text={media[selectedMediaIndex].text}
+                  />
                 ),
             )
           )}
