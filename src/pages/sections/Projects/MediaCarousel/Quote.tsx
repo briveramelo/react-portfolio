@@ -14,12 +14,14 @@ const Quote: React.FC<QuoteProps> = ({ content }) => {
       sx={{
         padding: 2,
         backgroundColor: cp("background.paper"),
+        borderRadius: "20px",
         borderLeft: "4px solid",
         borderColor: cp("background.paper"),
-        width: "50%",
+        width: "55%",
         mx: "auto",
         my: "auto",
       }}
+      className={"moderate-shadow"}
     >
       <ReactMarkdown
         components={{
@@ -28,9 +30,9 @@ const Quote: React.FC<QuoteProps> = ({ content }) => {
               {children}
             </Typography>
           ),
-          h4: ({ children }) => (
+          h3: ({ children }) => (
             <Typography
-              variant="h4"
+              variant="h3"
               sx={{ fontStyle: "italic", color: cp("text.paper"), mb: 1 }}
             >
               {children}

@@ -30,6 +30,9 @@
   .subtle-shadow {
     box-shadow: var(--shadow-elevation-low) !important;
   }
+  .moderate-shadow {
+    box-shadow: var(--shadow-elevation-medium) !important;
+  }
 
   .subtle-pop-shadow {
     box-shadow: var(--shadow-elevation-low) !important;
