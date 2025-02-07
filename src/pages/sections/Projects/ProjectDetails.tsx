@@ -53,24 +53,6 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
     return 0;
   };
 
-  const getChapterBounds = (
-    media: MediaItem[],
-    currentIndex: number,
-  ): { start: number; end: number } => {
-    let start = currentIndex;
-    while (start > 0 && !media[start].chapterTitle) {
-      start--;
-    }
-    let end = currentIndex;
-    for (let i = currentIndex + 1; i < media.length; i++) {
-      if (media[i].chapterTitle) {
-        break;
-      }
-      end = i;
-    }
-    return { start, end };
-  };
-
   const handleMediaChange = (newMediaIndex: number) => {
     setSelectedMediaIndex(newMediaIndex);
     const newChapterIndex = findCurrentChapterIndex(media, newMediaIndex);
@@ -90,22 +72,16 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
     setHasBeenClicked(true);
   };
 
-  const { start, end } = getChapterBounds(media, selectedMediaIndex);
-  const totalInChapter = end - start + 1;
-  const currentPosition = selectedMediaIndex - start + 1;
-
   return (
     <Box sx={{ overflow: "visible" }}>
       {/* Story and Images */}
       <Grid container spacing={2} flexDirection="row" alignContent="left">
         {/* Story Chapters */}
         <Grid item lg={3} xs={12}>
-          {/* Navigation Controls Component */}
+          {/* Navigation Controls */}
           <NavigationControls
+            media={media}
             selectedMediaIndex={selectedMediaIndex}
-            currentPosition={currentPosition}
-            totalInChapter={totalInChapter}
-            startingMediaIndex={start}
             hasBeenClicked={hasBeenClicked}
             onNext={nextMedia}
             onPrev={prevMedia}

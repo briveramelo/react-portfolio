@@ -3,12 +3,11 @@ import { Box, Typography } from "@mui/material";
 import ChangeMediaButton from "./MediaCarousel/ChangeMediaButton";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import { MediaItem } from "../../../data/projectDetails";
 
 interface NavigationControlsProps {
+  media: MediaItem[];
   selectedMediaIndex: number;
-  currentPosition: number;
-  totalInChapter: number;
-  startingMediaIndex: number;
   hasBeenClicked: boolean;
   onNext: () => void;
   onPrev: () => void;
@@ -16,15 +15,38 @@ interface NavigationControlsProps {
 }
 
 const NavigationControls: React.FC<NavigationControlsProps> = ({
+  media,
   selectedMediaIndex,
-  currentPosition,
-  totalInChapter,
-  startingMediaIndex,
   hasBeenClicked,
   onNext,
   onPrev,
   onDotClick,
 }) => {
+  const getChapterBounds = (
+    media: MediaItem[],
+    currentIndex: number,
+  ): { chapterStartIndex: number; chapterEndIndex: number } => {
+    let chapterStartIndex = currentIndex;
+    while (chapterStartIndex > 0 && !media[chapterStartIndex].chapterTitle) {
+      chapterStartIndex--;
+    }
+    let chapterEndIndex = currentIndex;
+    for (let i = currentIndex + 1; i < media.length; i++) {
+      if (media[i].chapterTitle) {
+        break;
+      }
+      chapterEndIndex = i;
+    }
+    return { chapterStartIndex, chapterEndIndex };
+  };
+
+  const { chapterStartIndex, chapterEndIndex } = getChapterBounds(
+    media,
+    selectedMediaIndex,
+  );
+  const totalInChapter = chapterEndIndex - chapterStartIndex + 1;
+  const currentPosition = selectedMediaIndex - chapterStartIndex + 1;
+
   return (
     <Box>
       {/* Navigation Buttons and Progress Indicator */}
@@ -63,7 +85,7 @@ const NavigationControls: React.FC<NavigationControlsProps> = ({
         }}
       >
         {Array.from({ length: totalInChapter }).map((_, idx) => {
-          const mediaIndex = startingMediaIndex + idx;
+          const mediaIndex = chapterStartIndex + idx;
           const isSelected = mediaIndex === selectedMediaIndex;
           return (
             <Box
