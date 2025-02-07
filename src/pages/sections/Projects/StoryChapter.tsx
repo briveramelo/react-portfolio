@@ -103,7 +103,9 @@ const StoryChapter: React.FC<StoryChapterProps> = ({
         ml: isActive ? "-5%" : "0",
       }}
       py={1}
-      onClick={onClick}
+      onClick={() => {
+        if (!isActive) onClick();
+      }}
     >
       {cardContent}
     </Box>

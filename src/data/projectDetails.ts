@@ -77,7 +77,7 @@ It uses real-time feedback to motivate compliance and objective reporting to pro
         text: "...and a paper-thin seat occupancy sensor fixed to the seat pan. The device also draws power from the power chair's onboard USB adapter (circled).",
       },
       {
-        chapterTitle: "Data Visualization",
+        chapterTitle: "Data Viz and Reporting",
         src: "tilt-tracker/sample-relief-report.pdf",
         alt: "pressure relief report",
         type: "firebasePdf",
@@ -116,7 +116,7 @@ _Note: this is a one-off visual conducted in the lab and not available to Tilt T
         text: "Users, family, and care team members can subscribe to regular reporting via SMS or email with their choice of frequency.",
       },
       {
-        chapterTitle: "Hardware and Reminders",
+        chapterTitle: "Hardware and Feedback",
         src: "tilt-tracker/tilt-pcb-kit.webp",
         alt: "device cables",
         type: "firebaseImage",
@@ -188,7 +188,7 @@ Users can also choose if they want fun beeps, buzzes, or flashes for the other k
         src: "https://www.youtube-nocookie.com/embed/AgdABWQStZo?rel=0",
         alt: "gource video",
         type: "youtube",
-        text: "Here is a gource visualization of all code additions, deletions, and modifications made in git source control over time (excluding the original sensor prototype). You will see a directory depth of just one, including each of the submodule repositories in use: API (Java, Spring, Maven), Web (NodeJS, jQuery, HTML, CSS), Sensor (C++, Particle IoT), Db (MariaDB, SQL), Mqtt (mosquitto), Data, CI/CD (GitLab .yml, Bash), Singularity (Bash), and Super.",
+        text: "Here is a gource visualization of all code additions, deletions, and modifications made in git source control over time (excluding the original sensor prototype). You will see a directory naming depth of just one, including each of the submodule repositories in use: API (Java, Spring, Maven), Web (NodeJS, jQuery, HTML, CSS), Sensor (C++, Particle IoT), Db (MariaDB, SQL), Mqtt (mosquitto), Data, CI/CD (GitLab .yml, Bash), Singularity (Bash), and Super.",
       },
       {
         src: "tilt-tracker/ross-worktable.webp",
@@ -201,6 +201,12 @@ Users can also choose if they want fun beeps, buzzes, or flashes for the other k
         alt: "tilt tracker logo",
         type: "firebasePdf",
         text: "In 2018, we published a journal article to Technology and Innovation with the high level details of our approach.",
+      },
+      {
+        src: "tilt-tracker/TiltTracker_MarketingPlan_Executive_Summary.pdf",
+        alt: "tilt tracker marketing plan executive summary",
+        type: "firebasePdf",
+        text: "In 2021, I enlisted the support of my MBA classmates to write a marketing plan for bringing Tilt Tracker to market. The full plan is a 37-page document; this is just the executive summary.",
       },
       {
         src: "tilt-tracker/tilt-sbir-elevator-pitch.pdf",
