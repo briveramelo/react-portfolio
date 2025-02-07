@@ -31,6 +31,17 @@
     box-shadow: var(--shadow-elevation-low) !important;
   }
 
+  .subtle-pop-shadow {
+    box-shadow: var(--shadow-elevation-low) !important;
+    transition:
+      box-shadow 0.15s ease-out,
+      transform 0.15s ease-out !important;
+  }
+
+  .subtle-pop-shadow:hover {
+    box-shadow: var(--shadow-elevation-medium) !important;
+  }
+
   .pop-shadow {
     box-shadow: var(--shadow-elevation-medium) !important;
     transition:

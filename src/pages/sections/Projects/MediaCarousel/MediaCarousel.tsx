@@ -49,11 +49,13 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
       }}
     >
       {/* Previous Button */}
-      <ChangeMediaButton
-        hasBeenClicked={hasBeenClicked}
-        next={false}
-        onClick={prevMedia}
-      />
+      {showArrows && (
+        <ChangeMediaButton
+          hasBeenClicked={hasBeenClicked}
+          next={false}
+          onClick={prevMedia}
+        />
+      )}
 
       {/* Media Display */}
       <Card
@@ -120,11 +122,13 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
       </Card>
 
       {/* Next Button */}
-      <ChangeMediaButton
-        hasBeenClicked={hasBeenClicked}
-        next={true}
-        onClick={nextMedia}
-      />
+      {showArrows && (
+        <ChangeMediaButton
+          hasBeenClicked={hasBeenClicked}
+          next={true}
+          onClick={nextMedia}
+        />
+      )}
     </Box>
   );
 };

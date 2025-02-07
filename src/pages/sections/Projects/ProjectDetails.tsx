@@ -7,6 +7,7 @@ import InvertableImage from "../../components/reusable/InvertableImage";
 import { ThemeMode, useCustomPalette } from "../../../theme";
 import { useTheme } from "@mui/material/styles";
 import StoryChapter from "./StoryChapter";
+import ChangeMediaButton from "./MediaCarousel/ChangeMediaButton";
 
 interface ProjectDetailsProps {
   project: ProjectDetail;
@@ -20,8 +21,9 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   const { media, skills, github, liveDemo } = project;
-  const [sectionTitleIndex, setSectionTitleIndex] = useState<number>(0);
+  const [chapterTitleIndex, setChapterTitleIndex] = useState<number>(0);
   const [selectedMediaIndex, setSelectedMediaIndex] = useState<number>(0);
+  const [hasBeenClicked, setHasBeenClicked] = useState<boolean>(false);
 
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmMd = useMediaQuery(theme.breakpoints.between("sm", "md"));
@@ -34,28 +36,63 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
     return 600;
   };
 
-  const handleStoryClick = (index: number) => {
-    setSectionTitleIndex(index);
+  const handleChapterClick = (index: number) => {
+    setChapterTitleIndex(index);
     setSelectedMediaIndex(index);
   };
 
-  const findCurrentSectionIndex = (
+  const findCurrentChapterIndex = (
     media: MediaItem[],
     currentIndex: number,
   ): number => {
     for (let i = currentIndex; i >= 0; i--) {
-      if (media[i].sectionTitle) {
+      if (media[i].chapterTitle) {
         return i;
       }
     }
     return 0;
   };
 
+  const getChapterBounds = (
+    media: MediaItem[],
+    currentIndex: number,
+  ): { start: number; end: number } => {
+    let start = currentIndex;
+    while (start > 0 && !media[start].chapterTitle) {
+      start--;
+    }
+    let end = currentIndex;
+    for (let i = currentIndex + 1; i < media.length; i++) {
+      if (media[i].chapterTitle) {
+        break;
+      }
+      end = i;
+    }
+    return { start, end };
+  };
+
   const handleMediaChange = (newMediaIndex: number) => {
     setSelectedMediaIndex(newMediaIndex);
-    const newSectionIndex = findCurrentSectionIndex(media, newMediaIndex);
-    setSectionTitleIndex(newSectionIndex);
+    const newChapterIndex = findCurrentChapterIndex(media, newMediaIndex);
+    setChapterTitleIndex(newChapterIndex);
   };
+
+  const nextMedia = () => {
+    const newIndex = (selectedMediaIndex + 1) % media.length;
+    handleMediaChange(newIndex);
+    setHasBeenClicked(true);
+  };
+
+  const prevMedia = () => {
+    const newIndex =
+      selectedMediaIndex === 0 ? media.length - 1 : selectedMediaIndex - 1;
+    handleMediaChange(newIndex);
+    setHasBeenClicked(true);
+  };
+
+  const { start, end } = getChapterBounds(media, selectedMediaIndex);
+  const totalInChapter = end - start + 1;
+  const currentPosition = selectedMediaIndex - start + 1;
 
   return (
     <Box sx={{ overflow: "visible" }}>
@@ -63,11 +100,32 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
       <Grid container spacing={2} flexDirection="row" alignContent="left">
         {/* Story Chapters */}
         <Grid item lg={3} xs={12}>
+          {/* Navigation Buttons and Progress Indicator (above the StoryChapter(s)) */}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              mb: 2,
+              width: "100%",
+            }}
+          >
+            <ChangeMediaButton next={false} onClick={prevMedia} />
+            <Typography sx={{ mx: 2 }}>
+              {currentPosition} / {totalInChapter}
+            </Typography>
+            <ChangeMediaButton
+              hasBeenClicked={hasBeenClicked}
+              next={true}
+              onClick={nextMedia}
+            />
+          </Box>
+
           {isMobile ? (
             // Mobile: Render a single story chapter
             <StoryChapter
               mobile
-              sectionTitle={media[sectionTitleIndex].sectionTitle}
+              chapterTitle={media[chapterTitleIndex].chapterTitle}
               isActive={true}
               onClick={() => {}}
               text={media[selectedMediaIndex].text}
@@ -76,12 +134,12 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
             // Desktop: Render all story chapters
             media.map(
               (mediaItem, index) =>
-                mediaItem.sectionTitle && (
+                mediaItem.chapterTitle && (
                   <StoryChapter
                     key={index}
-                    sectionTitle={mediaItem.sectionTitle}
-                    isActive={index === sectionTitleIndex}
-                    onClick={() => handleStoryClick(index)}
+                    chapterTitle={mediaItem.chapterTitle}
+                    isActive={index === chapterTitleIndex}
+                    onClick={() => handleChapterClick(index)}
                     text={media[selectedMediaIndex].text}
                   />
                 ),
@@ -92,7 +150,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
         {/* Media Carousel */}
         <Grid item lg={9} xs={12}>
           <MediaCarousel
-            showArrows={true}
+            showArrows={false}
             media={media}
             selectedIndex={selectedMediaIndex}
             onMediaChange={handleMediaChange}

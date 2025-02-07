@@ -5,7 +5,7 @@ import abcmouse from "@/assets/projects/abcmouse.webp";
 import clawface from "@/assets/projects/clawface.jpg";
 
 export interface MediaItem {
-  sectionTitle?: string;
+  chapterTitle?: string;
   src: string; // eg: https://www.youtube-nocookie.com/embed/{videoId}?rel=0 for privacy-enhanced youtube links
   alt: string;
   type: "firebaseImage" | "image" | "firebasePdf" | "pdf" | "youtube" | "quote";
@@ -31,7 +31,7 @@ export const projectDetails: ProjectDetail[] = [
       "Tilt Tracker is like FitBit for power wheelchair users and a revolutionary approach to pressure ulcer prevention.",
     media: [
       {
-        sectionTitle: "Problem",
+        chapterTitle: "Problem",
         src: "tilt-tracker/stages-of-ulcer.webp",
         alt: "stages of ulcer",
         type: "firebaseImage",
@@ -56,7 +56,7 @@ export const projectDetails: ProjectDetail[] = [
         text: "But, tilting your chair every 20-30 minutes is easy to forget.",
       },
       {
-        sectionTitle: "Solution",
+        chapterTitle: "Solution",
         src: "tilt-tracker/tilt-tracker-system-diagram.svg",
         alt: "Tilt Tracker system diagram",
         type: "firebaseImage",
@@ -77,7 +77,7 @@ It uses real-time feedback to motivate compliance and objective reporting to pro
         text: "...and a paper-thin seat occupancy sensor fixed to the seat pan. The device also draws power from the power chair's onboard USB adapter (circled).",
       },
       {
-        sectionTitle: "Data Visualization",
+        chapterTitle: "Data Visualization",
         src: "tilt-tracker/sample-relief-report.pdf",
         alt: "pressure relief report",
         type: "firebasePdf",
@@ -116,7 +116,7 @@ _Note: this is a one-off visual conducted in the lab and not available to Tilt T
         text: "Users, family, and care team members can subscribe to regular reporting via SMS or email with their choice of frequency.",
       },
       {
-        sectionTitle: "Hardware and Reminders",
+        chapterTitle: "Hardware and Reminders",
         src: "tilt-tracker/tilt-pcb-kit.webp",
         alt: "device cables",
         type: "firebaseImage",
@@ -172,7 +172,7 @@ ${_}
 Users can also choose if they want fun beeps, buzzes, or flashes for the other key metrics for a proper PR, like if they've tilted for long enough (Duration), far enough (Tilt), or reclined far enough (Recline) too.`,
       },
       {
-        sectionTitle: "Contributions",
+        chapterTitle: "Contributions",
         src: "tilt-tracker/recolored-brandon-pose.webp",
         alt: "brandon posing with Tilt Tracker",
         type: "firebaseImage",
@@ -216,7 +216,7 @@ Users can also choose if they want fun beeps, buzzes, or flashes for the other k
       },
       {
         src: `"I think it would be **very beneficial to me to have this reminder** because in any situation, I would have the reminder to help me to go back to help **to not get pressures sores.**"
-- Tilt Tracker user`,
+${dash} Tilt Tracker user`,
         alt: "quote",
         type: "quote",
         text: "Clinical study participant expresses the value of Tilt Tracker.",
@@ -239,7 +239,7 @@ Users can also choose if they want fun beeps, buzzes, or flashes for the other k
       "ABCmouse is a digital education program for children ages 2–8 with over 18M users",
     media: [
       {
-        sectionTitle: "Technology",
+        chapterTitle: "Technology",
         src: abcmouse,
         alt: "",
         type: "image",
@@ -256,7 +256,7 @@ Users can also choose if they want fun beeps, buzzes, or flashes for the other k
       "Clawface is a twin-stick, arcade-style shooter published to Steam",
     media: [
       {
-        sectionTitle: "Technology",
+        chapterTitle: "Technology",
         src: clawface,
         alt: "",
         type: "image",

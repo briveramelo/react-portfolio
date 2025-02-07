@@ -6,7 +6,7 @@ import { cp } from "../../../utils/utils";
 import { HighlightedText } from "../../components/reusable/HighlightedText";
 
 export interface StoryChapterProps {
-  sectionTitle: string | undefined;
+  chapterTitle: string | undefined;
   isActive: boolean;
   onClick: () => void;
   text: string | undefined;
@@ -50,7 +50,7 @@ const MemoizedMarkdown = React.memo(
 
 const StoryChapter: React.FC<StoryChapterProps> = ({
   isActive,
-  sectionTitle,
+  chapterTitle,
   text,
   onClick,
   mobile = false,
@@ -62,10 +62,11 @@ const StoryChapter: React.FC<StoryChapterProps> = ({
     color: cp("text.paper"),
     borderRadius: "8px",
     width: "100%",
+    border: hasText ? "2px solid #69ade1" : undefined,
   };
 
   const cardContent = (
-    <Card sx={cardStyles} className="subtle-shadow">
+    <Card sx={cardStyles} className={hasText ? undefined : "subtle-pop-shadow"}>
       <CardContent
         sx={{
           pt: hasText ? 2 : 1,
@@ -80,7 +81,7 @@ const StoryChapter: React.FC<StoryChapterProps> = ({
             mb: hasText ? 0 : -2,
           }}
         >
-          {sectionTitle}
+          {chapterTitle}
         </Typography>
         {isActive && hasText && <MemoizedMarkdown text={text} />}
       </CardContent>
@@ -97,10 +98,9 @@ const StoryChapter: React.FC<StoryChapterProps> = ({
         overflow: "visible",
         display: "flex",
         justifyContent: "space-between",
-        cursor: "pointer",
-        transition: "transform 0.3s ease",
-        transform: isActive ? "scale(1.05)" : "scale(1)",
-        transformOrigin: "right center",
+        cursor: isActive ? "text" : "pointer",
+        width: isActive ? "105%" : "100%",
+        ml: isActive ? "-5%" : "0",
       }}
       py={1}
       onClick={onClick}
