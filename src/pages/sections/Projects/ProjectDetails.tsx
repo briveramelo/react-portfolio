@@ -7,9 +7,7 @@ import InvertableImage from "../../components/reusable/InvertableImage";
 import { ThemeMode, useCustomPalette } from "../../../theme";
 import { useTheme } from "@mui/material/styles";
 import StoryChapter from "./StoryChapter";
-import ChangeMediaButton from "./MediaCarousel/ChangeMediaButton";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import NavigationControls from "./NavigationControls";
 
 interface ProjectDetailsProps {
   project: ProjectDetail;
@@ -102,70 +100,17 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
       <Grid container spacing={2} flexDirection="row" alignContent="left">
         {/* Story Chapters */}
         <Grid item lg={3} xs={12}>
-          {/* Navigation Buttons, Progress Text, and Dotted Media Selector */}
-          <Box>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                mt: 0,
-                mb: 0,
-                width: "100%",
-              }}
-            >
-              <ChangeMediaButton next={false} onClick={prevMedia} />
-              <Typography
-                sx={{ fontSize: 14, mx: 2, mt: -2, color: "rgba(0,0,0,.5)" }}
-              >
-                {currentPosition} / {totalInChapter}
-              </Typography>
-              <ChangeMediaButton
-                hasBeenClicked={hasBeenClicked}
-                next={true}
-                onClick={nextMedia}
-              />
-            </Box>
-            {/* Dotted Media Selector */}
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: 0.5,
-                mt: -2,
-                color: "rgba(0,0,0,.5)",
-              }}
-            >
-              {Array.from({ length: totalInChapter }).map((_, idx) => {
-                const mediaIndex = start + idx;
-                const isSelected = mediaIndex === selectedMediaIndex;
-                return (
-                  <Box
-                    key={mediaIndex}
-                    onClick={() => handleMediaChange(mediaIndex)}
-                    sx={{
-                      width: 19,
-                      height: 19,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {isSelected ? (
-                      <FiberManualRecordIcon
-                        sx={{ fontSize: 19, cursor: "pointer" }}
-                      />
-                    ) : (
-                      <RadioButtonUncheckedIcon
-                        sx={{ fontSize: 15, cursor: "pointer" }}
-                      />
-                    )}
-                  </Box>
-                );
-              })}
-            </Box>
-          </Box>
+          {/* Navigation Controls Component */}
+          <NavigationControls
+            selectedMediaIndex={selectedMediaIndex}
+            currentPosition={currentPosition}
+            totalInChapter={totalInChapter}
+            startingMediaIndex={start}
+            hasBeenClicked={hasBeenClicked}
+            onNext={nextMedia}
+            onPrev={prevMedia}
+            onDotClick={handleMediaChange}
+          />
 
           {isMobile ? (
             // Mobile: Render a single story chapter
