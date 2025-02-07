@@ -221,11 +221,11 @@ Users can also choose if they want fun beeps, buzzes, or flashes for the other k
         text: 'In January 2025, another article was accepted for publication in IMWUT, a high-impact ACM journal on Interactive, Mobile, Wearable, and Ubiquitous Technologies. The paper received "very significant impact" scores from all reviewers. We evaluated the feasibility of the aforementioned reminder and notification modalities to improve PR adherence and identified opportunities to facilitate reflection on personal data through data exploration.',
       },
       {
-        src: `"I think it would be **very beneficial to me to have this reminder** because in any situation, I would have the reminder to help me to go back to help **to not get pressures sores.**"
+        src: `#### "I think it would be **very beneficial to me to have this reminder** because in any situation, I would have the reminder to help me to go back to help **to not get pressures sores.**"
 ${dash} Tilt Tracker user`,
         alt: "quote",
         type: "quote",
-        text: "Clinical study participant expresses the value of Tilt Tracker.",
+        text: "Here, a clinical study participant expresses the value they see in Tilt Tracker.",
       },
       {
         src: "tilt-tracker/logo.svg",

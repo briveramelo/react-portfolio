@@ -24,9 +24,14 @@ const Quote: React.FC<QuoteProps> = ({ content }) => {
       <ReactMarkdown
         components={{
           p: ({ children }) => (
+            <Typography variant="body1" sx={{ color: cp("text.paper") }}>
+              {children}
+            </Typography>
+          ),
+          h4: ({ children }) => (
             <Typography
               variant="h4"
-              sx={{ fontStyle: "italic", color: cp("text.paper") }}
+              sx={{ fontStyle: "italic", color: cp("text.paper"), mb: 1 }}
             >
               {children}
             </Typography>
