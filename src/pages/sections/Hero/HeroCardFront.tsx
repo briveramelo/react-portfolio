@@ -34,6 +34,7 @@ const HeroCardFront: React.FC<HeroCardFrontProps> = ({
         width: "100%",
         height: "100%",
         backfaceVisibility: "hidden",
+        pointerEvents: "none",
       }}
     >
       <Box

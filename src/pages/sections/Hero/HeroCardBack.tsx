@@ -3,8 +3,12 @@ import { Box } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import { cp } from "../../../utils/utils";
+import FirebaseDownloadLink from "../Projects/MediaCarousel/FirebaseDownloadLink.tsx";
+import { useAuth } from "../../../context/AuthContext.tsx";
 
 const HeroCardBack: React.FC = () => {
+  const { user } = useAuth();
+
   return (
     <Box
       sx={{
@@ -49,6 +53,15 @@ As a Type 1 Diabetic, I rely on smart glucose management technology to stay heal
 Peruse the portfolio and see how we might build a healthier world at scale. 
 `}
       </ReactMarkdown>
+      {user && (
+        <Box mt={2}>
+          <FirebaseDownloadLink
+            height={20}
+            firebasePath="resumes/brm-resume-2025.01.pdf"
+            linkText="Resume"
+          />
+        </Box>
+      )}
     </Box>
   );
 };

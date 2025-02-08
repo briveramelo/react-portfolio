@@ -69,6 +69,7 @@ export const FlareEffect: React.FC<FlareEffectProps> = ({
         height: "100%",
         zIndex: 2,
         backfaceVisibility: "hidden",
+        pointerEvents: "none",
       }}
     />
   );

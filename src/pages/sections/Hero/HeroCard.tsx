@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useRef,
-  MouseEvent,
-  useEffect,
-  useMemo,
-} from "react";
+import React, { useState, useRef, MouseEvent, useEffect, useMemo } from "react";
 import { Box } from "@mui/material";
 import FuseEffect from "./Fuse/FuseEffect";
 import { FlareEffect } from "./Flare/FlareEffect";
@@ -188,7 +182,6 @@ const HeroCard: React.FC<HeroCardProps> = ({
             ? "none"
             : `transform ${transitionDurationMs}ms ease`,
           transform: `rotateY(${targetRotationDeg}deg)`,
-          pointerEvents: "none",
           willChange: isSectionVisible ? "transform" : undefined,
         }}
       >

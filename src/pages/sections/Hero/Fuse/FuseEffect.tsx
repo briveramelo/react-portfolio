@@ -65,7 +65,7 @@ const FuseEffect: React.FC<FuseEffectProps> = ({
   }, []);
 
   return (
-    <>
+    <Box sx={{ pointerEvents: "none" }}>
       <FuseHead
         ref={fuseHeadRef}
         animationEnabled={animationEnabled}
@@ -84,7 +84,7 @@ const FuseEffect: React.FC<FuseEffectProps> = ({
           getFuseHeadPosition={getFuseHeadPosition}
         />
       )}
-    </>
+    </Box>
   );
 };
 
