@@ -180,8 +180,8 @@ const HeroCard: React.FC<HeroCardProps> = ({
         position: "relative",
       }}
       id="home_avatar_card"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onPointerEnter={handleMouseEnter}
+      onPointerLeave={handleMouseLeave}
       ref={containerRef}
     >
       <Box
