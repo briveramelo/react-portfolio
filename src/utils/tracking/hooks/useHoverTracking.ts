@@ -48,11 +48,11 @@ export const useHoverTracking = (hasBeenHoveredTimeMs: number = 400) => {
     const trackWindowPointerLeave = () => trackPointerLeave(null as any);
 
     window.addEventListener("blur", trackWindowPointerLeave);
-    window.addEventListener("pointerout", trackWindowPointerLeave);
+    window.addEventListener("pointerleave", trackWindowPointerLeave);
 
     return () => {
       window.removeEventListener("blur", trackWindowPointerLeave);
-      window.removeEventListener("pointerout", trackWindowPointerLeave);
+      window.removeEventListener("pointerleave", trackWindowPointerLeave);
     };
   }, []);
 
