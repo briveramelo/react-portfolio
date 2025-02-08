@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Link, CircularProgress, Box } from "@mui/material";
+import { Link, CircularProgress, Box, SxProps } from "@mui/material";
 import { getStorage } from "firebase/storage";
 import { useAuth } from "../../../../context/AuthContext";
 import { firebaseApp } from "../../../../firebaseConfig";
@@ -14,6 +14,7 @@ interface FirebaseDownloadLinkProps {
   linkText: string;
   height: number;
   downloadFilename: string;
+  linkSx?: SxProps;
 }
 
 const FirebaseDownloadLink: React.FC<FirebaseDownloadLinkProps> = ({
@@ -21,6 +22,7 @@ const FirebaseDownloadLink: React.FC<FirebaseDownloadLinkProps> = ({
   linkText,
   height,
   downloadFilename,
+  linkSx,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const storage = getStorage(firebaseApp);
@@ -68,7 +70,7 @@ const FirebaseDownloadLink: React.FC<FirebaseDownloadLinkProps> = ({
         {isLoading ? (
           <CircularProgress />
         ) : (
-          <Link component="button" onClick={handleDownload}>
+          <Link component="button" onClick={handleDownload} sx={linkSx}>
             {linkText}
           </Link>
         )}

@@ -15,14 +15,14 @@ const projects: Project[] = [
   {
     title: "The Pocket Optimist",
     description:
-      "Your internal monologue determines much of your success in life. Bring a therapy transcript or a journal entry, and try an experimental AI demo to see what this means for you.",
+      "Your internal monologue determines much of your success in life. Bring a therapy transcript or a journal entry, and try an experimental AI demo to see what this means for you. (Content coming soon)",
     image: pessimisticNight,
     link: "#",
   },
   {
     title: "SmartChart",
     description:
-      "For small clinics, insurance reimbursement piles on admin work. See how SmartChart's AI can do the heavy lifting.",
+      "For small clinics, insurance reimbursement piles on admin work. See how SmartChart's AI can do the heavy lifting. (Content coming soon)",
     image: digitalHealth,
     link: "#",
   },

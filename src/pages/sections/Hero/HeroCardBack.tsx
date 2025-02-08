@@ -54,10 +54,11 @@ Peruse the portfolio and see how we might build a healthier world at scale.
 `}
       </ReactMarkdown>
       {user && (
-        <Box mt={2}>
+        <Box mt={4}>
           <FirebaseDownloadLink
             downloadFilename={"Brandon Rivera-Melo Resume 2025.01.pdf"}
             height={20}
+            linkSx={{ fontSize: "1.15rem", fontWeight: "bold" }}
             firebasePath="resumes/brm-resume-2025.01.pdf"
             linkText="Resume"
           />
