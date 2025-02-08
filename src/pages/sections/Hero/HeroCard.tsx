@@ -130,7 +130,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
   };
 
   const handleMouseEnter = (event: MouseEvent<HTMLDivElement>): void => {
-    if (isCardAnimating) return;
+    if (isCardAnimating || entrySideRef.current) return;
 
     const entrySide = isRight(event) ? "right" : "left";
     entrySideRef.current = entrySide;
@@ -142,6 +142,18 @@ const HeroCard: React.FC<HeroCardProps> = ({
 
   const handleMouseLeave = (event: MouseEvent<HTMLDivElement>): void => {
     if (isCardAnimating || !entrySideRef.current) return;
+
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      if (
+        event.clientX >= rect.left &&
+        event.clientX <= rect.right &&
+        event.clientY >= rect.top &&
+        event.clientY <= rect.bottom
+      ) {
+        return; // ignore 'leave' events when still inside the container. needed when clicking the resume link
+      }
+    }
 
     const exitSide = isRight(event) ? "right" : "left";
     const initialEffect = entrySideRef.current === "right" ? -180 : 180;
