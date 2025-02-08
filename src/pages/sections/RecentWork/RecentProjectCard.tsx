@@ -11,7 +11,7 @@ interface Project {
 }
 
 export function RecentProjectCard({ project }: { project: Project }) {
-  const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
+  const { trackPointerEnter, trackPointerLeave } = useHoverTracking();
 
   return (
     <Card
@@ -24,8 +24,8 @@ export function RecentProjectCard({ project }: { project: Project }) {
       }}
       className="subtle-shadow"
       id={`recent_card_${project.title}`}
-      onMouseEnter={trackMouseEnter}
-      onMouseLeave={trackMouseLeave}
+      onPointerEnter={trackPointerEnter}
+      onPointerLeave={trackPointerLeave}
     >
       <CardMedia
         component="img"

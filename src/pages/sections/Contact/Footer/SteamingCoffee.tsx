@@ -5,7 +5,7 @@ import { ThemeMode, useCustomPalette } from "../../../../theme.ts";
 import { useHoverTracking } from "../../../../utils/tracking/hooks/useHoverTracking.ts";
 
 export function SteamingCoffee() {
-  const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
+  const { trackPointerEnter, trackPointerLeave } = useHoverTracking();
 
   // Create refs for the steam puffs
   const steamRefs = [
@@ -102,8 +102,8 @@ export function SteamingCoffee() {
         marginTop: "-40px",
       }}
       id="steaming_coffee_wrapper"
-      onMouseEnter={trackMouseEnter}
-      onMouseLeave={trackMouseLeave}
+      onPointerEnter={trackPointerEnter}
+      onPointerLeave={trackPointerLeave}
     >
       <img id="steaming-coffee" src={coffee} alt="coffee" width={60} />
       {steamRefs.map((steamRef, index) => (

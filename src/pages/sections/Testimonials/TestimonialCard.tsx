@@ -74,8 +74,8 @@ export function TestimonialCard({
         borderRadius: 2,
       }}
       id={`testimonial_card_${data.name}`}
-      onMouseEnter={cardHover.trackMouseEnter}
-      onMouseLeave={cardHover.trackMouseLeave}
+      onPointerEnter={cardHover.trackPointerEnter}
+      onPointerLeave={cardHover.trackPointerLeave}
       className="subtle-shadow"
     >
       <CardContent>

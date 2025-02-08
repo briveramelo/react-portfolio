@@ -31,8 +31,8 @@ export const HoverExpandContainer: React.FC<HoverExpandContainerProps> = ({
                   : `${minFlex} 1 0%`,
             transition: `flex ${transitionDurationMs}ms ease`,
           }}
-          onMouseEnter={() => setHoveredIndex(index)}
-          onMouseLeave={() => setHoveredIndex(null)}
+          onPointerEnter={() => setHoveredIndex(index)}
+          onPointerLeave={() => setHoveredIndex(null)}
         >
           {child}
         </Box>

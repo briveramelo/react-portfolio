@@ -32,9 +32,8 @@ const HeroCard: React.FC<HeroCardProps> = ({
   );
   const [isCardAnimating, setIsCardAnimating] = useState<boolean>(true);
 
-  const { trackMouseEnter, trackMouseLeave, hasBeenHovered } = useHoverTracking(
-    USER_TRANSITION_DURATION_MS,
-  );
+  const { trackPointerEnter, trackPointerLeave, hasBeenHovered } =
+    useHoverTracking(USER_TRANSITION_DURATION_MS);
   const [isFuseActive, setIsFuseActive] = useState<boolean>(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -129,7 +128,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
     return event.clientX - left > width / 2;
   };
 
-  const handleMouseEnter = (event: MouseEvent<HTMLDivElement>): void => {
+  const handlePointerEnter = (event: MouseEvent<HTMLDivElement>): void => {
     if (isCardAnimating || entrySideRef.current) return;
 
     const entrySide = isRight(event) ? "right" : "left";
@@ -137,10 +136,10 @@ const HeroCard: React.FC<HeroCardProps> = ({
 
     setTargetRotationDeg((prev) => prev + (entrySide === "right" ? -180 : 180));
     transitionStartTimeRef.current = performance.now();
-    trackMouseEnter();
+    trackPointerEnter();
   };
 
-  const handleMouseLeave = (event: MouseEvent<HTMLDivElement>): void => {
+  const handlePointerLeave = (event: MouseEvent<HTMLDivElement>): void => {
     if (isCardAnimating || !entrySideRef.current) return;
 
     if (containerRef.current) {
@@ -162,7 +161,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
     setTargetRotationDeg((prev) => prev + additional);
     transitionStartTimeRef.current = performance.now();
     entrySideRef.current = null;
-    trackMouseLeave(event);
+    trackPointerLeave(event);
   };
 
   useEffect(() => {
@@ -180,8 +179,8 @@ const HeroCard: React.FC<HeroCardProps> = ({
         position: "relative",
       }}
       id="home_avatar_card"
-      onPointerEnter={handleMouseEnter}
-      onPointerLeave={handleMouseLeave}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
       ref={containerRef}
     >
       <Box

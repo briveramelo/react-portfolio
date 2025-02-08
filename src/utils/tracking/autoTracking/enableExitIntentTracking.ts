@@ -10,9 +10,9 @@ export const enableExitIntentTracking = () => {
     }
   };
 
-  document.addEventListener("mouseleave", trackExitIntent);
+  document.addEventListener("pointerleave", trackExitIntent);
 
   return () => {
-    document.removeEventListener("mouseleave", trackExitIntent);
+    document.removeEventListener("pointerleave", trackExitIntent);
   };
 };

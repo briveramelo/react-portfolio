@@ -17,7 +17,7 @@ export const TestimonialsSection = forwardRef<
   HTMLElement,
   TestimonialsSectionProps
 >(({ backgroundColor, textColor, id }, ref) => {
-  const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
+  const { trackPointerEnter, trackPointerLeave } = useHoverTracking();
   const isSectionVisible = useIntersectionObserver(
     ref as React.RefObject<HTMLElement>,
     { threshold: 0.1 },
@@ -46,8 +46,8 @@ export const TestimonialsSection = forwardRef<
               target="_blank"
               rel="noopener noreferrer"
               id="testimonials_header"
-              onMouseEnter={trackMouseEnter}
-              onMouseLeave={trackMouseLeave}
+              onPointerEnter={trackPointerEnter}
+              onPointerLeave={trackPointerLeave}
               style={{ textDecoration: "none", color: "inherit" }}
             >
               Testimonials

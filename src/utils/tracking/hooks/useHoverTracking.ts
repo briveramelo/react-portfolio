@@ -8,12 +8,12 @@ export const useHoverTracking = (hasBeenHoveredTimeMs: number = 400) => {
   const [hasBeenHovered, setHasBeenHovered] = useState<boolean>(false);
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
-  const trackMouseEnter = () => {
+  const trackPointerEnter = () => {
     setHoverStartTimeMillis(performance.now());
     setIsHovered(true);
   };
 
-  const trackMouseLeave = (event: React.MouseEvent<HTMLElement>) => {
+  const trackPointerLeave = (event: React.MouseEvent<HTMLElement>) => {
     if (hoverStartTimeMillis !== null) {
       const dwellTimeMs = performance.now() - hoverStartTimeMillis;
       if (dwellTimeMs >= hasBeenHoveredTimeMs) {
@@ -45,20 +45,20 @@ export const useHoverTracking = (hasBeenHoveredTimeMs: number = 400) => {
 
   // Cleanup in case of unmounting or window changes
   useEffect(() => {
-    const trackWindowMouseExit = () => trackMouseLeave(null as any);
+    const trackWindowPointerLeave = () => trackPointerLeave(null as any);
 
-    window.addEventListener("blur", trackWindowMouseExit);
-    window.addEventListener("mouseleave", trackWindowMouseExit);
+    window.addEventListener("blur", trackWindowPointerLeave);
+    window.addEventListener("pointerout", trackWindowPointerLeave);
 
     return () => {
-      window.removeEventListener("blur", trackWindowMouseExit);
-      window.removeEventListener("mouseleave", trackWindowMouseExit);
+      window.removeEventListener("blur", trackWindowPointerLeave);
+      window.removeEventListener("pointerout", trackWindowPointerLeave);
     };
   }, []);
 
   return {
-    trackMouseEnter,
-    trackMouseLeave,
+    trackPointerEnter,
+    trackPointerLeave,
     hasBeenHovered,
     isHovered,
   };

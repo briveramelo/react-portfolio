@@ -27,7 +27,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
   const imgSize = 24;
   const hideTimer = useRef<number | null>(null);
 
-  const handleIconMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+  const handleIconPointerEnter = (event: React.MouseEvent<HTMLElement>) => {
     if (hideTimer.current) {
       clearTimeout(hideTimer.current);
       hideTimer.current = null;
@@ -36,14 +36,14 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
     setMenuOpen(true);
   };
 
-  const handleIconMouseLeave = () => {
+  const handleIconPointerLeave = () => {
     hideTimer.current = window.setTimeout(() => {
       setMenuOpen(false);
       setAnchorEl(null);
     }, 200);
   };
 
-  const handlePopperMouseEnter = () => {
+  const handlePopperPointerEnter = () => {
     if (hideTimer.current) {
       clearTimeout(hideTimer.current);
       hideTimer.current = null;
@@ -51,7 +51,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
     setMenuOpen(true);
   };
 
-  const handlePopperMouseLeave = () => {
+  const handlePopperPointerLeave = () => {
     hideTimer.current = window.setTimeout(() => {
       setMenuOpen(false);
       setAnchorEl(null);
@@ -74,8 +74,8 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
     <Box sx={{ position: "relative", display: "inline-block" }}>
       <IconButton
         id="theme-switcher"
-        onMouseEnter={handleIconMouseEnter}
-        onMouseLeave={handleIconMouseLeave}
+        onPointerEnter={handleIconPointerEnter}
+        onPointerLeave={handleIconPointerLeave}
         aria-controls={menuOpen ? "theme-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={menuOpen ? "true" : undefined}
@@ -99,8 +99,8 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
         style={{ zIndex: 1300 }}
       >
         <Paper
-          onMouseEnter={handlePopperMouseEnter}
-          onMouseLeave={handlePopperMouseLeave}
+          onPointerEnter={handlePopperPointerEnter}
+          onPointerLeave={handlePopperPointerLeave}
           sx={{ ml: -1, boxShadow: "none" }}
         >
           {themeImages.map((theme, index) => (

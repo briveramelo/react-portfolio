@@ -15,7 +15,7 @@ interface ReactIconAnimationProps {
 export const ReactIconAnimation: React.FC<ReactIconAnimationProps> = ({
   triggerRef,
 }) => {
-  const { trackMouseEnter, trackMouseLeave, hasBeenHovered } =
+  const { trackPointerEnter, trackPointerLeave, hasBeenHovered } =
     useHoverTracking();
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const boxRef = useRef<HTMLElement | null>(null);
@@ -153,20 +153,20 @@ export const ReactIconAnimation: React.FC<ReactIconAnimationProps> = ({
   const addHoverListeners = useCallback((element: HTMLElement | null) => {
     if (!element) return;
 
-    const handleMouseEnter = () => {
+    const handlePointerEnter = () => {
       handleOnHover(true);
     };
 
-    const handleMouseLeave = () => {
+    const handlePointerLeave = () => {
       handleOnHover(false);
     };
 
-    element.addEventListener("mouseenter", handleMouseEnter);
-    element.addEventListener("mouseleave", handleMouseLeave);
+    element.addEventListener("pointerenter", handlePointerEnter);
+    element.addEventListener("pointerleave", handlePointerLeave);
 
     return () => {
-      element.removeEventListener("mouseenter", handleMouseEnter);
-      element.removeEventListener("mouseleave", handleMouseLeave);
+      element.removeEventListener("pointerenter", handlePointerEnter);
+      element.removeEventListener("pointerleave", handlePointerLeave);
     };
   }, []);
 
@@ -202,8 +202,8 @@ export const ReactIconAnimation: React.FC<ReactIconAnimationProps> = ({
         zIndex={1}
         sx={{ position: "absolute", height: 65, width: 65 }}
         ref={boxRef}
-        onMouseEnter={trackMouseEnter}
-        onMouseLeave={trackMouseLeave}
+        onPointerEnter={trackPointerEnter}
+        onPointerLeave={trackPointerLeave}
       />
       <svg
         xmlns="http://www.w3.org/2000/svg"

@@ -21,8 +21,8 @@ export const EmployersSection = forwardRef<HTMLElement, EmployersProps>(
       <Box
         component="section"
         id={id}
-        onMouseEnter={sectionHover.trackMouseEnter}
-        onMouseLeave={sectionHover.trackMouseLeave}
+        onPointerEnter={sectionHover.trackPointerEnter}
+        onPointerLeave={sectionHover.trackPointerLeave}
         sx={{
           py: 5,
           backgroundColor: backgroundColor,
@@ -62,8 +62,8 @@ export const EmployersSection = forwardRef<HTMLElement, EmployersProps>(
               <Grid item xs={12} sm={6} md={4} key={index}>
                 <Box
                   id={`company_${company.name}`}
-                  onMouseEnter={employerHover.trackMouseEnter}
-                  onMouseLeave={employerHover.trackMouseLeave}
+                  onPointerEnter={employerHover.trackPointerEnter}
+                  onPointerLeave={employerHover.trackPointerLeave}
                   sx={{
                     position: "relative",
                     display: "flex",

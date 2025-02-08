@@ -27,7 +27,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   const formID = "contact-form";
   const { trackFieldFocus, trackFieldBlur, trackFormSubmit } =
     useFormTracking(formID);
-  const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
+  const { trackPointerEnter, trackPointerLeave } = useHoverTracking();
 
   const inputStyles = {
     backgroundColor: cp("background.paper"),
@@ -122,8 +122,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({
 
         <Button
           id="contact_send"
-          onMouseEnter={trackMouseEnter}
-          onMouseLeave={trackMouseLeave}
+          onPointerEnter={trackPointerEnter}
+          onPointerLeave={trackPointerLeave}
           ref={heartTriggerRef}
           type="submit"
           variant="contained"

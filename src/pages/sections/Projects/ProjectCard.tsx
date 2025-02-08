@@ -58,17 +58,17 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           borderRadius,
         }}
         className="pop-shadow"
-        onMouseEnter={() => {
+        onPointerEnter={() => {
           if (!hasAnyBeenClicked) {
             onHoverChange(hoverKey, true);
           }
-          cardHover.trackMouseEnter();
+          cardHover.trackPointerEnter();
         }}
-        onMouseLeave={(event: React.MouseEvent<HTMLElement>) => {
+        onPointerLeave={(event: React.MouseEvent<HTMLElement>) => {
           if (!hasAnyBeenClicked) {
             onHoverChange(hoverKey, false);
           }
-          cardHover.trackMouseLeave(event);
+          cardHover.trackPointerLeave(event);
         }}
         onClick={() => {
           onHoverChange(hoverKey, false);

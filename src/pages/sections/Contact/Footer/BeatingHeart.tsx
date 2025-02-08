@@ -14,7 +14,7 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
   const timeoutRef = useRef<number | null>(null);
   const [animationKey, setAnimationKey] = useState(0); // Key to force animation re-trigger
   const [isHovered, setIsHovered] = useState(false);
-  const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
+  const { trackPointerEnter, trackPointerLeave } = useHoverTracking();
 
   const minHeartRateBPM = 40.0;
   const maxHeartRateBPM = 160.0;
@@ -54,21 +54,21 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
     (element: HTMLElement | null) => {
       if (!element) return;
 
-      const handleMouseEnter = () => {
+      const handlePointerEnter = () => {
         setIsHovered(true);
         startHeartbeat();
       };
 
-      const handleMouseLeave = (event: Event) => {
+      const handlePointerLeave = (event: Event) => {
         setIsHovered(false);
       };
 
-      element.addEventListener("mouseenter", handleMouseEnter);
-      element.addEventListener("mouseleave", handleMouseLeave);
+      element.addEventListener("pointerenter", handlePointerEnter);
+      element.addEventListener("pointerleave", handlePointerLeave);
 
       return () => {
-        element.removeEventListener("mouseenter", handleMouseEnter);
-        element.removeEventListener("mouseleave", handleMouseLeave);
+        element.removeEventListener("pointerenter", handlePointerEnter);
+        element.removeEventListener("pointerleave", handlePointerLeave);
       };
     },
     [startHeartbeat],
@@ -118,8 +118,8 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
           zIndex: 2,
         }}
         id="beating_heart_ref"
-        onMouseEnter={trackMouseEnter}
-        onMouseLeave={trackMouseLeave}
+        onPointerEnter={trackPointerEnter}
+        onPointerLeave={trackPointerLeave}
       />
       <Box
         style={{
