@@ -56,6 +56,7 @@ Peruse the portfolio and see how we might build a healthier world at scale.
       {user && (
         <Box mt={2}>
           <FirebaseDownloadLink
+            downloadFilename={"Brandon Rivera-Melo Resume 2025.01.pdf"}
             height={20}
             firebasePath="resumes/brm-resume-2025.01.pdf"
             linkText="Resume"
