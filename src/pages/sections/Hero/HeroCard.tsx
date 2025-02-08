@@ -31,11 +31,10 @@ const HeroCard: React.FC<HeroCardProps> = ({
     FIRST_ANIMATED_TRANSITION_DURATION_MS,
   );
   const [isCardAnimating, setIsCardAnimating] = useState<boolean>(true);
-
-  const { trackPointerEnter, trackPointerLeave, hasBeenHovered } =
-    useHoverTracking(USER_TRANSITION_DURATION_MS);
   const [isFuseActive, setIsFuseActive] = useState<boolean>(false);
 
+  const { trackPointerEnter, trackPointerLeave, hasBeenHovered, isHovered } =
+    useHoverTracking(USER_TRANSITION_DURATION_MS);
   const containerRef = useRef<HTMLDivElement>(null);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const entrySideRef = useRef<"left" | "right" | null>(null);
@@ -174,15 +173,28 @@ const HeroCard: React.FC<HeroCardProps> = ({
   return (
     <Box
       sx={{
-        perspective: `1000px`,
+        perspective: "1000px",
         display: "block",
         position: "relative",
       }}
       id="home_avatar_card"
-      onPointerEnter={handlePointerEnter}
-      onPointerLeave={handlePointerLeave}
       ref={containerRef}
+      onPointerLeave={handlePointerLeave}
     >
+      {/* Fixed overlay that intercepts pointer events for 'enter', hands off to the backside for 'leave' */}
+      <Box
+        sx={{
+          position: "absolute",
+          width: imageWidth,
+          height: imageHeight,
+          zIndex: isCardAnimating || isHovered ? -1 : 2,
+          borderRadius: "20px",
+          pointerEvents: isCardAnimating || isHovered ? "none" : "auto",
+        }}
+        id="home_avatar_card_enter"
+        onPointerEnter={handlePointerEnter}
+      />
+
       <Box
         sx={{
           width: imageWidth,
