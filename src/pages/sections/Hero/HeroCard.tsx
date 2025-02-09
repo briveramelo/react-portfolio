@@ -69,13 +69,18 @@ const HeroCard: React.FC<HeroCardProps> = ({
           transitionStartTimeRef.current = performance.now();
           setTargetRotationDeg(0);
           setTransitionDurationMs(USER_TRANSITION_DURATION_MS);
+
+          // this delay, force reflow, delay is a common pattern to a complex browser rendering pipeline issue
           requestAnimationFrame(() => {
-            setInstantFlip(false);
-            setIsCardAnimating(false);
-            isFirstCardAnimationRef.current = false;
-            if (!hasBeenHovered) {
-              setIsFuseActive(true);
-            }
+            containerRef.current?.getBoundingClientRect();
+            requestAnimationFrame(() => {
+              setInstantFlip(false);
+              setIsCardAnimating(false);
+              isFirstCardAnimationRef.current = false;
+              if (!hasBeenHovered) {
+                setIsFuseActive(true);
+              }
+            });
           });
         },
       },
