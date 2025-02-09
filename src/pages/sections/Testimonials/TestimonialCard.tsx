@@ -15,6 +15,7 @@ import "./TestimonialCard.css";
 import { SiblingParagraph } from "../../components/reusable/SiblingParagraph.tsx";
 import { Testimonial } from "../../../data/testimonialData.ts";
 import { LinkedIn } from "@mui/icons-material";
+import remarkBreaks from "remark-breaks";
 
 export function TestimonialCard({
   data,
@@ -36,6 +37,7 @@ export function TestimonialCard({
   const markdownMemo = useMemo(
     () => (
       <ReactMarkdown
+        remarkPlugins={[remarkBreaks]}
         key={index}
         components={{
           p: ({ children }) => (

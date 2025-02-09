@@ -62,7 +62,12 @@ export const TestimonialsSection = forwardRef<
 
         <Grid container spacing={4}>
           {testimonialsData.map((testimonial) => (
-            <Grid item xs={12} md={6} key={testimonial.name}>
+            <Grid
+              item
+              xs={12}
+              md={testimonial.size === "full" ? 12 : 6}
+              key={testimonial.name}
+            >
               <TestimonialCard
                 data={testimonial}
                 backgroundColor={cp("background.paper")}
