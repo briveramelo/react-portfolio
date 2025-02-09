@@ -103,39 +103,29 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
       <Grid container spacing={2} flexDirection="row" alignContent="left">
         {/* Story Chapters */}
         <Grid item lg={3} xs={12}>
-          {/* Navigation Controls */}
-          <NavigationControls
-            media={media}
-            selectedMediaIndex={selectedMediaIndex}
-            hasBeenClicked={hasBeenClicked}
-            onNext={nextMedia}
-            onPrev={prevMedia}
-            onDotClick={handleMediaChange}
-          />
-
-          {isMobile ? (
-            // Mobile: Render a single story chapter
-            <StoryChapter
-              mobile
-              chapterTitle={media[chapterTitleIndex].chapterTitle}
-              isActive={true}
-              onClick={() => {}}
-              text={media[selectedMediaIndex].text}
-            />
-          ) : (
-            // Desktop: Render all story chapters
-            media.map(
-              (mediaItem, index) =>
-                mediaItem.chapterTitle && (
-                  <StoryChapter
-                    key={index}
-                    chapterTitle={mediaItem.chapterTitle}
-                    isActive={index === chapterTitleIndex}
-                    onClick={() => handleChapterClick(index)}
-                    text={media[selectedMediaIndex].text}
-                  />
-                ),
-            )
+          {!isMobile && (
+            <>
+              <NavigationControls
+                media={media}
+                selectedMediaIndex={selectedMediaIndex}
+                hasBeenClicked={hasBeenClicked}
+                onNext={nextMedia}
+                onPrev={prevMedia}
+                onDotClick={handleMediaChange}
+              />
+              {media.map(
+                (mediaItem, index) =>
+                  mediaItem.chapterTitle && (
+                    <StoryChapter
+                      key={index}
+                      chapterTitle={mediaItem.chapterTitle}
+                      isActive={index === chapterTitleIndex}
+                      onClick={() => handleChapterClick(index)}
+                      text={media[selectedMediaIndex].text}
+                    />
+                  ),
+              )}
+            </>
           )}
         </Grid>
 
@@ -148,6 +138,25 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
             onMediaChange={handleMediaChange}
             height={getCarouselHeight()}
           />
+          {isMobile && (
+            <>
+              <NavigationControls
+                media={media}
+                selectedMediaIndex={selectedMediaIndex}
+                hasBeenClicked={hasBeenClicked}
+                onNext={nextMedia}
+                onPrev={prevMedia}
+                onDotClick={handleMediaChange}
+              />
+              <StoryChapter
+                mobile
+                chapterTitle={media[chapterTitleIndex].chapterTitle}
+                isActive={true}
+                onClick={() => {}}
+                text={media[selectedMediaIndex].text}
+              />
+            </>
+          )}
         </Grid>
       </Grid>
 

@@ -132,28 +132,28 @@ _Note: this is a one-off visual conducted in the lab and not available to Tilt T
       },
       {
         chapterTitle: "Hardware and Feedback",
-        src: "tilt-tracker/tilt-pcb-kit.webp",
-        alt: "device cables",
-        type: "firebaseImage",
-        text: "The installation kit is compatible with all power wheelchairs (case, battery, and power cable not depicted).",
-      },
-      {
         src: "tilt-tracker/installation-cropped.webp",
         alt: "installation",
         type: "firebaseImage",
         text: "The installation kit is compatible with all power wheelchairs.",
       },
       {
+        src: "tilt-tracker/tilt-pcb-kit.webp",
+        alt: "device cables",
+        type: "firebaseImage",
+        text: "The installation kit includes a printed circuit board, case, battery, power cable, LTE antenna, seat accelerometer, seat occupancy sensor, LED, speaker, and vibration motor (case, battery, and power cable not depicted).",
+      },
+      {
         src: "tilt-tracker/on-chair-diagram.webp",
         alt: "on chair diagram",
         type: "firebaseImage",
-        text: "The installation kit is compatible with all power wheelchairs.",
+        text: "The case exposes a control button for a few common, operational needs.",
       },
       {
         src: "tilt-tracker/device-cables.webp",
         alt: "device cables",
         type: "firebaseImage",
-        text: "The device attaches to the wheelchair backing, sends activity data to the cloud securely using MQTTS, and in turn receives friendly reminders if no PR is detected.",
+        text: "The device attaches to the wheelchair backing, sends activity data to the cloud securely using MQTTS, and in turn receives friendly reminders if no pressure relief is detected.",
       },
       {
         src: "tilt-tracker/audio-goal-feedback-v1.webp",
@@ -166,10 +166,10 @@ ${dash} Tilt Tracker user.
 ${_}
 This participant has my brother Nathan to thank for the audio design. Click to listen!`,
         audioButtons: [
-          { audioPath: "tilt-tracker/interval.mp3", x: 73, y: 15 },
-          { audioPath: "tilt-tracker/duration.mp3", x: 73, y: 39.5 },
-          { audioPath: "tilt-tracker/tilt.mp3", x: 73, y: 64 },
-          { audioPath: "tilt-tracker/recline.mp3", x: 73, y: 91 },
+          { audioPath: "tilt-tracker/interval.mp3", x: 75, y: 15 },
+          { audioPath: "tilt-tracker/duration.mp3", x: 75, y: 39.5 },
+          { audioPath: "tilt-tracker/tilt.mp3", x: 75, y: 64 },
+          { audioPath: "tilt-tracker/recline.mp3", x: 75, y: 91 },
         ],
       },
       {
@@ -194,7 +194,7 @@ ${dash} Tilt Tracker user.`,
         src: "tilt-tracker/notification-settings.webp",
         alt: "notification settings",
         type: "firebaseImage",
-        text: `Watching a movie? PR reminders (Interval Feedback) can be disabled from the website or a button press on the device.
+        text: `Watching a movie? Pressure relief reminders (Interval Feedback) can be disabled from the website or a button press on the device.
 ${_}
 Users can also choose if they want fun beeps, buzzes, or flashes for the other key metrics of a proper PR, like if they've tilted for long enough (Duration), far enough (Tilt), or reclined far enough (Recline) too.`,
       },

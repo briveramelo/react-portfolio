@@ -58,7 +58,11 @@ const FirebaseImageWithAudioButtons: React.FC<
               height: "100%",
             }}
           >
-            <img src={url} alt={alt} height={"100%"} />
+            <img
+              src={url}
+              alt={alt}
+              style={{ objectFit: "contain", maxHeight: height }}
+            />
             {audioButtons.map((button, idx) => (
               <IconButton
                 key={idx}

@@ -77,7 +77,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                     ? "flex"
                     : "block",
               width: "100%",
-              height: "100%",
+              maxHeight: height,
               justifyContent: "center", // centers horizontally
               alignItems: "center", // centers vertically
             }}
@@ -98,17 +98,21 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
             ) : item.type === "image" ? (
               <CardMedia
                 component="img"
-                height={height}
                 image={item.src}
                 alt={item.alt}
-                sx={{ objectFit: "cover" }}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  objectPosition: "center",
+                }}
               />
             ) : item.type === "firebasePdf" ? (
               <FirebasePdf firebasePdfPath={item.src} height={height} />
             ) : item.type === "pdf" ? (
               <PdfViewer pdfUrl={item.src} />
             ) : item.type === "youtube" ? (
-              <YouTubePlayer src={item.src} height={height} />
+              <YouTubePlayer src={item.src} />
             ) : item.type === "quote" ? (
               <Quote content={item.src} />
             ) : (

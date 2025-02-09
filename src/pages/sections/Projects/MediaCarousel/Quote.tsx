@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery } from "@mui/material";
 import { HighlightedText } from "../../../components/reusable/HighlightedText";
 import { cp } from "../../../../utils/utils";
+import { useTheme } from "@mui/material/styles";
 
 interface QuoteProps {
   content: string;
 }
 
 const Quote: React.FC<QuoteProps> = ({ content }) => {
+  const theme = useTheme();
+  const useSmall = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <Box
       sx={{
@@ -17,7 +20,7 @@ const Quote: React.FC<QuoteProps> = ({ content }) => {
         borderRadius: "20px",
         borderLeft: "4px solid",
         borderColor: cp("background.paper"),
-        width: "55%",
+        width: { xs: "100%", sm: "55%" },
         mx: "auto",
         my: "auto",
       }}
@@ -32,7 +35,7 @@ const Quote: React.FC<QuoteProps> = ({ content }) => {
           ),
           h3: ({ children }) => (
             <Typography
-              variant="h3"
+              variant={useSmall ? "h5" : "h3"}
               sx={{ fontStyle: "italic", color: cp("text.paper"), mb: 1 }}
             >
               {children}
