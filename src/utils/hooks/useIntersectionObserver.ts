@@ -3,8 +3,9 @@ import React, { useEffect, useMemo, useState } from "react";
 export const useIntersectionObserver = (
   elementRef: React.RefObject<Element>,
   options: IntersectionObserverInit = {},
+  startingVisibility = false,
 ): boolean => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(startingVisibility);
 
   // Memoize the options within the hook.
   const memoizedOptions = useMemo(

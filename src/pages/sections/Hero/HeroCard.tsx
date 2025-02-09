@@ -169,6 +169,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
 
   const imageWidth = useMemo(() => ({ sm: "400px", xs: "375px" }), []);
   const imageHeight = useMemo(() => ({ sm: "600px", xs: "562.5px" }), []);
+  const borderRadius = 20;
 
   return (
     <Box
@@ -188,7 +189,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
           width: imageWidth,
           height: imageHeight,
           zIndex: isCardAnimating || isHovered ? -1 : 2,
-          borderRadius: "20px",
+          borderRadius: `${borderRadius}px`,
           pointerEvents: isCardAnimating || isHovered ? "none" : "auto",
         }}
         id="home_avatar_card_enter"
@@ -212,7 +213,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
           <FuseEffect
             width={imageWidth}
             height={imageHeight}
-            borderRadius={20}
+            borderRadius={borderRadius}
             fuseHeadLoopDurationMs={3000}
             sparksPerBurst={2}
             burstIntervalMs={50}

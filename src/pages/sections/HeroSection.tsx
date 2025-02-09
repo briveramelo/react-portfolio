@@ -17,6 +17,7 @@ export const HeroSection = forwardRef<HTMLElement, HeroProps>(
     const isSectionVisible = useIntersectionObserver(
       ref as React.RefObject<HTMLElement>,
       { threshold: 0.1 },
+      true,
     );
 
     const [isSectionVisibleDelayed, setIsSectionVisibleDelayed] =
