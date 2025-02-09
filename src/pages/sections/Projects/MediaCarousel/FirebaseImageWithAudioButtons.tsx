@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
 import { Box, IconButton } from "@mui/material";
 import SpeakerIcon from "@mui/icons-material/VolumeUp";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { firebaseApp } from "../../../../firebaseConfig";
+import { getStorage } from "firebase/storage";
 import FirebaseAsset from "./FirebaseAsset";
 import { AudioButtonData } from "../../../../data/projectDetails";
+import { firebaseApp } from "../../../../firebaseConfig";
 import {
-  cacheAsset,
   firebaseAssetCacheKey,
   getCachedFirebaseAsset,
-  loadAsset,
 } from "../../../../utils/cache.ts";
 import { generateGravityBounceScaleKeyframes } from "../../../../utils/keyframeGenerator.ts";
 import { useFirebaseCache } from "../../../../context/FirebaseCacheContext.tsx";
@@ -19,16 +17,83 @@ interface FirebaseImageWithAudioButtonsProps {
   height: number;
   alt: string;
   audioButtons: AudioButtonData[];
+  isSelected: boolean;
+}
+
+interface ImgDimensions {
+  width: number;
+  height: number;
+  offsetX: number;
+  offsetY: number;
 }
 
 const buttonAnim = generateGravityBounceScaleKeyframes(1, 1.3, 20, 3);
 const iconAnim = generateGravityBounceScaleKeyframes(1, 1.4, 20, 3);
+
 const FirebaseImageWithAudioButtons: React.FC<
   FirebaseImageWithAudioButtonsProps
-> = ({ firebaseImagePath, height, alt, audioButtons }) => {
+> = ({ firebaseImagePath, height, alt, audioButtons, isSelected }) => {
   const [hasClickedButton, setHasClickedButton] = useState<boolean>(false);
+  const [imgDimensions, setImgDimensions] = useState<ImgDimensions | null>(
+    null,
+  );
+  const containerRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
   const { urlCache, setUrlCache } = useFirebaseCache();
   const storage = getStorage(firebaseApp);
+
+  const calculateDimensions = () => {
+    if (!containerRef.current || !imageRef.current) return;
+
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const containerWidth = containerRect.width;
+    const containerHeight = containerRect.height;
+
+    // Guard: If the container's dimensions are zero, skip the calculation.
+    if (containerWidth === 0 || containerHeight === 0) return;
+
+    const naturalWidth = imageRef.current.naturalWidth;
+    const naturalHeight = imageRef.current.naturalHeight;
+
+    // Guard: If the image's natural dimensions are not available, skip the calculation.
+    if (naturalWidth === 0 || naturalHeight === 0) return;
+
+    let displayWidth: number,
+      displayHeight: number,
+      offsetX: number,
+      offsetY: number;
+    const containerRatio = containerWidth / containerHeight;
+    const imageRatio = naturalWidth / naturalHeight;
+
+    if (imageRatio > containerRatio) {
+      // Image is wider than container. It fills container width.
+      displayWidth = containerWidth;
+      displayHeight = containerWidth / imageRatio;
+      offsetX = 0;
+      offsetY = (containerHeight - displayHeight) / 2;
+    } else {
+      // Image is taller than container. It fills container height.
+      displayHeight = containerHeight;
+      displayWidth = containerHeight * imageRatio;
+      offsetY = 0;
+      offsetX = (containerWidth - displayWidth) / 2;
+    }
+
+    setImgDimensions({
+      width: displayWidth,
+      height: displayHeight,
+      offsetX,
+      offsetY,
+    });
+  };
+
+  // trigger size recalculation
+  useEffect(() => {
+    calculateDimensions();
+    const handleResize = () => calculateDimensions();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [isSelected, height, firebaseImagePath]);
 
   const handlePlayAudio = async (audioPath: string) => {
     setHasClickedButton(true);
@@ -52,53 +117,70 @@ const FirebaseImageWithAudioButtons: React.FC<
       render={(url) =>
         url ? (
           <Box
+            ref={containerRef}
             sx={{
               position: "relative",
               width: "100%",
               height: "100%",
             }}
           >
+            {/* The image element fills the container but its actual drawn area is computed */}
             <img
+              ref={imageRef}
               src={url}
               alt={alt}
-              style={{ objectFit: "contain", maxHeight: height }}
+              style={{
+                objectFit: "contain",
+                width: "100%",
+                height: "100%",
+              }}
             />
-            {audioButtons.map((button, idx) => (
-              <IconButton
-                key={idx}
-                id={button.audioPath}
-                onClick={() => handlePlayAudio(button.audioPath)}
-                sx={{
-                  position: "absolute",
-                  top: `${button.y}%`,
-                  left: `${button.x}%`,
-                  backgroundColor:
-                    hasClickedButton || idx !== 0
-                      ? "rgba(0,0,0,0.3)"
-                      : "rgba(255,106,0,.7)",
-                  color: "white",
-                  "&:hover": {
-                    backgroundColor:
-                      hasClickedButton || idx !== 0
-                        ? "rgba(0,0,0,0.5)"
-                        : "rgba(255,106,0,1)",
-                  },
-                  animation:
-                    hasClickedButton || idx !== 0
-                      ? undefined
-                      : `${buttonAnim} 2s infinite`,
-                }}
-              >
-                <SpeakerIcon
-                  sx={{
-                    animation:
-                      hasClickedButton || idx !== 0
-                        ? undefined
-                        : `${iconAnim} 2s infinite`,
-                  }}
-                />
-              </IconButton>
-            ))}
+            {imgDimensions &&
+              audioButtons.map((button, idx) => {
+                // Convert the button's percentage coordinates to pixel positions relative to the drawn image.
+                const left =
+                  imgDimensions.offsetX +
+                  (button.x / 100) * imgDimensions.width;
+                const top =
+                  imgDimensions.offsetY +
+                  (button.y / 100) * imgDimensions.height;
+                return (
+                  <IconButton
+                    key={idx}
+                    id={button.audioPath}
+                    onClick={() => handlePlayAudio(button.audioPath)}
+                    sx={{
+                      position: "absolute",
+                      left,
+                      top,
+                      backgroundColor:
+                        hasClickedButton || idx !== 0
+                          ? "rgba(0,0,0,0.3)"
+                          : "rgba(255,106,0,.7)",
+                      color: "white",
+                      "&:hover": {
+                        backgroundColor:
+                          hasClickedButton || idx !== 0
+                            ? "rgba(0,0,0,0.5)"
+                            : "rgba(255,106,0,1)",
+                      },
+                      animation:
+                        hasClickedButton || idx !== 0
+                          ? undefined
+                          : `${buttonAnim} 2s infinite`,
+                    }}
+                  >
+                    <SpeakerIcon
+                      sx={{
+                        animation:
+                          hasClickedButton || idx !== 0
+                            ? undefined
+                            : `${iconAnim} 2s infinite`,
+                      }}
+                    />
+                  </IconButton>
+                );
+              })}
           </Box>
         ) : (
           <p>No image available</p>

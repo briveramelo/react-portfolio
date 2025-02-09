@@ -94,6 +94,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                 height={height}
                 alt={item.alt}
                 audioButtons={item.audioButtons || []}
+                isSelected={index === selectedIndex}
               />
             ) : item.type === "image" ? (
               <CardMedia
