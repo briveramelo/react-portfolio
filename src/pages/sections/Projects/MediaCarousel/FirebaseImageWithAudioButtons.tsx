@@ -42,6 +42,7 @@ const FirebaseImageWithAudioButtons: React.FC<
   const { urlCache, setUrlCache } = useFirebaseCache();
   const storage = getStorage(firebaseApp);
 
+  // Calculate the drawn image area given the container and the image’s natural dimensions.
   const calculateDimensions = () => {
     if (!containerRef.current || !imageRef.current) return;
 
@@ -87,8 +88,8 @@ const FirebaseImageWithAudioButtons: React.FC<
     });
   };
 
-  // trigger size recalculation
-  useEffect(() => {
+  // Use a layout effect so that our dimensions are computed after the DOM update but before painting.
+  useLayoutEffect(() => {
     calculateDimensions();
     const handleResize = () => calculateDimensions();
     window.addEventListener("resize", handleResize);
@@ -137,13 +138,16 @@ const FirebaseImageWithAudioButtons: React.FC<
             />
             {imgDimensions &&
               audioButtons.map((button, idx) => {
-                // Convert the button's percentage coordinates to pixel positions relative to the drawn image.
+                // Compute the absolute position relative to the drawn image area.
                 const left =
                   imgDimensions.offsetX +
                   (button.x / 100) * imgDimensions.width;
                 const top =
                   imgDimensions.offsetY +
                   (button.y / 100) * imgDimensions.height;
+                // Calculate a button size that is a fixed percentage of the drawn image width.
+                const buttonSize = Math.max(15, imgDimensions.width * 0.05);
+
                 return (
                   <IconButton
                     key={idx}
@@ -153,6 +157,9 @@ const FirebaseImageWithAudioButtons: React.FC<
                       position: "absolute",
                       left,
                       top,
+                      width: buttonSize,
+                      height: buttonSize,
+                      minWidth: buttonSize, // override default IconButton minWidth
                       backgroundColor:
                         hasClickedButton || idx !== 0
                           ? "rgba(0,0,0,0.3)"
@@ -172,6 +179,8 @@ const FirebaseImageWithAudioButtons: React.FC<
                   >
                     <SpeakerIcon
                       sx={{
+                        // Scale the icon's font size relative to the button size.
+                        fontSize: buttonSize * 0.7,
                         animation:
                           hasClickedButton || idx !== 0
                             ? undefined

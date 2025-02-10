@@ -103,6 +103,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
       <Grid container spacing={2} flexDirection="row" alignContent="left">
         {/* Story Chapters */}
         <Grid item lg={3} xs={12}>
+          {/* Desktop */}
           {!isMobile && (
             <>
               <NavigationControls
@@ -130,7 +131,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
         </Grid>
 
         {/* Media Carousel */}
-        <Grid item lg={9} xs={12}>
+        <Grid item lg={9} xs={12} sx={{ mt: isMobile ? -8 : 0 }}>
           <MediaCarousel
             showArrows={false}
             media={media}
@@ -138,6 +139,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
             onMediaChange={handleMediaChange}
             height={getCarouselHeight()}
           />
+          {/* Mobile */}
           {isMobile && (
             <>
               <NavigationControls
