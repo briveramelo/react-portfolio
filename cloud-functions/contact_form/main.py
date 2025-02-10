@@ -21,7 +21,7 @@ SMTP_PORT = int(os.getenv("SMTP_PORT", 587))
 EMAIL_RECEIVER = os.getenv("EMAIL_RECEIVER")
 EMAIL_SENDER = os.getenv("EMAIL_SENDER")
 EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD")
-SUBJECT_MAX_LENGTH = int(os.getenv("SUBJECT_MAX_LENGTH", 100))
+SUBJECT = os.getenv("SUBJECT")
 MESSAGE_MAX_LENGTH = int(os.getenv("MESSAGE_MAX_LENGTH", 10000))
 
 if not EMAIL_PASSWORD or not EMAIL_SENDER or not EMAIL_RECEIVER:
@@ -34,22 +34,19 @@ def validate_input(data: dict) -> tuple[bool, str | None, dict | None]:
     except EmailNotValidError:
         return False, "Invalid email format", None
 
-    subject = bleach.clean(data.get("subject", "").strip())
     message = bleach.clean(data.get("message", "").strip())
 
-    if not (1 <= len(subject) <= SUBJECT_MAX_LENGTH):
-        return False, f"Subject must be between 1 and {SUBJECT_MAX_LENGTH} characters.", None
     if not (1 <= len(message) <= MESSAGE_MAX_LENGTH):
         return False, f"Message must be between 1 and {MESSAGE_MAX_LENGTH} characters.", None
 
-    return True, None, {"email": valid_email, "subject": subject, "message": message}
+    return True, None, {"email": valid_email, "message": message}
 
 # Function to send the email
-def send_email(subject: str, message: str, sender_email: str) -> bool:
+def send_email(message: str, sender_email: str) -> bool:
     msg = MIMEMultipart()
     msg["From"] = EMAIL_SENDER
     msg["To"] = EMAIL_RECEIVER
-    msg["Subject"] = subject
+    msg["Subject"] = SUBJECT
     msg.attach(MIMEText(f"From: {sender_email}\n\n{message}", "plain"))
 
     try:
@@ -74,7 +71,7 @@ def contact_form_handler(req: https_fn.CallableRequest) -> dict:
             logging.error(f"Invalid args found: {error_message}")
             raise https_fn.HttpsError("invalid-argument", error_message)
 
-        success = send_email(sanitized_data["subject"], sanitized_data["message"], sanitized_data["email"])
+        success = send_email(sanitized_data["message"], sanitized_data["email"])
 
         if success:
             return {"message": "Email sent successfully."}

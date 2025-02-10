@@ -1,14 +1,15 @@
 import React, { useRef } from "react";
 import { Header } from "./components/Header";
-import { Hero } from "./sections/Hero";
+import { HeroSection } from "./sections/HeroSection.tsx";
 import { SkillsSection } from "./sections/SkillsSection";
-import { Projects } from "./sections/Projects";
+import { ProjectsSection } from "./sections/ProjectsSection.tsx";
 import { TestimonialsSection } from "./sections/TestimonialsSection";
 import { RecentWorkSection } from "./sections/RecentWorkSection";
-import { ContactSection } from "./sections/ContactSection";
-import { Employers } from "./sections/Employers";
+import { ContactSection } from "./sections/ContactSection.tsx";
+import { EmployersSection } from "./sections/EmployersSection.tsx";
 import { ThemeMode, useCustomPalette } from "../theme";
-import { sectionStyles } from "../data/sectionStyles";
+import { NavLink, sectionStyles } from "../data/sectionStyles";
+import AnimatedCursor from "./components/specialty/AnimatedCursor.tsx";
 
 export function HomePage() {
   const { mode } = useCustomPalette();
@@ -17,8 +18,8 @@ export function HomePage() {
   const initialColors =
     sectionStyles[currentSectionId] || sectionStyles["home"];
 
-  // Create refs for each section
   const heroRef = useRef<HTMLElement | null>(null);
+  const heroLinkRef = useRef<HTMLElement | null>(null);
   const employersRef = useRef<HTMLElement | null>(null);
   const skillsRef = useRef<HTMLElement | null>(null);
   const projectsRef = useRef<HTMLElement | null>(null);
@@ -36,21 +37,31 @@ export function HomePage() {
     contactRef,
   ];
 
+  const navigationLinks: NavLink[] = [
+    { ref: heroLinkRef, href: "#home", label: "Home", offset: 200 },
+    { ref: skillsRef, href: "#experience", label: "Experience" },
+    { ref: projectsRef, href: "#projects", label: "Projects" },
+    { ref: testimonialsRef, href: "#testimonials", label: "Testimonials" },
+    { ref: contactRef, href: "#contact", label: "Contact" },
+  ];
+
   return (
     <>
       <Header
         sectionRefs={sectionRefs}
+        navigationLinks={navigationLinks}
         defaultBackgroundColor={initialColors.backgroundColor}
         defaultTextColor={initialColors.textColor}
         defaultIsBackgroundDark={initialColors.isDark}
       />
-      <Hero
+      <HeroSection
         ref={heroRef}
+        heroLinkRef={heroLinkRef}
         id="home"
         backgroundColor={sectionStyles.home.backgroundColor}
         textColor={sectionStyles.home.textColor}
       />
-      <Employers
+      <EmployersSection
         ref={employersRef}
         id="employers"
         backgroundColor={sectionStyles.employers.backgroundColor}
@@ -63,7 +74,7 @@ export function HomePage() {
         backgroundColor={sectionStyles.experience.backgroundColor}
         textColor={sectionStyles.experience.textColor}
       />
-      <Projects
+      <ProjectsSection
         ref={projectsRef}
         id="projects"
         backgroundColor={sectionStyles.projects.backgroundColor}
@@ -87,6 +98,7 @@ export function HomePage() {
         backgroundColor={sectionStyles.contact.backgroundColor}
         textColor={sectionStyles.contact.textColor}
       />
+      <AnimatedCursor size={25} durationMs={2000} color={"orange"} />
     </>
   );
 }

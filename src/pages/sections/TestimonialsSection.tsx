@@ -1,10 +1,10 @@
 import React, { forwardRef } from "react";
 import { Container, Typography, Grid, Box } from "@mui/material";
-import { TestimonialCard } from "../components/TestimonialCard";
+import { TestimonialCard } from "./Testimonials/TestimonialCard.tsx";
 import { OpenInNew } from "@mui/icons-material";
 import { cp } from "../../utils/utils";
-import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
-import { useIntersectionObserver } from "../../utils/useIntersectionObserver.ts";
+import { useHoverTracking } from "../../utils/tracking/hooks/useHoverTracking.ts";
+import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import { testimonialsData } from "../../data/testimonialData.ts";
 
 interface TestimonialsSectionProps {
@@ -17,7 +17,7 @@ export const TestimonialsSection = forwardRef<
   HTMLElement,
   TestimonialsSectionProps
 >(({ backgroundColor, textColor, id }, ref) => {
-  const { trackMouseEnter, trackMouseLeave } = useHoverTracking();
+  const { trackPointerEnter, trackPointerLeave } = useHoverTracking();
   const isSectionVisible = useIntersectionObserver(
     ref as React.RefObject<HTMLElement>,
     { threshold: 0.1 },
@@ -46,8 +46,8 @@ export const TestimonialsSection = forwardRef<
               target="_blank"
               rel="noopener noreferrer"
               id="testimonials_header"
-              onMouseEnter={trackMouseEnter}
-              onMouseLeave={trackMouseLeave}
+              onPointerEnter={trackPointerEnter}
+              onPointerLeave={trackPointerLeave}
               style={{ textDecoration: "none", color: "inherit" }}
             >
               Testimonials
@@ -62,7 +62,12 @@ export const TestimonialsSection = forwardRef<
 
         <Grid container spacing={4}>
           {testimonialsData.map((testimonial) => (
-            <Grid item xs={12} md={6} key={testimonial.name}>
+            <Grid
+              item
+              xs={12}
+              md={testimonial.size === "full" ? 12 : 6}
+              key={testimonial.name}
+            >
               <TestimonialCard
                 data={testimonial}
                 backgroundColor={cp("background.paper")}

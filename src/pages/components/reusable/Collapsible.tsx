@@ -46,7 +46,6 @@ export function Collapsible({
           ? "none"
           : `max-height ${durationMs}ms ease-in-out`,
         maxHeight: maxHeight,
-        // willChange not relevant for maxHeight
       }}
     >
       <Box ref={contentRef}>{children}</Box>

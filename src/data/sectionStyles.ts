@@ -1,5 +1,6 @@
 import { CustomPalette } from "../theme";
 import { cp, isColorDark } from "../utils/utils";
+import React from "react";
 
 class SectionStyle {
   backgroundKey: keyof CustomPalette["background"];
@@ -38,3 +39,10 @@ export const sectionStyles: Record<string, SectionStyle> = {
   recent: new SectionStyle("Recent", "contrast", "secondary"),
   contact: new SectionStyle("Contact", "default", "primary"),
 };
+
+export interface NavLink {
+  ref: React.RefObject<HTMLElement>;
+  href: string;
+  label: string;
+  offset?: number;
+}

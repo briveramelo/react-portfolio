@@ -14,12 +14,12 @@ import { LinkedIn, Menu } from "@mui/icons-material";
 import ThemeSwitcher from "./ThemeSwitcher.tsx";
 import { ThemeContext } from "../../context/ThemeContext.tsx";
 import { isColorDark } from "../../utils/utils.ts";
-import { useHoverTracking } from "../../tracking/useHoverTracking.ts";
 import { themes } from "../../theme.ts";
-import { sectionStyles } from "../../data/sectionStyles.ts";
+import { NavLink, sectionStyles } from "../../data/sectionStyles.ts";
 
 interface HeaderProps {
   sectionRefs: React.RefObject<HTMLElement>[];
+  navigationLinks: NavLink[];
   defaultBackgroundColor: string;
   defaultTextColor: string;
   defaultIsBackgroundDark: boolean;
@@ -27,20 +27,11 @@ interface HeaderProps {
 
 export function Header({
   sectionRefs,
+  navigationLinks,
   defaultBackgroundColor,
   defaultTextColor,
   defaultIsBackgroundDark,
 }: HeaderProps) {
-  const navigationLinks = [
-    { href: "#home", label: "Home" },
-    { href: "#experience", label: "Experience" },
-    { href: "#projects", label: "Projects" },
-    { href: "#testimonials", label: "Testimonials" },
-    { href: "#contact", label: "Contact" },
-  ];
-  const navHoverTrackers = navigationLinks.map((nav) => useHoverTracking());
-  const linkedinHover = useHoverTracking();
-  const hamburgerHover = useHoverTracking();
   const headerRef = useRef<HTMLElement | null>(null);
   const [colors, setColors] = useState({
     header: defaultBackgroundColor,
@@ -55,18 +46,17 @@ export function Header({
   const linkedInUrl = "https://www.linkedin.com/in/briveramelo";
 
   const handleNavClick = (href: string) => {
-    const linkId = href.replace("#", "");
-    const targetSection = sectionRefs.find((ref) => ref.current?.id === linkId);
-    if (targetSection?.current) {
-      targetSection.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-      if (window.location.hash === href) return;
-
-      window.history.pushState(null, "", href);
-    }
     setDrawerOpen(false);
+    const navLink = navigationLinks.find((nav) => nav.href === href);
+    if (!navLink?.ref?.current) return;
+
+    navLink.ref.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+    if (window.location.hash === href) return;
+
+    window.history.pushState(null, "", href);
   };
 
   // Header adapts to match section colors
@@ -143,7 +133,6 @@ export function Header({
   const desktopNavLinks = (
     <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
       {navigationLinks.map((link, index) => {
-        const { trackMouseEnter, trackMouseLeave } = navHoverTrackers[index];
         return (
           <Button
             id={link.href}
@@ -154,8 +143,6 @@ export function Header({
               e.preventDefault();
               handleNavClick(link.href);
             }}
-            onMouseEnter={trackMouseEnter}
-            onMouseLeave={trackMouseLeave}
             sx={{
               textTransform: "none",
               fontWeight: "bold",
@@ -173,8 +160,6 @@ export function Header({
     <IconButton
       component="a"
       id="brandon_linkedin"
-      onMouseEnter={linkedinHover.trackMouseEnter}
-      onMouseLeave={linkedinHover.trackMouseLeave}
       href={linkedInUrl}
       target="_blank"
       rel="noopener noreferrer"
@@ -197,8 +182,6 @@ export function Header({
     <IconButton
       onClick={() => setDrawerOpen(true)}
       sx={{ color: colors.text }}
-      onMouseEnter={hamburgerHover.trackMouseEnter}
-      onMouseLeave={hamburgerHover.trackMouseLeave}
       id="hamburger_menu"
     >
       <Menu />
@@ -289,8 +272,6 @@ export function Header({
                 sx={{ pr: 10 }}
                 key={link.href}
                 onClick={() => handleNavClick(link.href)}
-                onMouseEnter={navHoverTrackers[index].trackMouseEnter}
-                onMouseLeave={navHoverTrackers[index].trackMouseLeave}
                 id={`hamburger_item_${link.label}`}
               >
                 <ListItemText primary={link.label} />
@@ -302,8 +283,6 @@ export function Header({
               key="linkedinIcon"
               href={linkedInUrl}
               id="hamburger_item_linkedin"
-              onMouseEnter={linkedinHover.trackMouseEnter}
-              onMouseLeave={linkedinHover.trackMouseLeave}
               target="_blank"
               rel="noopener noreferrer"
             >
