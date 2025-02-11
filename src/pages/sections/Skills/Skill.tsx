@@ -6,7 +6,6 @@ import StarRating from "./StarRating.tsx";
 import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
 import { useCursor } from "../../../context/CursorContext.tsx";
 import RelatedProjects from "./RelatedProjects.tsx";
-import { getProjects } from "../../../data/projectData.ts";
 
 interface SkillProps {
   skill: SkillData;
@@ -114,14 +113,12 @@ const Skill: React.FC<SkillProps> = ({
           isSectionVisible={isSectionVisible}
         />
       </Grid>
-      {isKeyHovered(hoverKey) &&
-        skill.relatedProjectTitles &&
-        skill.relatedProjectTitles.length > 0 && (
-          <RelatedProjects
-            hoverKey={hoverKey}
-            projects={getProjects(skill.relatedProjectTitles)}
-          />
-        )}
+      {isKeyHovered(hoverKey) && skill.hasRelatedProjects() && (
+        <RelatedProjects
+          hoverKey={hoverKey}
+          projects={skill.getRelatedProjects()}
+        />
+      )}
     </Grid>
   );
 };

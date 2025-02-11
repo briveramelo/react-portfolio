@@ -18,7 +18,6 @@ import InvertableImage from "../../components/reusable/InvertableImage.tsx";
 import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
 import { useCursor } from "../../../context/CursorContext.tsx";
 import RelatedProjects from "./RelatedProjects.tsx";
-import { getProjects } from "../../../data/projectData.ts";
 
 interface ExperienceProps {
   skill: SkillData;
@@ -133,14 +132,12 @@ const Experience: React.FC<ExperienceProps> = ({
         </Box>
       </Grid>
 
-      {isKeyHovered(hoverKey) &&
-        skill.relatedProjectTitles &&
-        skill.relatedProjectTitles.length > 0 && (
-          <RelatedProjects
-            hoverKey={hoverKey}
-            projects={getProjects(skill.relatedProjectTitles)}
-          />
-        )}
+      {isKeyHovered(hoverKey) && skill.hasRelatedProjects() && (
+        <RelatedProjects
+          hoverKey={hoverKey}
+          projects={skill.getRelatedProjects()}
+        />
+      )}
     </Grid>
   );
 };
