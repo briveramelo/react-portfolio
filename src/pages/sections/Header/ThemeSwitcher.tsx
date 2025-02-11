@@ -7,9 +7,9 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import { themeImages, ThemeMode } from "../../theme.ts";
-import { ThemeContext } from "../../context/ThemeContext.tsx";
-import { trackCustomEvent } from "../../utils/tracking/plausibleHelpers.ts";
+import { themeImages, ThemeMode } from "../../../theme.ts";
+import { ThemeContext } from "../../../context/ThemeContext.tsx";
+import { trackCustomEvent } from "../../../utils/tracking/plausibleHelpers.ts";
 
 interface ThemeSwitcherProps {
   isBackgroundDark: boolean;

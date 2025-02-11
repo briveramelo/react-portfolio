@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { LinkedIn, Menu } from "@mui/icons-material";
-import ThemeSwitcher from "./ThemeSwitcher.tsx";
+import ThemeSwitcher from "./Header/ThemeSwitcher.tsx";
 import { ThemeContext } from "../../context/ThemeContext.tsx";
 import { isColorDark } from "../../utils/utils.ts";
 import { themes } from "../../theme.ts";

@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Header } from "./components/Header";
+import { Header } from "./sections/Header.tsx";
 import { HeroSection } from "./sections/HeroSection.tsx";
 import { SkillsSection } from "./sections/SkillsSection";
 import { ProjectsSection } from "./sections/ProjectsSection.tsx";
