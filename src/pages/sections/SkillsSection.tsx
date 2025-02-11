@@ -30,7 +30,7 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
     const { mode } = useCustomPalette();
     const useLight = mode !== ThemeMode.Light;
     const iconStyle = {
-      fill: hasClickedButton ? "white" : "orange",
+      fill: "white",
       height: 20,
       marginRight: "8px",
       marginTop: 3.25,
@@ -64,7 +64,16 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
           sx={{
             mb: 15,
             py: 2,
+            color: "white",
             animation: hasClickedButton ? "" : `${buttonAnim} 2s infinite`,
+            backgroundColor: hasClickedButton
+              ? "rgb(0,166,255)"
+              : "rgb(255,106,0)",
+            "&:hover": {
+              backgroundColor: hasClickedButton
+                ? "rgb(0,127,193)"
+                : "rgb(204,98,0)",
+            },
           }}
           variant="contained"
         >

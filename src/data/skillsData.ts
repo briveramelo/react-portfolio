@@ -19,7 +19,6 @@ import cpp from "@/assets/skills/c++.svg";
 import bash from "@/assets/skills/bash.svg";
 import devops from "@/assets/skills/devops.webp";
 import hipaa from "@/assets/skills/hipaa.svg";
-import { getProjects, Project } from "./projectData.ts";
 
 export class SkillData {
   name: string;
@@ -28,7 +27,8 @@ export class SkillData {
   srcLight: string;
   srcDark: string;
   invertIfLight?: boolean;
-  relatedProjectTitles?: Project["title"][];
+  relatedProjectTitles?: string[];
+  static getProjects: (titles: string[]) => any[] = () => [];
 
   constructor({
     name,
@@ -45,7 +45,7 @@ export class SkillData {
     srcLight: string;
     srcDark: string;
     invertIfLight?: boolean;
-    relatedProjectTitles?: Project["title"][];
+    relatedProjectTitles?: string[];
   }) {
     this.name = name;
     this.starCount = starCount;
@@ -62,9 +62,9 @@ export class SkillData {
       : false;
   }
 
-  getRelatedProjects(): Project[] {
+  getRelatedProjects(): any[] {
     return this.relatedProjectTitles
-      ? getProjects(this.relatedProjectTitles)
+      ? SkillData.getProjects(this.relatedProjectTitles)
       : [];
   }
 }

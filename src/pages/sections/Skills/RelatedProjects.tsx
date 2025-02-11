@@ -17,6 +17,7 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
     return null;
   }
   const { onHoverChange } = useCursor();
+  const imgSize = 40;
 
   return (
     <Box
@@ -34,7 +35,7 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
       }}
       className={"subtle-shadow"}
     >
-      <Grid container direction="column" spacing={1}>
+      <Grid container direction="column" spacing={1.5}>
         {projects.map((project) => (
           <Grid item key={project.title}>
             <a
@@ -45,12 +46,12 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
                 <img
                   src={project.iconSrc}
                   alt={project.title}
-                  style={{ width: 24, height: 24 }}
+                  style={{ width: imgSize, height: imgSize, borderRadius: 5 }}
                 />
                 <Typography
-                  variant="body2"
+                  variant="body1"
                   color={cp("text.paper")}
-                  sx={{ ml: 1 }} // Add a left margin for spacing
+                  sx={{ ml: 2 }}
                 >
                   {project.title}
                 </Typography>

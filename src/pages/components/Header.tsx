@@ -78,7 +78,7 @@ export function Header({
     };
   };
 
-  const updateColorsFromActiveSection = (mode?: string) => {
+  const updateColorsFromActiveSection = (mode: string) => {
     if (!headerRef.current) return;
 
     const headerHeight = headerRef.current.offsetHeight;
@@ -99,17 +99,12 @@ export function Header({
     setActiveSectionLabel(activeLabel);
     let newBackgroundColor: string;
     let newTextColor: string;
-    if (mode) {
-      const themeColors = getThemeColors(mode, sectionId);
-      if (!themeColors) return;
 
-      newBackgroundColor = themeColors.background;
-      newTextColor = themeColors.text;
-    } else {
-      const styles = window.getComputedStyle(activeSection.current);
-      newBackgroundColor = styles.backgroundColor;
-      newTextColor = styles.color;
-    }
+    const themeColors = getThemeColors(mode, sectionId);
+    if (!themeColors) return;
+
+    newBackgroundColor = themeColors.background;
+    newTextColor = themeColors.text;
 
     setIsBackgroundDark(isColorDark(newBackgroundColor));
     setColors({
@@ -118,17 +113,17 @@ export function Header({
     });
   };
 
-  // Update header on scroll
+  // Update header on scroll (depends on active mode and section labels though!)
   useEffect(() => {
-    const handleScroll = () => updateColorsFromActiveSection();
+    const handleScroll = () => updateColorsFromActiveSection(mode);
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [activeSectionLabel, mode]);
 
   // Update header when theme changes
   useEffect(() => {
-    updateColorsFromActiveSection();
+    updateColorsFromActiveSection(mode);
   }, [mode]);
 
   const desktopNavLinks = (
