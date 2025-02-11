@@ -193,7 +193,7 @@ export const BeatingHeart: React.FC<BeatingHeartProps> = ({
           sx={{
             fontSize: "40px",
             cursor: "default",
-            transformOrigin: `${boxSize / 2}px ${boxSize / 2}px`,
+            transformOrigin: `${boxSize / 4}px ${boxSize / 2}px`,
           }}
           aria-label="Beating Heart"
           id="beating_heart"

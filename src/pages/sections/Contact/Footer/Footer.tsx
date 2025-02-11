@@ -20,7 +20,7 @@ export const Footer: React.FC<FooterProps> = ({
       component="footer"
       sx={{
         backgroundColor: backgroundColor,
-        py: 4,
+        pt: 4,
       }}
     >
       <Container
@@ -32,6 +32,7 @@ export const Footer: React.FC<FooterProps> = ({
           justifyContent: "center",
           gap: 2,
           textAlign: "center",
+          mb: 4,
         }}
       >
         <Box
@@ -46,30 +47,43 @@ export const Footer: React.FC<FooterProps> = ({
             Custom made with
           </Typography>
           <BeatingHeart heartTriggerRef={heartTriggerRef} />
-          <Box sx={{ width: 10 }} flexShrink={1}></Box>
+          <Box sx={{ width: 5 }} flexShrink={1}></Box>
           <SteamingCoffee />
-          <Box sx={{ width: 20 }} flexShrink={1}></Box>
+          <Box sx={{ width: 21 }} flexShrink={1}></Box>
           <ReactIconAnimation triggerRef={heartTriggerRef} />
         </Box>
-        <Typography variant="body2" sx={{ color: textColor }}>
-          I use{" "}
-          <a
-            href="https://plausible.io"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: "inherit", textDecoration: "underline" }}
-            id="plausible_analytics_link"
-          >
-            Plausible Analytics
-          </a>
-          {" - "}
-          no cookies, no personal data, no ad targeting - just privacy-friendly
-          insights.
-        </Typography>
-        <Typography variant="body2" sx={{ color: textColor }}>
-          © {new Date().getFullYear()} Brandon Rivera-Melo
-        </Typography>
       </Container>
+
+      <Typography variant="body2" sx={{ color: textColor }}>
+        The source code for this website is available on{" "}
+        <a
+          href="https://github.com/briveramelo/react-portfolio"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "inherit", textDecoration: "underline" }}
+          id="github_link"
+        >
+          Github
+        </a>.
+      </Typography>
+      <Typography variant="body2" sx={{ color: textColor }}>
+        I use{" "}
+        <a
+          href="https://plausible.io"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "inherit", textDecoration: "underline" }}
+          id="plausible_analytics_link"
+        >
+          Plausible Analytics
+        </a>
+        {" - "}
+        no cookies, no personal data, no ad targeting - just privacy-friendly
+        insights.
+      </Typography>
+      <Typography variant="body2" sx={{ color: textColor }}>
+        © {new Date().getFullYear()} Brandon Rivera-Melo
+      </Typography>
     </Box>
   );
 };
