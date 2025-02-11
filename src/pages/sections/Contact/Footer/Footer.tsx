@@ -64,7 +64,8 @@ export const Footer: React.FC<FooterProps> = ({
           id="github_link"
         >
           Github
-        </a>.
+        </a>
+        .
       </Typography>
       <Typography variant="body2" sx={{ color: textColor }}>
         I use{" "}
