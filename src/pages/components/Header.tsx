@@ -94,8 +94,9 @@ export function Header({
 
     const sectionId = activeSection.current.id;
     const activeLabel = sectionStyles[sectionId].label;
-    setActiveSectionLabel(activeLabel);
+    if (activeLabel === activeSectionLabel) return; // no change required
 
+    setActiveSectionLabel(activeLabel);
     let newBackgroundColor: string;
     let newTextColor: string;
     if (mode) {

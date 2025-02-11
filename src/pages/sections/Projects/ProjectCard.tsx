@@ -17,6 +17,7 @@ interface ProjectCardProps {
   slideDurationMs: number;
   animationComplete: boolean;
   hasAnyBeenClicked: boolean;
+  hoverKey: string;
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -27,11 +28,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   slideDurationMs,
   animationComplete,
   hasAnyBeenClicked,
+  hoverKey,
 }) => {
   const isOnScreen = targetDestinationX === "0";
   const borderRadius = "8px";
   const cardHover = useHoverTracking();
-  const hoverKey = "card";
   const { onHoverChange } = useCursor();
 
   return (

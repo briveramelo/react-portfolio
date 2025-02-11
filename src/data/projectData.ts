@@ -5,7 +5,7 @@ import { getSkills, SkillData } from "./skillsData";
 import { Employer, getEmployers } from "./employerData";
 
 export interface Project {
-  title: string;
+  title: "Tilt Tracker" | "Clawface" | "ABCmouse";
   category: string;
   description: string;
   image: string;
@@ -14,6 +14,7 @@ export interface Project {
   textColor: string; // Text color for category
   skills: SkillData[];
   employers: Employer[];
+  iconSrc: string;
 }
 
 export const projectData: Project[] = [
@@ -41,6 +42,7 @@ export const projectData: Project[] = [
       "HIPAA",
     ),
     employers: getEmployers("UHealth", "The GApp Lab"),
+    iconSrc: "",
   },
   {
     title: "ABCmouse",
@@ -52,6 +54,7 @@ export const projectData: Project[] = [
     textColor: "#ffffff",
     skills: getSkills("Unity", "C#"),
     employers: getEmployers("Age of Learning"),
+    iconSrc: "",
   },
   {
     title: "Clawface",
@@ -63,5 +66,10 @@ export const projectData: Project[] = [
     textColor: "#ffffff",
     skills: getSkills("Unity", "C#"),
     employers: getEmployers("Hathos Interactive"),
+    iconSrc: "",
   },
 ];
+
+export function getProjects(names: Project["title"][]): Project[] {
+  return projectData.filter((project) => names.includes(project.title));
+}

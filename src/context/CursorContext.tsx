@@ -9,6 +9,7 @@ import React, {
 interface CursorContextProps {
   onHoverChange: (key: string, mouseEnter: boolean) => void;
   isHovered: () => boolean;
+  isKeyHovered: (key: string) => boolean;
 }
 
 export const CursorContext = createContext<CursorContextProps | undefined>(
@@ -33,8 +34,12 @@ export const CursorProvider = ({ children }: { children: ReactNode }) => {
 
   const isHovered = () => hoverCount > 0;
 
+  const isKeyHovered = (key: string): boolean => {
+    return !!hoveredKeys[key];
+  };
+
   return (
-    <CursorContext.Provider value={{ onHoverChange, isHovered }}>
+    <CursorContext.Provider value={{ onHoverChange, isHovered, isKeyHovered }}>
       {children}
     </CursorContext.Provider>
   );

@@ -98,7 +98,6 @@ export function HomePage() {
         backgroundColor={sectionStyles.contact.backgroundColor}
         textColor={sectionStyles.contact.textColor}
       />
-      <AnimatedCursor size={25} durationMs={2000} color={"orange"} />
     </>
   );
 }

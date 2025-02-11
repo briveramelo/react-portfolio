@@ -16,6 +16,7 @@ import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserv
 import { Collapsible } from "../components/reusable/Collapsible.tsx";
 import { ProjectDetail, projectDetails } from "../../data/projectDetails.ts";
 import { HoverExpandContainer } from "../components/reusable/HoverExpandContainer.tsx";
+import AnimatedCursor from "../components/specialty/AnimatedCursor.tsx";
 
 interface ProjectsProps {
   backgroundColor: string;
@@ -38,6 +39,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
       useState<boolean>(true);
     const slideDurationMs = 750;
     const sectionRef = ref as React.RefObject<HTMLElement>;
+    const hoverKey = "project-card";
 
     const isSectionVisibleLead = useIntersectionObserver(sectionRef, {
       threshold: 0.1,
@@ -194,6 +196,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                   animationComplete={isAnimationComplete}
                   slideDurationMs={slideDurationMs}
                   hasAnyBeenClicked={hasProjectBeenSelected}
+                  hoverKey={hoverKey}
                 />
               ))}
             </HoverExpandContainer>
@@ -213,6 +216,15 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
             </Box>
           </Collapsible>
         </Container>
+
+        {isSectionVisibleLead && (
+          <AnimatedCursor
+            size={25}
+            durationMs={2000}
+            color={"orange"}
+            hoverKey={hoverKey}
+          />
+        )}
       </Box>
     );
   },
