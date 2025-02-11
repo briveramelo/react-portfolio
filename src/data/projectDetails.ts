@@ -72,7 +72,7 @@ export const projectDetails: ProjectDetail[] = [
       },
       {
         chapterTitle: "Solution",
-        src: "tilt-tracker/tilt-tracker-system-diagram.svg",
+        src: "tilt-tracker/tilt-tracker-system-diagram.webp",
         alt: "Tilt Tracker system diagram",
         type: "firebaseImage",
         text: `Tilt Tracker is a system that creates a cycle of positive reinforcement to improve pressure relief compliance and prevent pressure ulcers.
