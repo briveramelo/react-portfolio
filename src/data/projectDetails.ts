@@ -167,9 +167,9 @@ ${_}
 This participant has my brother Nathan to thank for the audio design. Click to listen!`,
         audioButtons: [
           { audioPath: "tilt-tracker/interval.mp3", x: 32, y: 14 },
-          { audioPath: "tilt-tracker/duration.mp3", x: 32, y: 39 },
-          { audioPath: "tilt-tracker/tilt.mp3", x: 32, y: 63 },
-          { audioPath: "tilt-tracker/recline.mp3", x: 32, y: 90 },
+          { audioPath: "tilt-tracker/tilt.mp3", x: 32, y: 39 },
+          { audioPath: "tilt-tracker/recline.mp3", x: 32, y: 63 },
+          { audioPath: "tilt-tracker/duration.mp3", x: 32, y: 90 },
         ],
       },
       {
