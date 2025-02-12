@@ -69,7 +69,7 @@ export function Header({
     };
   };
 
-  const updateColorsFromActiveSection = (mode: string) => {
+  const updateColorsFromActiveSection = (newMode: string) => {
     if (!headerRef.current) return;
 
     const headerHeight = headerRef.current.offsetHeight;
@@ -85,10 +85,10 @@ export function Header({
 
     const sectionId = activeSection.current.id;
     const activeLabel = sectionStyles[sectionId].label;
-    if (activeLabel === activeSectionLabel) return; // no change required
+    if (activeLabel === activeSectionLabel && newMode == mode) return; // no change required
 
     setActiveSectionLabel(activeLabel);
-    const themeColors = getThemeColors(mode, sectionId);
+    const themeColors = getThemeColors(newMode, sectionId);
     if (!themeColors) return;
 
     setIsBackgroundDark(isColorDark(themeColors.background));
