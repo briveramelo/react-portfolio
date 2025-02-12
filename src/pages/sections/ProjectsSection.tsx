@@ -136,7 +136,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
         <Container maxWidth="xl">
           {/* Header */}
           <Box
-            maxWidth="lg"
+            maxWidth="xl"
             sx={{
               textAlign: "center",
               mb: 6,
@@ -157,9 +157,9 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                     color="error"
                     variant="contained"
                     sx={{
-                      position: isXs ? "static" : "absolute",
-                      left: isXs ? "auto" : 0,
-                      top: isXs ? "auto" : 14,
+                      position: "absolute",
+                      left: isXs ? 4 : 0,
+                      top: isXs ? 32 : 14,
                       contentAlign: "center",
                       justifyContent: "center",
                       padding: "8px 8px",
