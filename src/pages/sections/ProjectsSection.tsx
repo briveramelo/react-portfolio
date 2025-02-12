@@ -33,8 +33,9 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
     const isXs = useMediaQuery(theme.breakpoints.down("sm"));
     const [selectedProjectDetails, setSelectedProjectDetails] =
       useState<ProjectDetail | null>(null);
-    const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false); // keeping separate from 'selectedProjectDetails === null' supports transition state nuances
-    const [hasProjectBeenSelected, setHasProjectBeenSelected] =
+    const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false);
+
+    const [hasProjectBeenClicked, setHasProjectBeenClicked] =
       useState<boolean>(false);
     const [isAnimationComplete, setIsAnimationComplete] =
       useState<boolean>(true);
@@ -44,9 +45,9 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
 
     const isSectionVisibleLead = useIntersectionObserver(sectionRef, {
       threshold: 0.1,
-    }); //leading measure of if the section is visible
+    });
     const [isSectionVisibleLag, setIsSectionVisibleLag] =
-      useState<boolean>(false); //lagging measure of if the section is visible
+      useState<boolean>(false);
 
     useEffect(() => {
       setIsAnimationComplete(false);
@@ -59,7 +60,10 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
       return () => clearTimeout(timeoutId);
     }, [isSectionVisibleLead, slideDurationMs]);
 
-    const handleCardClick = (project: Project) => {
+    const handleCardClick = (
+      project: Project,
+      triggeredByClick: boolean = true,
+    ) => {
       const matchingDetails =
         projectDetails.find((pd) => project.title === pd.title) ?? null;
       if (matchingDetails === null) {
@@ -70,7 +74,10 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
 
       setSelectedProjectDetails(matchingDetails);
       setIsProjectSelected(true);
-      setHasProjectBeenSelected(true);
+      if (triggeredByClick) {
+        setHasProjectBeenClicked(true);
+      }
+
       setIsAnimationComplete(false);
       window.location.href = `#projects-${toSlug(matchingDetails.title)}`;
       sectionRef.current!.scrollIntoView({ behavior: "smooth" });
@@ -102,7 +109,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
           (project) => toSlug(project.title) === projectSlug,
         );
         if (matchingProject) {
-          handleCardClick(matchingProject);
+          handleCardClick(matchingProject, false);
         }
       };
 
@@ -172,7 +179,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                     <Box
                       id="close_project_typography_wrapper"
                       sx={{
-                        display: { xs: "none", sm: "inline" }, // Hide on extra-small screens
+                        display: { xs: "none", sm: "inline" },
                         alignItems: "center",
                       }}
                     >
@@ -187,7 +194,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                 sx={{
                   fontWeight: "bold",
                   color: textColor,
-                  flexGrow: isXs ? 1 : "unset", // Allows text to take up remaining space in xs mode
+                  flexGrow: isXs ? 1 : "unset",
                 }}
               >
                 {isProjectSelected ? selectedProjectDetails?.title : "Projects"}
@@ -213,7 +220,6 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                   }
                   animationComplete={isAnimationComplete}
                   slideDurationMs={slideDurationMs}
-                  hasAnyBeenClicked={hasProjectBeenSelected}
                   hoverKey={hoverKey}
                 />
               ))}
@@ -235,7 +241,8 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
           </Collapsible>
         </Container>
 
-        {isSectionVisibleLead && (
+        {/* Only hide the animated cursor after an explicit click */}
+        {isSectionVisibleLead && !hasProjectBeenClicked && (
           <AnimatedCursor
             size={25}
             durationMs={2000}
