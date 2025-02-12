@@ -16,6 +16,7 @@ import { ThemeContext } from "../../context/ThemeContext.tsx";
 import { isColorDark } from "../../utils/utils.ts";
 import { themes } from "../../theme.ts";
 import { NavLink, sectionStyles } from "../../data/sectionStyles.ts";
+import { useNavigation } from "../../utils/hooks/useNavigation";
 
 interface HeaderProps {
   sectionRefs: React.RefObject<HTMLElement>[];
@@ -45,19 +46,9 @@ export function Header({
   const [activeSectionLabel, setActiveSectionLabel] = useState("Home");
   const linkedInUrl = "https://www.linkedin.com/in/briveramelo";
 
-  const handleNavClick = (href: string) => {
-    setDrawerOpen(false);
-    const navLink = navigationLinks.find((nav) => nav.href === href);
-    if (!navLink?.ref?.current) return;
-
-    navLink.ref.current.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-    if (window.location.hash === href) return;
-
-    window.history.pushState(null, "", href);
-  };
+  const handleNavClick = useNavigation(navigationLinks, {
+    onNavigate: () => setDrawerOpen(false),
+  });
 
   // Header adapts to match section colors
   const getThemeColors = (mode: string | undefined, sectionId: string) => {
@@ -97,26 +88,19 @@ export function Header({
     if (activeLabel === activeSectionLabel) return; // no change required
 
     setActiveSectionLabel(activeLabel);
-    let newBackgroundColor: string;
-    let newTextColor: string;
-
     const themeColors = getThemeColors(mode, sectionId);
     if (!themeColors) return;
 
-    newBackgroundColor = themeColors.background;
-    newTextColor = themeColors.text;
-
-    setIsBackgroundDark(isColorDark(newBackgroundColor));
+    setIsBackgroundDark(isColorDark(themeColors.background));
     setColors({
-      header: newBackgroundColor,
-      text: newTextColor,
+      header: themeColors.background,
+      text: themeColors.text,
     });
   };
 
   // Update header on scroll (depends on active mode and section labels though!)
   useEffect(() => {
     const handleScroll = () => updateColorsFromActiveSection(mode);
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [activeSectionLabel, mode]);
@@ -128,30 +112,29 @@ export function Header({
 
   const desktopNavLinks = (
     <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
-      {navigationLinks.map((link, index) => {
-        return (
-          <Button
-            id={link.href}
-            key={link.href}
-            color="inherit"
-            href={link.href}
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavClick(link.href);
-            }}
-            sx={{
-              textTransform: "none",
-              fontWeight: "bold",
-              color: colors.text,
-              "&:hover": { opacity: 0.8 },
-            }}
-          >
-            {link.label}
-          </Button>
-        );
-      })}
+      {navigationLinks.map((link) => (
+        <Button
+          id={link.href}
+          key={link.href}
+          color="inherit"
+          href={link.href}
+          onClick={(e) => {
+            e.preventDefault();
+            handleNavClick(link.href);
+          }}
+          sx={{
+            textTransform: "none",
+            fontWeight: "bold",
+            color: colors.text,
+            "&:hover": { opacity: 0.8 },
+          }}
+        >
+          {link.label}
+        </Button>
+      ))}
     </Box>
   );
+
   const linkedinIcon = (
     <IconButton
       component="a"
@@ -167,6 +150,7 @@ export function Header({
       <LinkedIn />
     </IconButton>
   );
+
   const themeSwitcher = (
     <ThemeSwitcher
       isBackgroundDark={isBackgroundDark}
@@ -226,7 +210,7 @@ export function Header({
           </Box>
         </Box>
 
-        {/* mobile */}
+        {/* Mobile */}
         <Box
           sx={{
             display: { xs: "flex", md: "none" },
@@ -263,7 +247,7 @@ export function Header({
       >
         <Box>
           <List>
-            {navigationLinks.map((link, index) => (
+            {navigationLinks.map((link) => (
               <ListItemButton
                 sx={{ pr: 10 }}
                 key={link.href}
@@ -273,7 +257,8 @@ export function Header({
                 <ListItemText primary={link.label} />
               </ListItemButton>
             ))}
-            {/*{linkedinIcon}*/}
+
+            {/* LinkedIn Icon */}
             <ListItemButton
               sx={{ pr: 10 }}
               key="linkedinIcon"

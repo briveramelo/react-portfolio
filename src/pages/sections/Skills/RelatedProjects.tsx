@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography, Grid } from "@mui/material";
 import { Project } from "../../../data/projectData";
-import { cp } from "../../../utils/utils";
+import { cp, toSlug } from "../../../utils/utils";
 import { useCursor } from "../../../context/CursorContext";
 
 interface HoverOverlayProps {
@@ -39,8 +39,19 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
         {projects.map((project) => (
           <Grid item key={project.title}>
             <a
-              href={`#project-${project.title.replace(/\s+/g, "-").toLowerCase()}`}
+              href={`#projects-${toSlug(project.title)}`}
               style={{ textDecoration: "none", color: "inherit" }}
+              onClick={(e) => {
+                e.preventDefault();
+                const targetHash = `#projects-${toSlug(project.title)}`;
+                if (window.location.hash === targetHash) {
+                  // If the hash is already set, manually dispatch a hashchange event
+                  window.dispatchEvent(new HashChangeEvent("hashchange"));
+                } else {
+                  // Otherwise, update the hash normally
+                  window.location.hash = targetHash;
+                }
+              }}
             >
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <img

@@ -1,5 +1,9 @@
 import { useCustomPalette } from "../theme";
 
+export function toSlug(title: string): string {
+  return title.toLowerCase().replace(/\s+/g, "");
+}
+
 /**
  * Return a color (red / yellow / green) based on numeric value
  */

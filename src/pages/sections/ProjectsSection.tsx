@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useLayoutEffect, useState } from "react";
 import {
   Container,
   Typography,
@@ -17,6 +17,7 @@ import { Collapsible } from "../components/reusable/Collapsible.tsx";
 import { ProjectDetail, projectDetails } from "../../data/projectDetails.ts";
 import { HoverExpandContainer } from "../components/reusable/HoverExpandContainer.tsx";
 import AnimatedCursor from "../components/specialty/AnimatedCursor.tsx";
+import { toSlug } from "../../utils/utils.ts";
 
 interface ProjectsProps {
   backgroundColor: string;
@@ -58,20 +59,21 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
       return () => clearTimeout(timeoutId);
     }, [isSectionVisibleLead, slideDurationMs]);
 
-    useEffect(() => {
-      if (isProjectSelected && sectionRef.current) {
-        sectionRef.current.scrollIntoView({ behavior: "smooth" });
-      }
-    }, [isProjectSelected, sectionRef]);
-
     const handleCardClick = (project: Project) => {
       const matchingDetails =
         projectDetails.find((pd) => project.title === pd.title) ?? null;
-      if (matchingDetails === null) console.error("no matching details found");
+      if (matchingDetails === null) {
+        console.error("no matching details found");
+        handleCloseProjectDetails();
+        return;
+      }
+
       setSelectedProjectDetails(matchingDetails);
       setIsProjectSelected(true);
       setHasProjectBeenSelected(true);
       setIsAnimationComplete(false);
+      window.location.href = `#projects-${toSlug(matchingDetails.title)}`;
+      sectionRef.current!.scrollIntoView({ behavior: "smooth" });
       setTimeout(() => {
         setIsAnimationComplete(true);
       }, slideDurationMs);
@@ -86,13 +88,29 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
       }, slideDurationMs);
     };
 
+    // Deep Link Handling
     useEffect(() => {
-      if (isProjectSelected && ref && "current" in ref && ref.current) {
-        ref.current.scrollIntoView({
-          behavior: "smooth",
-        });
-      }
-    }, [isProjectSelected, ref]);
+      const handleHashChange = () => {
+        const hash = window.location.hash;
+        if (!hash.startsWith("#projects-")) {
+          handleCloseProjectDetails();
+          return;
+        }
+
+        const projectSlug = hash.replace("#projects-", "");
+        const matchingProject = projectData.find(
+          (project) => toSlug(project.title) === projectSlug,
+        );
+        if (matchingProject) {
+          handleCardClick(matchingProject);
+        }
+      };
+
+      window.addEventListener("hashchange", handleHashChange);
+      handleHashChange();
+
+      return () => window.removeEventListener("hashchange", handleHashChange);
+    }, []);
 
     return (
       <Box
@@ -184,7 +202,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
               minFlex={1}
               transitionDurationMs={600}
             >
-              {projectData.map((project, index) => (
+              {projectData.map((project) => (
                 <ProjectCard
                   key={project.title}
                   projectData={project}
