@@ -9,7 +9,10 @@ interface HoverOverlayProps {
   projects: Project[];
 }
 
-const RelatedProjects: React.FC<HoverOverlayProps> = ({ hoverKey, projects }) => {
+const RelatedProjects: React.FC<HoverOverlayProps> = ({
+  hoverKey,
+  projects,
+}) => {
   if (projects.length === 0) {
     return null;
   }
@@ -32,22 +35,17 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({ hoverKey, projects }) =>
       }}
       className="subtle-shadow"
     >
-      <Grid
-        container
-        direction="column"
-        spacing={0}
-        alignItems="flex-start"
-      >
+      <Grid container direction="column" spacing={0} alignItems="flex-start">
         <Grid item xs={12}>
           <Typography
             variant="body1"
             color={cp("text.paper")}
             sx={{
-              ml: .5,
+              ml: 0.5,
               mb: -0,
               textDecoration: "underline",
               fontWeight: "bold",
-              fontSize: "1.05rem"
+              fontSize: "1.05rem",
             }}
           >
             Related Projects
@@ -81,13 +79,23 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({ hoverKey, projects }) =>
                 }
               }}
             >
-              <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
                 <img
                   src={project.iconSrc}
                   alt={project.title}
                   style={{ width: imgSize, height: imgSize, borderRadius: 5 }}
                 />
-                <Typography variant="body1" color={cp("text.paper")} sx={{ ml: 2 }}>
+                <Typography
+                  variant="body1"
+                  color={cp("text.paper")}
+                  sx={{ ml: 2 }}
+                >
                   {project.title}
                 </Typography>
               </Box>
