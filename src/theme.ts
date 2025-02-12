@@ -47,6 +47,8 @@ export interface CustomPalette {
     contrast: string;
     textError: string;
     textSuccess: string;
+    light: string;
+    dark: string;
   };
   text: {
     primary: string;
@@ -88,6 +90,8 @@ const Pop = createTheme({
       contrast: "rgb(255, 255, 255)",
       textError: "rgb(255,219,219)",
       textSuccess: "rgb(213,255,213)",
+      light: "rgb(245, 245, 240)",
+      dark: "rgb(24, 24, 24)",
     },
     text: {
       primary: "rgb(255, 255, 255)",
@@ -134,6 +138,8 @@ const Dark = createTheme({
       contrast: "rgb(0,19,56)",
       textError: "rgb(85,0,0)",
       textSuccess: "rgb(0,48,0)",
+      light: "rgb(245, 245, 240)",
+      dark: "rgb(24, 24, 24)",
     },
     text: {
       primary: "rgb(255, 255, 255)",
@@ -180,6 +186,8 @@ const Light = createTheme({
       contrast: "rgb(245, 245, 240)",
       textError: "rgb(255,219,219)",
       textSuccess: "rgb(213,255,213)",
+      light: "rgb(245, 245, 240)",
+      dark: "rgb(24, 24, 24)",
     },
     text: {
       primary: "rgb(8, 8, 8)",

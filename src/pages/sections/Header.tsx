@@ -9,6 +9,7 @@ import {
   ListItemText,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { LinkedIn, Menu } from "@mui/icons-material";
 import ThemeSwitcher from "./Header/ThemeSwitcher.tsx";
@@ -17,9 +18,11 @@ import { isColorDark } from "../../utils/utils.ts";
 import { themes } from "../../theme.ts";
 import { NavLink, sectionStyles } from "../../data/sectionStyles.ts";
 import { useNavigation } from "../../utils/hooks/useNavigation";
+import { useTheme } from "@mui/material/styles";
 
 interface HeaderProps {
   sectionRefs: React.RefObject<HTMLElement>[];
+  desktopHiddenNavigationLinks: string[];
   navigationLinks: NavLink[];
   defaultBackgroundColor: string;
   defaultTextColor: string;
@@ -28,6 +31,7 @@ interface HeaderProps {
 
 export function Header({
   sectionRefs,
+  desktopHiddenNavigationLinks,
   navigationLinks,
   defaultBackgroundColor,
   defaultTextColor,
@@ -111,28 +115,30 @@ export function Header({
   }, [mode]);
 
   const desktopNavLinks = (
-    <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
-      {navigationLinks.map((link) => (
-        <Button
-          id={link.href}
-          key={link.href}
-          color="inherit"
-          href={link.href}
-          onClick={(e) => {
-            e.preventDefault();
-            handleNavClick(link.href);
-          }}
-          sx={{
-            textTransform: "none",
-            fontWeight: "bold",
-            color: colors.text,
-            "&:hover": { opacity: 0.8 },
-          }}
-        >
-          {link.label}
-        </Button>
-      ))}
-    </Box>
+    <>
+      {navigationLinks
+        .filter((link) => !desktopHiddenNavigationLinks.includes(link.href))
+        .map((link) => (
+          <Button
+            id={link.href}
+            key={link.href}
+            color="inherit"
+            href={link.href}
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick(link.href);
+              e.currentTarget.blur();
+            }}
+            sx={{
+              textTransform: "none",
+              color: colors.text,
+              "&:hover": { opacity: 0.7 },
+            }}
+          >
+            {link.label}
+          </Button>
+        ))}
+    </>
   );
 
   const linkedinIcon = (
@@ -144,7 +150,7 @@ export function Header({
       rel="noopener noreferrer"
       sx={{
         color: colors.text,
-        "&:hover": { opacity: 0.8 },
+        "&:hover": { opacity: 0.7 },
       }}
     >
       <LinkedIn />
@@ -188,7 +194,7 @@ export function Header({
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          maxWidth: "md",
+          maxWidth: "xl",
           margin: "0 auto",
           width: "100%",
           padding: "0 16px",
@@ -203,8 +209,25 @@ export function Header({
             width: "100%",
           }}
         >
-          {desktopNavLinks}
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Typography
+            component="a"
+            href="#home"
+            onClick={() => handleNavClick("#home")}
+            color={colors.text}
+            sx={{
+              whiteSpace: "nowrap",
+              fontWeight: "bold",
+              fontSize: "20px",
+              textDecoration: "none",
+              "&:hover": { opacity: 0.7 },
+            }}
+          >
+            Brandon Rivera-Melo
+          </Typography>
+          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
+            {desktopNavLinks}
+          </Box>
+          <Box sx={{ display: "flex-end", alignItems: "center", gap: 1 }}>
             {linkedinIcon}
             {themeSwitcher}
           </Box>

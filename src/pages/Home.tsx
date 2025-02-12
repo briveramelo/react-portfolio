@@ -9,7 +9,6 @@ import { ContactSection } from "./sections/ContactSection.tsx";
 import { EmployersSection } from "./sections/EmployersSection.tsx";
 import { ThemeMode, useCustomPalette } from "../theme";
 import { NavLink, sectionStyles } from "../data/sectionStyles";
-import AnimatedCursor from "./components/specialty/AnimatedCursor.tsx";
 
 export function HomePage() {
   const { mode } = useCustomPalette();
@@ -37,11 +36,19 @@ export function HomePage() {
     contactRef,
   ];
 
-  const navigationLinks: NavLink[] = [
+  const desktopHiddenNavLinks: string[] = [
+    "#home",
+    "#employers",
+    // "#recent",
+  ];
+
+  const allNavLinks: NavLink[] = [
     { ref: heroLinkRef, href: "#home", label: "Home", offset: 200 },
+    { ref: employersRef, href: "#employers", label: "Employers" },
     { ref: skillsRef, href: "#experience", label: "Experience" },
     { ref: projectsRef, href: "#projects", label: "Projects" },
     { ref: testimonialsRef, href: "#testimonials", label: "Testimonials" },
+    { ref: recentWorkRef, href: "#recent", label: "Recent" },
     { ref: contactRef, href: "#contact", label: "Contact" },
   ];
 
@@ -49,7 +56,8 @@ export function HomePage() {
     <>
       <Header
         sectionRefs={sectionRefs}
-        navigationLinks={navigationLinks}
+        desktopHiddenNavigationLinks={desktopHiddenNavLinks}
+        navigationLinks={allNavLinks}
         defaultBackgroundColor={initialColors.backgroundColor}
         defaultTextColor={initialColors.textColor}
         defaultIsBackgroundDark={initialColors.isDark}

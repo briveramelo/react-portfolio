@@ -65,7 +65,7 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
                 padding: 1,
                 borderRadius: 1,
                 "&:hover": {
-                  backgroundColor: darken(cp("background.paper"), 0.3),
+                  backgroundColor: darken(cp("background.paper"), 0.2),
                 },
               }}
               onClick={(e) => {
