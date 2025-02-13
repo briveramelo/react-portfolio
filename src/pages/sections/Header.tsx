@@ -9,16 +9,14 @@ import {
   ListItemText,
   Toolbar,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 import { LinkedIn, Menu } from "@mui/icons-material";
-import ThemeSwitcher from "./Header/ThemeSwitcher.tsx";
+import ThemeSwitcher from "./Header/ThemeSwitcher";
 import { ThemeContext } from "../../context/ThemeContext.tsx";
 import { isColorDark } from "../../utils/utils.ts";
-import { themes } from "../../theme.ts";
+import { ThemeMode, themes } from "../../theme.ts";
 import { NavLink, sectionStyles } from "../../data/sectionStyles.ts";
 import { useNavigation } from "../../utils/hooks/useNavigation";
-import { useTheme } from "@mui/material/styles";
 
 interface HeaderProps {
   sectionRefs: React.RefObject<HTMLElement>[];
@@ -55,11 +53,14 @@ export function Header({
   });
 
   // Header adapts to match section colors
-  const getThemeColors = (mode: string | undefined, sectionId: string) => {
-    if (!mode) return null;
+  const getThemeColors = (
+    themeMode: ThemeMode | undefined,
+    sectionId: string,
+  ) => {
+    if (!themeMode) return null;
 
     const newTheme = Object.values(themes).find(
-      (theme) => theme.customPalette.mode === mode,
+      (theme) => theme.customPalette.mode === themeMode,
     );
 
     if (!newTheme) return null;
@@ -73,7 +74,7 @@ export function Header({
     };
   };
 
-  const updateColorsFromActiveSection = (newMode: string) => {
+  const updateColorsFromActiveSection = (newMode: ThemeMode) => {
     if (!headerRef.current) return;
 
     const headerHeight = headerRef.current.offsetHeight;
@@ -160,7 +161,7 @@ export function Header({
   const themeSwitcher = (
     <ThemeSwitcher
       isBackgroundDark={isBackgroundDark}
-      onChange={(mode) => updateColorsFromActiveSection(mode)}
+      onChange={updateColorsFromActiveSection}
     />
   );
 
