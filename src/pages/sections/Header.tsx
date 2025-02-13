@@ -9,16 +9,20 @@ import {
   ListItemText,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { LinkedIn, Menu } from "@mui/icons-material";
-import ThemeSwitcher from "./ThemeSwitcher.tsx";
+import ThemeSwitcher from "./Header/ThemeSwitcher.tsx";
 import { ThemeContext } from "../../context/ThemeContext.tsx";
 import { isColorDark } from "../../utils/utils.ts";
 import { themes } from "../../theme.ts";
 import { NavLink, sectionStyles } from "../../data/sectionStyles.ts";
+import { useNavigation } from "../../utils/hooks/useNavigation";
+import { useTheme } from "@mui/material/styles";
 
 interface HeaderProps {
   sectionRefs: React.RefObject<HTMLElement>[];
+  desktopHiddenNavigationLinks: string[];
   navigationLinks: NavLink[];
   defaultBackgroundColor: string;
   defaultTextColor: string;
@@ -27,6 +31,7 @@ interface HeaderProps {
 
 export function Header({
   sectionRefs,
+  desktopHiddenNavigationLinks,
   navigationLinks,
   defaultBackgroundColor,
   defaultTextColor,
@@ -45,19 +50,9 @@ export function Header({
   const [activeSectionLabel, setActiveSectionLabel] = useState("Home");
   const linkedInUrl = "https://www.linkedin.com/in/briveramelo";
 
-  const handleNavClick = (href: string) => {
-    setDrawerOpen(false);
-    const navLink = navigationLinks.find((nav) => nav.href === href);
-    if (!navLink?.ref?.current) return;
-
-    navLink.ref.current.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-    if (window.location.hash === href) return;
-
-    window.history.pushState(null, "", href);
-  };
+  const handleNavClick = useNavigation(navigationLinks, {
+    onNavigate: () => setDrawerOpen(false),
+  });
 
   // Header adapts to match section colors
   const getThemeColors = (mode: string | undefined, sectionId: string) => {
@@ -78,7 +73,7 @@ export function Header({
     };
   };
 
-  const updateColorsFromActiveSection = (mode?: string) => {
+  const updateColorsFromActiveSection = (newMode: string) => {
     if (!headerRef.current) return;
 
     const headerHeight = headerRef.current.offsetHeight;
@@ -94,46 +89,36 @@ export function Header({
 
     const sectionId = activeSection.current.id;
     const activeLabel = sectionStyles[sectionId].label;
+    if (activeLabel === activeSectionLabel && newMode == mode) return; // no change required
+
     setActiveSectionLabel(activeLabel);
+    const themeColors = getThemeColors(newMode, sectionId);
+    if (!themeColors) return;
 
-    let newBackgroundColor: string;
-    let newTextColor: string;
-    if (mode) {
-      const themeColors = getThemeColors(mode, sectionId);
-      if (!themeColors) return;
-
-      newBackgroundColor = themeColors.background;
-      newTextColor = themeColors.text;
-    } else {
-      const styles = window.getComputedStyle(activeSection.current);
-      newBackgroundColor = styles.backgroundColor;
-      newTextColor = styles.color;
-    }
-
-    setIsBackgroundDark(isColorDark(newBackgroundColor));
+    setIsBackgroundDark(isColorDark(themeColors.background));
     setColors({
-      header: newBackgroundColor,
-      text: newTextColor,
+      header: themeColors.background,
+      text: themeColors.text,
     });
   };
 
-  // Update header on scroll
+  // Update header on scroll (depends on active mode and section labels though!)
   useEffect(() => {
-    const handleScroll = () => updateColorsFromActiveSection();
-
+    const handleScroll = () => updateColorsFromActiveSection(mode);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [activeSectionLabel, mode]);
 
   // Update header when theme changes
   useEffect(() => {
-    updateColorsFromActiveSection();
+    updateColorsFromActiveSection(mode);
   }, [mode]);
 
   const desktopNavLinks = (
-    <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
-      {navigationLinks.map((link, index) => {
-        return (
+    <>
+      {navigationLinks
+        .filter((link) => !desktopHiddenNavigationLinks.includes(link.href))
+        .map((link) => (
           <Button
             id={link.href}
             key={link.href}
@@ -142,20 +127,20 @@ export function Header({
             onClick={(e) => {
               e.preventDefault();
               handleNavClick(link.href);
+              e.currentTarget.blur();
             }}
             sx={{
               textTransform: "none",
-              fontWeight: "bold",
               color: colors.text,
-              "&:hover": { opacity: 0.8 },
+              "&:hover": { opacity: 0.7 },
             }}
           >
             {link.label}
           </Button>
-        );
-      })}
-    </Box>
+        ))}
+    </>
   );
+
   const linkedinIcon = (
     <IconButton
       component="a"
@@ -165,12 +150,13 @@ export function Header({
       rel="noopener noreferrer"
       sx={{
         color: colors.text,
-        "&:hover": { opacity: 0.8 },
+        "&:hover": { opacity: 0.7 },
       }}
     >
       <LinkedIn />
     </IconButton>
   );
+
   const themeSwitcher = (
     <ThemeSwitcher
       isBackgroundDark={isBackgroundDark}
@@ -208,7 +194,7 @@ export function Header({
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          maxWidth: "md",
+          maxWidth: "xl",
           margin: "0 auto",
           width: "100%",
           padding: "0 16px",
@@ -223,14 +209,31 @@ export function Header({
             width: "100%",
           }}
         >
-          {desktopNavLinks}
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Typography
+            component="a"
+            href="#home"
+            onClick={() => handleNavClick("#home")}
+            color={colors.text}
+            sx={{
+              whiteSpace: "nowrap",
+              fontWeight: "bold",
+              fontSize: "20px",
+              textDecoration: "none",
+              "&:hover": { opacity: 0.7 },
+            }}
+          >
+            Brandon Rivera-Melo
+          </Typography>
+          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
+            {desktopNavLinks}
+          </Box>
+          <Box sx={{ display: "flex-end", alignItems: "center", gap: 1 }}>
             {linkedinIcon}
             {themeSwitcher}
           </Box>
         </Box>
 
-        {/* mobile */}
+        {/* Mobile */}
         <Box
           sx={{
             display: { xs: "flex", md: "none" },
@@ -267,7 +270,7 @@ export function Header({
       >
         <Box>
           <List>
-            {navigationLinks.map((link, index) => (
+            {navigationLinks.map((link) => (
               <ListItemButton
                 sx={{ pr: 10 }}
                 key={link.href}
@@ -277,7 +280,8 @@ export function Header({
                 <ListItemText primary={link.label} />
               </ListItemButton>
             ))}
-            {/*{linkedinIcon}*/}
+
+            {/* LinkedIn Icon */}
             <ListItemButton
               sx={{ pr: 10 }}
               key="linkedinIcon"

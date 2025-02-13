@@ -72,7 +72,7 @@ export const projectDetails: ProjectDetail[] = [
       },
       {
         chapterTitle: "Solution",
-        src: "tilt-tracker/tilt-tracker-system-diagram.svg",
+        src: "tilt-tracker/tilt-tracker-system-diagram.webp",
         alt: "Tilt Tracker system diagram",
         type: "firebaseImage",
         text: `Tilt Tracker is a system that creates a cycle of positive reinforcement to improve pressure relief compliance and prevent pressure ulcers.
@@ -167,9 +167,9 @@ ${_}
 This participant has my brother Nathan to thank for the audio design. Click to listen!`,
         audioButtons: [
           { audioPath: "tilt-tracker/interval.mp3", x: 32, y: 14 },
-          { audioPath: "tilt-tracker/duration.mp3", x: 32, y: 39 },
-          { audioPath: "tilt-tracker/tilt.mp3", x: 32, y: 63 },
-          { audioPath: "tilt-tracker/recline.mp3", x: 32, y: 90 },
+          { audioPath: "tilt-tracker/tilt.mp3", x: 32, y: 39 },
+          { audioPath: "tilt-tracker/recline.mp3", x: 32, y: 63 },
+          { audioPath: "tilt-tracker/duration.mp3", x: 32, y: 90 },
         ],
       },
       {

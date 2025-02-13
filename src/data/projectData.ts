@@ -1,11 +1,16 @@
 import joshTilt from "@/assets/projects/josh-tilt-cropped.webp";
 import abcmouse from "@/assets/projects/abcmouse.webp";
 import clawface from "@/assets/projects/clawface.jpg";
+
+import tiltLogo from "@/assets/projects/tilt/original/logo.svg";
+import abcmouseLogo from "@/assets/projects/abcmouse/compressed/abcmouse-icon.webp";
+import clawfaceLogo from "@/assets/projects/clawface/compressed/icon.webp";
+
 import { getSkills, SkillData } from "./skillsData";
 import { Employer, getEmployers } from "./employerData";
 
 export interface Project {
-  title: string;
+  title: "Tilt Tracker" | "Clawface" | "ABCmouse";
   category: string;
   description: string;
   image: string;
@@ -14,6 +19,7 @@ export interface Project {
   textColor: string; // Text color for category
   skills: SkillData[];
   employers: Employer[];
+  iconSrc: string;
 }
 
 export const projectData: Project[] = [
@@ -41,6 +47,7 @@ export const projectData: Project[] = [
       "HIPAA",
     ),
     employers: getEmployers("UHealth", "The GApp Lab"),
+    iconSrc: tiltLogo,
   },
   {
     title: "ABCmouse",
@@ -52,6 +59,7 @@ export const projectData: Project[] = [
     textColor: "#ffffff",
     skills: getSkills("Unity", "C#"),
     employers: getEmployers("Age of Learning"),
+    iconSrc: abcmouseLogo,
   },
   {
     title: "Clawface",
@@ -63,5 +71,13 @@ export const projectData: Project[] = [
     textColor: "#ffffff",
     skills: getSkills("Unity", "C#"),
     employers: getEmployers("Hathos Interactive"),
+    iconSrc: clawfaceLogo,
   },
 ];
+
+export function getProjects(names: string[]): Project[] {
+  return projectData.filter((project) => names.includes(project.title));
+}
+
+import { SkillData as SkillDataImported } from "./skillsData";
+SkillDataImported.getProjects = getProjects;

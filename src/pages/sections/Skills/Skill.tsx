@@ -3,6 +3,9 @@ import { Box, Typography, Grid } from "@mui/material";
 import { SkillData } from "../../../data/skillsData.ts";
 import InvertableImage from "../../components/reusable/InvertableImage.tsx";
 import StarRating from "./StarRating.tsx";
+import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
+import { useCursor } from "../../../context/CursorContext.tsx";
+import RelatedProjects from "./RelatedProjects.tsx";
 
 interface SkillProps {
   skill: SkillData;
@@ -21,7 +24,21 @@ const Skill: React.FC<SkillProps> = ({
   const src = useLight ? srcLight : srcDark;
   const iconSize = "50px";
   const fixedGap = "20px"; // Fixed space between icon and name
+  const hoverKey = `${skill.name}_skill`;
+  const { isKeyHovered, onHoverChange } = useCursor();
+  const { trackPointerEnter, trackPointerLeave } = useHoverTracking();
 
+  const handleHoverChange = (
+    event: React.MouseEvent<HTMLElement>,
+    on: boolean,
+  ) => {
+    onHoverChange(hoverKey, on);
+    if (on) {
+      trackPointerEnter();
+    } else {
+      trackPointerLeave(event);
+    }
+  };
   return (
     <Grid
       container
@@ -30,8 +47,12 @@ const Skill: React.FC<SkillProps> = ({
       sx={{
         mb: 2,
         width: "100%",
+        position: "relative",
       }}
       wrap="nowrap"
+      onPointerEnter={(event) => handleHoverChange(event, true)}
+      onPointerLeave={(event) => handleHoverChange(event, false)}
+      id={hoverKey}
     >
       {/* Skill Icon - Center Aligned */}
       <Grid
@@ -92,6 +113,12 @@ const Skill: React.FC<SkillProps> = ({
           isSectionVisible={isSectionVisible}
         />
       </Grid>
+      {isKeyHovered(hoverKey) && skill.hasRelatedProjects() && (
+        <RelatedProjects
+          hoverKey={hoverKey}
+          projects={skill.getRelatedProjects()}
+        />
+      )}
     </Grid>
   );
 };

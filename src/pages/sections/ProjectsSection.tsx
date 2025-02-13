@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useLayoutEffect, useState } from "react";
 import {
   Container,
   Typography,
@@ -16,6 +16,8 @@ import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserv
 import { Collapsible } from "../components/reusable/Collapsible.tsx";
 import { ProjectDetail, projectDetails } from "../../data/projectDetails.ts";
 import { HoverExpandContainer } from "../components/reusable/HoverExpandContainer.tsx";
+import AnimatedCursor from "../components/specialty/AnimatedCursor.tsx";
+import { toSlug } from "../../utils/utils.ts";
 
 interface ProjectsProps {
   backgroundColor: string;
@@ -31,19 +33,21 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
     const isXs = useMediaQuery(theme.breakpoints.down("sm"));
     const [selectedProjectDetails, setSelectedProjectDetails] =
       useState<ProjectDetail | null>(null);
-    const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false); // keeping separate from 'selectedProjectDetails === null' supports transition state nuances
-    const [hasProjectBeenSelected, setHasProjectBeenSelected] =
+    const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false);
+
+    const [hasProjectBeenClicked, setHasProjectBeenClicked] =
       useState<boolean>(false);
     const [isAnimationComplete, setIsAnimationComplete] =
       useState<boolean>(true);
     const slideDurationMs = 750;
     const sectionRef = ref as React.RefObject<HTMLElement>;
+    const hoverKey = "project-card";
 
     const isSectionVisibleLead = useIntersectionObserver(sectionRef, {
       threshold: 0.1,
-    }); //leading measure of if the section is visible
+    });
     const [isSectionVisibleLag, setIsSectionVisibleLag] =
-      useState<boolean>(false); //lagging measure of if the section is visible
+      useState<boolean>(false);
 
     useEffect(() => {
       setIsAnimationComplete(false);
@@ -56,20 +60,27 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
       return () => clearTimeout(timeoutId);
     }, [isSectionVisibleLead, slideDurationMs]);
 
-    useEffect(() => {
-      if (isProjectSelected && sectionRef.current) {
-        sectionRef.current.scrollIntoView({ behavior: "smooth" });
-      }
-    }, [isProjectSelected, sectionRef]);
-
-    const handleCardClick = (project: Project) => {
+    const handleCardClick = (
+      project: Project,
+      triggeredByClick: boolean = true,
+    ) => {
       const matchingDetails =
         projectDetails.find((pd) => project.title === pd.title) ?? null;
-      if (matchingDetails === null) console.error("no matching details found");
+      if (matchingDetails === null) {
+        console.error("no matching details found");
+        handleCloseProjectDetails();
+        return;
+      }
+
       setSelectedProjectDetails(matchingDetails);
       setIsProjectSelected(true);
-      setHasProjectBeenSelected(true);
+      if (triggeredByClick) {
+        setHasProjectBeenClicked(true);
+      }
+
       setIsAnimationComplete(false);
+      window.location.href = `#projects-${toSlug(matchingDetails.title)}`;
+      sectionRef.current!.scrollIntoView({ behavior: "smooth" });
       setTimeout(() => {
         setIsAnimationComplete(true);
       }, slideDurationMs);
@@ -84,13 +95,29 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
       }, slideDurationMs);
     };
 
+    // Deep Link Handling
     useEffect(() => {
-      if (isProjectSelected && ref && "current" in ref && ref.current) {
-        ref.current.scrollIntoView({
-          behavior: "smooth",
-        });
-      }
-    }, [isProjectSelected, ref]);
+      const handleHashChange = () => {
+        const hash = window.location.hash;
+        if (!hash.startsWith("#projects-")) {
+          handleCloseProjectDetails();
+          return;
+        }
+
+        const projectSlug = hash.replace("#projects-", "");
+        const matchingProject = projectData.find(
+          (project) => toSlug(project.title) === projectSlug,
+        );
+        if (matchingProject) {
+          handleCardClick(matchingProject, false);
+        }
+      };
+
+      window.addEventListener("hashchange", handleHashChange);
+      handleHashChange();
+
+      return () => window.removeEventListener("hashchange", handleHashChange);
+    }, []);
 
     return (
       <Box
@@ -109,7 +136,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
         <Container maxWidth="xl">
           {/* Header */}
           <Box
-            maxWidth="lg"
+            maxWidth="xl"
             sx={{
               textAlign: "center",
               mb: 6,
@@ -130,9 +157,9 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                     color="error"
                     variant="contained"
                     sx={{
-                      position: isXs ? "static" : "absolute",
-                      left: isXs ? "auto" : 0,
-                      top: isXs ? "auto" : 14,
+                      position: "absolute",
+                      left: isXs ? 4 : 0,
+                      top: isXs ? 32 : 14,
                       contentAlign: "center",
                       justifyContent: "center",
                       padding: "8px 8px",
@@ -152,7 +179,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                     <Box
                       id="close_project_typography_wrapper"
                       sx={{
-                        display: { xs: "none", sm: "inline" }, // Hide on extra-small screens
+                        display: { xs: "none", sm: "inline" },
                         alignItems: "center",
                       }}
                     >
@@ -167,7 +194,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                 sx={{
                   fontWeight: "bold",
                   color: textColor,
-                  flexGrow: isXs ? 1 : "unset", // Allows text to take up remaining space in xs mode
+                  flexGrow: isXs ? 1 : "unset",
                 }}
               >
                 {isProjectSelected ? selectedProjectDetails?.title : "Projects"}
@@ -182,7 +209,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
               minFlex={1}
               transitionDurationMs={600}
             >
-              {projectData.map((project, index) => (
+              {projectData.map((project) => (
                 <ProjectCard
                   key={project.title}
                   projectData={project}
@@ -193,7 +220,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                   }
                   animationComplete={isAnimationComplete}
                   slideDurationMs={slideDurationMs}
-                  hasAnyBeenClicked={hasProjectBeenSelected}
+                  hoverKey={hoverKey}
                 />
               ))}
             </HoverExpandContainer>
@@ -213,6 +240,16 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
             </Box>
           </Collapsible>
         </Container>
+
+        {/* Only hide the animated cursor after an explicit click */}
+        {isSectionVisibleLead && !hasProjectBeenClicked && (
+          <AnimatedCursor
+            size={25}
+            durationMs={2000}
+            color={"orange"}
+            hoverKey={hoverKey}
+          />
+        )}
       </Box>
     );
   },

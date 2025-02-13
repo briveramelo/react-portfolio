@@ -7,15 +7,24 @@ interface AnimatedCursorProps {
   color: string;
   size: number;
   durationMs: number;
+  hoverKey: string;
 }
+
+// Keyframes for expanding circle animation
+const expandAnimation = keyframes`
+      0% { transform: scale(2); opacity: 0; }
+      50% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0); opacity: 0; }
+  `;
 
 export const AnimatedCursor: React.FC<AnimatedCursorProps> = ({
   color,
   size,
   durationMs,
+  hoverKey,
 }) => {
   const cursorRef = useRef<HTMLDivElement>(null);
-  const { isHovered } = useCursor();
+  const { isKeyHovered } = useCursor();
 
   useEffect(() => {
     let animationFrameId: number | null = null;
@@ -42,13 +51,6 @@ export const AnimatedCursor: React.FC<AnimatedCursorProps> = ({
     };
   }, [size]);
 
-  // Keyframes for expanding circle animation
-  const expandAnimation = keyframes`
-      0% { transform: scale(2); opacity: 0; }
-      50% { transform: scale(1); opacity: 1; }
-      100% { transform: scale(0); opacity: 0; }
-  `;
-
   const animStyle = {
     fontSize: size,
     color: color,
@@ -69,7 +71,7 @@ export const AnimatedCursor: React.FC<AnimatedCursorProps> = ({
         pointerEvents: "none",
         zIndex: 10000,
         transition: "none",
-        opacity: isHovered() ? 1 : 0,
+        opacity: isKeyHovered(hoverKey) ? 1 : 0,
       }}
     >
       <RadioButtonUncheckedIcon sx={{ ...animStyle }} />

@@ -6,10 +6,12 @@ import {
   IconButton,
   Typography,
   Box,
+  darken,
 } from "@mui/material";
-import { themeImages, ThemeMode } from "../../theme.ts";
-import { ThemeContext } from "../../context/ThemeContext.tsx";
-import { trackCustomEvent } from "../../utils/tracking/plausibleHelpers.ts";
+import { themeImages, ThemeMode } from "../../../theme.ts";
+import { ThemeContext } from "../../../context/ThemeContext.tsx";
+import { trackCustomEvent } from "../../../utils/tracking/plausibleHelpers.ts";
+import { cp } from "../../../utils/utils.ts";
 
 interface ThemeSwitcherProps {
   isBackgroundDark: boolean;
@@ -101,13 +103,26 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
         <Paper
           onPointerEnter={handlePopperPointerEnter}
           onPointerLeave={handlePopperPointerLeave}
-          sx={{ ml: -1, boxShadow: "none" }}
+          sx={{
+            ml: -1,
+            boxShadow: "none",
+            borderRadius: 2,
+            overflow: "hidden",
+          }}
         >
           {themeImages.map((theme, index) => (
             <MenuItem
               id={`theme_menu_item_${theme.name}`}
               key={theme.name}
-              sx={{ display: "flex", alignItems: "center", gap: 1 }}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                backgroundColor: cp("background.light"),
+                "&:hover": {
+                  backgroundColor: darken(cp("background.light"), 0.3),
+                },
+              }}
               onClick={() => handleThemeSelect(index)}
             >
               <img

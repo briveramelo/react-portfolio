@@ -16,7 +16,7 @@ interface ProjectCardProps {
   targetDestinationX: string;
   slideDurationMs: number;
   animationComplete: boolean;
-  hasAnyBeenClicked: boolean;
+  hoverKey: string;
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -26,12 +26,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   targetDestinationX,
   slideDurationMs,
   animationComplete,
-  hasAnyBeenClicked,
+  hoverKey,
 }) => {
   const isOnScreen = targetDestinationX === "0";
   const borderRadius = "8px";
   const cardHover = useHoverTracking();
-  const hoverKey = "card";
   const { onHoverChange } = useCursor();
 
   return (
@@ -59,15 +58,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         }}
         className="pop-shadow"
         onPointerEnter={() => {
-          if (!hasAnyBeenClicked) {
-            onHoverChange(hoverKey, true);
-          }
+          onHoverChange(hoverKey, true);
           cardHover.trackPointerEnter();
         }}
         onPointerLeave={(event: React.MouseEvent<HTMLElement>) => {
-          if (!hasAnyBeenClicked) {
-            onHoverChange(hoverKey, false);
-          }
+          onHoverChange(hoverKey, false);
           cardHover.trackPointerLeave(event);
         }}
         onClick={() => {

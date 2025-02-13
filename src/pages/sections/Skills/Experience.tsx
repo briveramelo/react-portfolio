@@ -15,6 +15,9 @@ import {
   maxYearsOfExperience,
 } from "../../../data/constants.ts";
 import InvertableImage from "../../components/reusable/InvertableImage.tsx";
+import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
+import { useCursor } from "../../../context/CursorContext.tsx";
+import RelatedProjects from "./RelatedProjects.tsx";
 
 interface ExperienceProps {
   skill: SkillData;
@@ -51,14 +54,33 @@ const Experience: React.FC<ExperienceProps> = ({
     isVisible,
   );
   const roundedText = Math.round(animatedValue);
+  const hoverKey = `${skill.name}_experience`;
+  const { isKeyHovered, onHoverChange } = useCursor();
+  const { trackPointerEnter, trackPointerLeave, isHovered } =
+    useHoverTracking();
+
+  const handleHoverChange = (
+    event: React.MouseEvent<HTMLElement>,
+    on: boolean,
+  ) => {
+    onHoverChange(hoverKey, on);
+    if (on) {
+      trackPointerEnter();
+    } else {
+      trackPointerLeave(event);
+    }
+  };
 
   return (
     <Grid
       container
       spacing={2}
       alignItems="center"
-      sx={{ mb: 2 }}
+      sx={{ mb: 2, position: "relative" }}
       wrap="nowrap"
+      onPointerEnter={(event) => handleHoverChange(event, true)}
+      onPointerLeave={(event) => handleHoverChange(event, false)}
+      id={hoverKey}
     >
       {/* Skill icon */}
       <Grid
@@ -109,6 +131,13 @@ const Experience: React.FC<ExperienceProps> = ({
           />
         </Box>
       </Grid>
+
+      {isKeyHovered(hoverKey) && skill.hasRelatedProjects() && (
+        <RelatedProjects
+          hoverKey={hoverKey}
+          projects={skill.getRelatedProjects()}
+        />
+      )}
     </Grid>
   );
 };
