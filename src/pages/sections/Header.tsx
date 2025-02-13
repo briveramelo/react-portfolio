@@ -53,7 +53,10 @@ export function Header({
   });
 
   // Header adapts to match section colors
-  const getThemeColors = (themeMode: ThemeMode | undefined, sectionId: string) => {
+  const getThemeColors = (
+    themeMode: ThemeMode | undefined,
+    sectionId: string,
+  ) => {
     if (!themeMode) return null;
 
     const newTheme = Object.values(themes).find(
