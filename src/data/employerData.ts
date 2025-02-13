@@ -10,14 +10,14 @@ import aolLogo from "@/assets/orgs/aol-logo.webp";
 import hathos from "@/assets/orgs/hathos.webp";
 import hathosLogo from "@/assets/orgs/hathos-logo.webp";
 
-export interface Employer {
+export interface EmployerData {
   whiteSrc: string;
   colorSrc: string;
   logoSrc: string;
   name: string;
   text: string;
 }
-export const featuredEmployerData: Employer[] = [
+export const featuredEmployerData: EmployerData[] = [
   {
     whiteSrc: uhealthW,
     colorSrc: uhealth,
@@ -44,7 +44,7 @@ Software Developer II`,
   },
 ];
 
-export const allEmployerData: Employer[] = [
+export const allEmployerData: EmployerData[] = [
   ...featuredEmployerData,
   {
     whiteSrc: hathos,
@@ -56,8 +56,8 @@ Lead Engineer`,
   },
 ];
 
-export function getEmployers(...names: string[]): Employer[] {
+export function getEmployers(...names: string[]): EmployerData[] {
   return names
     .map((name) => allEmployerData.find((employer) => employer.name === name))
-    .filter((employer): employer is Employer => employer !== undefined);
+    .filter((employer): employer is EmployerData => employer !== undefined);
 }

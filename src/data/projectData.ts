@@ -7,7 +7,7 @@ import abcmouseLogo from "@/assets/projects/abcmouse/compressed/abcmouse-icon.we
 import clawfaceLogo from "@/assets/projects/clawface/compressed/icon.webp";
 
 import { getSkills, SkillData } from "./skillsData";
-import { Employer, getEmployers } from "./employerData";
+import { EmployerData, getEmployers } from "./employerData";
 
 export interface Project {
   title: "Tilt Tracker" | "Clawface" | "ABCmouse";
@@ -18,7 +18,7 @@ export interface Project {
   color: string; // Background color for category
   textColor: string; // Text color for category
   skills: SkillData[];
-  employers: Employer[];
+  employers: EmployerData[];
   iconSrc: string;
 }
 
