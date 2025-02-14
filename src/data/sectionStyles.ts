@@ -1,4 +1,4 @@
-import { CustomPalette } from "../theme";
+import { CustomPalette } from "../theme/theme.ts";
 import { cp, isColorDark } from "../utils/utils";
 import React from "react";
 

@@ -3,7 +3,7 @@ import { MediaItem, ProjectDetail } from "../../../data/projectDetails.tsx";
 import { Box, Typography, Grid, Button, useMediaQuery } from "@mui/material";
 import MediaCarousel from "./MediaCarousel/MediaCarousel";
 import InvertableImage from "../../components/reusable/InvertableImage";
-import { ThemeMode, useCustomPalette } from "../../../theme";
+import { ThemeMode, useCustomPalette } from "../../../theme/theme.ts";
 import { useTheme } from "@mui/material/styles";
 import StoryChapter from "./StoryChapter";
 import NavigationControls from "./MediaCarousel/NavigationControls.tsx";

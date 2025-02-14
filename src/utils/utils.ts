@@ -1,4 +1,4 @@
-import { useCustomPalette } from "../theme";
+import { useCustomPalette } from "../theme/theme.ts";
 
 export function toSlug(title: string): string {
   return title.toLowerCase().replace(/\s+/g, "");

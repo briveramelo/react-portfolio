@@ -1,4 +1,4 @@
-import { useTheme, createTheme } from "@mui/material/styles";
+import { useTheme, createTheme, Theme } from "@mui/material/styles";
 import sun from "@/assets/sun-d.svg";
 import moon from "@/assets/moon-d.svg";
 import moustache from "@/assets/moustache-smile2.svg";
@@ -74,6 +74,10 @@ export interface CustomPalette {
     secondary: string;
   };
   experience: typeof experience;
+  scrollbar: {
+    background: string;
+    bar: string;
+  };
 }
 
 const Pop = createTheme({
@@ -119,6 +123,10 @@ const Pop = createTheme({
     experience: {
       ...experience,
       empty: "rgb(60,60,60)",
+    },
+    scrollbar: {
+      background: "rgb(109,109,109)",
+      bar: "rgb(24, 24, 24)",
     },
   },
   typography,
@@ -168,6 +176,10 @@ const Dark = createTheme({
       ...experience,
       empty: "rgb(60,60,60)",
     },
+    scrollbar: {
+      background: "rgb(64,64,64)",
+      bar: "rgb(24, 24, 24)",
+    },
   },
   typography,
 });
@@ -215,6 +227,10 @@ const Light = createTheme({
     experience: {
       ...experience,
       empty: "rgb(218,218,218)",
+    },
+    scrollbar: {
+      background: "rgb(245, 245, 240)",
+      bar: "rgb(18,126,215)",
     },
   },
   typography,

@@ -6,7 +6,7 @@ import {
   starArcAnimationDurationMs,
   maxYearsOfExperience,
 } from "../../../data/constants.ts";
-import { useCustomPalette } from "../../../theme.ts";
+import { useCustomPalette } from "../../../theme/theme.ts";
 
 interface ExperienceCategoryArcProps {
   years: number;

@@ -1,5 +1,5 @@
 import React from "react";
-import { useCustomPalette } from "../../../theme.ts";
+import { useCustomPalette } from "../../../theme/theme.ts";
 
 interface HighlightedTextProps extends React.HTMLAttributes<HTMLSpanElement> {
   children: React.ReactNode;

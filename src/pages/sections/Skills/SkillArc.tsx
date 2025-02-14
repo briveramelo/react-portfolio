@@ -7,7 +7,7 @@ import {
 } from "../../../data/constants.ts";
 import { useAnimatedValue } from "../../../utils/hooks/useAnimatedValue.ts";
 import HalfStar from "./HalfStar.tsx";
-import { useCustomPalette } from "../../../theme.ts";
+import { useCustomPalette } from "../../../theme/theme.ts";
 
 interface SkillCategoryArcProps {
   starCount: number; // Accepts full or half values (e.g. 1, 1.5, 2, 2.5)

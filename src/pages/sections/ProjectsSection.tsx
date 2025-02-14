@@ -11,7 +11,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { ProjectCard } from "./Projects/ProjectCard.tsx";
 import ProjectDetails from "./Projects/ProjectDetails.tsx";
 import { Project, projectData } from "../../data/projectData";
-import { ThemeMode, useCustomPalette } from "../../theme";
+import { ThemeMode, useCustomPalette } from "../../theme/theme.ts";
 import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import { Collapsible } from "../components/reusable/Collapsible.tsx";
 import { ProjectDetail, projectDetails } from "../../data/projectDetails.tsx";

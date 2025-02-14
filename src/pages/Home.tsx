@@ -7,7 +7,7 @@ import { TestimonialsSection } from "./sections/TestimonialsSection";
 import { RecentWorkSection } from "./sections/RecentWorkSection";
 import { ContactSection } from "./sections/ContactSection.tsx";
 import { InstitutionsSection } from "./sections/InstitutionsSection.tsx";
-import { ThemeMode, useCustomPalette } from "../theme";
+import { ThemeMode, useCustomPalette } from "../theme/theme.ts";
 import { NavLink, sectionStyles } from "../data/sectionStyles";
 
 export function HomePage() {

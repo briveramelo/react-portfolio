@@ -5,7 +5,7 @@ import StarIcon from "@/assets/star.svg?react";
 
 import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import { skillsData } from "../../data/skillsData";
-import { ThemeMode, useCustomPalette } from "../../theme";
+import { ThemeMode, useCustomPalette } from "../../theme/theme.ts";
 import ExperienceCategory from "./Skills/ExperienceCategory";
 import SkillCategory from "./Skills/SkillCategory";
 import { generateGravityBounceScaleKeyframes } from "../../utils/keyframeGenerator.ts";

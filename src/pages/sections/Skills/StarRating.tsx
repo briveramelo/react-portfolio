@@ -6,7 +6,7 @@ import {
   starPopAnimationDurationMs,
 } from "../../../data/constants.ts";
 import { useAnimatedValue } from "../../../utils/hooks/useAnimatedValue.ts";
-import { useCustomPalette } from "../../../theme.ts";
+import { useCustomPalette } from "../../../theme/theme.ts";
 
 interface StarRatingProps {
   count: number; // 1–5
