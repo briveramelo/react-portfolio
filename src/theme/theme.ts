@@ -125,8 +125,8 @@ const Pop = createTheme({
       empty: "rgb(60,60,60)",
     },
     scrollbar: {
-      background: "rgb(109,109,109)",
-      bar: "rgb(24, 24, 24)",
+      background: "rgb(24, 24, 24)",
+      bar: "rgb(109,109,109)",
     },
   },
   typography,
@@ -177,8 +177,8 @@ const Dark = createTheme({
       empty: "rgb(60,60,60)",
     },
     scrollbar: {
-      background: "rgb(64,64,64)",
-      bar: "rgb(24, 24, 24)",
+      background: "rgb(24, 24, 24)",
+      bar: "rgb(64,64,64)",
     },
   },
   typography,

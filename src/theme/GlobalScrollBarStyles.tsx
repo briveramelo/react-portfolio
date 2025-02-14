@@ -6,7 +6,7 @@ export const GlobalScrollbarStyles = (theme: Theme) => (
       html: {
         /* WebKit-based browsers */
         "&::-webkit-scrollbar": {
-          width: "12px",
+          width: "24px",
         },
         "&::-webkit-scrollbar-track": {
           background: theme.customPalette.scrollbar.background,
@@ -18,7 +18,7 @@ export const GlobalScrollbarStyles = (theme: Theme) => (
         },
         /* Firefox */
         scrollbarColor: `${theme.customPalette.scrollbar.bar} ${theme.customPalette.scrollbar.background}`,
-        scrollbarWidth: "thin",
+        scrollbarWidth: "auto",
       },
     }}
   />
