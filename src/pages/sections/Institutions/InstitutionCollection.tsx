@@ -32,16 +32,10 @@ const InstitutionCollection: React.FC<InstitutionCollectionProps> = ({
       }}
     >
       <Box maxWidth={"lg"} mx={"auto"}>
-        <Typography variant="h1" sx={{ color: textColor, mt: 4 }}>
+        <Typography variant="h3" sx={{ color: textColor, mt: 4 }}>
           {title}
         </Typography>
-        <Grid
-          container
-          spacing={12}
-          justifyContent="center"
-          // alignItems="center"
-          pt={1}
-        >
+        <Grid container spacing={12} justifyContent="center" pt={1}>
           {data.map((item, index) => (
             <Grid key={`${item.name}-${index}`} item xs={10} sm={6} md={4}>
               <Institution

@@ -55,21 +55,29 @@ const Skill: React.FC<SkillProps> = ({
       id={hoverKey}
     >
       {/* Skill Icon - Center Aligned */}
-      <Grid
-        item
-        sx={{
-          width: iconSize,
-          height: iconSize,
-          flexShrink: 0,
-          textAlign: "center",
-        }}
-      >
-        <InvertableImage
-          src={src}
-          alt={name}
-          invert={useLight && !!invertIfLight}
-        />
-      </Grid>
+      <Box sx={{ position: "relative", display: "inline-block" }}>
+        <Grid
+          item
+          sx={{
+            width: iconSize,
+            height: iconSize,
+            flexShrink: 0,
+            textAlign: "center",
+          }}
+        >
+          <InvertableImage
+            src={src}
+            alt={name}
+            invert={useLight && !!invertIfLight}
+          />
+        </Grid>
+        {isKeyHovered(hoverKey) && skill.hasRelatedProjects() && (
+          <RelatedProjects
+            hoverKey={hoverKey}
+            projects={skill.getRelatedProjects()}
+          />
+        )}
+      </Box>
 
       {/* Fixed gap between icon and name */}
       <Box sx={{ width: fixedGap, flexShrink: 0 }} />
@@ -113,12 +121,6 @@ const Skill: React.FC<SkillProps> = ({
           isSectionVisible={isSectionVisible}
         />
       </Grid>
-      {isKeyHovered(hoverKey) && skill.hasRelatedProjects() && (
-        <RelatedProjects
-          hoverKey={hoverKey}
-          projects={skill.getRelatedProjects()}
-        />
-      )}
     </Grid>
   );
 };

@@ -25,7 +25,7 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
       onPointerLeave={() => onHoverChange(hoverKey, false)}
       sx={{
         position: "absolute",
-        top: "100%",
+        top: "90%",
         left: 30,
         backgroundColor: cp("background.paper"),
         color: "white",
@@ -46,6 +46,7 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
               textDecoration: "underline",
               fontWeight: "bold",
               fontSize: "1.05rem",
+              whiteSpace: "nowrap",
             }}
           >
             Related Projects
@@ -94,7 +95,7 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
                 <Typography
                   variant="body1"
                   color={cp("text.paper")}
-                  sx={{ ml: 2 }}
+                  sx={{ ml: 2, whiteSpace: "nowrap" }}
                 >
                   {project.title}
                 </Typography>

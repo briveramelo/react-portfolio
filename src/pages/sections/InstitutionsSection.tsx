@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React, { forwardRef } from "react";
 import {
   featuredEmployerData,
@@ -6,6 +6,7 @@ import {
 } from "../../data/institutionData.ts";
 import { useHoverTracking } from "../../utils/tracking/hooks/useHoverTracking.ts";
 import InstitutionCollection from "./Institutions/InstitutionCollection.tsx";
+import { OpenInNew } from "@mui/icons-material";
 
 interface InstitutionsProps {
   backgroundColor: string;
@@ -29,16 +30,29 @@ export const InstitutionsSection = forwardRef<HTMLElement, InstitutionsProps>(
           backgroundColor: backgroundColor,
           color: textColor,
           pb: 5,
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+          justifyContent: "space-between",
         }}
         ref={ref}
       >
+        <Box sx={{ textAlign: "center", mb: 4 }}>
+          <Typography
+            variant="h1"
+            gutterBottom
+            sx={{ fontWeight: "bold", color: textColor }}
+          >
+            Institutions
+          </Typography>
+        </Box>
         <InstitutionCollection
           title={"Industry"}
           textColor={textColor}
           invertImage={invertImages}
           data={featuredEmployerData}
         />
-        <Box height={20} />
+        <Box height={60} sx={{ flexShrink: 1 }} />
         <InstitutionCollection
           title={"Academia"}
           textColor={textColor}
