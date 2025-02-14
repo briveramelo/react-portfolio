@@ -3,7 +3,7 @@ import { Box, IconButton } from "@mui/material";
 import SpeakerIcon from "@mui/icons-material/VolumeUp";
 import { getStorage } from "firebase/storage";
 import FirebaseAsset from "./FirebaseAsset";
-import { AudioButtonData } from "../../../../data/projectDetails";
+import { AudioButtonData } from "../../../../data/projectDetails.tsx";
 import { firebaseApp } from "../../../../firebaseConfig";
 import {
   firebaseAssetCacheKey,

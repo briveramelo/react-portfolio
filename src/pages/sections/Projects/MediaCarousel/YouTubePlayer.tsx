@@ -1,24 +1,48 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Box } from "@mui/material";
 
 interface YouTubePlayerProps {
   src: string;
+  title: string;
+  isActive: boolean;
 }
 
-const YouTubePlayer: React.FC<YouTubePlayerProps> = ({ src }) => {
+const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
+  src,
+  title,
+  isActive,
+}) => {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  // Pause the video when inactive
+  useEffect(() => {
+    if (!isActive && iframeRef.current) {
+      iframeRef.current.contentWindow?.postMessage(
+        JSON.stringify({
+          event: "command",
+          func: "pauseVideo",
+          args: [],
+        }),
+        "*",
+      );
+    }
+  }, [isActive]);
+
   return (
     <Box
       sx={{
         position: "relative",
         width: "100%",
-        paddingBottom: "56.25%", // enforces a 16:9 ratio.
+        paddingBottom: "54.25%", // fills the play area
       }}
     >
       <iframe
-        src={src}
-        title="YouTube video"
+        ref={iframeRef}
+        src={`${src}`}
+        title={title}
         frameBorder="0"
         allowFullScreen
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         style={{
           position: "absolute",
           top: 0,

@@ -14,7 +14,7 @@ import { Project, projectData } from "../../data/projectData";
 import { ThemeMode, useCustomPalette } from "../../theme";
 import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import { Collapsible } from "../components/reusable/Collapsible.tsx";
-import { ProjectDetail, projectDetails } from "../../data/projectDetails.ts";
+import { ProjectDetail, projectDetails } from "../../data/projectDetails.tsx";
 import { HoverExpandContainer } from "../components/reusable/HoverExpandContainer.tsx";
 import AnimatedCursor from "../components/specialty/AnimatedCursor.tsx";
 import { toSlug } from "../../utils/utils.ts";

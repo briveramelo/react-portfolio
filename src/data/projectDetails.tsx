@@ -3,6 +3,11 @@ import { projectData } from "./projectData.ts";
 import joshTilt from "@/assets/projects/josh-tilt-cropped.webp";
 import abcmouse from "@/assets/projects/abcmouse.webp";
 import clawface from "@/assets/projects/clawface.jpg";
+import SteamIcon from "@/assets/skills/steam.svg?react";
+import AndroidIcon from "@/assets/skills/android.svg?react";
+import AppleIcon from "@/assets/skills/apple.svg?react";
+import React from "react";
+import { Box } from "@mui/material";
 
 export interface AudioButtonData {
   audioPath: string;
@@ -32,8 +37,10 @@ export type ProjectDetail = {
   description: string;
   media: MediaItem[];
   skills: SkillData[] | null;
-  github: string;
-  liveDemo: string;
+  githubUrl: string;
+  liveUrl: string;
+  liveUrlText: string;
+  liveUrlIcon: React.ReactNode;
 };
 
 const dash = "&#45;";
@@ -212,7 +219,7 @@ Users can also choose if they want fun beeps, buzzes, or flashes for the other k
         text: "As the team downsized, I gradually took on the entire tech stack and client meetings. Dr. Jeffrey Rosenbluth M.D., project sponsor and Director of Spinal Cord Injury at the University of Utah, eventually hired me full time.",
       },
       {
-        src: "https://www.youtube-nocookie.com/embed/AgdABWQStZo?rel=0",
+        src: "https://www.youtube-nocookie.com/embed/AgdABWQStZo?rel=0&enablejsapi=1",
         alt: "gource video",
         type: "youtube",
         text: "Here is a gource visualization of all code additions, deletions, and modifications made in git source control over time (excluding the original sensor prototype). You will see a directory naming depth of just one, including each of the submodule repositories in use: API (Java, Spring, Maven), Web (NodeJS, jQuery, HTML, CSS), Sensor (C++, Particle IoT), Db (MariaDB, SQL), Mqtt (mosquitto), Data, CI/CD (GitLab .yml, Bash), Singularity (Bash), and Super.",
@@ -263,8 +270,10 @@ ${dash} Tilt Tracker user`,
     ],
     skills:
       projectData.find((elm) => elm.title === "Tilt Tracker")?.skills ?? null,
-    github: "",
-    liveDemo: "",
+    githubUrl: "",
+    liveUrl: "",
+    liveUrlText: "",
+    liveUrlIcon: <SteamIcon />,
   },
   {
     title: "ABCmouse",
@@ -280,8 +289,28 @@ ${dash} Tilt Tracker user`,
       },
     ],
     skills: projectData.find((elm) => elm.title === "ABCmouse")?.skills ?? null,
-    github: "",
-    liveDemo: "",
+    githubUrl: "",
+    liveUrl:
+      "https://apps.apple.com/us/app/abcmouse-reading-math-games/id586328581",
+    liveUrlText: "App Store",
+    liveUrlIcon: (
+      <Box sx={{ display: "inline-flex", alignItems: "center" }}>
+        <AppleIcon style={{ width: 20, height: 20, color: "inherit" }} />
+        <Box sx={{ mx: 0.5 }} />
+        <Box
+          component="a"
+          href="https://play.google.com/store/apps/details?id=mobi.abcmouse.academy_goo&hl=en_US&pli=1"
+          sx={{
+            display: "inline-flex", // ensure the anchor is inline
+            alignItems: "center",
+            color: "unset",
+            textDecoration: "none",
+          }}
+        >
+          <AndroidIcon style={{ width: 20, height: 20, color: "inherit" }} />
+        </Box>
+      </Box>
+    ),
   },
   {
     title: "Clawface",
@@ -295,9 +324,31 @@ ${dash} Tilt Tracker user`,
         type: "image",
         text: "",
       },
+      {
+        src: "https://www.youtube-nocookie.com/embed/Qy-SYG2P4SA?rel=0&enablejsapi=1",
+        alt: "Trailer",
+        type: "youtube",
+        text: "",
+      },
+      {
+        src: "https://www.youtube-nocookie.com/embed/A41UPDj2UNg?rel=0&enablejsapi=1",
+        alt: "Retrospective",
+        type: "youtube",
+        text: "",
+      },
+      {
+        src: "https://www.youtube-nocookie.com/embed/1kNYnjChNVM?rel=0&enablejsapi=1",
+        alt: "Level Editor",
+        type: "youtube",
+        text: "",
+      },
     ],
     skills: projectData.find((elm) => elm.title === "Clawface")?.skills ?? null,
-    github: "",
-    liveDemo: "",
+    githubUrl: "https://github.com/briveramelo/Clawface",
+    liveUrl: "https://store.steampowered.com/app/785130/Clawface/",
+    liveUrlText: "Steam",
+    liveUrlIcon: (
+      <SteamIcon style={{ width: 20, height: 20, color: "inherit" }} />
+    ),
   },
 ];

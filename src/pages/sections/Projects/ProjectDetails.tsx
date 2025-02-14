@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { MediaItem, ProjectDetail } from "../../../data/projectDetails";
+import { MediaItem, ProjectDetail } from "../../../data/projectDetails.tsx";
 import { Box, Typography, Grid, Button, useMediaQuery } from "@mui/material";
 import MediaCarousel from "./MediaCarousel/MediaCarousel";
 import InvertableImage from "../../components/reusable/InvertableImage";
@@ -9,6 +9,7 @@ import StoryChapter from "./StoryChapter";
 import NavigationControls from "./MediaCarousel/NavigationControls.tsx";
 import { trackCustomEvent } from "../../../utils/tracking/plausibleHelpers.ts";
 import withDwellTimeTracking from "../../../utils/tracking/withDwellTimeTracking.tsx";
+import ProjectLiveLinks from "./ProjectLiveLinks.tsx";
 
 interface ProjectDetailsProps {
   project: ProjectDetail;
@@ -20,7 +21,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
-  const { media, skills, github, liveDemo } = project;
+  const { media, skills, githubUrl, liveUrl } = project;
   const [chapterTitleIndex, setChapterTitleIndex] = useState<number>(0);
   const [selectedMediaIndex, setSelectedMediaIndex] = useState<number>(0);
   const [hasBeenClicked, setHasBeenClicked] = useState<boolean>(false);
@@ -204,28 +205,12 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
       </Box>
 
       {/* Call to Action */}
-      <Box sx={{ mt: 4, textAlign: "center" }}>
-        {github && (
-          <Button
-            variant="contained"
-            href={github}
-            target="_blank"
-            sx={{ mx: 1 }}
-          >
-            GitHub
-          </Button>
-        )}
-        {liveDemo && (
-          <Button
-            variant="outlined"
-            href={liveDemo}
-            target="_blank"
-            sx={{ mx: 1 }}
-          >
-            Live Demo
-          </Button>
-        )}
-      </Box>
+      <ProjectLiveLinks
+        liveUrl={project.liveUrl}
+        liveUrlIcon={project.liveUrlIcon}
+        liveUrlText={project.liveUrlText}
+        githubUrl={project.githubUrl}
+      />
     </Box>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, Card, CardMedia } from "@mui/material";
-import { MediaItem } from "../../../../data/projectDetails.ts";
+import { MediaItem } from "../../../../data/projectDetails.tsx";
 import PdfViewer from "./PdfViewer.tsx";
 import YouTubePlayer from "./YouTubePlayer.tsx";
 import FirebaseImage from "./FirebaseImage.tsx";
@@ -113,7 +113,11 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
             ) : item.type === "pdf" ? (
               <PdfViewer pdfUrl={item.src} />
             ) : item.type === "youtube" ? (
-              <YouTubePlayer src={item.src} />
+              <YouTubePlayer
+                src={item.src}
+                title={item.alt}
+                isActive={index === selectedIndex}
+              />
             ) : item.type === "quote" ? (
               <Quote content={item.src} />
             ) : (
