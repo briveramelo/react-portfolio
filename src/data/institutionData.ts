@@ -99,7 +99,7 @@ Lead Engineer`,
   },
 ];
 
-export function getEmployers(...names: string[]): InstitutionData[] {
+export function getInstitutions(...names: string[]): InstitutionData[] {
   return names
     .map((name) =>
       allInstitutionsData.find((institution) => institution.name === name),

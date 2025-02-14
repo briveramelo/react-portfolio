@@ -213,7 +213,10 @@ export function Header({
           <Typography
             component="a"
             href="#home"
-            onClick={() => handleNavClick("#home")}
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick("#home");
+            }}
             color={colors.text}
             sx={{
               whiteSpace: "nowrap",

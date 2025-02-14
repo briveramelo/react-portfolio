@@ -7,7 +7,7 @@ import abcmouseLogo from "@/assets/projects/abcmouse/compressed/abcmouse-icon.we
 import clawfaceLogo from "@/assets/projects/clawface/compressed/icon.webp";
 
 import { getSkills, SkillData } from "./skillsData";
-import { InstitutionData, getEmployers } from "./institutionData.ts";
+import { InstitutionData, getInstitutions } from "./institutionData.ts";
 
 export interface Project {
   title: "Tilt Tracker" | "Clawface" | "ABCmouse";
@@ -46,7 +46,7 @@ export const projectData: Project[] = [
       "C#",
       "HIPAA",
     ),
-    institutions: getEmployers("UHealth", "The GApp Lab"),
+    institutions: getInstitutions("UHealth", "The GApp Lab"),
     iconSrc: tiltLogo,
   },
   {
@@ -58,7 +58,7 @@ export const projectData: Project[] = [
     color: "#1e88e5",
     textColor: "#ffffff",
     skills: getSkills("Unity", "C#"),
-    institutions: getEmployers("Age of Learning"),
+    institutions: getInstitutions("Age of Learning"),
     iconSrc: abcmouseLogo,
   },
   {
@@ -70,7 +70,7 @@ export const projectData: Project[] = [
     color: "#1e88e5",
     textColor: "#ffffff",
     skills: getSkills("Unity", "C#"),
-    institutions: getEmployers("Hathos Interactive"),
+    institutions: getInstitutions("Hathos Interactive"),
     iconSrc: clawfaceLogo,
   },
 ];

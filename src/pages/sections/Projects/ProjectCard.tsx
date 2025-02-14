@@ -144,7 +144,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 {projectData.title}
               </Typography>
 
-              {/* Employer Logos */}
+              {/* Institution Logos */}
               <Box
                 sx={{
                   display: "flex",
@@ -155,9 +155,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                   flexWrap: "wrap",
                 }}
               >
-                {projectData.employers.map((employer) => (
+                {projectData.institutions.map((institution, index) => (
                   <Box
-                    key={employer.name}
+                    key={`${institution.name}-${index}`}
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -166,8 +166,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                     }}
                   >
                     <img
-                      src={employer.logoSrc}
-                      alt={employer.name}
+                      src={institution.logoSrc}
+                      alt={institution.name}
                       style={{
                         maxHeight: "100%",
                         width: "auto",
