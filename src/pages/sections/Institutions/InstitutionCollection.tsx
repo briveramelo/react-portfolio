@@ -19,6 +19,7 @@ const InstitutionCollection: React.FC<InstitutionCollectionProps> = ({
   return (
     <Box
       sx={{
+        px: "clamp(16px, 5vw, 32px)",
         width: "100%",
         "&:hover .colored": {
           opacity: "1 !important",
@@ -37,7 +38,7 @@ const InstitutionCollection: React.FC<InstitutionCollectionProps> = ({
         </Typography>
         <Grid container spacing={12} justifyContent="center" pt={1}>
           {data.map((item, index) => (
-            <Grid key={`${item.name}-${index}`} item xs={10} sm={6} md={4}>
+            <Grid key={`${item.name}-${index}`} item xs={12} sm={6} md={4}>
               <Institution
                 institution={item}
                 textColor={textColor}

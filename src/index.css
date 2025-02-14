@@ -56,3 +56,6 @@
     box-shadow: var(--shadow-elevation-high) !important;
   }
 }
+body {
+  overflow-x: hidden;
+}
