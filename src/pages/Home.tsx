@@ -6,7 +6,7 @@ import { ProjectsSection } from "./sections/ProjectsSection.tsx";
 import { TestimonialsSection } from "./sections/TestimonialsSection";
 import { RecentWorkSection } from "./sections/RecentWorkSection";
 import { ContactSection } from "./sections/ContactSection.tsx";
-import { EmployersSection } from "./sections/EmployersSection.tsx";
+import { InstitutionsSection } from "./sections/InstitutionsSection.tsx";
 import { ThemeMode, useCustomPalette } from "../theme";
 import { NavLink, sectionStyles } from "../data/sectionStyles";
 
@@ -19,7 +19,7 @@ export function HomePage() {
 
   const heroRef = useRef<HTMLElement | null>(null);
   const heroLinkRef = useRef<HTMLElement | null>(null);
-  const employersRef = useRef<HTMLElement | null>(null);
+  const institutionsRef = useRef<HTMLElement | null>(null);
   const skillsRef = useRef<HTMLElement | null>(null);
   const projectsRef = useRef<HTMLElement | null>(null);
   const testimonialsRef = useRef<HTMLElement | null>(null);
@@ -28,7 +28,7 @@ export function HomePage() {
 
   const sectionRefs = [
     heroRef,
-    employersRef,
+    institutionsRef,
     skillsRef,
     projectsRef,
     testimonialsRef,
@@ -38,13 +38,13 @@ export function HomePage() {
 
   const desktopHiddenNavLinks: string[] = [
     "#home",
-    "#employers",
+    "#institutions",
     // "#recent",
   ];
 
   const allNavLinks: NavLink[] = [
     { ref: heroLinkRef, href: "#home", label: "Home", offset: 200 },
-    { ref: employersRef, href: "#employers", label: "Employers" },
+    { ref: institutionsRef, href: "#institutions", label: "Institutions" },
     { ref: skillsRef, href: "#experience", label: "Experience" },
     { ref: projectsRef, href: "#projects", label: "Projects" },
     { ref: testimonialsRef, href: "#testimonials", label: "Testimonials" },
@@ -69,12 +69,12 @@ export function HomePage() {
         backgroundColor={sectionStyles.home.backgroundColor}
         textColor={sectionStyles.home.textColor}
       />
-      <EmployersSection
-        ref={employersRef}
-        id="employers"
-        backgroundColor={sectionStyles.employers.backgroundColor}
-        textColor={sectionStyles.employers.textColor}
-        useDarkImages={mode !== ThemeMode.Dark}
+      <InstitutionsSection
+        ref={institutionsRef}
+        id="institutions"
+        backgroundColor={sectionStyles.institutions.backgroundColor}
+        textColor={sectionStyles.institutions.textColor}
+        invertImages={mode !== ThemeMode.Dark}
       />
       <SkillsSection
         ref={skillsRef}

@@ -60,7 +60,7 @@ Peruse the portfolio and see how we might build a healthier world at scale.
             height={20}
             linkSx={{ fontSize: "1.15rem", fontWeight: "bold" }}
             firebasePath="resumes/brm-resume-2025.01-portfolio-utm.pdf"
-            linkText="Resume"
+            linkText="Resumé"
           />
         </Box>
       )}

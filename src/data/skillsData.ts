@@ -76,34 +76,6 @@ export interface SkillCategoryData {
 
 export const skillsData: SkillCategoryData[] = [
   {
-    category: "Cloud Services",
-    skills: [
-      new SkillData({
-        name: "AWS",
-        starCount: 3,
-        years: [2018, 2023, 2024],
-        srcLight: awsW,
-        srcDark: aws,
-        relatedProjectTitles: ["Tilt Tracker"],
-      }),
-      new SkillData({
-        name: "GCP",
-        starCount: 4,
-        years: [2024, 2025],
-        srcLight: googleCloud,
-        srcDark: googleCloud,
-      }),
-      new SkillData({
-        name: "Docker",
-        starCount: 4,
-        years: [2020, 2021, 2022, 2023, 2024, 2025],
-        srcLight: docker,
-        srcDark: docker,
-        relatedProjectTitles: ["Tilt Tracker"],
-      }),
-    ],
-  },
-  {
     category: "Web Front-end",
     skills: [
       new SkillData({
@@ -143,6 +115,34 @@ export const skillsData: SkillCategoryData[] = [
         years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025],
         srcLight: jquery,
         srcDark: jquery,
+        relatedProjectTitles: ["Tilt Tracker"],
+      }),
+    ],
+  },
+  {
+    category: "Cloud Services",
+    skills: [
+      new SkillData({
+        name: "AWS",
+        starCount: 3,
+        years: [2018, 2023, 2024],
+        srcLight: awsW,
+        srcDark: aws,
+        relatedProjectTitles: ["Tilt Tracker"],
+      }),
+      new SkillData({
+        name: "GCP",
+        starCount: 4,
+        years: [2024, 2025],
+        srcLight: googleCloud,
+        srcDark: googleCloud,
+      }),
+      new SkillData({
+        name: "Docker",
+        starCount: 4,
+        years: [2020, 2021, 2022, 2023, 2024, 2025],
+        srcLight: docker,
+        srcDark: docker,
         relatedProjectTitles: ["Tilt Tracker"],
       }),
     ],
