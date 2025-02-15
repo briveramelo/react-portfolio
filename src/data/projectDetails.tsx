@@ -314,7 +314,7 @@ The next 3 media items in this 'chapter' are 1-minute videos showing various sta
         type: "firebaseImage",
         text: `Supporting the iPad 2 as the primary device in libraries and schools across the world required heavy optimization. With only 512MB of RAM available, using around 300MB (roughly 60%) would trigger app crashes. A team of engineers and I identified an opportunity with Unity AssetBundles.
 ${_}
-We redesigned the app internals to load and unload resources on demand using an in-house API and caching mechanism, while also addressing other memory leaks from static variables and lingering closures. These changes reduced app startup times by 50%, eliminated app crashes on low-end devices, and expanded learning access to tens of thousands of children worldwide.`,
+We redesigned the app internals to load and unload resources on demand using an in-house API and caching mechanism, while also addressing other memory leaks from static variables and lingering closures. In conjunction with the refactoring of performance-intensive C# reflection operations to use more performant alternatives, these changes reduced app startup times by 50%, eliminated app crashes on low-end devices, and expanded learning access to tens of thousands of children worldwide.`,
       },
       {
         src: "abcmouse/leanplum-dashboard-sample.webp",
@@ -337,12 +337,12 @@ _The picture featured here is a sample Leanplum dashboard and does not represent
         text: `I also upgraded the app's infrastructure to support Android's 64-bit upgrade requirements and ensure future compatibility. This involved careful review of all media assets and external plugins, updating those where necessary.`,
       },
       {
-        src: "abcmouse/All-Contributions.pdf",
+        src: "abcmouse/AgeOfLearning-AllContributions-Redacted.pdf",
         alt: "",
         type: "firebasePdf",
-        text: `I kept a log of nearly all of the contributions I made during my tenure at Age of Learning - a sort of receipt for the engineering leadership team during performance reviews.
+        text: `I kept a log of nearly all of the contributions I made during my tenure at Age of Learning - a sort of receipt for the engineering leadership team during performance reviews. Some specifics have been removed to maintain ethical adherence to the employee agreement non-disclosure requirements.
 ${_}
-The management team was impressed by my initiative in assisting QA automation teammate Don Johnson to streamline our testing process. I developed a recording tool to capture the names of interactive elements, which are essential for writing reliable, programmatic system tests for the ABCmouse mobile app. Don estimated it saved him a day's worth of work for every test he needed to write.`,
+The management team was impressed by my initiative in assisting a QA automation teammate to streamline our testing process. I developed a recording tool to capture the names of interactive elements, which are essential for writing reliable, programmatic system tests for the ABCmouse mobile app. One colleague estimated it saved him a day's worth of work for every test he needed to write.`,
       },
       {
         src: "abcmouse/brandon-and-adam.webp",
@@ -382,13 +382,6 @@ _This was my first day in the office with friend and colleague, Adam Kay._`,
     description:
       "Clawface is a twin-stick, arcade-style shooter published to Steam",
     media: [
-      {
-        chapterTitle: "Coming soon",
-        src: clawface,
-        alt: "",
-        type: "image",
-        text: "",
-      },
       {
         src: "https://www.youtube-nocookie.com/embed/Qy-SYG2P4SA?rel=0&enablejsapi=1",
         alt: "Trailer",
