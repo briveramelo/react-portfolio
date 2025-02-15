@@ -21,7 +21,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
-  const { media, skills, githubUrl, liveUrl } = project;
+  const { media, skills } = project;
   const [chapterTitleIndex, setChapterTitleIndex] = useState<number>(0);
   const [selectedMediaIndex, setSelectedMediaIndex] = useState<number>(0);
   const [hasBeenClicked, setHasBeenClicked] = useState<boolean>(false);
@@ -205,12 +205,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
       </Box>
 
       {/* Call to Action */}
-      <ProjectLiveLinks
-        liveUrl={project.liveUrl}
-        liveUrlIcon={project.liveUrlIcon}
-        liveUrlText={project.liveUrlText}
-        githubUrl={project.githubUrl}
-      />
+      <ProjectLiveLinks links={project.links} />
     </Box>
   );
 };

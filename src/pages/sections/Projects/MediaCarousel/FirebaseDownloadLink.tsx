@@ -32,7 +32,6 @@ const FirebaseDownloadLink: React.FC<FirebaseDownloadLinkProps> = ({
 
   const handleDownload = async () => {
     if (!user) {
-      console.error("User not authenticated.");
       return;
     }
     if (isLoading) return; // Prevent duplicate clicks

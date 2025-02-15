@@ -1,47 +1,44 @@
 import React from "react";
 import { Box, Button } from "@mui/material";
-import GitHubIcon from "@mui/icons-material/GitHub";
+import { ProjectLink } from "../../../data/projectDetails";
+import { useCustomPalette } from "../../../theme/theme";
 
 interface ProjectLiveLinksProps {
-  liveUrl?: string;
-  liveUrlText?: string;
-  liveUrlIcon?: React.ReactNode;
-  githubUrl?: string;
+  links: ProjectLink[];
 }
 
-const ProjectLiveLinks: React.FC<ProjectLiveLinksProps> = ({
-  liveUrl,
-  liveUrlText,
-  liveUrlIcon,
-  githubUrl,
-}) => {
+const ProjectLiveLinks: React.FC<ProjectLiveLinksProps> = ({ links }) => {
+  const { interactable } = useCustomPalette();
   return (
-    <Box sx={{ mt: 2, textAlign: "center" }}>
-      {liveUrl && (
-        <Button
-          variant="contained"
-          href={liveUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          startIcon={liveUrlIcon}
-          sx={{ mx: 1 }}
-        >
-          {liveUrlText}
-        </Button>
-      )}
-      {githubUrl && (
-        <Button
-          variant="outlined"
-          href={githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          startIcon={<GitHubIcon />}
-          sx={{ mx: 1 }}
-        >
-          GitHub
-        </Button>
-      )}
-    </Box>
+    links &&
+    links.length > 0 && (
+      <Box
+        sx={{
+          mt: 2,
+          textAlign: "center",
+          display: "flex",
+          flexDirection: "row",
+          gap: 1,
+          justifyContent: "center",
+        }}
+      >
+        {links.map((link) => (
+          <Button
+            key={link.href}
+            component="a"
+            variant="contained"
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            startIcon={link.icon}
+            sx={{ backgroundColor: interactable.idle }}
+            className={"pop-shadow"}
+          >
+            {link.text}
+          </Button>
+        ))}
+      </Box>
+    )
   );
 };
 

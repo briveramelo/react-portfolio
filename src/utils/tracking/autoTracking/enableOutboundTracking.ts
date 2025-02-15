@@ -3,7 +3,7 @@ import { trackCustomEvent } from "../plausibleHelpers.ts";
 let observer: MutationObserver;
 
 function trackOutboundLink(event: Event) {
-  const target = event.target as HTMLElement;
+  const target = event.currentTarget as HTMLElement;
   if (!(target instanceof HTMLAnchorElement)) return;
 
   // Ensure it's an external link
@@ -18,7 +18,11 @@ function trackOutboundLink(event: Event) {
 
   // Delay navigation to ensure tracking completion
   setTimeout(() => {
-    window.location.href = target.href;
+    if (target.target === "_blank") {
+      window.open(target.href, "_blank", "noopener,noreferrer");
+    } else {
+      window.location.href = target.href;
+    }
   }, 150);
 }
 

@@ -30,7 +30,6 @@ const FirebaseAsset: React.FC<FirebaseAssetProps> = ({
     let isMounted = true;
 
     if (!user) {
-      console.error("User not authenticated.");
       setLoading(false);
       return;
     }

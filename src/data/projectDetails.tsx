@@ -1,13 +1,10 @@
 import { SkillData } from "./skillsData";
 import { projectData } from "./projectData.ts";
 import joshTilt from "@/assets/projects/josh-tilt-cropped.webp";
-import abcmouse from "@/assets/projects/abcmouse.webp";
-import clawface from "@/assets/projects/clawface.jpg";
 import SteamIcon from "@/assets/skills/steam.svg?react";
 import AndroidIcon from "@/assets/skills/android.svg?react";
 import AppleIcon from "@/assets/skills/apple.svg?react";
 import React from "react";
-import { Box } from "@mui/material";
 
 export interface AudioButtonData {
   audioPath: string;
@@ -32,20 +29,23 @@ export interface MediaItem {
   audioButtons?: AudioButtonData[];
 }
 
+export interface ProjectLink {
+  text: string;
+  href: string;
+  icon: React.ReactNode;
+}
+
 export type ProjectDetail = {
   title: string;
   description: string;
   media: MediaItem[];
   skills: SkillData[] | null;
-  githubUrl: string;
-  liveUrl: string;
-  liveUrlText: string;
-  liveUrlIcon: React.ReactNode;
+  links: ProjectLink[];
 };
 
 const dash = "&#45;";
 const _ = "&nbsp;"; //whitespace character. When on its own line, produces a line break.
-
+const iconStyle = { width: 20, height: 20, color: "inherit" };
 export const projectDetails: ProjectDetail[] = [
   {
     title: "Tilt Tracker",
@@ -270,10 +270,7 @@ ${dash} Tilt Tracker user`,
     ],
     skills:
       projectData.find((elm) => elm.title === "Tilt Tracker")?.skills ?? null,
-    githubUrl: "",
-    liveUrl: "",
-    liveUrlText: "",
-    liveUrlIcon: <SteamIcon />,
+    links: [],
   },
   {
     title: "ABCmouse",
@@ -354,28 +351,18 @@ _This was my first day in the office with friend and colleague, Adam Kay._`,
       },
     ],
     skills: projectData.find((elm) => elm.title === "ABCmouse")?.skills ?? null,
-    githubUrl: "",
-    liveUrl:
-      "https://apps.apple.com/us/app/abcmouse-reading-math-games/id586328581",
-    liveUrlText: "App Store",
-    liveUrlIcon: (
-      <Box sx={{ display: "inline-flex", alignItems: "center" }}>
-        <AppleIcon style={{ width: 20, height: 20, color: "inherit" }} />
-        <Box sx={{ mx: 0.5 }} />
-        <Box
-          component="a"
-          href="https://play.google.com/store/apps/details?id=mobi.abcmouse.academy_goo&hl=en_US&pli=1"
-          sx={{
-            display: "inline-flex", // ensure the anchor is inline
-            alignItems: "center",
-            color: "unset",
-            textDecoration: "none",
-          }}
-        >
-          <AndroidIcon style={{ width: 20, height: 20, color: "inherit" }} />
-        </Box>
-      </Box>
-    ),
+    links: [
+      {
+        href: "https://apps.apple.com/us/app/abcmouse-reading-math-games/id586328581",
+        text: "App Store",
+        icon: <AppleIcon style={iconStyle} />,
+      },
+      {
+        text: "Play Store",
+        href: "https://play.google.com/store/apps/details?id=mobi.abcmouse.academy_goo&hl=en_US&pli=1",
+        icon: <AndroidIcon style={iconStyle} />,
+      },
+    ],
   },
   {
     title: "Clawface",
@@ -402,11 +389,17 @@ _This was my first day in the office with friend and colleague, Adam Kay._`,
       },
     ],
     skills: projectData.find((elm) => elm.title === "Clawface")?.skills ?? null,
-    githubUrl: "https://github.com/briveramelo/Clawface",
-    liveUrl: "https://store.steampowered.com/app/785130/Clawface/",
-    liveUrlText: "Steam",
-    liveUrlIcon: (
-      <SteamIcon style={{ width: 20, height: 20, color: "inherit" }} />
-    ),
+    links: [
+      {
+        text: "Steam",
+        href: "https://store.steampowered.com/app/785130/Clawface/",
+        icon: <SteamIcon style={iconStyle} />,
+      },
+      {
+        text: "Github",
+        href: "https://github.com/briveramelo/Clawface",
+        icon: "",
+      },
+    ],
   },
 ];
