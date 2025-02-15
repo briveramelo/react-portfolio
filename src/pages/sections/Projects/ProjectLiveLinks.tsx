@@ -31,7 +31,12 @@ const ProjectLiveLinks: React.FC<ProjectLiveLinksProps> = ({ links }) => {
             target="_blank"
             rel="noopener noreferrer"
             startIcon={link.icon}
-            sx={{ backgroundColor: interactable.idle }}
+            sx={{
+              backgroundColor: interactable.idle,
+              "&:hover": {
+                backgroundColor: interactable.hovered,
+              },
+            }}
             className={"pop-shadow"}
           >
             {link.text}

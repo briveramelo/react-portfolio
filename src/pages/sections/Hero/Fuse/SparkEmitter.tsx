@@ -76,7 +76,6 @@ const SparkEmitter: React.FC<SparkEmitterProps> = ({
     currentSparkIndex.current = (index + 1) % totalSparkCount;
   };
 
-  // Use state to store the container element.
   const [sparkContainer, setSparkContainer] = useState<HTMLDivElement | null>(
     null,
   );

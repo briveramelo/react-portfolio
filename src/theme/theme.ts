@@ -1,4 +1,4 @@
-import { useTheme, createTheme } from "@mui/material/styles";
+import { useTheme, createTheme, darken, lighten } from "@mui/material/styles";
 import sun from "@/assets/sun-d.svg";
 import moon from "@/assets/moon-d.svg";
 import moustache from "@/assets/moustache-smile2.svg";
@@ -33,6 +33,17 @@ const experience = {
   empty: "rgb(109,109,109)",
 };
 
+const idleColor = "rgba(18,126,215,1)";
+const highlightColor = "#ffa500";
+const lightenFactor = 0.15;
+const interactable = {
+  idle: idleColor,
+  hovered: lighten(idleColor, lightenFactor),
+  highlighted: highlightColor,
+  highlightHovered: lighten(highlightColor, lightenFactor),
+  used: lighten("#ffffff", lightenFactor),
+};
+
 export enum ThemeMode {
   Pop = "Pop",
   Dark = "Dark",
@@ -56,6 +67,7 @@ export interface CustomPalette {
     highlighting: string;
     paper: string;
     dark: string;
+    light: string;
   };
   interactable: {
     idle: string;
@@ -94,14 +106,9 @@ const Pop = createTheme({
       highlighting: "rgb(173, 216, 230)",
       paper: "rgb(8, 8, 8)",
       dark: "rgb(8, 8, 8)",
+      light: "rgb(255,255,255)",
     },
-    interactable: {
-      idle: "rgba(18,126,215, 1)",
-      used: "rgba(255, 255, 255, 0.8)",
-      hovered: "rgba(18,126,215, .8)",
-      highlighted: "#ffa500",
-      highlightHovered: "rgba(255,106,0,.7)",
-    },
+    interactable: interactable,
     experience: {
       ...experience,
       empty: "rgb(60,60,60)",
@@ -137,14 +144,9 @@ const Dark = createTheme({
       highlighting: "rgba(30, 136, 229, 0.75)",
       paper: "rgb(248,248,248)",
       dark: "rgb(8, 8, 8)",
+      light: "rgb(255,255,255)",
     },
-    interactable: {
-      idle: "rgba(18,126,215, 1)",
-      used: "rgba(255, 255, 255, 0.8)",
-      hovered: "rgba(255, 255, 255)",
-      highlighted: "#ffa500",
-      highlightHovered: "rgba(255,106,0,.7)",
-    },
+    interactable: interactable,
     experience: {
       ...experience,
       empty: "rgb(60,60,60)",
@@ -180,14 +182,9 @@ const Light = createTheme({
       highlighting: "rgb(173, 216, 230)",
       paper: "rgb(8, 8, 8)",
       dark: "rgb(8, 8, 8)",
+      light: "rgb(255,255,255)",
     },
-    interactable: {
-      idle: "rgba(18,126,215, 1)",
-      used: "rgba(255, 255, 255, 0.8)",
-      hovered: "rgba(255, 255, 255)",
-      highlighted: "#ffa500",
-      highlightHovered: "rgba(255,106,0,.7)",
-    },
+    interactable: interactable,
     experience: {
       ...experience,
       empty: "rgb(218,218,218)",

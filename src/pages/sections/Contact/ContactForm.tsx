@@ -134,7 +134,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             px: 4,
             backgroundColor: interactable.highlighted,
             color: "black",
-            "&:hover": { transform: "scale(1.1) !important" },
+            "&:hover": {
+              transform: "scale(1.1) !important",
+              backgroundColor: interactable.highlightHovered,
+            },
           }}
           className="pop-shadow"
           disabled={isSending}

@@ -164,7 +164,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                       justifyContent: "center",
                       padding: "8px 8px",
                       gap: 2,
-                      "&:hover": { transform: "scale(1.1) !important" },
+                      "&:hover": { backgroundColor: interactable.hovered },
                       pr: { xs: "8px", sm: "16px" },
                       mt: { xs: "-18px", sm: "0px" },
                     }}

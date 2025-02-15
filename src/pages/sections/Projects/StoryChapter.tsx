@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Card, CardContent, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, Typography } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import { HighlightedText } from "../../components/reusable/HighlightedText";
@@ -62,8 +62,12 @@ const StoryChapter: React.FC<StoryChapterProps> = ({
 }) => {
   const hasText = Boolean(isActive && markdown && markdown.trim().length > 0);
   const { background, text: textCp, interactable } = useCustomPalette();
+
   const cardStyles = {
-    backgroundColor: background.paper,
+    backgroundColor: isActive ? background.paper : interactable.idle,
+    "&:hover": {
+      backgroundColor: isActive ? undefined : interactable.hovered,
+    },
     color: textCp.paper,
     borderRadius: "8px",
     width: "100%",
@@ -82,13 +86,15 @@ const StoryChapter: React.FC<StoryChapterProps> = ({
         <Typography
           variant="h6"
           fontWeight="bold"
+          color={hasText ? textCp.paper : textCp.light}
           sx={{
             mb: hasText ? 0 : -2,
+            textAlign: "left",
           }}
         >
           {chapterTitle}
         </Typography>
-        {isActive && hasText && <MemoizedMarkdown markdown={markdown} />}
+        {hasText && <MemoizedMarkdown markdown={markdown} />}
       </CardContent>
     </Card>
   );
@@ -97,20 +103,43 @@ const StoryChapter: React.FC<StoryChapterProps> = ({
     return cardContent;
   }
 
+  // When inactive, render as a button with customized styling.
+  if (!isActive) {
+    return (
+      <Button
+        onClick={onClick}
+        fullWidth
+        disableRipple
+        sx={{
+          pb: 0.5,
+          textTransform: "none",
+          borderRadius: "8px",
+          display: "block",
+          width: "100%",
+          justifyContent: "flex-start",
+          backgroundColor: "transparent",
+          "& .MuiButton-label": {
+            justifyContent: "flex-start",
+          },
+        }}
+      >
+        {cardContent}
+      </Button>
+    );
+  }
+
+  // When active, keep the current layout.
   return (
     <Box
       sx={{
         overflow: "visible",
         display: "flex",
         justifyContent: "space-between",
-        cursor: isActive ? "text" : "pointer",
-        width: isActive ? "105%" : "100%",
-        ml: isActive ? "-5%" : "0",
+        cursor: "text",
+        width: "105%",
+        ml: "-5%",
       }}
       py={1}
-      onClick={() => {
-        if (!isActive) onClick();
-      }}
     >
       {cardContent}
     </Box>
