@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 import { Box, IconButton } from "@mui/material";
 import SpeakerIcon from "@mui/icons-material/VolumeUp";
 import { getStorage } from "firebase/storage";

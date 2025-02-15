@@ -2,10 +2,10 @@ import React, { forwardRef } from "react";
 import { Container, Typography, Grid, Box } from "@mui/material";
 import { TestimonialCard } from "./Testimonials/TestimonialCard.tsx";
 import { OpenInNew } from "@mui/icons-material";
-import { cp } from "../../utils/utils";
 import { useHoverTracking } from "../../utils/tracking/hooks/useHoverTracking.ts";
 import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import { testimonialsData } from "../../data/testimonialData.ts";
+import { useCustomPalette } from "../../theme/theme.ts";
 
 interface TestimonialsSectionProps {
   backgroundColor: string;
@@ -22,6 +22,7 @@ export const TestimonialsSection = forwardRef<
     ref as React.RefObject<HTMLElement>,
     { threshold: 0.1 },
   );
+  const { background, text } = useCustomPalette();
 
   return (
     <Box
@@ -70,8 +71,8 @@ export const TestimonialsSection = forwardRef<
             >
               <TestimonialCard
                 data={testimonial}
-                backgroundColor={cp("background.paper")}
-                textColor={cp("text.paper")}
+                backgroundColor={background.paper}
+                textColor={text.paper}
                 isSectionVisible={isSectionVisible}
               />
             </Grid>

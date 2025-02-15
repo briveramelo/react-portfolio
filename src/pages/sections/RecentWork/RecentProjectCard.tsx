@@ -1,7 +1,7 @@
 import React from "react";
-import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
-import { cp } from "../../../utils/utils.ts";
+import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
+import { useCustomPalette } from "../../../theme/theme.ts";
 
 interface Project {
   title: string;
@@ -12,13 +12,14 @@ interface Project {
 
 export function RecentProjectCard({ project }: { project: Project }) {
   const { trackPointerEnter, trackPointerLeave } = useHoverTracking();
+  const { background, text } = useCustomPalette();
 
   return (
     <Card
       sx={{
         display: "flex",
         flexDirection: "column",
-        backgroundColor: cp("background.paper"),
+        backgroundColor: background.paper,
         borderRadius: 2,
         overflow: "hidden",
       }}
@@ -51,7 +52,7 @@ export function RecentProjectCard({ project }: { project: Project }) {
           variant="h3"
           sx={{
             fontWeight: "bold",
-            color: cp("text.secondary"),
+            color: text.secondary,
           }}
         >
           {project.title}
@@ -59,7 +60,7 @@ export function RecentProjectCard({ project }: { project: Project }) {
         <Typography
           variant="body1"
           sx={{
-            color: cp("text.secondary"),
+            color: text.secondary,
           }}
         >
           {project.description}

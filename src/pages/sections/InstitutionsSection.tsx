@@ -6,7 +6,6 @@ import {
 } from "../../data/institutionData.ts";
 import { useHoverTracking } from "../../utils/tracking/hooks/useHoverTracking.ts";
 import InstitutionCollection from "./Institutions/InstitutionCollection.tsx";
-import { OpenInNew } from "@mui/icons-material";
 
 interface InstitutionsProps {
   backgroundColor: string;

@@ -4,6 +4,7 @@ import { HeroText } from "./Hero/HeroText";
 import HeroCard from "./Hero/HeroCard.tsx";
 import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import ScrollDownIndicator from "../components/specialty/ScrollDownIndicator.tsx";
+import { useCustomPalette } from "../../theme/theme.ts";
 
 interface HeroProps {
   backgroundColor: string;
@@ -27,6 +28,8 @@ export const HeroSection = forwardRef<HTMLElement, HeroProps>(
     const [hasSectionLostVisibility, setHasSectionLostVisibility] =
       useState<boolean>(false);
     const isFirstCardAnimationRef = useRef<boolean>(true);
+
+    const { interactable } = useCustomPalette();
 
     useEffect(() => {
       const timer = setTimeout(() => {
@@ -86,7 +89,11 @@ export const HeroSection = forwardRef<HTMLElement, HeroProps>(
         </Container>
         {hasCardBeenHovered && (
           <ScrollDownIndicator
-            color={hasSectionLostVisibility ? "white" : "orange"}
+            color={
+              hasSectionLostVisibility
+                ? interactable.used
+                : interactable.highlighted
+            }
             size={40}
           />
         )}

@@ -1,4 +1,4 @@
-import { useTheme, createTheme, Theme } from "@mui/material/styles";
+import { useTheme, createTheme } from "@mui/material/styles";
 import sun from "@/assets/sun-d.svg";
 import moon from "@/assets/moon-d.svg";
 import moustache from "@/assets/moustache-smile2.svg";
@@ -57,21 +57,12 @@ export interface CustomPalette {
     paper: string;
     dark: string;
   };
-  primary: {
-    main: string;
-    light: string;
-    dark: string;
-    contrastText: string;
-  };
-  secondary: {
-    main: string;
-    light: string;
-    dark: string;
-    contrastText: string;
-  };
-  hyperlink: {
-    primary: string;
-    secondary: string;
+  interactable: {
+    idle: string;
+    used: string;
+    hovered: string;
+    highlighted: string;
+    highlightHovered: string;
   };
   experience: typeof experience;
   scrollbar: {
@@ -104,21 +95,12 @@ const Pop = createTheme({
       paper: "rgb(8, 8, 8)",
       dark: "rgb(8, 8, 8)",
     },
-    primary: {
-      main: "rgb(98, 186, 27)",
-      light: "rgb(156, 226, 156)",
-      dark: "rgb(63, 142, 0)",
-      contrastText: "rgb(255, 255, 255)",
-    },
-    secondary: {
-      main: "rgb(230, 73, 128)",
-      light: "rgb(240, 101, 149)",
-      dark: "rgb(214, 51, 108)",
-      contrastText: "rgb(255, 255, 255)",
-    },
-    hyperlink: {
-      primary: "rgb(98, 186, 27)",
-      secondary: "rgb(18,126,215)",
+    interactable: {
+      idle: "rgba(18,126,215, 1)",
+      used: "rgba(255, 255, 255, 0.8)",
+      hovered: "rgba(18,126,215, .8)",
+      highlighted: "#ffa500",
+      highlightHovered: "rgba(255,106,0,.7)",
     },
     experience: {
       ...experience,
@@ -156,21 +138,12 @@ const Dark = createTheme({
       paper: "rgb(248,248,248)",
       dark: "rgb(8, 8, 8)",
     },
-    primary: {
-      main: "rgb(98, 186, 27)",
-      light: "rgb(156, 226, 156)",
-      dark: "rgb(63, 142, 0)",
-      contrastText: "rgb(255, 255, 255)",
-    },
-    secondary: {
-      main: "rgb(230, 73, 128)",
-      light: "rgb(240, 101, 149)",
-      dark: "rgb(214, 51, 108)",
-      contrastText: "rgb(255, 255, 255)",
-    },
-    hyperlink: {
-      primary: "rgb(98, 186, 27)",
-      secondary: "rgb(18,126,215)",
+    interactable: {
+      idle: "rgba(18,126,215, 1)",
+      used: "rgba(255, 255, 255, 0.8)",
+      hovered: "rgba(255, 255, 255)",
+      highlighted: "#ffa500",
+      highlightHovered: "rgba(255,106,0,.7)",
     },
     experience: {
       ...experience,
@@ -208,21 +181,12 @@ const Light = createTheme({
       paper: "rgb(8, 8, 8)",
       dark: "rgb(8, 8, 8)",
     },
-    primary: {
-      main: "rgb(98, 186, 27)",
-      light: "rgb(156, 226, 156)",
-      dark: "rgb(63, 142, 0)",
-      contrastText: "rgb(255, 255, 255)",
-    },
-    secondary: {
-      main: "rgb(230, 73, 128)",
-      light: "rgb(240, 101, 149)",
-      dark: "rgb(214, 51, 108)",
-      contrastText: "rgb(255, 255, 255)",
-    },
-    hyperlink: {
-      primary: "rgb(18,126,215)",
-      secondary: "rgb(98, 186, 27)",
+    interactable: {
+      idle: "rgba(18,126,215, 1)",
+      used: "rgba(255, 255, 255, 0.8)",
+      hovered: "rgba(255, 255, 255)",
+      highlighted: "#ffa500",
+      highlightHovered: "rgba(255,106,0,.7)",
     },
     experience: {
       ...experience,

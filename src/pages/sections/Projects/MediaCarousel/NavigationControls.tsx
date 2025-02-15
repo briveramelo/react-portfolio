@@ -4,6 +4,7 @@ import ChangeMediaButton from "./ChangeMediaButton.tsx";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { MediaItem } from "../../../../data/projectDetails.tsx";
+import { useCustomPalette } from "../../../../theme/theme.ts";
 
 interface NavigationControlsProps {
   media: MediaItem[];
@@ -46,6 +47,7 @@ const NavigationControls: React.FC<NavigationControlsProps> = ({
   );
   const totalInChapter = chapterEndIndex - chapterStartIndex + 1;
   const currentPosition = selectedMediaIndex - chapterStartIndex + 1;
+  const { text, interactable } = useCustomPalette();
 
   return (
     <Box>
@@ -61,9 +63,7 @@ const NavigationControls: React.FC<NavigationControlsProps> = ({
         }}
       >
         <ChangeMediaButton next={false} onClick={onPrev} />
-        <Typography
-          sx={{ fontSize: 14, mx: 2, mt: -2, color: "rgba(0,0,0,.5)" }}
-        >
+        <Typography sx={{ fontSize: 14, mx: 2, mt: -2, color: text.paper }}>
           {currentPosition} / {totalInChapter}
         </Typography>
         <ChangeMediaButton
@@ -103,9 +103,9 @@ const NavigationControls: React.FC<NavigationControlsProps> = ({
                 <FiberManualRecordIcon
                   sx={{
                     fontSize: 19,
-                    color: "rgba(0,0,0,.3)",
+                    color: interactable.idle,
                     "&:hover": {
-                      color: "rgba(0,0,0,.5)",
+                      color: interactable.hovered,
                     },
                   }}
                 />
@@ -113,9 +113,9 @@ const NavigationControls: React.FC<NavigationControlsProps> = ({
                 <RadioButtonUncheckedIcon
                   sx={{
                     fontSize: 15,
-                    color: "rgba(0,0,0,.3)",
+                    color: interactable.idle,
                     "&:hover": {
-                      color: "rgba(0,0,0,.5)",
+                      color: interactable.hovered,
                     },
                   }}
                 />

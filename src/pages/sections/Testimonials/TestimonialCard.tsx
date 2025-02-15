@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import { HighlightedText } from "../../components/reusable/HighlightedText.tsx";
-import { cp } from "../../../utils/utils.ts";
 import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
 import { useEffect, useMemo, useState } from "react";
 import "./TestimonialCard.css";
@@ -16,6 +15,7 @@ import { SiblingParagraph } from "../../components/reusable/SiblingParagraph.tsx
 import { Testimonial } from "../../../data/testimonialData.ts";
 import { LinkedIn } from "@mui/icons-material";
 import remarkBreaks from "remark-breaks";
+import { useCustomPalette } from "../../../theme/theme.ts";
 
 export function TestimonialCard({
   data,
@@ -29,6 +29,7 @@ export function TestimonialCard({
   isSectionVisible: boolean;
 }) {
   const cardHover = useHoverTracking();
+  const { text } = useCustomPalette();
   const [index, setIndex] = useState<number>(0);
   useEffect(() => {
     setIndex(index + 1);
@@ -44,7 +45,7 @@ export function TestimonialCard({
             <SiblingParagraph
               className="fade-in-text"
               variant="body1"
-              sx={{ color: cp("text.secondary") }}
+              sx={{ color: text.secondary }}
             >
               {children}
             </SiblingParagraph>
@@ -52,7 +53,7 @@ export function TestimonialCard({
           strong: ({ children }) => (
             <HighlightedText
               className="highlight-animation"
-              style={{ color: cp("text.paper") }}
+              style={{ color: text.paper }}
             >
               {children}
             </HighlightedText>

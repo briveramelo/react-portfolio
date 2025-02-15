@@ -8,10 +8,10 @@ import {
   validateContactForm,
   isFormValid,
 } from "./Contact/contactFormUtils";
-import { cp } from "../../utils/utils";
 import { Footer } from "./Contact/Footer/Footer.tsx";
 import { firebaseApp } from "../../firebaseConfig";
 import { getFunctions, httpsCallable } from "firebase/functions";
+import { useCustomPalette } from "../../theme/theme.ts";
 
 interface ContactSectionProps {
   backgroundColor: string;
@@ -34,6 +34,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
     const [formSubmitted, setFormSubmitted] = useState(false);
 
     const heartTriggerRef = React.useRef<HTMLButtonElement>(null);
+    const { background, text } = useCustomPalette();
 
     const handleChange = (field: keyof FormData, value: string) => {
       setFormData({ ...formData, [field]: value });
@@ -136,8 +137,8 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
 
         {/* Footer Component */}
         <Footer
-          backgroundColor={cp("background.default")}
-          textColor={cp("text.primary")}
+          backgroundColor={background.default}
+          textColor={text.primary}
           heartTriggerRef={heartTriggerRef}
         />
       </Box>

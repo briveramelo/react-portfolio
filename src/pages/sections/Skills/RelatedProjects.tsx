@@ -1,8 +1,9 @@
 import React from "react";
 import { Box, Typography, Grid, darken } from "@mui/material";
 import { Project } from "../../../data/projectData";
-import { cp, toSlug } from "../../../utils/utils";
+import { toSlug } from "../../../utils/utils";
 import { useCursor } from "../../../context/CursorContext";
+import { useCustomPalette } from "../../../theme/theme";
 
 interface HoverOverlayProps {
   hoverKey: string;
@@ -17,6 +18,7 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
     return null;
   }
   const { onHoverChange } = useCursor();
+  const { background, text } = useCustomPalette();
   const imgSize = 40;
 
   return (
@@ -27,7 +29,7 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
         position: "absolute",
         top: "90%",
         left: 30,
-        backgroundColor: cp("background.paper"),
+        backgroundColor: background.paper,
         color: "white",
         padding: 1.5,
         borderRadius: 1,
@@ -39,7 +41,7 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
         <Grid item xs={12}>
           <Typography
             variant="body1"
-            color={cp("text.paper")}
+            color={text.paper}
             sx={{
               ml: 0.5,
               mb: -0,
@@ -66,7 +68,7 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
                 padding: 1,
                 borderRadius: 1,
                 "&:hover": {
-                  backgroundColor: darken(cp("background.paper"), 0.2),
+                  backgroundColor: darken(background.paper, 0.2),
                 },
               }}
               onClick={(e) => {
@@ -94,7 +96,7 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
                 />
                 <Typography
                   variant="body1"
-                  color={cp("text.paper")}
+                  color={text.paper}
                   sx={{ ml: 2, whiteSpace: "nowrap" }}
                 >
                   {project.title}

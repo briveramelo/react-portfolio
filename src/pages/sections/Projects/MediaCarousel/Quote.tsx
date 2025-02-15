@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactMarkdown from "react-markdown";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import { HighlightedText } from "../../../components/reusable/HighlightedText";
-import { cp } from "../../../../utils/utils";
 import { useTheme } from "@mui/material/styles";
+import { useCustomPalette } from "../../../../theme/theme";
 
 interface QuoteProps {
   content: string;
@@ -12,14 +12,15 @@ interface QuoteProps {
 const Quote: React.FC<QuoteProps> = ({ content }) => {
   const theme = useTheme();
   const useSmall = useMediaQuery(theme.breakpoints.down("md"));
+  const { background, text } = useCustomPalette();
   return (
     <Box
       sx={{
         padding: 2,
-        backgroundColor: cp("background.paper"),
+        backgroundColor: background.paper,
         borderRadius: "20px",
         borderLeft: "4px solid",
-        borderColor: cp("background.paper"),
+        borderColor: background.paper,
         width: { xs: "100%", sm: "55%" },
         mx: "auto",
         my: "auto",
@@ -29,14 +30,14 @@ const Quote: React.FC<QuoteProps> = ({ content }) => {
       <ReactMarkdown
         components={{
           p: ({ children }) => (
-            <Typography variant="body1" sx={{ color: cp("text.paper") }}>
+            <Typography variant="body1" sx={{ color: text.paper }}>
               {children}
             </Typography>
           ),
           h3: ({ children }) => (
             <Typography
               variant={useSmall ? "h5" : "h3"}
-              sx={{ fontStyle: "italic", color: cp("text.paper"), mb: 1 }}
+              sx={{ fontStyle: "italic", color: text.paper, mb: 1 }}
             >
               {children}
             </Typography>

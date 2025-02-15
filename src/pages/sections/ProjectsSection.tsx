@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useLayoutEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import {
   Container,
   Typography,
@@ -27,7 +27,7 @@ interface ProjectsProps {
 
 export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
   ({ backgroundColor, textColor, id }, ref) => {
-    const { mode } = useCustomPalette();
+    const { mode, interactable } = useCustomPalette();
     const useLight = mode === ThemeMode.Dark;
     const theme = useTheme();
     const isXs = useMediaQuery(theme.breakpoints.down("sm"));
@@ -154,9 +154,9 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
               {isProjectSelected && (
                 <>
                   <Button
-                    color="error"
                     variant="contained"
                     sx={{
+                      backgroundColor: interactable.idle,
                       position: "absolute",
                       left: isXs ? 4 : 0,
                       top: isXs ? 32 : 14,
@@ -246,7 +246,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
           <AnimatedCursor
             size={25}
             durationMs={2000}
-            color={"orange"}
+            color={interactable.highlighted}
             hoverKey={hoverKey}
           />
         )}

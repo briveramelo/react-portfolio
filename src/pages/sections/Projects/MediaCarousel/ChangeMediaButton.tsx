@@ -2,6 +2,7 @@ import React from "react";
 import { IconButton } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { generateGravityBounceScaleKeyframes } from "../../../../utils/keyframeGenerator.ts";
+import { useCustomPalette } from "../../../../theme/theme.ts";
 
 interface ChangeMediaButtonProps {
   hasBeenClicked?: boolean;
@@ -19,19 +20,20 @@ const ChangeMediaButton: React.FC<ChangeMediaButtonProps> = ({
   const arrowStyle = {
     animation: hasBeenClicked ? undefined : `${arrowAnim} 2s infinite`,
   };
+  const { interactable } = useCustomPalette();
 
   return (
     <IconButton
       onClick={onClick}
       sx={{
         backgroundColor: hasBeenClicked
-          ? "rgba(0,0,0,0.3)"
-          : "rgba(255,106,0,0.5)",
+          ? interactable.idle
+          : interactable.highlighted,
         color: "white",
         "&:hover": {
           backgroundColor: hasBeenClicked
-            ? "rgba(0,0,0,0.5)"
-            : "rgba(255,106,0,1)",
+            ? interactable.hovered
+            : interactable.highlightHovered,
         },
         animation: hasBeenClicked ? undefined : `${buttonAnim} 2s infinite`,
       }}

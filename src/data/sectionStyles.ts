@@ -1,5 +1,5 @@
 import { CustomPalette } from "../theme/theme.ts";
-import { cp, isColorDark } from "../utils/utils";
+import { isColorDark } from "../utils/utils";
 import React from "react";
 
 class SectionStyle {
@@ -17,16 +17,16 @@ class SectionStyle {
     this.textKey = textKey;
   }
 
-  get backgroundColor(): string {
-    return cp(`background.${this.backgroundKey}`);
+  backgroundColor(customPalette: CustomPalette): string {
+    return customPalette.background[this.backgroundKey];
   }
 
-  get textColor(): string {
-    return cp(`text.${this.textKey}`);
+  textColor(customPalette: CustomPalette): string {
+    return customPalette.text[this.textKey];
   }
 
-  get isDark(): boolean {
-    return isColorDark(this.backgroundColor);
+  isDark(customPalette: CustomPalette): boolean {
+    return isColorDark(this.backgroundColor(customPalette));
   }
 }
 

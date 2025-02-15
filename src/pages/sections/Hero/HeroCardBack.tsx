@@ -2,12 +2,13 @@ import React from "react";
 import { Box } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
-import { cp } from "../../../utils/utils";
 import FirebaseDownloadLink from "../Projects/MediaCarousel/FirebaseDownloadLink.tsx";
 import { useAuth } from "../../../context/AuthContext.tsx";
+import { useCustomPalette } from "../../../theme/theme.ts";
 
 const HeroCardBack: React.FC = () => {
   const { user } = useAuth();
+  const { background, text } = useCustomPalette();
 
   return (
     <Box
@@ -15,10 +16,10 @@ const HeroCardBack: React.FC = () => {
         position: "absolute",
         width: "100%",
         height: "100%",
-        backgroundColor: cp("background.paper"),
+        backgroundColor: background.paper,
         borderRadius: "20px",
         border: "8px solid",
-        borderColor: cp("background.paper"),
+        borderColor: background.paper,
         backfaceVisibility: "hidden",
         transform: "rotateY(180deg)",
       }}
@@ -33,7 +34,7 @@ const HeroCardBack: React.FC = () => {
               component="p"
               sx={{
                 fontSize: "1.15rem",
-                color: cp("text.paper"),
+                color: text.paper,
                 marginBottom: "1.25rem",
               }}
             >

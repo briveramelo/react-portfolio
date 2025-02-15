@@ -12,6 +12,7 @@ export interface SparkEmitterProps {
   sparkBurstDurationMs: number;
   /** Function that returns the current fuse head position in viewport coordinates */
   getFuseHeadPosition: () => { x: number; y: number } | null;
+  color: string;
 }
 
 const SparkEmitter: React.FC<SparkEmitterProps> = ({
@@ -21,6 +22,7 @@ const SparkEmitter: React.FC<SparkEmitterProps> = ({
   fuseHeadLoopDurationMs,
   sparkBurstDurationMs,
   getFuseHeadPosition,
+  color,
 }) => {
   const totalSparkCount = useMemo(
     () =>
@@ -127,6 +129,7 @@ const SparkEmitter: React.FC<SparkEmitterProps> = ({
           ref={sparkRefs.current[index]}
           keyframes={sparkAnimations[index].keyframes}
           animationOptions={sparkAnimations[index].animationOptions}
+          color={color}
         />
       ))}
     </>,

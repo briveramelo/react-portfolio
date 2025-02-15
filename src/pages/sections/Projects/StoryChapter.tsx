@@ -2,67 +2,72 @@ import React from "react";
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
-import { cp } from "../../../utils/utils";
 import { HighlightedText } from "../../components/reusable/HighlightedText";
+import { useCustomPalette } from "../../../theme/theme";
 
 export interface StoryChapterProps {
   chapterTitle: string | undefined;
   isActive: boolean;
   onClick: () => void;
-  text: string | undefined;
+  markdown: string | undefined;
   mobile?: boolean;
 }
 
-// Memoized markdown renderer to avoid unnecessary re-renders
 const MemoizedMarkdown = React.memo(
-  ({ text }: { text: string | undefined }) => (
-    <ReactMarkdown
-      remarkPlugins={[remarkBreaks]}
-      components={{
-        p: ({ children }) => (
-          <Typography
-            variant="body1"
-            sx={{
-              color: cp("text.secondary"),
-              lineHeight: "1.25rem",
-            }}
-          >
-            {children}
-          </Typography>
-        ),
-        strong: ({ children }) => <HighlightedText>{children}</HighlightedText>,
-        em: ({ children }) => (
-          <Typography
-            component="span"
-            variant="body1"
-            className="fade-in-text"
-            sx={{ fontStyle: "italic" }}
-          >
-            {children}
-          </Typography>
-        ),
-      }}
-    >
-      {text}
-    </ReactMarkdown>
-  ),
+  ({ markdown }: { markdown: string | undefined }) => {
+    const { text } = useCustomPalette();
+
+    return (
+      <ReactMarkdown
+        remarkPlugins={[remarkBreaks]}
+        components={{
+          p: ({ children }) => (
+            <Typography
+              variant="body1"
+              sx={{
+                color: text.secondary,
+                lineHeight: "1.25rem",
+              }}
+            >
+              {children}
+            </Typography>
+          ),
+          strong: ({ children }) => (
+            <HighlightedText>{children}</HighlightedText>
+          ),
+          em: ({ children }) => (
+            <Typography
+              component="span"
+              variant="body1"
+              className="fade-in-text"
+              sx={{ fontStyle: "italic" }}
+            >
+              {children}
+            </Typography>
+          ),
+        }}
+      >
+        {markdown}
+      </ReactMarkdown>
+    );
+  },
 );
 
 const StoryChapter: React.FC<StoryChapterProps> = ({
   isActive,
   chapterTitle,
-  text,
+  markdown,
   onClick,
   mobile = false,
 }) => {
-  const hasText = Boolean(isActive && text && text.trim().length > 0);
-
+  const hasText = Boolean(isActive && markdown && markdown.trim().length > 0);
+  const { background, text: textCp, interactable } = useCustomPalette();
   const cardStyles = {
-    backgroundColor: cp("background.paper"),
-    color: cp("text.paper"),
+    backgroundColor: background.paper,
+    color: textCp.paper,
     borderRadius: "8px",
     width: "100%",
-    border: hasText ? "2px solid #69ade1" : undefined,
+    border: hasText ? `2px solid ${interactable.idle}` : undefined,
   };
 
   const cardContent = (
@@ -83,7 +88,7 @@ const StoryChapter: React.FC<StoryChapterProps> = ({
         >
           {chapterTitle}
         </Typography>
-        {isActive && hasText && <MemoizedMarkdown text={text} />}
+        {isActive && hasText && <MemoizedMarkdown markdown={markdown} />}
       </CardContent>
     </Card>
   );

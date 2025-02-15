@@ -62,26 +62,3 @@ function calculateLuminance(r: number, g: number, b: number) {
   const bNorm = b / 255;
   return 0.2126 * rNorm + 0.7152 * gNorm + 0.0722 * bNorm;
 }
-
-/**
- * Resolves a value from theme.custom_palette using a dot-separated key.
- *
- * @param key - A dot-separated string path to a property in custom_palette, e.g., "text.primary".
- * @returns The resolved value from custom_palette, or undefined if the key doesn't exist.
- */
-export const cp = (key: string): string => {
-  const customPalette = useCustomPalette();
-  const keys = key.split(".");
-  let value: any = customPalette;
-
-  for (const k of keys) {
-    if (value && typeof value === "object" && k in value) {
-      value = value[k];
-    } else {
-      console.warn(`Key "${key}" not found in theme.customPalette.`);
-      return "";
-    }
-  }
-
-  return value as string;
-};

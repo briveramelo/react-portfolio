@@ -8,10 +8,11 @@ export interface SparkHandle {
 interface SparkProps {
   keyframes: Keyframe[];
   animationOptions: KeyframeAnimationOptions;
+  color: string;
 }
 
 const Spark = forwardRef<SparkHandle, SparkProps>(
-  ({ keyframes, animationOptions }, ref) => {
+  ({ keyframes, animationOptions, color }, ref) => {
     const size = 8;
     const boxRef = useRef<HTMLDivElement>(null);
     const animationRef = useRef<Animation | null>(null);
@@ -39,7 +40,7 @@ const Spark = forwardRef<SparkHandle, SparkProps>(
         ref={boxRef}
         sx={{
           position: "absolute",
-          background: "radial-gradient(circle, #ffffff 0%, #ffa500 70%)",
+          background: `radial-gradient(circle, #ffffff 0%, ${color} 70%)`,
           height: size,
           width: size,
           borderRadius: "50%",

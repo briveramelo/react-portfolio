@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MediaItem, ProjectDetail } from "../../../data/projectDetails.tsx";
-import { Box, Typography, Grid, Button, useMediaQuery } from "@mui/material";
+import { Box, Typography, Grid, useMediaQuery } from "@mui/material";
 import MediaCarousel from "./MediaCarousel/MediaCarousel";
 import InvertableImage from "../../components/reusable/InvertableImage";
 import { ThemeMode, useCustomPalette } from "../../../theme/theme.ts";
@@ -123,7 +123,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
                       chapterTitle={mediaItem.chapterTitle}
                       isActive={index === chapterTitleIndex}
                       onClick={() => handleChapterClick(index)}
-                      text={media[selectedMediaIndex].text}
+                      markdown={media[selectedMediaIndex].text}
                     />
                   ),
               )}
@@ -156,7 +156,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
                 chapterTitle={media[chapterTitleIndex].chapterTitle}
                 isActive={true}
                 onClick={() => {}}
-                text={media[selectedMediaIndex].text}
+                markdown={media[selectedMediaIndex].text}
               />
             </>
           )}

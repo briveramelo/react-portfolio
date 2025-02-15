@@ -13,6 +13,7 @@ import {
 } from "./heroHelpers";
 import HeroCardBack from "./HeroCardBack";
 import HeroCardFront from "./HeroCardFront";
+import { useCustomPalette } from "../../../theme/theme.ts";
 
 interface HeroCardProps {
   isSectionVisible: boolean;
@@ -39,6 +40,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const entrySideRef = useRef<"left" | "right" | null>(null);
   const transitionStartTimeRef = useRef<number>(performance.now());
+  const { interactable } = useCustomPalette();
 
   // Spin sequence for the card animation.
   const runSpinSequence = (): ReturnType<typeof setTimeout>[] => {
@@ -224,6 +226,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
             burstIntervalMs={50}
             sparkBurstDurationMs={PROJECTILE_DURATION_MS}
             animationEnabled={!hasBeenHovered}
+            color={interactable.highlighted}
           />
         )}
         <FlareEffect

@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
 import { Box, Avatar } from "@mui/material";
 import { Refresh } from "@mui/icons-material";
-import { cp } from "../../../utils/utils";
 import { generateSinusoidalScaleKeyframes } from "../../../utils/keyframeGenerator.ts";
 import { keyframes } from "@emotion/react";
 import brandon from "@/assets/people/brandon.webp";
+import { useCustomPalette } from "../../../theme/theme.ts";
 
 interface HeroCardFrontProps {
   showRotationIcon: boolean;
@@ -26,6 +26,7 @@ const HeroCardFront: React.FC<HeroCardFrontProps> = ({
     `,
     [],
   );
+  const { interactable, background } = useCustomPalette();
 
   return (
     <Box
@@ -44,7 +45,7 @@ const HeroCardFront: React.FC<HeroCardFrontProps> = ({
           left: 20,
           borderRadius: "50%",
           zIndex: 1,
-          color: hasBeenHovered ? "rgba(255, 255, 255, .8)" : "orange",
+          color: hasBeenHovered ? interactable.used : interactable.highlighted,
           animation: hasBeenHovered
             ? undefined
             : `${pulseAnimation} 2s infinite`,
@@ -70,7 +71,7 @@ const HeroCardFront: React.FC<HeroCardFrontProps> = ({
           height: "100%",
           borderRadius: "20px",
           border: "8px solid",
-          borderColor: cp("background.paper"),
+          borderColor: background.paper,
         }}
         className="pop-shadow"
       />

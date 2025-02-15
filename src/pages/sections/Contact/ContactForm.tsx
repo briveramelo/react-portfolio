@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, TextField, Button, Alert, Typography } from "@mui/material";
 import { FormData, FormErrors } from "./contactFormUtils";
-import { cp } from "../../../utils/utils";
 import { useFormTracking } from "../../../utils/tracking/hooks/useFormTracking.ts";
 import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
+import { useCustomPalette } from "../../../theme/theme.ts";
 
 interface ContactFormProps {
   formData: FormData;
@@ -28,27 +28,28 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   const { trackFieldFocus, trackFieldBlur, trackFormSubmit } =
     useFormTracking(formID);
   const { trackPointerEnter, trackPointerLeave } = useHoverTracking();
+  const { background, text, interactable } = useCustomPalette();
 
   const inputStyles = {
-    backgroundColor: cp("background.paper"),
-    color: cp("text.paper"),
+    backgroundColor: background.paper,
+    color: text.paper,
     borderRadius: "8px",
     "& .MuiOutlinedInput-root": {
       borderRadius: "8px",
     },
     "& .MuiInputLabel-root": {
-      color: cp("text.paper"),
+      color: text.paper,
     },
     "& .MuiInputLabel-shrink": {
-      color: cp("text.paper"),
+      color: text.paper,
     },
   };
 
   return (
     <Box
       sx={{
-        backgroundColor: cp("background.paper"),
-        color: cp("text.paper"),
+        backgroundColor: background.paper,
+        color: text.paper,
         borderRadius: "16px",
         p: 4,
       }}
@@ -81,7 +82,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
           InputProps={{
             inputProps: {
               style: {
-                color: cp("text.paper"),
+                color: text.paper,
               },
             },
           }}
@@ -108,7 +109,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                 padding: "16px",
                 fontFamily: "inherit",
                 fontSize: "16px",
-                color: cp("text.paper"),
+                color: text.paper,
               },
             },
           }}
@@ -131,7 +132,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             zIndex: 1,
             alignSelf: "center",
             px: 4,
-            backgroundColor: "orange",
+            backgroundColor: interactable.highlighted,
             color: "black",
             "&:hover": { transform: "scale(1.1) !important" },
           }}
@@ -149,7 +150,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             mb: -1,
             py: 0,
             width: "100%",
-            backgroundColor: cp("background.textError"),
+            backgroundColor: background.textError,
             position: "relative",
             borderRadius: "8px",
             display: "flex",
@@ -170,7 +171,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             sx={{
               position: "relative",
               display: "inline-block",
-              color: cp("text.paper"),
+              color: text.paper,
               py: 0.5,
               px: 5,
             }}

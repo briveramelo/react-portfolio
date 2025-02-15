@@ -27,7 +27,7 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
     const isSectionVisible = useIntersectionObserver(sectionRef, {
       threshold: 0.1,
     });
-    const { mode } = useCustomPalette();
+    const { mode, interactable } = useCustomPalette();
     const useLight = mode !== ThemeMode.Light;
     const iconStyle = {
       fill: "white",
@@ -67,12 +67,12 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
             color: "white",
             animation: hasClickedButton ? "" : `${buttonAnim} 2s infinite`,
             backgroundColor: hasClickedButton
-              ? "rgb(0,166,255)"
-              : "rgb(255,106,0)",
+              ? interactable.idle
+              : interactable.highlighted,
             "&:hover": {
               backgroundColor: hasClickedButton
-                ? "rgb(0,127,193)"
-                : "rgb(204,98,0)",
+                ? interactable.hovered
+                : interactable.highlightHovered,
             },
           }}
           variant="contained"

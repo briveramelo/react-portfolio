@@ -6,6 +6,7 @@ export interface FuseHeadProps {
   fuseHeadLoopDurationMs: number;
   sparkBurstDurationMs: number;
   pathString: string;
+  color: string;
 }
 
 /**
@@ -25,19 +26,21 @@ const StyledFuseHead = styled("div")<{
   fuseHeadLoopDurationMs: number;
   sparkBurstDurationMs: number;
   pathString: string;
+  color: string;
 }>(
   ({
     animationEnabled,
     fuseHeadLoopDurationMs,
     sparkBurstDurationMs,
     pathString,
+    color,
   }) => ({
     position: "absolute",
     width: "16px",
     height: "16px",
     borderRadius: "50%",
-    background: "radial-gradient(circle, #ffffff 0%, #ffa500 70%)",
-    filter: "drop-shadow(0 0 8px #ffa500)",
+    background: `radial-gradient(circle, #ffffff 0%, ${color} 70%)`,
+    filter: `drop-shadow(0 0 8px ${color})`,
     offsetPath: `path("${pathString}")`,
     offsetDistance: "0%",
     offsetRotate: "0deg",
@@ -55,6 +58,7 @@ const FuseHead = forwardRef<FuseHeadHandle, FuseHeadProps>(
       fuseHeadLoopDurationMs,
       sparkBurstDurationMs,
       pathString,
+      color,
     },
     ref,
   ) => {
@@ -83,6 +87,7 @@ const FuseHead = forwardRef<FuseHeadHandle, FuseHeadProps>(
         fuseHeadLoopDurationMs={fuseHeadLoopDurationMs}
         sparkBurstDurationMs={sparkBurstDurationMs}
         pathString={pathString}
+        color={color}
       />
     );
   },

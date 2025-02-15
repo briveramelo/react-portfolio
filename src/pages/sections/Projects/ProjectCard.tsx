@@ -4,10 +4,10 @@ import ReactMarkdown from "react-markdown";
 import { HighlightedText } from "../../components/reusable/HighlightedText.tsx";
 import { Project } from "../../../data/projectData.ts";
 import InvertableImage from "../../components/reusable/InvertableImage.tsx";
-import { cp } from "../../../utils/utils.ts";
 import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
 import { Collapsible } from "../../components/reusable/Collapsible.tsx";
 import { useCursor } from "../../../context/CursorContext.tsx";
+import { useCustomPalette } from "../../../theme/theme.ts";
 
 interface ProjectCardProps {
   projectData: Project;
@@ -32,6 +32,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   const borderRadius = "8px";
   const cardHover = useHoverTracking();
   const { onHoverChange } = useCursor();
+  const { background, text } = useCustomPalette();
 
   return (
     <Box
@@ -53,7 +54,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           display: "flex",
           flexDirection: "column",
           alignItems: "stretch",
-          backgroundColor: cp("background.paper"),
+          backgroundColor: background.paper,
           borderRadius,
         }}
         className="pop-shadow"
@@ -136,7 +137,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 variant="h3"
                 sx={{
                   fontWeight: "bold",
-                  color: cp("text.secondary"),
+                  color: text.secondary,
                   flexGrow: 1,
                   whiteSpace: { xs: "normal", md: "nowrap" },
                 }}
@@ -198,7 +199,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                         variant="body1"
                         fontSize={{ xs: "1rem", md: "1rem" }}
                         sx={{
-                          color: cp("text.secondary"),
+                          color: text.secondary,
                           whiteSpace: "normal",
                         }}
                       >

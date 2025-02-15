@@ -15,6 +15,7 @@ export interface FuseEffectProps {
   borderRadius: number;
   sparksPerBurst: number;
   burstIntervalMs: number;
+  color: string;
   fuseHeadLoopDurationMs?: number;
   sparkBurstDurationMs?: number;
   animationEnabled?: boolean;
@@ -26,6 +27,7 @@ const FuseEffect: React.FC<FuseEffectProps> = ({
   borderRadius,
   sparksPerBurst,
   burstIntervalMs,
+  color,
   fuseHeadLoopDurationMs = 2000,
   sparkBurstDurationMs = 500,
   animationEnabled = false,
@@ -72,6 +74,7 @@ const FuseEffect: React.FC<FuseEffectProps> = ({
         fuseHeadLoopDurationMs={fuseHeadLoopDurationMs}
         sparkBurstDurationMs={sparkBurstDurationMs}
         pathString={pathString}
+        color={color}
       />
 
       {animationEnabled && (
@@ -82,6 +85,7 @@ const FuseEffect: React.FC<FuseEffectProps> = ({
           fuseHeadLoopDurationMs={fuseHeadLoopDurationMs}
           sparkBurstDurationMs={sparkBurstDurationMs}
           getFuseHeadPosition={getFuseHeadPosition}
+          color={color}
         />
       )}
     </Box>

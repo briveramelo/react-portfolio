@@ -11,7 +11,7 @@ import { ThemeMode, useCustomPalette } from "../theme/theme.ts";
 import { NavLink, sectionStyles } from "../data/sectionStyles";
 
 export function HomePage() {
-  const { mode } = useCustomPalette();
+  const cp = useCustomPalette();
 
   const currentSectionId = window.location.hash.replace("#", "");
   const initialColors =
@@ -58,53 +58,53 @@ export function HomePage() {
         sectionRefs={sectionRefs}
         desktopHiddenNavigationLinks={desktopHiddenNavLinks}
         navigationLinks={allNavLinks}
-        defaultBackgroundColor={initialColors.backgroundColor}
-        defaultTextColor={initialColors.textColor}
-        defaultIsBackgroundDark={initialColors.isDark}
+        defaultBackgroundColor={initialColors.backgroundColor(cp)}
+        defaultTextColor={initialColors.textColor(cp)}
+        defaultIsBackgroundDark={initialColors.isDark(cp)}
       />
       <HeroSection
         ref={heroRef}
         heroLinkRef={heroLinkRef}
         id="home"
-        backgroundColor={sectionStyles.home.backgroundColor}
-        textColor={sectionStyles.home.textColor}
+        backgroundColor={sectionStyles.home.backgroundColor(cp)}
+        textColor={sectionStyles.home.textColor(cp)}
       />
       <InstitutionsSection
         ref={institutionsRef}
         id="institutions"
-        backgroundColor={sectionStyles.institutions.backgroundColor}
-        textColor={sectionStyles.institutions.textColor}
-        invertImages={mode !== ThemeMode.Dark}
+        backgroundColor={sectionStyles.institutions.backgroundColor(cp)}
+        textColor={sectionStyles.institutions.textColor(cp)}
+        invertImages={cp.mode !== ThemeMode.Dark}
       />
       <SkillsSection
         ref={skillsRef}
         id="experience"
-        backgroundColor={sectionStyles.experience.backgroundColor}
-        textColor={sectionStyles.experience.textColor}
+        backgroundColor={sectionStyles.experience.backgroundColor(cp)}
+        textColor={sectionStyles.experience.textColor(cp)}
       />
       <ProjectsSection
         ref={projectsRef}
         id="projects"
-        backgroundColor={sectionStyles.projects.backgroundColor}
-        textColor={sectionStyles.projects.textColor}
+        backgroundColor={sectionStyles.projects.backgroundColor(cp)}
+        textColor={sectionStyles.projects.textColor(cp)}
       />
       <TestimonialsSection
         ref={testimonialsRef}
         id="testimonials"
-        backgroundColor={sectionStyles.testimonials.backgroundColor}
-        textColor={sectionStyles.testimonials.textColor}
+        backgroundColor={sectionStyles.testimonials.backgroundColor(cp)}
+        textColor={sectionStyles.testimonials.textColor(cp)}
       />
       <RecentWorkSection
         ref={recentWorkRef}
         id="recent"
-        backgroundColor={sectionStyles.recent.backgroundColor}
-        textColor={sectionStyles.recent.textColor}
+        backgroundColor={sectionStyles.recent.backgroundColor(cp)}
+        textColor={sectionStyles.recent.textColor(cp)}
       />
       <ContactSection
         ref={contactRef}
         id="contact"
-        backgroundColor={sectionStyles.contact.backgroundColor}
-        textColor={sectionStyles.contact.textColor}
+        backgroundColor={sectionStyles.contact.backgroundColor(cp)}
+        textColor={sectionStyles.contact.textColor(cp)}
       />
     </>
   );

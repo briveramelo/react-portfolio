@@ -8,10 +8,13 @@ import {
   Box,
   darken,
 } from "@mui/material";
-import { themeImages, ThemeMode } from "../../../theme/theme.ts";
+import {
+  themeImages,
+  ThemeMode,
+  useCustomPalette,
+} from "../../../theme/theme.ts";
 import { ThemeContext } from "../../../context/ThemeContext.tsx";
 import { trackCustomEvent } from "../../../utils/tracking/plausibleHelpers.ts";
-import { cp } from "../../../utils/utils.ts";
 
 interface ThemeSwitcherProps {
   isBackgroundDark: boolean;
@@ -28,6 +31,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
   const [currentThemeIndex, setCurrentThemeIndex] = useState(0);
   const imgSize = 24;
   const hideTimer = useRef<number | null>(null);
+  const { background } = useCustomPalette();
 
   const handleIconPointerEnter = (event: React.MouseEvent<HTMLElement>) => {
     if (hideTimer.current) {
@@ -118,9 +122,9 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
                 display: "flex",
                 alignItems: "center",
                 gap: 1,
-                backgroundColor: cp("background.light"),
+                backgroundColor: background.light,
                 "&:hover": {
-                  backgroundColor: darken(cp("background.light"), 0.3),
+                  backgroundColor: darken(background.light, 0.3),
                 },
               }}
               onClick={() => handleThemeSelect(index)}

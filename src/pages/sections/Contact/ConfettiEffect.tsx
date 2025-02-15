@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { Box } from "@mui/material";
 import ReactConfetti from "react-confetti";
 import { useWindowSize } from "react-use";

@@ -1,17 +1,13 @@
-import React, {
-  MouseEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
 import { useHoverTracking } from "../../../../utils/tracking/hooks/useHoverTracking.ts";
+import { useCustomPalette } from "../../../../theme/theme.ts";
 
 interface ReactIconAnimationProps {
   triggerRef?: React.RefObject<HTMLButtonElement>;
 }
 
+const iconColor = "#61DAFB";
 export const ReactIconAnimation: React.FC<ReactIconAnimationProps> = ({
   triggerRef,
 }) => {
@@ -30,7 +26,7 @@ export const ReactIconAnimation: React.FC<ReactIconAnimationProps> = ({
     circleScale: 1,
     rotationSpeedDegPerSec: 60,
   });
-
+  const { interactable } = useCustomPalette();
   const setEllipseRef = (index: number, el: SVGElement | null) => {
     ellipseRefs.current[index] = el;
   };
@@ -219,7 +215,7 @@ export const ReactIconAnimation: React.FC<ReactIconAnimationProps> = ({
             cy="50"
             rx="30"
             ry="10"
-            stroke="#61DAFB"
+            stroke={iconColor}
             strokeWidth={3}
             fill="none"
             vectorEffect="non-scaling-stroke"
@@ -232,7 +228,7 @@ export const ReactIconAnimation: React.FC<ReactIconAnimationProps> = ({
           cx="50"
           cy="50"
           r="3"
-          fill={hasBeenHovered ? "#61DAFB" : "orange"}
+          fill={hasBeenHovered ? iconColor : interactable.highlighted}
           style={{ transformOrigin: "50px 50px", willChange: "transform" }}
         />
       </svg>
