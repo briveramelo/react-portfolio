@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { trackMouseEvent } from "../plausibleHelpers.ts";
 
-export const useHoverTracking = (hasBeenHoveredTimeMs: number = 400) => {
+export const useHoverTracking = (
+  sendEvents: boolean = true,
+  hasBeenHoveredTimeMs: number = 400,
+) => {
   const [hoverStartTimeMillis, setHoverStartTimeMillis] = useState<
     number | null
   >(null);
@@ -18,10 +21,12 @@ export const useHoverTracking = (hasBeenHoveredTimeMs: number = 400) => {
       const dwellTimeMs = performance.now() - hoverStartTimeMillis;
       if (dwellTimeMs >= hasBeenHoveredTimeMs) {
         setHasBeenHovered(true);
-        trackMouseEvent(event, "hover", {
-          event_version: "0.1.0",
-          hover_duration_ms: dwellTimeMs,
-        });
+        if (sendEvents) {
+          trackMouseEvent(event, "hover", {
+            event_version: "0.1.0",
+            hover_duration_ms: dwellTimeMs,
+          });
+        }
       }
     }
     setHoverStartTimeMillis(null);

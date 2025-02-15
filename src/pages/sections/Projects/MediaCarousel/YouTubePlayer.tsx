@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Box } from "@mui/material";
+import { useHoverTracking } from "../../../../utils/tracking/hooks/useHoverTracking.ts";
 
 interface YouTubePlayerProps {
   src: string;
@@ -13,7 +14,6 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   isActive,
 }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-
   // Pause the video when inactive
   useEffect(() => {
     if (!isActive && iframeRef.current) {
@@ -33,7 +33,10 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
       sx={{
         position: "relative",
         width: "100%",
-        paddingBottom: "54.25%", // fills the play area
+        paddingBottom: "54.25%",
+        // 56.25% fills the play area,
+        // 54.25% ensures the header overlay (icon, title, 'copy' link) shows
+        // though this reduction adds small black letterboxing, this is OK
       }}
     >
       <iframe

@@ -35,7 +35,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
   const [isFuseActive, setIsFuseActive] = useState<boolean>(false);
 
   const { trackPointerEnter, trackPointerLeave, hasBeenHovered, isHovered } =
-    useHoverTracking(USER_TRANSITION_DURATION_MS);
+    useHoverTracking(true, USER_TRANSITION_DURATION_MS);
   const containerRef = useRef<HTMLDivElement>(null);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const entrySideRef = useRef<"left" | "right" | null>(null);

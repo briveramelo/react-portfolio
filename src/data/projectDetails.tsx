@@ -285,58 +285,64 @@ ${dash} Tilt Tracker user`,
         src: abcmouse,
         alt: "",
         type: "image",
-        text: `ABCmouse is a digital education program for children ages 2–8, created by the edtech company Age of Learning, Inc. The program offers educational games, videos, puzzles, printables, and a library of regular and "read-aloud" children's books, covering subjects including reading and language arts, math, science, health, social studies, music, and art.`,
+        text: `ABCmouse is a digital education program for children ages 2–8, created by the edtech company Age of Learning, Inc. The program offers educational games, videos, puzzles, printables, and a library of regular and "read-aloud" children's books, covering subjects including reading and language arts, math, science, health, social studies, music, and art.
+${_}
+The next 3 media items in this 'chapter' are 1-minute videos showing various stakeholder perspectives: kids, teachers, and parents.`,
       },
       {
         src: "https://www.youtube-nocookie.com/embed/rbZCH6z8WWs?rel=0&enablejsapi=1",
-        alt: "",
+        alt: "Kids video",
         type: "youtube",
-        text: "Test",
+        text: "Kids think ABCmouse is fun, so learning happens naturally.",
       },
       {
         src: "https://www.youtube-nocookie.com/embed/Gdz6R6vw6zw?rel=0&enablejsapi=1",
-        alt: "",
+        alt: "Teachers video",
         type: "youtube",
-        text: "Test",
+        text: "Teachers see improved test scores because of increased academic engagement.",
       },
       {
         src: "https://www.youtube-nocookie.com/embed/i4XfBcGuCfU?rel=0&enablejsapi=1",
-        alt: "",
+        alt: "Parents",
         type: "youtube",
-        text: "Test",
-      },
-      {
-        src: "https://www.youtube-nocookie.com/embed/a9gIgbesP3Q?rel=0&enablejsapi=1",
-        alt: "",
-        type: "youtube",
-        text: "Test",
-      },
-      {
-        src: "https://www.youtube-nocookie.com/embed/wjDfa5igm8k?rel=0&enablejsapi=1",
-        alt: "Test",
-        type: "youtube",
-        text: "Test",
-      },
-      {
-        src: "https://www.youtube-nocookie.com/embed/S5XzLsWZjB8?rel=0&enablejsapi=1",
-        alt: "",
-        type: "youtube",
-        text: "Test",
+        text: "Parents can trust that all the content will provide the kids with learning.",
       },
       {
         chapterTitle: "Contributions",
         src: "abcmouse/devices.webp",
-        alt: "",
+        alt: "Devices",
         type: "firebaseImage",
-        text: `Supporting the iPad 2 as a primary device used in across libraries across the world required heavy optimization. With only 512MB RAM available and reaching ~60% (~300MB) triggering a forced closure of the app by the iPad OS, a team of engineers and myself identified an opportunity: Unity AssetBundles.
+        text: `Supporting the iPad 2 as the primary device across libraries worldwide required heavy optimization. With only 512MB of RAM available, using around 300MB (roughly 60%) would trigger app crashes. A team of engineers and I identified an opportunity with Unity AssetBundles.
 ${_}
-We redesigned the app internals to load and unload resources on demand, using an in-house API and caching mechanism. This reduced load times by 50%, entirely eliminated forced app closures for our low-end devices, and expanded learning access to tens of thousands of toddlers across the world.`,
+We redesigned the app internals to load and unload resources on demand using an in-house API and caching mechanism, while also addressing other memory leaks from static variables and lingering closures. These changes reduced app startup times by 50%, eliminated app crashes on low-end devices, and expanded learning access to tens of thousands of children worldwide.`,
       },
       {
         src: "abcmouse/leanplum-dashboard-sample.webp",
+        alt: "Leanplum Analytics",
+        type: "firebaseImage",
+        text: `I integrated Leanplum Analytics into ABCmouse mobile to ethically optimize student engagement. This allowed our team to easily conduct A/B testing with thousands of users per test group and confidently deploy changes with higher engagement to hundreds of thousands of active users.        
+${_}
+_The picture featured here is a sample Leanplum dashboard and does not represent actual ABCmouse mobile usage data_`,
+      },
+      {
+        src: "abcmouse/mastering-math.gif",
+        alt: "Mastering Math",
+        type: "firebaseImage",
+        text: `I integrated essential features like Mastering Math - a standalone app built by another team at Age of Learning - seamlessly into ABCmouse Mobile through close cross-team collaboration.`,
+      },
+      {
+        src: "abcmouse/64bit-requirement.webp",
         alt: "",
         type: "firebaseImage",
-        text: "Test",
+        text: `I also upgraded the app's infrastructure to support Android's 64-bit upgrade requirements and ensure future compatibility. This involved careful review of all media assets and external plugins, updating those where necessary.`,
+      },
+      {
+        src: "abcmouse/brandon-and-adam.webp",
+        alt: "",
+        type: "firebaseImage",
+        text: `Over the course of 17 months, I contributed to 27 app updates for both iOS and Android, received a promotion, and was told my pay raise was the highest of all staff in my position.
+${_}
+This was my first day in the office with friend and colleague, Adam Kay.`,
       },
     ],
     skills: projectData.find((elm) => elm.title === "ABCmouse")?.skills ?? null,
