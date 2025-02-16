@@ -279,13 +279,11 @@ ${dash} Tilt Tracker user`,
       "ABCmouse is a digital education program for children ages 2–8 with over 18M users",
     media: [
       {
-        chapterTitle: "Context",
+        chapterTitle: "Videos",
         src: "https://www.youtube-nocookie.com/embed/WjwmbqacTlk?rel=0&enablejsapi=1",
         alt: "",
         type: "youtube",
-        text: `ABCmouse is a digital education program for children ages 2–8, created by the edtech company Age of Learning, Inc. The program offers educational games, videos, puzzles, printables, and a library of regular and "read-aloud" children's books, covering subjects including reading and language arts, math, science, health, social studies, music, and art.
-${_}
-The next 3 media items in this 'chapter' are 1-minute videos showing various stakeholder perspectives: kids, teachers, and parents.`,
+        text: `ABCmouse is a digital education program for children ages 2–8, created by the edtech company Age of Learning, Inc. The program offers educational games, videos, puzzles, printables, and a library of regular and "read-aloud" children's books, covering subjects including reading and language arts, math, science, health, social studies, music, and art.`,
       },
       {
         src: "https://www.youtube-nocookie.com/embed/rbZCH6z8WWs?rel=0&enablejsapi=1",
@@ -367,20 +365,20 @@ _This was my first day in the office with friend and colleague, Adam Kay._`,
   },
   {
     title: "Clawface",
-    description: `Clawface is a twin-stick, arcade-style shooter published to Steam, rated 9/10 with "Very Positive" reviews`,
+    description: `Clawface is a twin-stick, arcade-style retro shooter published to Steam in 2018, rated 9/10 with "Very Positive" reviews and over 70,000 downloads`,
     media: [
       {
-        chapterTitle: "Clawface",
+        chapterTitle: "Videos",
         src: "https://www.youtube-nocookie.com/embed/Qy-SYG2P4SA?rel=0&enablejsapi=1",
         alt: "Trailer",
         type: "youtube",
-        text: "I led our engineering team of 6 using sprint ceremonies, architecture diagrams, one-on-ones, coding standards, source control standards (which required careful collaboration with our art teams), and by example.",
+        text: `Clawface is a twin-stick, arcade-style, bullet-hell shooter published to Steam in 2018, rated 9/10 with "Very Positive" reviews and over 70,000 downloads. The game comes with Steam Achievements, Steam Workshop (for a built-in level editor whose levels you can share), Steam Leaderboards, 11 enemies, 6 weapons, and a killer soundtrack that adapts to the in-game difficulty.`,
       },
       {
         src: "https://www.youtube-nocookie.com/embed/A41UPDj2UNg?rel=0&enablejsapi=1",
         alt: "Retrospective",
         type: "youtube",
-        text: `We scoped development to finish in time for GDC (the Game Developer's Conference) hosted in March and used the remaining 2 months of our program to patch bugs and respond to player feedback. One of my primary responsibilities was to ensure we had a playable build at least every 2 weeks for progress check-ins, a goal I can proudly say our team accomplished.
+        text: `We scoped development to finish in time for GDC (the Game Developer's Conference) hosted in March and used the remaining two months of our program to patch bugs and respond to player feedback. One of my primary responsibilities was to ensure we had a playable build at least every two weeks for progress check-ins, a goal I can proudly say our team accomplished.
 ${_}
 _This video shows progress along that development pathway._`,
       },
@@ -388,7 +386,24 @@ _This video shows progress along that development pathway._`,
         src: "https://www.youtube-nocookie.com/embed/1kNYnjChNVM?rel=0&enablejsapi=1",
         alt: "Level Editor",
         type: "youtube",
-        text: "I provided critical hands-on development for our Level Editor, where players can explore their creative side by designing the layout of an environment and the challenges they will face. They can then share these levels with the online community through the Steam Workshop and play the designs made by other players.",
+        text: `I provided critical hands-on development for our Level Editor, where players can explore their creative side by designing the environment and challenges they will face. Players can share these levels with peers in the online community through the Steam Workshop and play the designs made by others.
+${_}
+_This was created in close collaboration with Garin Richards and Chuan Chin Lai._`,
+      },
+      {
+        chapterTitle: "Contributions",
+        src: "clawface/Clawface-Scripting-Architecture.pdf",
+        alt: "Scripting Architecture Diagram",
+        type: "firebasePdf",
+        text: `I led our engineering team of 6 using sprint ceremonies, architecture diagrams, one-on-ones, coding standards, and source control standards (which required careful collaboration with our art teams).
+${_}
+_Shown here is the once-living scripting architecture diagram used to literally get engineers on the same page during team meetings._`,
+      },
+      {
+        src: "clawface/prefabs-diagram.pdf",
+        alt: "Prefabs Architecture Diagram",
+        type: "firebasePdf",
+        text: `Here is a simpler 'Prefab' architecture diagram used to communicate an interoperable structure of GameObjects in Unity during our prototyping period.`,
       },
       {
         src: "clawface/team.webp",

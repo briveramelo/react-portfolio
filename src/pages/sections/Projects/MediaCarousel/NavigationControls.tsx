@@ -46,7 +46,6 @@ const NavigationControls: React.FC<NavigationControlsProps> = ({
     selectedMediaIndex,
   );
   const totalInChapter = chapterEndIndex - chapterStartIndex + 1;
-  const currentPosition = selectedMediaIndex - chapterStartIndex + 1;
   const { text, interactable } = useCustomPalette();
 
   return (
@@ -64,7 +63,7 @@ const NavigationControls: React.FC<NavigationControlsProps> = ({
       >
         <ChangeMediaButton next={false} onClick={onPrev} />
         <Typography sx={{ fontSize: 14, mx: 2, mt: -2, color: text.paper }}>
-          {currentPosition} / {totalInChapter}
+          {selectedMediaIndex + 1} / {media.length}
         </Typography>
         <ChangeMediaButton
           hasBeenClicked={hasBeenClicked}
