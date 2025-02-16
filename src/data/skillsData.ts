@@ -88,7 +88,7 @@ export const skillsData: SkillCategoryData[] = [
       }),
       new SkillData({
         name: "CSS",
-        starCount: 3,
+        starCount: 4,
         years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025],
         srcLight: css3,
         srcDark: css3,

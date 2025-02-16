@@ -5,6 +5,7 @@ import SteamIcon from "@/assets/skills/steam.svg?react";
 import AndroidIcon from "@/assets/skills/android.svg?react";
 import AppleIcon from "@/assets/skills/apple.svg?react";
 import React from "react";
+import GitHub from "@mui/icons-material/GitHub";
 
 export interface AudioButtonData {
   audioPath: string;
@@ -366,26 +367,40 @@ _This was my first day in the office with friend and colleague, Adam Kay._`,
   },
   {
     title: "Clawface",
-    description:
-      "Clawface is a twin-stick, arcade-style shooter published to Steam",
+    description: `Clawface is a twin-stick, arcade-style shooter published to Steam, rated 9/10 with "Very Positive" reviews`,
     media: [
       {
+        chapterTitle: "Clawface",
         src: "https://www.youtube-nocookie.com/embed/Qy-SYG2P4SA?rel=0&enablejsapi=1",
         alt: "Trailer",
         type: "youtube",
-        text: "",
+        text: "I led our engineering team of 6 using sprint ceremonies, architecture diagrams, one-on-ones, coding standards, source control standards (which required careful collaboration with our art teams), and by example.",
       },
       {
         src: "https://www.youtube-nocookie.com/embed/A41UPDj2UNg?rel=0&enablejsapi=1",
         alt: "Retrospective",
         type: "youtube",
-        text: "",
+        text: `We scoped development to finish in time for GDC (the Game Developer's Conference) hosted in March and used the remaining 2 months of our program to patch bugs and respond to player feedback. One of my primary responsibilities was to ensure we had a playable build at least every 2 weeks for progress check-ins, a goal I can proudly say our team accomplished.
+${_}
+_This video shows progress along that development pathway._`,
       },
       {
         src: "https://www.youtube-nocookie.com/embed/1kNYnjChNVM?rel=0&enablejsapi=1",
         alt: "Level Editor",
         type: "youtube",
-        text: "",
+        text: "I provided critical hands-on development for our Level Editor, where players can explore their creative side by designing the layout of an environment and the challenges they will face. They can then share these levels with the online community through the Steam Workshop and play the designs made by other players.",
+      },
+      {
+        src: "clawface/team.webp",
+        alt: "Team Photo",
+        type: "firebaseImage",
+        text: "This game was developed over the course of 1.5 years as our Master's Thesis at The University of Utah. We formed an independent company - Hathos Interactive - for distribution and publishing, of which I was a founding member.",
+      },
+      {
+        src: "clawface/clawface-poster-2.webp",
+        alt: "Game Poster",
+        type: "firebaseImage",
+        text: "Poster",
       },
     ],
     skills: projectData.find((elm) => elm.title === "Clawface")?.skills ?? null,
@@ -398,7 +413,7 @@ _This was my first day in the office with friend and colleague, Adam Kay._`,
       {
         text: "Github",
         href: "https://github.com/briveramelo/Clawface",
-        icon: "",
+        icon: <GitHub style={iconStyle} />,
       },
     ],
   },

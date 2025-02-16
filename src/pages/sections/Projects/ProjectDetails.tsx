@@ -178,7 +178,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
           position: "relative",
         }}
       >
-        <Typography sx={{ position: "absolute", left: 5, mt: -3 }}>
+        <Typography sx={{ position: "absolute", textAlign: "center", mt: -3 }}>
           Built With:{" "}
         </Typography>
         {skills &&
