@@ -19,9 +19,14 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 interface PdfViewerProps {
   pdfUrl: string;
   isActive: boolean;
+  borderRadius: string;
 }
 
-const PdfViewer: React.FC<PdfViewerProps> = ({ pdfUrl, isActive }) => {
+const PdfViewer: React.FC<PdfViewerProps> = ({
+  pdfUrl,
+  isActive,
+  borderRadius,
+}) => {
   const [numPages, setNumPages] = useState<number>(0);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [scale, setScale] = useState<number>(1);
@@ -133,6 +138,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ pdfUrl, isActive }) => {
         height: "100%",
         overflow: "auto",
         position: "relative",
+        borderRadius: borderRadius,
       }}
     >
       {/* Sticky Control Bar */}
@@ -145,9 +151,10 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ pdfUrl, isActive }) => {
           alignItems: "center",
           gap: 1,
           bgcolor: background.dark,
-          zIndex: 10,
+          zIndex: 1,
           height: controlBarHeight,
-          p: 0.5,
+          width: "100%",
+          p: 1,
         }}
       >
         {/* Left Group: Page Controls */}
@@ -284,6 +291,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ pdfUrl, isActive }) => {
         sx={{
           display: "flex",
           justifyContent: "center",
+          backgroundColor: background.dark,
         }}
       >
         <Document

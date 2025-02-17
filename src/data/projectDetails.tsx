@@ -59,7 +59,7 @@ export const projectDetails: ProjectDetail[] = [
         src: "tilt-tracker/stages-of-ulcer.webp",
         alt: "stages of ulcer",
         type: "firebaseImage",
-        text: `For people in power wheelchairs, sitting in the same position for too long can cause a pressure wound.`,
+        text: `For people in power wheelchairs, sitting in the same position for too long can cause a **pressure ulcer.**`,
       },
       {
         src: "tilt-tracker/nrh-patient-in-bed.webp",
@@ -71,7 +71,7 @@ export const projectDetails: ProjectDetail[] = [
         src: "tilt-tracker/happy-pr-cropped.webp",
         alt: "tilt tracker logo",
         type: "firebaseImage",
-        text: "Doing regular pressure reliefs by tilting the chair back is the best prevention.",
+        text: "Doing regular **Pressure Reliefs (PRs)** by tilting the chair back is the best prevention.",
       },
       {
         src: joshTilt,
@@ -89,19 +89,45 @@ ${_}
 It uses real-time feedback to motivate compliance and objective reporting to provide insight for clinical care.`,
       },
       {
+        src: "tilt-tracker/tilt-pcb-kit.webp",
+        alt: "device cables",
+        type: "firebaseImage",
+        text: "Tilt Tracker **reports** compliance and **prompts** behavior change with inexpensive electronics.",
+      },
+      {
+        src: "tilt-tracker/installation-cropped.webp",
+        alt: "installation",
+        type: "firebaseImage",
+        text: `It is compatible with **all** power wheelchairs.
+${_}
+These tenets of low-cost and maximum compatibility increase user access.`,
+      },
+      {
+        src: "tilt-tracker/device-back-mounted-circled1.webp",
+        alt: "device cables",
+        type: "firebaseImage",
+        text: "The device attaches to the wheelchair backing, sends activity data to the cloud, and delivers friendly reminders if no pressure relief is detected.",
+      },
+      {
         src: "tilt-tracker/seat-tilt-sensor.webp",
         alt: "wheelchair angle sensor",
         type: "firebaseImage",
-        text: "Tilt Tracker's electronic hardware measures compliance with an inexpensive accelerometer...",
+        text: "The seat angle sensor attaches underneath the wheelchair seat...",
       },
       {
-        src: "tilt-tracker/power.webp",
+        src: "tilt-tracker/force-sensor.webp",
         alt: "wheelchair power and occupancy sensor",
         type: "firebaseImage",
-        text: "...and a paper-thin seat occupancy sensor fixed to the seat pan. The device also draws power from the power chair's onboard USB adapter (circled).",
+        text: "...and a paper-thin seat occupancy sensor attaches below the seat cushion.",
       },
       {
-        chapterTitle: "Data Viz and Reporting",
+        src: "tilt-tracker/on-chair-diagram.webp",
+        alt: "on chair diagram",
+        type: "firebaseImage",
+        text: "The case exposes a control button for a few common, operational needs.",
+      },
+      {
+        chapterTitle: "Reports",
         src: "tilt-tracker/sample-relief-report.pdf",
         alt: "pressure relief report",
         type: "firebasePdf",
@@ -113,7 +139,7 @@ It uses real-time feedback to motivate compliance and objective reporting to pro
         type: "firebaseImage",
         text: `Performing both a seat tilt and a backrest recline is key for providing effective pressure relief.
 ${_}
-_Note: this is a one-off visual conducted in the lab and not available to Tilt Tracker users_`,
+_Note: this is a one-off visual conducted in the lab and not available to Tilt Tracker users._`,
       },
       {
         src: "tilt-tracker/interactive-graph-compressed.gif",
@@ -140,38 +166,14 @@ _Note: this is a one-off visual conducted in the lab and not available to Tilt T
         text: "Users, family, and care team members can subscribe to regular reporting via SMS or email with their choice of frequency.",
       },
       {
-        chapterTitle: "Hardware and Feedback",
-        src: "tilt-tracker/installation-cropped.webp",
-        alt: "installation",
-        type: "firebaseImage",
-        text: "The installation kit is compatible with all power wheelchairs.",
-      },
-      {
-        src: "tilt-tracker/tilt-pcb-kit.webp",
-        alt: "device cables",
-        type: "firebaseImage",
-        text: "The installation kit includes a printed circuit board, case, battery, power cable, LTE antenna, seat accelerometer, seat occupancy sensor, LED, speaker, and vibration motor (case, battery, and power cable not depicted).",
-      },
-      {
-        src: "tilt-tracker/on-chair-diagram.webp",
-        alt: "on chair diagram",
-        type: "firebaseImage",
-        text: "The case exposes a control button for a few common, operational needs.",
-      },
-      {
-        src: "tilt-tracker/device-cables.webp",
-        alt: "device cables",
-        type: "firebaseImage",
-        text: "The device attaches to the wheelchair backing, sends activity data to the cloud securely using MQTTS, and in turn receives friendly reminders if no pressure relief is detected.",
-      },
-      {
+        chapterTitle: "Prompts",
         src: "tilt-tracker/audio-goal-feedback-v1.webp",
         alt: "audio goal feedback",
         type: "firebaseImageWithAudioButtons",
         text: `These reminders come in various formats, including audio ...
 ${_}
 _"The sound... I really liked the sound, it just makes it easier to remind me if conversations are going on."_
-${dash} Tilt Tracker user.
+${dash} Tilt Tracker user
 ${_}
 This participant has my brother Nathan to thank for the audio design. Click to listen!`,
         audioButtons: [
@@ -182,13 +184,13 @@ This participant has my brother Nathan to thank for the audio design. Click to l
         ],
       },
       {
-        src: "tilt-tracker/headrest-vibration-motor.webp",
+        src: "tilt-tracker/vibration-motor.webp",
         alt: "vibration motor",
         type: "firebaseImage",
         text: `... subtle vibrations ...
 ${_}
 _"I could tell that it was like, notifying me. But it wasn’t like honking a horn or distracting somebody else. And consistently, I could feel it, versus either seeing it or hearing it. So the feel of the vibration was much more apparent."_
-${dash} Tilt Tracker user.`,
+${dash} Tilt Tracker user`,
       },
       {
         src: "tilt-tracker/armrest-led.webp",
@@ -197,7 +199,7 @@ ${dash} Tilt Tracker user.`,
         text: `... and a blinking LED.
 ${_}
 _"I do not have my phone with me a lot. I do not wear a watch. Or I am not a high tech. If [Tilt Tracker] reminds me, that’s all I want."_
-${dash} Tilt Tracker user.`,
+${dash} Tilt Tracker user`,
       },
       {
         src: "tilt-tracker/notification-settings.webp",
@@ -212,7 +214,7 @@ Users can also choose if they want fun beeps, buzzes, or flashes for the other k
         src: "tilt-tracker/recolored-brandon-pose.webp",
         alt: "brandon posing with Tilt Tracker",
         type: "firebaseImage",
-        text: "Tilt Tracker was initially prototyped at The GApp Lab using a Samsung phone and Unity App for data collection and jQuery, CSS, HTML, NodeJS, Java, and SQL for the rest by a team of 5 graduate students. When one team member left, I filled in writing the Java API and SQL queries.",
+        text: "Tilt Tracker was initially prototyped at The GApp Lab using a Samsung phone and Unity App for data collection and jQuery, CSS, HTML, NodeJS, Java, and SQL by a team of 5 graduate students. When one team member left, I filled in writing the Java API and SQL queries.",
       },
       {
         src: "tilt-tracker/brandon-and-jeff.webp",

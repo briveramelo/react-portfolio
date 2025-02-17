@@ -87,9 +87,9 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                 firebaseImagePath={item.src}
                 height={height}
                 alt={item.alt}
+                isActive={index === selectedIndex}
                 style={{
                   borderRadius,
-                  // width: undefined
                 }}
               />
             ) : item.type === "firebaseImageWithAudioButtons" ? (
@@ -122,7 +122,11 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                 isActive={index === selectedIndex}
               />
             ) : item.type === "pdf" ? (
-              <PdfViewer pdfUrl={item.src} isActive={index === selectedIndex} />
+              <PdfViewer
+                pdfUrl={item.src}
+                isActive={index === selectedIndex}
+                borderRadius={borderRadius}
+              />
             ) : item.type === "youtube" ? (
               <YouTubePlayer
                 src={item.src}

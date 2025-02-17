@@ -5,13 +5,14 @@ import PdfViewer from "./PdfViewer.tsx";
 interface FirebasePdfProps {
   firebasePdfPath: string;
   height: number;
-  borderRadius: string | number;
+  borderRadius: string;
   isActive?: boolean;
 }
 
 const FirebasePdf: React.FC<FirebasePdfProps> = ({
   firebasePdfPath,
   height,
+  borderRadius,
   isActive = true,
 }) => {
   return (
@@ -20,7 +21,11 @@ const FirebasePdf: React.FC<FirebasePdfProps> = ({
       height={height}
       render={(url) =>
         url ? (
-          <PdfViewer pdfUrl={url} isActive={isActive} />
+          <PdfViewer
+            pdfUrl={url}
+            isActive={isActive}
+            borderRadius={borderRadius}
+          />
         ) : (
           <p>No PDF available</p>
         )

@@ -108,7 +108,6 @@ const StoryChapter: React.FC<StoryChapterProps> = ({
     return (
       <Button
         onClick={onClick}
-        fullWidth
         disableRipple
         sx={{
           pb: 0.5,
@@ -116,6 +115,7 @@ const StoryChapter: React.FC<StoryChapterProps> = ({
           borderRadius: "8px",
           display: "block",
           width: "100%",
+          px: 0,
           justifyContent: "flex-start",
           backgroundColor: "transparent",
           "& .MuiButton-label": {
