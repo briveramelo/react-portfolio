@@ -12,11 +12,11 @@ import { InstitutionData, getInstitutions } from "./institutionData.ts";
 export interface Project {
   title: "Tilt Tracker" | "Clawface" | "ABCmouse";
   category: string;
+  categoryColor: string; // Background color for category
+  categoryTextColor: string; // Text color for category
   description: string;
-  image: string;
-  link: string;
-  color: string; // Background color for category
-  textColor: string; // Text color for category
+  imageSrc: string;
+  gifSrc: string;
   skills: SkillData[];
   institutions: InstitutionData[];
   iconSrc: string;
@@ -26,11 +26,11 @@ export const projectData: Project[] = [
   {
     title: "Tilt Tracker",
     category: "Health Tech",
+    categoryColor: "#e53935",
+    categoryTextColor: "#ffffff",
+    imageSrc: joshTilt,
+    gifSrc: "",
     description: `Tilt Tracker is **like FitBit for power wheelchair users**; it **prevents pressure ulcers** with real-time reminders for patients and compliance reports for family and clinical care teams.`,
-    image: joshTilt,
-    link: "#",
-    color: "#e53935",
-    textColor: "#ffffff",
     skills: getSkills(
       "Docker",
       "DevOps",
@@ -52,11 +52,11 @@ export const projectData: Project[] = [
   {
     title: "ABCmouse",
     category: "Game Dev",
+    categoryColor: "#1e88e5",
+    categoryTextColor: "#ffffff",
+    imageSrc: abcmouse,
+    gifSrc: "",
     description: `ABCmouse is the **#1 learning app** for children ages 2–8, where over **18 million students** have completed more than **4 billion educational activities**, earning the trust of families worldwide.`,
-    image: abcmouse,
-    link: "#",
-    color: "#1e88e5",
-    textColor: "#ffffff",
     skills: getSkills("Unity", "C#"),
     institutions: getInstitutions("Age of Learning"),
     iconSrc: abcmouseLogo,
@@ -64,11 +64,11 @@ export const projectData: Project[] = [
   {
     title: "Clawface",
     category: "Game Dev",
-    description: `Clawface is a published video game on Steam, made with an indie studio. We received **Very Positive reviews** and **45,000+ downloads.**`,
-    image: clawface,
-    link: "https://store.steampowered.com/app/785130/Clawface/",
-    color: "#1e88e5",
-    textColor: "#ffffff",
+    categoryColor: "#1e88e5",
+    categoryTextColor: "#ffffff",
+    imageSrc: clawface,
+    gifSrc: "clawface/Clawface-Opening.webp",
+    description: `Clawface is a published video game on Steam, made with an indie studio. We received **Very Positive reviews** and **70,000+ downloads.**`,
     skills: getSkills("Unity", "C#"),
     institutions: getInstitutions("Hathos Interactive"),
     iconSrc: clawfaceLogo,

@@ -11,7 +11,7 @@ import {
 
 interface FirebaseAssetProps {
   firebasePath: string;
-  height: number;
+  height: number | string;
   render: (url: string | null) => ReactNode;
 }
 
@@ -61,6 +61,7 @@ const FirebaseAsset: React.FC<FirebaseAssetProps> = ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        overflow: "hidden",
         height,
       }}
     >

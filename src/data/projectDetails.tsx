@@ -28,6 +28,7 @@ export interface MediaItem {
     | "firebaseImageWithAudioButtons";
   text?: string;
   audioButtons?: AudioButtonData[];
+  quoteWidth?: string;
 }
 
 export interface ProjectLink {
@@ -261,6 +262,7 @@ ${dash} Tilt Tracker user`,
         alt: "quote",
         type: "quote",
         text: "Here, a clinical study participant expresses the value they see in Tilt Tracker.",
+        quoteWidth: "60%",
       },
       {
         src: "tilt-tracker/logo.svg",
@@ -416,6 +418,17 @@ _Shown here is the once-living scripting architecture diagram used to literally 
         alt: "Game Poster",
         type: "firebaseImage",
         text: "Poster",
+      },
+      {
+        src: `### "**Fun** twin-stick shooter, with old time Robotron controls. I was about to write that it might be **worth getting for a couple bucks**, but then I saw it didn't cost anything. So check out this fun little game. It even comes with a nice techno-industrial soundtrack and a level editor. Nice enemy animations, too. Worked well on ubuntu linux and no controller issues. **Hope this developer continues making games like this one.**
+${_}
+### Update: came back two years later and got the one game achievement. **Claw Face. The gameplay holds up.**"
+${dash} tuxdelux
+697 reviews`,
+        alt: "Positive Review",
+        type: "quote",
+        text: "The reviews are really quite uplifting",
+        quoteWidth: "95%",
       },
     ],
     skills: projectData.find((elm) => elm.title === "Clawface")?.skills ?? null,

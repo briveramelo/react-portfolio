@@ -3,14 +3,16 @@ import FirebaseAsset from "./FirebaseAsset.tsx";
 
 interface FirebaseImageProps {
   firebaseImagePath: string;
-  height: number;
+  height: number | string;
   alt: string;
+  style?: React.CSSProperties;
 }
 
 const FirebaseImage: React.FC<FirebaseImageProps> = ({
   firebaseImagePath,
   height,
   alt,
+  style = {},
 }) => {
   return (
     <FirebaseAsset
@@ -26,6 +28,7 @@ const FirebaseImage: React.FC<FirebaseImageProps> = ({
               height: "100%",
               objectFit: "contain",
               objectPosition: "center",
+              ...style,
             }}
           />
         ) : (

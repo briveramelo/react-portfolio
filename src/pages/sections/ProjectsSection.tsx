@@ -128,7 +128,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
           backgroundColor: backgroundColor,
           color: textColor,
           position: "relative",
-          overflow: "hidden",
+          overflowY: "hidden",
           minHeight: "100vh",
         }}
         ref={ref}

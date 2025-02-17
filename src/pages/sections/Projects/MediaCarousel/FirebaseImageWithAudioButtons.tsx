@@ -18,6 +18,7 @@ interface FirebaseImageWithAudioButtonsProps {
   alt: string;
   audioButtons: AudioButtonData[];
   isSelected: boolean;
+  borderRadius?: string | number;
 }
 
 interface ImgDimensions {
@@ -32,7 +33,14 @@ const iconAnim = generateGravityBounceScaleKeyframes(1, 1.4, 20, 3);
 
 const FirebaseImageWithAudioButtons: React.FC<
   FirebaseImageWithAudioButtonsProps
-> = ({ firebaseImagePath, height, alt, audioButtons, isSelected }) => {
+> = ({
+  firebaseImagePath,
+  height,
+  alt,
+  audioButtons,
+  isSelected,
+  borderRadius,
+}) => {
   const [hasClickedButton, setHasClickedButton] = useState<boolean>(false);
   const [imgDimensions, setImgDimensions] = useState<ImgDimensions | null>(
     null,
@@ -134,6 +142,7 @@ const FirebaseImageWithAudioButtons: React.FC<
                 objectFit: "contain",
                 width: "100%",
                 height: "100%",
+                borderRadius,
               }}
             />
             {imgDimensions &&

@@ -35,6 +35,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
     onMediaChange(selectedIndex === 0 ? media.length - 1 : selectedIndex - 1);
     setHasBeenClicked(true);
   };
+  const borderRadius = "10px";
 
   return (
     <Box
@@ -58,10 +59,9 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
       )}
 
       {/* Media Display */}
-      <Card
+      <Box
         sx={{
           width: "100%",
-          borderRadius: 2,
           height,
           backgroundColor: "transparent",
         }}
@@ -73,13 +73,13 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
               display:
                 index !== selectedIndex
                   ? "none"
-                  : item.type === "quote"
+                  : item.type === "quote" || item.type === "youtube"
                     ? "flex"
                     : "block",
               width: "100%",
-              maxHeight: height,
-              justifyContent: "center", // centers horizontally
-              alignItems: "center", // centers vertically
+              height: height,
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             {item.type === "firebaseImage" ? (
@@ -87,6 +87,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                 firebaseImagePath={item.src}
                 height={height}
                 alt={item.alt}
+                style={{ borderRadius, width: undefined }}
               />
             ) : item.type === "firebaseImageWithAudioButtons" ? (
               <FirebaseImageWithAudioButtons
@@ -95,6 +96,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                 alt={item.alt}
                 audioButtons={item.audioButtons || []}
                 isSelected={index === selectedIndex}
+                borderRadius={borderRadius}
               />
             ) : item.type === "image" ? (
               <CardMedia
@@ -106,20 +108,30 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                   height: "100%",
                   objectFit: "contain",
                   objectPosition: "center",
+                  borderRadius,
                 }}
               />
             ) : item.type === "firebasePdf" ? (
-              <FirebasePdf firebasePdfPath={item.src} height={height} />
+              <FirebasePdf
+                firebasePdfPath={item.src}
+                height={height}
+                borderRadius={borderRadius}
+              />
             ) : item.type === "pdf" ? (
-              <PdfViewer pdfUrl={item.src} />
+              <PdfViewer pdfUrl={item.src} borderRadius={borderRadius} />
             ) : item.type === "youtube" ? (
               <YouTubePlayer
                 src={item.src}
                 title={item.alt}
+                borderRadius={borderRadius}
                 isActive={index === selectedIndex}
               />
             ) : item.type === "quote" ? (
-              <Quote content={item.src} />
+              <Quote
+                content={item.src}
+                quoteWidth={item.quoteWidth}
+                borderRadius={borderRadius}
+              />
             ) : (
               <Box
                 sx={{
@@ -135,7 +147,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
             )}
           </Box>
         ))}
-      </Card>
+      </Box>
 
       {/* Next Button */}
       {showArrows && (

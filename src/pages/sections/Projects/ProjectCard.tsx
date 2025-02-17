@@ -8,6 +8,9 @@ import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking
 import { Collapsible } from "../../components/reusable/Collapsible.tsx";
 import { useCursor } from "../../../context/CursorContext.tsx";
 import { useCustomPalette } from "../../../theme/theme.ts";
+import YouTubePlayer from "./MediaCarousel/YouTubePlayer.tsx";
+import { useAuth } from "../../../context/AuthContext.tsx";
+import FirebaseImage from "./MediaCarousel/FirebaseImage.tsx";
 
 interface ProjectCardProps {
   projectData: Project;
@@ -31,6 +34,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   const isOnScreen = targetDestinationX === "0";
   const borderRadius = "8px";
   const cardHover = useHoverTracking();
+  const { user } = useAuth();
   const { onHoverChange } = useCursor();
   const { background, text } = useCustomPalette();
 
@@ -72,19 +76,60 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         }}
         id={`project_card_${projectData.title}`}
       >
-        {/* IMAGE */}
-        <CardMedia
-          component="img"
-          id={`project_card_img_${projectData.title}`}
-          src={projectData.image}
-          alt={projectData.title}
+        {/* IMAGE & VIDEO CONTAINER */}
+        <Box
           sx={{
-            minHeight: "250px",
+            position: "relative",
             maxHeight: "600px",
-            minWidth: "300px",
+            aspectRatio: cardHover.isHovered ? undefined : "16 / 9",
             borderRadius: `${borderRadius} ${borderRadius} 0 0`,
+            overflow: "hidden",
           }}
-        />
+        >
+          {/* IMAGE  */}
+          <CardMedia
+            component="img"
+            id={`project_card_img_${projectData.title}`}
+            src={projectData.imageSrc}
+            alt={projectData.title}
+            sx={{
+              width: "100%",
+              height: "auto",
+              objectFit: "cover",
+              borderRadius: `${borderRadius} ${borderRadius} 0 0`,
+              opacity:
+                user && projectData.gifSrc && cardHover.isHovered ? 0 : 1,
+              transition: "opacity 0.5s ease",
+            }}
+          />
+
+          {/* ANIMATED OVERLAY */}
+          {user && projectData.gifSrc && (
+            <Box
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                opacity: cardHover.isHovered ? 1 : 0,
+                transition: "opacity 0.5s ease",
+                pointerEvents: "none",
+                borderRadius: `${borderRadius} ${borderRadius} 0 0`,
+              }}
+            >
+              <FirebaseImage
+                firebaseImagePath={projectData.gifSrc}
+                height="100%"
+                alt={projectData.title}
+                style={{
+                  borderRadius: `${borderRadius} ${borderRadius} 0 0`,
+                  objectFit: "cover",
+                }}
+              />
+            </Box>
+          )}
+        </Box>
 
         {/* TEXT + SKILLS COLUMN */}
         <CardContent
@@ -124,8 +169,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                   borderRadius: "999px",
                   fontSize: "0.875rem",
                   fontWeight: "bold",
-                  backgroundColor: projectData.color,
-                  color: projectData.textColor,
+                  backgroundColor: projectData.categoryColor,
+                  color: projectData.categoryTextColor,
                   whiteSpace: "nowrap",
                 }}
               >
