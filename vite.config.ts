@@ -4,6 +4,13 @@ import { visualizer } from "rollup-plugin-visualizer";
 import svgr from "vite-plugin-svgr";
 
 export default defineConfig({
+  // this is commented out because the default 'undefined' value is 'auto'
+  // auto is more permissive, and setting an explicit array is more limiting
+  // I'd rather keep this flexible post-deployment and leave it as 'auto'
+  // it's a good reference in case I want to do a semi-local test though
+  // server: {
+  //   allowedHosts: ["9c13-209-122-135-213.ngrok-free.app"],
+  // },
   plugins: [
     react(),
     visualizer({
