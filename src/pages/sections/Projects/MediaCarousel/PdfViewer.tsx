@@ -63,7 +63,6 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ pdfUrl, isActive }) => {
 
   // Whenever pageNumber changes, recalc the scale.
   useEffect(() => {
-    console.log(isActive);
     recalcScaleForPage(pageNumber);
   }, [isActive, pageNumber]);
 
