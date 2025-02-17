@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Card, CardMedia } from "@mui/material";
+import { Box, CardMedia } from "@mui/material";
 import { MediaItem } from "../../../../data/projectDetails.tsx";
 import PdfViewer from "./PdfViewer.tsx";
 import YouTubePlayer from "./YouTubePlayer.tsx";
@@ -46,7 +46,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
         alignItems: "center",
         width: "100%",
         margin: "auto",
-        overflow: "hidden",
+        overflow: "visible",
       }}
     >
       {/* Previous Button */}
@@ -87,7 +87,10 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                 firebaseImagePath={item.src}
                 height={height}
                 alt={item.alt}
-                style={{ borderRadius, width: undefined }}
+                style={{
+                  borderRadius,
+                  // width: undefined
+                }}
               />
             ) : item.type === "firebaseImageWithAudioButtons" ? (
               <FirebaseImageWithAudioButtons
@@ -116,9 +119,10 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                 firebasePdfPath={item.src}
                 height={height}
                 borderRadius={borderRadius}
+                isActive={index === selectedIndex}
               />
             ) : item.type === "pdf" ? (
-              <PdfViewer pdfUrl={item.src} borderRadius={borderRadius} />
+              <PdfViewer pdfUrl={item.src} isActive={index === selectedIndex} />
             ) : item.type === "youtube" ? (
               <YouTubePlayer
                 src={item.src}

@@ -6,12 +6,13 @@ interface FirebasePdfProps {
   firebasePdfPath: string;
   height: number;
   borderRadius: string | number;
+  isActive?: boolean;
 }
 
 const FirebasePdf: React.FC<FirebasePdfProps> = ({
   firebasePdfPath,
   height,
-  borderRadius,
+  isActive = true,
 }) => {
   return (
     <FirebaseAsset
@@ -19,7 +20,7 @@ const FirebasePdf: React.FC<FirebasePdfProps> = ({
       height={height}
       render={(url) =>
         url ? (
-          <PdfViewer pdfUrl={url} borderRadius={borderRadius} />
+          <PdfViewer pdfUrl={url} isActive={isActive} />
         ) : (
           <p>No PDF available</p>
         )

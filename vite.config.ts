@@ -9,7 +9,7 @@ export default defineConfig({
   // I'd rather keep this flexible post-deployment and leave it as 'auto'
   // it's a good reference in case I want to do a semi-local test though
   // server: {
-  //   allowedHosts: ["9c13-209-122-135-213.ngrok-free.app"],
+  //   allowedHosts: ["9629-209-122-135-213.ngrok-free.app"],
   // },
   plugins: [
     react(),
@@ -40,6 +40,7 @@ export default defineConfig({
             )
               return "vendor-tracking";
             if (id.includes("confetti")) return "vendor-confetti";
+            if (id.includes("pdf")) return "vendor-react-pdf";
             if (id.includes("react")) return "vendor-react";
             return "vendor";
           }

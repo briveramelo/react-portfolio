@@ -28,6 +28,7 @@
     "react-confetti": "^6.2.2",
     "react-dom": "^18.3.1",
     "react-markdown": "^9.0.3",
+    "react-pdf": "^9.2.1",
     "react-use": "^17.6.0",
     "remark-breaks": "^4.0.0",
     "uuid": "^11.0.5",
