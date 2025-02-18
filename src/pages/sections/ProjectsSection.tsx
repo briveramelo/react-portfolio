@@ -153,11 +153,13 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
             >
               {isProjectSelected && (
                 <>
-                  <Button
-                    variant="contained"
+                  <Box
                     sx={{
                       backgroundColor: interactable.idle,
+                      color: "white",
                       position: "absolute",
+                      borderRadius: "4px",
+                      cursor: "pointer",
                       left: isXs ? 4 : 0,
                       top: isXs ? 32 : 14,
                       contentAlign: "center",
@@ -167,6 +169,8 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                       "&:hover": { backgroundColor: interactable.hovered },
                       pr: { xs: "8px", sm: "16px" },
                       mt: { xs: "-18px", sm: "0px" },
+                      whiteSpace: "nowrap",
+                      display: "flex",
                     }}
                     id="close_project_button"
                     onClick={handleCloseProjectDetails}
@@ -185,7 +189,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                     >
                       <Typography id="close_project_text">CLOSE</Typography>
                     </Box>
-                  </Button>
+                  </Box>
                   <Box width={20}></Box>
                 </>
               )}

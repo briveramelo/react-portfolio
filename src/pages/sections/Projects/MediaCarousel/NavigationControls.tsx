@@ -56,8 +56,7 @@ const NavigationControls: React.FC<NavigationControlsProps> = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          mt: 0,
-          mb: 0,
+          my: { xs: 1, sm: 0 },
           width: "100%",
         }}
       >

@@ -418,12 +418,6 @@ _Shown here is the once-living scripting architecture diagram used to literally 
         text: "This game was developed over the course of 1.5 years as our Master's Thesis at The University of Utah. We formed an independent company - Hathos Interactive - for distribution and publishing, of which I was a founding member.",
       },
       {
-        src: "clawface/clawface-poster-2.webp",
-        alt: "Game Poster",
-        type: "firebaseImage",
-        text: "Poster",
-      },
-      {
         src: `### "**Fun** twin-stick shooter, with old time Robotron controls. I was about to write that it might be **worth getting for a couple bucks**, but then I saw it didn't cost anything. So check out this fun little game. It even comes with a nice techno-industrial soundtrack and a level editor. Nice enemy animations, too. Worked well on ubuntu linux and no controller issues. **Hope this developer continues making games like this one.**
 ${_}
 ### Update: came back two years later and got the one game achievement. **Claw Face. The gameplay holds up.**"
@@ -433,6 +427,12 @@ ${dash} tuxdelux
         type: "quote",
         text: "The reviews are really quite uplifting",
         quoteWidth: "95%",
+      },
+      {
+        src: "clawface/clawface-poster-2.webp",
+        alt: "Game Poster",
+        type: "firebaseImage",
+        text: "Poster",
       },
     ],
     skills: projectData.find((elm) => elm.title === "Clawface")?.skills ?? null,
