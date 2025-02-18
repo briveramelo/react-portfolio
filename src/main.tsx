@@ -8,6 +8,7 @@ import { AuthProvider } from "./context/AuthContext.tsx";
 import { FirebaseCacheProvider } from "./context/FirebaseCacheContext";
 import { CursorProvider } from "./context/CursorContext.tsx";
 import DebugConsole from "./pages/components/specialty/DebugConsole.tsx";
+import { HeaderHeightProvider } from "./context/HeaderHeightContext.tsx";
 
 enablePerformanceTracking();
 
@@ -17,8 +18,10 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <FirebaseCacheProvider>
         <ThemeProvider>
           <CursorProvider>
-            <App />
-            {/*<DebugConsole />*/}
+            <HeaderHeightProvider>
+              <App />
+              {/*<DebugConsole />*/}
+            </HeaderHeightProvider>
           </CursorProvider>
         </ThemeProvider>
       </FirebaseCacheProvider>

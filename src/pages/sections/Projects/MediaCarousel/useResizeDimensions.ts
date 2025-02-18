@@ -1,18 +1,22 @@
 import { useState, useCallback } from "react";
 
+type MediaElement = HTMLImageElement | HTMLVideoElement | null;
+
 export const useResizeDimensions = () => {
   const [dimensions, setDimensions] = useState({
     width: "100%",
     height: "100%",
   });
 
-  const resizeDimensions = useCallback((img: HTMLImageElement | null) => {
-    if (!img) return;
+  const resizeDimensions = useCallback((media: MediaElement) => {
+    if (!media) return;
 
-    const naturalWidth = img.naturalWidth;
-    const naturalHeight = img.naturalHeight;
-    const containerWidth = img.parentElement?.clientWidth || naturalWidth;
-    const containerHeight = img.parentElement?.clientHeight || naturalHeight;
+    const naturalWidth =
+      "naturalWidth" in media ? media.naturalWidth : media.videoWidth;
+    const naturalHeight =
+      "naturalHeight" in media ? media.naturalHeight : media.videoHeight;
+    const containerWidth = media.parentElement?.clientWidth || naturalWidth;
+    const containerHeight = media.parentElement?.clientHeight || naturalHeight;
 
     // Calculate the scale factor needed to "contain" the image.
     const scale = Math.min(

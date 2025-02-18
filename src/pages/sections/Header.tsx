@@ -17,6 +17,7 @@ import { isColorDark } from "../../utils/utils.ts";
 import { ThemeMode, themes } from "../../theme/theme.ts";
 import { NavLink, sectionStyles } from "../../data/sectionStyles.ts";
 import { useNavigation } from "../../utils/hooks/useNavigation";
+import { useHeaderHeight } from "../../context/HeaderHeightContext.tsx";
 
 interface HeaderProps {
   sectionRefs: React.RefObject<HTMLElement>[];
@@ -36,6 +37,14 @@ export function Header({
   defaultIsBackgroundDark,
 }: HeaderProps) {
   const headerRef = useRef<HTMLElement | null>(null);
+  const { setHeaderHeight } = useHeaderHeight();
+
+  useEffect(() => {
+    if (headerRef.current) {
+      setHeaderHeight(headerRef.current.offsetHeight);
+    }
+  }, [headerRef.current, setHeaderHeight]);
+
   const [colors, setColors] = useState({
     header: defaultBackgroundColor,
     text: defaultTextColor,

@@ -1,5 +1,11 @@
-import React from "react";
-import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
+import React, { useRef } from "react";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  useMediaQuery,
+} from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import { HighlightedText } from "../../components/reusable/HighlightedText.tsx";
 import { Project } from "../../../data/projectData.ts";
@@ -8,9 +14,10 @@ import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking
 import { Collapsible } from "../../components/reusable/Collapsible.tsx";
 import { useCursor } from "../../../context/CursorContext.tsx";
 import { useCustomPalette } from "../../../theme/theme.ts";
-import YouTubePlayer from "./MediaCarousel/YouTubePlayer.tsx";
 import { useAuth } from "../../../context/AuthContext.tsx";
 import FirebaseImage from "./MediaCarousel/FirebaseImage.tsx";
+import { useIntersectionObserver } from "../../../utils/hooks/useIntersectionObserver.ts";
+import FirebaseVideoAsGif from "./MediaCarousel/FirebaseVideoAsGif.tsx";
 
 interface ProjectCardProps {
   projectData: Project;
@@ -37,9 +44,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   const { user } = useAuth();
   const { onHoverChange } = useCursor();
   const { background, text } = useCustomPalette();
+  const isTouchDevice = useMediaQuery("(pointer: coarse)");
+  const cardRef = useRef<HTMLDivElement>(null);
+  const isCardVisible = useIntersectionObserver(cardRef, { threshold: 0.94 });
 
   return (
     <Box
+      ref={cardRef}
       sx={{
         position: "relative",
         visibility: !isOnScreen && animationComplete ? "hidden" : "visible",
@@ -97,7 +108,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               objectFit: "cover",
               borderRadius: `${borderRadius} ${borderRadius} 0 0`,
               opacity:
-                user && projectData.gifSrc && cardHover.isHovered ? 0 : 1,
+                user &&
+                projectData.gifSrc &&
+                (cardHover.isHovered || (isTouchDevice && isCardVisible))
+                  ? 0
+                  : 1,
               transition: "opacity 0.5s ease",
             }}
           />
@@ -111,14 +126,18 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 left: 0,
                 width: "100%",
                 height: "100%",
-                opacity: cardHover.isHovered ? 1 : 0,
+                opacity:
+                  cardHover.isHovered ||
+                  (isTouchDevice && isCardVisible && projectData.gifSrc)
+                    ? 1
+                    : 0,
                 transition: "opacity 0.5s ease",
                 pointerEvents: "none",
                 borderRadius: `${borderRadius} ${borderRadius} 0 0`,
               }}
             >
-              <FirebaseImage
-                firebaseImagePath={projectData.gifSrc}
+              <FirebaseVideoAsGif
+                firebaseVideoPath={projectData.gifSrc}
                 height="100%"
                 alt={projectData.title}
                 style={{
