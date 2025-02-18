@@ -3,7 +3,6 @@ import {
   Container,
   Typography,
   Box,
-  Button,
   useTheme,
   useMediaQuery,
 } from "@mui/material";
@@ -15,7 +14,7 @@ import { ThemeMode, useCustomPalette } from "../../theme/theme.ts";
 import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import { Collapsible } from "../components/reusable/Collapsible.tsx";
 import { ProjectDetail, projectDetails } from "../../data/projectDetails.tsx";
-import { HoverExpandContainer } from "../components/reusable/HoverExpandContainer.tsx";
+import { HoverExpandGrid } from "../components/reusable/HoverExpandGrid.tsx";
 import AnimatedCursor from "../components/specialty/AnimatedCursor.tsx";
 import { toSlug } from "../../utils/utils.ts";
 
@@ -124,7 +123,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
         component="section"
         id={id}
         sx={{
-          pt: 10,
+          py: 10,
           backgroundColor: backgroundColor,
           color: textColor,
           position: "relative",
@@ -208,10 +207,12 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
 
           {/* Project Cards */}
           <Collapsible durationMs={slideDurationMs} isOpen={!isProjectSelected}>
-            <HoverExpandContainer
+            <HoverExpandGrid
               maxFlex={2}
               minFlex={1}
               transitionDurationMs={600}
+              minCardWidth={300}
+              maxCardWidth={500}
             >
               {projectData.map((project) => (
                 <ProjectCard
@@ -227,7 +228,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                   hoverKey={hoverKey}
                 />
               ))}
-            </HoverExpandContainer>
+            </HoverExpandGrid>
           </Collapsible>
 
           {/* Selected Project Details */}

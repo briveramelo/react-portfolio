@@ -19,6 +19,7 @@ import cpp from "@/assets/skills/c++.svg";
 import bash from "@/assets/skills/bash.svg";
 import devops from "@/assets/skills/devops.webp";
 import hipaa from "@/assets/skills/hipaa.svg";
+import { getProjectsBySkill } from "./projectMapping";
 
 export class SkillData {
   name: string;
@@ -27,8 +28,7 @@ export class SkillData {
   srcLight: string;
   srcDark: string;
   invertIfLight?: boolean;
-  relatedProjectTitles?: string[];
-  static getProjects: (titles: string[]) => any[] = () => [];
+  static getProjects: (skillName: string) => any[] = () => [];
 
   constructor({
     name,
@@ -37,7 +37,6 @@ export class SkillData {
     srcLight,
     srcDark,
     invertIfLight,
-    relatedProjectTitles,
   }: {
     name: string;
     starCount: number;
@@ -45,7 +44,6 @@ export class SkillData {
     srcLight: string;
     srcDark: string;
     invertIfLight?: boolean;
-    relatedProjectTitles?: string[];
   }) {
     this.name = name;
     this.starCount = starCount;
@@ -53,19 +51,10 @@ export class SkillData {
     this.srcLight = srcLight;
     this.srcDark = srcDark;
     this.invertIfLight = invertIfLight;
-    this.relatedProjectTitles = relatedProjectTitles;
-  }
-
-  hasRelatedProjects(): boolean {
-    return this.relatedProjectTitles
-      ? this.relatedProjectTitles.length > 0
-      : false;
   }
 
   getRelatedProjects(): any[] {
-    return this.relatedProjectTitles
-      ? SkillData.getProjects(this.relatedProjectTitles)
-      : [];
+    return SkillData.getProjects(this.name);
   }
 }
 
@@ -84,7 +73,6 @@ export const skillsData: SkillCategoryData[] = [
         years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025],
         srcLight: html5,
         srcDark: html5,
-        relatedProjectTitles: ["Tilt Tracker"],
       }),
       new SkillData({
         name: "CSS",
@@ -92,7 +80,6 @@ export const skillsData: SkillCategoryData[] = [
         years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025],
         srcLight: css3,
         srcDark: css3,
-        relatedProjectTitles: ["Tilt Tracker"],
       }),
       new SkillData({
         name: "JS",
@@ -100,7 +87,6 @@ export const skillsData: SkillCategoryData[] = [
         years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025],
         srcLight: javascript,
         srcDark: javascript,
-        relatedProjectTitles: ["Tilt Tracker"],
       }),
       new SkillData({
         name: "React",
@@ -115,7 +101,6 @@ export const skillsData: SkillCategoryData[] = [
         years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025],
         srcLight: jquery,
         srcDark: jquery,
-        relatedProjectTitles: ["Tilt Tracker"],
       }),
     ],
   },
@@ -128,7 +113,6 @@ export const skillsData: SkillCategoryData[] = [
         years: [2018, 2023, 2024],
         srcLight: awsW,
         srcDark: aws,
-        relatedProjectTitles: ["Tilt Tracker"],
       }),
       new SkillData({
         name: "GCP",
@@ -143,7 +127,6 @@ export const skillsData: SkillCategoryData[] = [
         years: [2020, 2021, 2022, 2023, 2024, 2025],
         srcLight: docker,
         srcDark: docker,
-        relatedProjectTitles: ["Tilt Tracker"],
       }),
     ],
   },
@@ -156,7 +139,6 @@ export const skillsData: SkillCategoryData[] = [
         years: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2023],
         srcLight: unityW,
         srcDark: unity,
-        relatedProjectTitles: ["ABCmouse", "Clawface"],
       }),
       new SkillData({
         name: "C#",
@@ -164,7 +146,6 @@ export const skillsData: SkillCategoryData[] = [
         years: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2023],
         srcLight: csharp,
         srcDark: csharp,
-        relatedProjectTitles: ["Tilt Tracker", "ABCmouse", "Clawface"],
       }),
     ],
   },
@@ -177,7 +158,6 @@ export const skillsData: SkillCategoryData[] = [
         years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024],
         srcLight: java,
         srcDark: java,
-        relatedProjectTitles: ["Tilt Tracker"],
       }),
       new SkillData({
         name: "Python",
@@ -199,7 +179,6 @@ export const skillsData: SkillCategoryData[] = [
         years: [2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024],
         srcLight: sql,
         srcDark: sql,
-        relatedProjectTitles: ["Tilt Tracker"],
       }),
       new SkillData({
         name: "NoSQL",
@@ -219,7 +198,6 @@ export const skillsData: SkillCategoryData[] = [
         years: [2019, 2020, 2021, 2022, 2023, 2024],
         srcLight: cpp,
         srcDark: cpp,
-        relatedProjectTitles: ["Tilt Tracker"],
       }),
       new SkillData({
         name: "Bash",
@@ -228,7 +206,6 @@ export const skillsData: SkillCategoryData[] = [
         srcLight: bash,
         srcDark: bash,
         invertIfLight: true,
-        relatedProjectTitles: ["Tilt Tracker"],
       }),
       new SkillData({
         name: "DevOps",
@@ -236,7 +213,6 @@ export const skillsData: SkillCategoryData[] = [
         years: [2019, 2020, 2021, 2022, 2023, 2024],
         srcLight: devops,
         srcDark: devops,
-        relatedProjectTitles: ["Tilt Tracker"],
       }),
       new SkillData({
         name: "HIPAA",
@@ -244,7 +220,6 @@ export const skillsData: SkillCategoryData[] = [
         years: [2019, 2020, 2021, 2022, 2023, 2024, 2025],
         srcLight: hipaa,
         srcDark: hipaa,
-        relatedProjectTitles: ["Tilt Tracker"],
       }),
     ],
   },

@@ -87,12 +87,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           }}
         >
           {/* IMAGE  */}
-          <CardMedia
-            component="img"
-            id={`project_card_img_${projectData.title}`}
-            src={projectData.imageSrc}
+          <FirebaseImage
+            firebaseImagePath={projectData.imageSrc}
+            height={"100%"}
             alt={projectData.title}
-            sx={{
+            style={{
               width: "100%",
               height: "auto",
               objectFit: "cover",

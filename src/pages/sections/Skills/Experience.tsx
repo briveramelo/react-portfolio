@@ -132,7 +132,7 @@ const Experience: React.FC<ExperienceProps> = ({
         </Box>
       </Grid>
 
-      {isKeyHovered(hoverKey) && skill.hasRelatedProjects() && (
+      {isKeyHovered(hoverKey) && (
         <RelatedProjects
           hoverKey={hoverKey}
           projects={skill.getRelatedProjects()}

@@ -1,6 +1,5 @@
 import { SkillData } from "./skillsData";
 import { projectData } from "./projectData.ts";
-import joshTilt from "@/assets/projects/josh-tilt-cropped.webp";
 import SteamIcon from "@/assets/skills/steam.svg?react";
 import AndroidIcon from "@/assets/skills/android.svg?react";
 import AppleIcon from "@/assets/skills/apple.svg?react";
@@ -74,9 +73,9 @@ export const projectDetails: ProjectDetail[] = [
         text: "Doing regular **Pressure Reliefs (PRs)** by tilting the chair back is the best prevention.",
       },
       {
-        src: joshTilt,
+        src: "tilt-tracker/josh-tilt-cropped.webp",
         alt: "man in chair looking out window",
-        type: "image",
+        type: "firebaseImage",
         text: "But, tilting your chair every 20-30 minutes is easy to forget.",
       },
       {
@@ -432,7 +431,7 @@ ${dash} tuxdelux
         src: "clawface/clawface-poster-2.webp",
         alt: "Game Poster",
         type: "firebaseImage",
-        text: "Poster",
+        text: "Made by Aaron Desin, Adam Kay, Bharat Gudihal, Bolun Gao, Brandon Rivera-Melo, Nathan Rivera-Melo, Cornelia Schultz, Cherlin Mao, Chuan-Chin Lai, Garin Richards, I-Shun Lo, Jaxon Whittaker, Josh Beedle, Josh Levenson, Lauren Mee, and Tri Nguyen",
       },
     ],
     skills: projectData.find((elm) => elm.title === "Clawface")?.skills ?? null,
@@ -446,6 +445,45 @@ ${dash} tuxdelux
         text: "Github",
         href: "https://github.com/briveramelo/Clawface",
         icon: <GitHub style={iconStyle} />,
+      },
+    ],
+  },
+  {
+    title: "Derpy Dinos",
+    description: `Derpy Dinos is a 2.5D side-scrolling arcade shooter. Smash, throw, and blast derpy dinosaurs. The more carnage you produce, the more points you earn for a spot on the global leaderboards. Protect your ship, collect power-ups, and earn achievements by completing challenging feats.`,
+    media: [
+      {
+        chapterTitle: "Videos",
+        src: "https://www.youtube-nocookie.com/embed/Vkb5LeRYDzk?rel=0&enablejsapi=1",
+        alt: "Trailer",
+        type: "youtube",
+        text: `Derpy Dinos is a 2.5D side-scrolling arcade shooter. Smash, throw, and blast derpy dinosaurs. The more carnage you produce, the more points you earn for a spot on the global leaderboards. Protect your ship, collect power-ups, and earn achievements by completing challenging feats.`,
+      },
+      {
+        src: "derpy-dinos/DerpyDinos-Achievements.webp",
+        alt: "Trailer",
+        type: "firebaseImage",
+        text: `We built in 25 achievements for accomplishment-motivated gamers to explore the depth of this simple arcade game.`,
+      },
+      {
+        src: `### "Great arcade game, overall just a good pick up and play game and **a bit addicting.**
+${_}
+### Achievements are also tracked well, **some of the best handled achievements** in terms of updating the player on their progress. This game would work well in any arcade, works great on a stick too."
+${dash} #FIN Suojeluskunta
+23 reviews`,
+        alt: "Positive Review",
+        type: "quote",
+        text: `The virtual crowd goes wild.`,
+        quoteWidth: "60%",
+      },
+    ],
+    skills:
+      projectData.find((elm) => elm.title === "Derpy Dinos")?.skills ?? null,
+    links: [
+      {
+        text: "Steam",
+        href: "https://store.steampowered.com/app/718500/Derpy_Dinos/",
+        icon: <SteamIcon style={iconStyle} />,
       },
     ],
   },

@@ -71,7 +71,7 @@ const Skill: React.FC<SkillProps> = ({
             invert={useLight && !!invertIfLight}
           />
         </Grid>
-        {isKeyHovered(hoverKey) && skill.hasRelatedProjects() && (
+        {isKeyHovered(hoverKey) && (
           <RelatedProjects
             hoverKey={hoverKey}
             projects={skill.getRelatedProjects()}
