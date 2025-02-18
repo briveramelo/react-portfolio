@@ -54,7 +54,6 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
   };
 
   const onPageLoadSuccess = () => {
-    console.log(isActive, pdfUrl);
     setIsLoaded(true);
   };
 

@@ -7,7 +7,7 @@ import { enablePerformanceTracking } from "./utils/tracking/autoTracking/enableP
 import { AuthProvider } from "./context/AuthContext.tsx";
 import { FirebaseCacheProvider } from "./context/FirebaseCacheContext";
 import { CursorProvider } from "./context/CursorContext.tsx";
-import DebugConsoleLoader from "./pages/components/specialty/DebugConsoleLoader.tsx";
+import DebugConsole from "./pages/components/specialty/DebugConsole.tsx";
 
 enablePerformanceTracking();
 
@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <ThemeProvider>
           <CursorProvider>
             <App />
-            <DebugConsoleLoader />
+            {/*<DebugConsole />*/}
           </CursorProvider>
         </ThemeProvider>
       </FirebaseCacheProvider>

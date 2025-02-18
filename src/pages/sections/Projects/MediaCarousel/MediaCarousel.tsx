@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { Box, CardMedia } from "@mui/material";
-import { MediaItem } from "../../../../data/projectDetails.tsx";
-import PdfViewer from "./PdfViewer.tsx";
-import YouTubePlayer from "./YouTubePlayer.tsx";
-import FirebaseImage from "./FirebaseImage.tsx";
-import FirebasePdf from "./FirebasePdf.tsx";
-import Quote from "./Quote.tsx";
-import ChangeMediaButton from "./ChangeMediaButton.tsx";
-import FirebaseImageWithAudioButtons from "./FirebaseImageWithAudioButtons.tsx";
+import { Box } from "@mui/material";
+import { MediaItem } from "../../../../data/projectDetails";
+import PdfViewer from "./PdfViewer";
+import YouTubePlayer from "./YouTubePlayer";
+import FirebaseImage from "./FirebaseImage";
+import FirebasePdf from "./FirebasePdf";
+import Quote from "./Quote";
+import ChangeMediaButton from "./ChangeMediaButton";
+import FirebaseImageWithAudioButtons from "./FirebaseImageWithAudioButtons";
+import MediaImage from "./MediaImage";
 
 interface MediaCarouselProps {
   media: MediaItem[];
@@ -35,7 +36,10 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
     onMediaChange(selectedIndex === 0 ? media.length - 1 : selectedIndex - 1);
     setHasBeenClicked(true);
   };
+
   const borderRadius = "10px";
+  const activeMediaType = media[selectedIndex]?.type;
+  const containerHeight = activeMediaType === "quote" ? "auto" : height;
 
   return (
     <Box
@@ -62,7 +66,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
       <Box
         sx={{
           width: "100%",
-          height,
+          height: containerHeight,
           backgroundColor: "transparent",
         }}
       >
@@ -77,7 +81,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                     ? "flex"
                     : "block",
               width: "100%",
-              height: height,
+              height: item.type === "quote" ? "auto" : height,
               justifyContent: "center",
               alignItems: "center",
             }}
@@ -88,9 +92,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                 height={height}
                 alt={item.alt}
                 isActive={index === selectedIndex}
-                style={{
-                  borderRadius,
-                }}
+                style={{ borderRadius }}
               />
             ) : item.type === "firebaseImageWithAudioButtons" ? (
               <FirebaseImageWithAudioButtons
@@ -102,17 +104,12 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                 borderRadius={borderRadius}
               />
             ) : item.type === "image" ? (
-              <CardMedia
-                component="img"
-                image={item.src}
+              <MediaImage
+                src={item.src}
+                height={height}
                 alt={item.alt}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  objectPosition: "center",
-                  borderRadius,
-                }}
+                isActive={index === selectedIndex}
+                style={{ borderRadius }}
               />
             ) : item.type === "firebasePdf" ? (
               <FirebasePdf
