@@ -84,9 +84,9 @@ export const projectDetails: ProjectDetail[] = [
         src: "tilt-tracker/tilt-tracker-system-diagram.webp",
         alt: "Tilt Tracker system diagram",
         type: "firebaseImage",
-        text: `Tilt Tracker is a system that creates a cycle of positive reinforcement to improve pressure relief compliance and prevent pressure ulcers.
+        text: `Tilt Tracker is a system that creates a cycle of positive reinforcement to improve pressure relief compliance and **prevent pressure ulcers.**
 ${_}
-It uses real-time feedback to motivate compliance and objective reporting to provide insight for clinical care.`,
+It uses **real-time feedback** to motivate compliance and objective reporting to provide insight for clinical care.`,
       },
       {
         src: "tilt-tracker/tilt-pcb-kit.webp",
@@ -131,7 +131,9 @@ These tenets of low-cost and maximum compatibility increase user access.`,
         src: "tilt-tracker/sample-relief-report.pdf",
         alt: "pressure relief report",
         type: "firebasePdf",
-        text: "Completing a Pressure Relief (PR) with Tilt Tracker is like closing a fitness ring on an Apple Watch - it tracks adherence to personalized mobility goals. PRs form the foundation of Relief Reports, which provide transparency on how effectively users meet their agreed-upon goals. These reports help power wheelchair users, care teams, and families monitor compliance and anticipate potential risks.",
+        text: `Completing a Pressure Relief (PR) with Tilt Tracker is like closing a fitness ring on an Apple Watch - it tracks adherence to personalized mobility goals. PRs form the foundation of Relief Reports, which provide transparency on how effectively users meet their agreed-upon goals.
+${_}
+These reports help power wheelchair users, care teams, and families monitor compliance and anticipate potential risks.`,
       },
       {
         src: "tilt-tracker/tilt-recline-heatmap.webp",
@@ -220,7 +222,7 @@ Users can also choose if they want fun beeps, buzzes, or flashes for the other k
         src: "tilt-tracker/brandon-and-jeff.webp",
         alt: "interactive graph animated",
         type: "firebaseImage",
-        text: "As the team downsized, I gradually took on the entire tech stack and client meetings. Dr. Jeffrey Rosenbluth M.D., project sponsor and Director of Spinal Cord Injury at the University of Utah, eventually hired me full time.",
+        text: "As the team downsized, I gradually took on the **entire tech stack and client meetings.** Dr. Jeffrey Rosenbluth M.D., project sponsor and Director of Spinal Cord Injury at the University of Utah, eventually hired me full time.",
       },
       {
         src: "https://www.youtube-nocookie.com/embed/AgdABWQStZo?rel=0&enablejsapi=1",
@@ -238,7 +240,7 @@ Users can also choose if they want fun beeps, buzzes, or flashes for the other k
         src: "tilt-tracker/ingenta-article.pdf",
         alt: "tilt tracker logo",
         type: "firebasePdf",
-        text: "In 2018, we published a journal article to Technology and Innovation with the high level details of our approach.",
+        text: "In 2018, we **published a journal article** to Technology and Innovation with the high level details of our approach.",
       },
       {
         src: "tilt-tracker/TiltTracker_MarketingPlan_Executive_Summary.pdf",
@@ -256,7 +258,7 @@ Users can also choose if they want fun beeps, buzzes, or flashes for the other k
         src: "tilt-tracker/design-and-eval-article-working-copy.pdf",
         alt: "tilt tracker logo",
         type: "firebasePdf",
-        text: 'In January 2025, another article was accepted for publication in IMWUT, a high-impact ACM journal on Interactive, Mobile, Wearable, and Ubiquitous Technologies. The paper received "very significant impact" scores from all reviewers. We evaluated the feasibility of the aforementioned reminder and notification modalities to improve PR adherence and identified opportunities to facilitate reflection on personal data through data exploration.',
+        text: 'In January 2025, another article was accepted for publication in IMWUT, a high-impact ACM journal on Interactive, Mobile, Wearable, and Ubiquitous Technologies. The paper received **"very significant impact" scores from all reviewers.** We evaluated the feasibility of the aforementioned reminder and notification modalities to improve PR adherence and identified opportunities to facilitate reflection on personal data through data exploration.',
       },
       {
         src: `### "I think it would be **very beneficial to me to have this reminder** because in any situation, I would have the reminder to help me to go back to help **to not get pressures sores.**"
