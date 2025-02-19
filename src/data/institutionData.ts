@@ -1,17 +1,17 @@
-import uhealthW from "@/assets/orgs/uhealth-w.webp";
-import uhealth from "@/assets/orgs/uhealth.webp";
-import uhealthLogo from "@/assets/orgs/uhealth-logo.webp";
+import uhealthW from "@/assets/orgs/uhealth/uhealth-w.webp";
+import uhealth from "@/assets/orgs/uhealth/uhealth.webp";
+import uhealthLogo from "@/assets/orgs/uhealth/uhealth-logo.webp";
 
-import gapplabW from "@/assets/orgs/gapplab-w.webp";
-import gapplab from "@/assets/orgs/gapplab.webp";
-import gapplabLogo from "@/assets/orgs/gapplab-logo.webp";
+import gapplabW from "@/assets/orgs/gapp/gapplab-w.webp";
+import gapplab from "@/assets/orgs/gapp/gapplab.webp";
+import gapplabLogo from "@/assets/orgs/gapp/gapplab-logo.webp";
 
-import aolW from "@/assets/orgs/aol-w.webp";
-import aol from "@/assets/orgs/aol.webp";
-import aolLogo from "@/assets/orgs/aol-logo.webp";
+import aolW from "@/assets/orgs/aol/aol-w.webp";
+import aol from "@/assets/orgs/aol/aol.webp";
+import aolLogo from "@/assets/orgs/aol/aol-logo.webp";
 
-import hathos from "@/assets/orgs/hathos.webp";
-import hathosLogo from "@/assets/orgs/hathos-logo.webp";
+import hathos from "@/assets/orgs/hathos/hathos.webp";
+import hathosLogo from "@/assets/orgs/hathos/hathos-logo.webp";
 
 import nuW from "@/assets/orgs/nu/nu-white.webp";
 import nu from "@/assets/orgs/nu/nu-color.webp";
@@ -22,7 +22,7 @@ import uofuGames from "@/assets/orgs/uofu-games/uofu-games-color.webp";
 import uofuBizW from "@/assets/orgs/uofu-biz/uofu-biz-white.webp";
 import uofuBiz from "@/assets/orgs/uofu-biz/uofu-biz-color.webp";
 
-import htaLogo from "@/assets/orgs/hta.webp";
+import htaLogo from "@/assets/orgs/hta/hta.webp";
 
 export interface InstitutionData {
   whiteSrc: string;

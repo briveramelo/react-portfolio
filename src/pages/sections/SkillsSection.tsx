@@ -1,7 +1,7 @@
 import React, { forwardRef, useCallback, useRef, useState } from "react";
 import { Box, Typography, Grid, Button } from "@mui/material";
-import CalendarIcon from "@/assets/calendar-check.svg?react";
-import StarIcon from "@/assets/star.svg?react";
+import CalendarIcon from "@/assets/misc/calendar-check.svg?react";
+import StarIcon from "@/assets/misc/star.svg?react";
 
 import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import { skillsData } from "../../data/skillsData";

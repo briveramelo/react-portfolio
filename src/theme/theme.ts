@@ -1,7 +1,7 @@
-import { useTheme, createTheme, darken, lighten } from "@mui/material/styles";
-import sun from "@/assets/sun-d.svg";
-import moon from "@/assets/moon-d.svg";
-import moustache from "@/assets/moustache-smile2.svg";
+import { useTheme, createTheme, lighten } from "@mui/material/styles";
+import sun from "@/assets/misc/sun-d.svg";
+import moon from "@/assets/misc/moon-d.svg";
+import moustache from "@/assets/misc/moustache-smile2.svg";
 
 declare module "@mui/material/styles" {
   interface Theme {

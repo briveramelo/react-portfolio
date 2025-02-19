@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { Box } from "@mui/material";
-import coffee from "@/assets/coffee.webp";
+import coffee from "@/assets/misc/coffee.webp";
 import { ThemeMode, useCustomPalette } from "../../../../theme/theme.ts";
 import { useHoverTracking } from "../../../../utils/tracking/hooks/useHoverTracking.ts";
 
