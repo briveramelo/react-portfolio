@@ -47,10 +47,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
   const cardRef = useRef<HTMLDivElement>(null);
   const isCardVisible = useIntersectionObserver(cardRef, { threshold: 0.94 });
+  const revealContent = cardHover.isHovered || (isTouchDevice && isCardVisible);
+  const revealAnimation = user && projectData.gifSrc && revealContent;
 
   return (
     <Box
-      ref={cardRef}
       sx={{
         position: "relative",
         visibility: !isOnScreen && animationComplete ? "hidden" : "visible",
@@ -89,10 +90,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       >
         {/* IMAGE & VIDEO CONTAINER */}
         <Box
+          ref={cardRef}
           sx={{
             position: "relative",
             maxHeight: "600px",
-            aspectRatio: cardHover.isHovered ? undefined : "16 / 9",
+            aspectRatio: revealContent ? undefined : "16 / 9",
             borderRadius: `${borderRadius} ${borderRadius} 0 0`,
             overflow: "hidden",
           }}
@@ -107,12 +109,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               height: "auto",
               objectFit: "cover",
               borderRadius: `${borderRadius} ${borderRadius} 0 0`,
-              opacity:
-                user &&
-                projectData.gifSrc &&
-                (cardHover.isHovered || (isTouchDevice && isCardVisible))
-                  ? 0
-                  : 1,
+              opacity: revealAnimation ? 0 : 1,
               transition: "opacity 0.5s ease",
             }}
           />
@@ -126,11 +123,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 left: 0,
                 width: "100%",
                 height: "100%",
-                opacity:
-                  cardHover.isHovered ||
-                  (isTouchDevice && isCardVisible && projectData.gifSrc)
-                    ? 1
-                    : 0,
+                opacity: revealAnimation ? 1 : 0,
                 transition: "opacity 0.5s ease",
                 pointerEvents: "none",
                 borderRadius: `${borderRadius} ${borderRadius} 0 0`,
@@ -245,13 +238,16 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             </Box>
 
             {/* DESCRIPTION */}
-            <Collapsible durationMs={200} isOpen={cardHover.isHovered}>
+            <Collapsible
+              durationMs={200}
+              isOpen={cardHover.isHovered || isTouchDevice}
+            >
               <Box
                 sx={{
                   display: "flex",
                   flexDirection: "column",
                   gap: 2,
-                  opacity: cardHover.isHovered ? 1 : 0,
+                  opacity: cardHover.isHovered || isTouchDevice ? 1 : 0,
                   transition: "opacity 0.5s ease",
                 }}
               >

@@ -11,6 +11,7 @@ import {
 } from "../../../../utils/cache.ts";
 import { generateGravityBounceScaleKeyframes } from "../../../../utils/keyframeGenerator.ts";
 import { useFirebaseCache } from "../../../../context/FirebaseCacheContext.tsx";
+import { CircularProgress } from "@mui/material";
 
 interface FirebaseImageWithAudioButtonsProps {
   firebaseImagePath: string;
@@ -201,7 +202,7 @@ const FirebaseImageWithAudioButtons: React.FC<
               })}
           </Box>
         ) : (
-          <p>No image available</p>
+          <CircularProgress />
         )
       }
     />

@@ -1,6 +1,7 @@
 import React from "react";
 import FirebaseAsset from "./FirebaseAsset.tsx";
 import PdfViewer from "./PdfViewer.tsx";
+import { CircularProgress } from "@mui/material";
 
 interface FirebasePdfProps {
   firebasePdfPath: string;
@@ -27,7 +28,7 @@ const FirebasePdf: React.FC<FirebasePdfProps> = ({
             borderRadius={borderRadius}
           />
         ) : (
-          <p>No PDF available</p>
+          <CircularProgress />
         )
       }
     />

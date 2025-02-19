@@ -16,14 +16,10 @@ interface InstitutionsProps {
 
 export const InstitutionsSection = forwardRef<HTMLElement, InstitutionsProps>(
   ({ backgroundColor, textColor, invertImages, id }, ref) => {
-    const { trackPointerLeave, trackPointerEnter } = useHoverTracking();
-
     return (
       <Box
         component="section"
         id={id}
-        onPointerEnter={trackPointerEnter}
-        onPointerLeave={trackPointerLeave}
         sx={{
           pt: 5,
           backgroundColor: backgroundColor,

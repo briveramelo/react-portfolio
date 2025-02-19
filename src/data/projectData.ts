@@ -27,7 +27,7 @@ export const projectData: Project[] = [
     categoryColor: "#e53935",
     categoryTextColor: "#ffffff",
     imageSrc: "tilt-tracker/josh-tilt-cropped.webp",
-    gifSrc: undefined,
+    gifSrc: "",
     description: `Tilt Tracker is **like FitBit for power wheelchair users**; it **prevents pressure ulcers** with real-time reminders for patients and compliance reports for family and clinical care teams.`,
     skills: getSkills(
       "Docker",

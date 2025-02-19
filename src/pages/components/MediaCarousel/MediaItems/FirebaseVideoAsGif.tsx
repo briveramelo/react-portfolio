@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import Box from "@mui/material/Box";
 import FirebaseAsset from "./FirebaseAsset.tsx";
 import { useResizeDimensions } from "../useResizeDimensions.ts";
+import { CircularProgress } from "@mui/material";
 
 interface FirebaseVideoAsGifProps {
   firebaseVideoPath: string;
@@ -54,7 +55,7 @@ const FirebaseVideoAsGif: React.FC<FirebaseVideoAsGifProps> = ({
               {alt}
             </video>
           ) : (
-            <p>No video available</p>
+            <CircularProgress />
           )
         }
       />

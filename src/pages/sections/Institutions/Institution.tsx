@@ -1,9 +1,10 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
+import React, { useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import { InstitutionData } from "../../../data/institutionData.ts";
 import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
+import { useIntersectionObserver } from "../../../utils/hooks/useIntersectionObserver.ts";
 
 interface InstitutionProps {
   institution: InstitutionData;
@@ -16,19 +17,22 @@ const Institution: React.FC<InstitutionProps> = ({
   textColor,
   invertImage,
 }) => {
-  const { trackPointerEnter, trackPointerLeave } = useHoverTracking();
+  const element = useRef<HTMLElement>(null);
+  const isVisible = useIntersectionObserver(element, { threshold: 0.4 });
 
   return (
     <Box
       id={`company_${institution.name}`}
-      onPointerEnter={trackPointerEnter}
-      onPointerLeave={trackPointerLeave}
+      ref={element}
       sx={{
         position: "relative",
         flexDirection: "column",
         display: "grid",
         gridTemplateRows: "150px auto",
         width: "100%",
+        ".colored": { opacity: isVisible ? 1 : 0 },
+        ".white": { opacity: isVisible ? 0 : 1 },
+        ".institution-text": { opacity: isVisible ? 1 : 0 },
       }}
     >
       {/* Image Container */}
@@ -43,7 +47,6 @@ const Institution: React.FC<InstitutionProps> = ({
             height: "100%",
             objectFit: "contain",
             transition: "opacity 1s ease",
-            opacity: 1,
             filter: invertImage ? "grayscale(1) invert(1)" : "grayscale(1)",
           }}
         />
@@ -57,19 +60,16 @@ const Institution: React.FC<InstitutionProps> = ({
             height: "100%",
             objectFit: "contain",
             transition: "opacity 1s ease",
-            opacity: 0,
           }}
         />
       </Box>
 
       {/* Add Text Below Image */}
       <Box
-        className="text"
+        className="institution-text"
         id={`company_text_${institution.name}`}
         sx={{
-          opacity: 0, // Default hidden
           transition: "opacity 0.5s ease",
-          mt: 0,
           textAlign: "center",
         }}
       >

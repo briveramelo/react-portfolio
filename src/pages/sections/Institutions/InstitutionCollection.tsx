@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import Institution from "./Institution";
 import { InstitutionData } from "../../../data/institutionData";
+import { useIntersectionObserver } from "../../../utils/hooks/useIntersectionObserver";
 
 interface InstitutionCollectionProps {
   title: string;
@@ -21,15 +22,6 @@ const InstitutionCollection: React.FC<InstitutionCollectionProps> = ({
       sx={{
         px: "clamp(16px, 5vw, 32px)",
         width: "100%",
-        "&:hover .colored": {
-          opacity: "1 !important",
-        },
-        "&:hover .white": {
-          opacity: "0 !important",
-        },
-        "&:hover .text": {
-          opacity: 1,
-        },
       }}
     >
       <Box maxWidth={"lg"} mx={"auto"}>

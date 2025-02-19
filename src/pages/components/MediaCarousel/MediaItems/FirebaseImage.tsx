@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import Box from "@mui/material/Box";
 import FirebaseAsset from "./FirebaseAsset.tsx";
 import { useResizeDimensions } from "../useResizeDimensions.ts";
+import { CircularProgress } from "@mui/material";
 
 interface FirebaseImageProps {
   firebaseImagePath: string;
@@ -50,7 +51,7 @@ const FirebaseImage: React.FC<FirebaseImageProps> = ({
               }}
             />
           ) : (
-            <p>No image available</p>
+            <CircularProgress />
           )
         }
       />
