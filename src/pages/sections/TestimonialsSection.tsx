@@ -1,9 +1,8 @@
 import React, { forwardRef } from "react";
 import { Container, Typography, Grid, Box } from "@mui/material";
-import { TestimonialCard } from "./Testimonials/TestimonialCard.tsx";
+import TestimonialCard from "./Testimonials/TestimonialCard.tsx";
 import { OpenInNew } from "@mui/icons-material";
 import { useHoverTracking } from "../../utils/tracking/hooks/useHoverTracking.ts";
-import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import { testimonialsData } from "../../data/testimonialData.ts";
 import { useCustomPalette } from "../../theme/theme.ts";
 
@@ -18,10 +17,6 @@ export const TestimonialsSection = forwardRef<
   TestimonialsSectionProps
 >(({ backgroundColor, textColor, id }, ref) => {
   const { trackPointerEnter, trackPointerLeave } = useHoverTracking();
-  const isSectionVisible = useIntersectionObserver(
-    ref as React.RefObject<HTMLElement>,
-    { threshold: 0.1 },
-  );
   const { background, text } = useCustomPalette();
 
   return (
@@ -73,7 +68,6 @@ export const TestimonialsSection = forwardRef<
                 data={testimonial}
                 backgroundColor={background.paper}
                 textColor={text.paper}
-                isSectionVisible={isSectionVisible}
               />
             </Grid>
           ))}

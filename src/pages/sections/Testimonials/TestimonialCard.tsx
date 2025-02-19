@@ -6,83 +6,83 @@ import {
   Avatar,
   IconButton,
 } from "@mui/material";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { HighlightedText } from "../../components/Markdown/HighlightedText.tsx";
-import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
-import { useEffect, useMemo, useState } from "react";
-import "./TestimonialCard.css";
-import { SiblingParagraph } from "../../components/Markdown/SiblingParagraph.tsx";
-import { Testimonial } from "../../../data/testimonialData.ts";
-import { LinkedIn } from "@mui/icons-material";
 import remarkBreaks from "remark-breaks";
-import { useCustomPalette } from "../../../theme/theme.ts";
+import { HighlightedText } from "../../components/Markdown/HighlightedText";
+import { SiblingParagraph } from "../../components/Markdown/SiblingParagraph";
+import { Testimonial } from "../../../data/testimonialData";
+import { LinkedIn } from "@mui/icons-material";
+import { useIntersectionObserver } from "../../../utils/hooks/useIntersectionObserver";
+import { useCustomPalette } from "../../../theme/theme";
+import "./TestimonialCard.css";
 
-export function TestimonialCard({
+function TestimonialCard({
   data,
   backgroundColor,
   textColor,
-  isSectionVisible,
 }: {
   data: Testimonial;
   backgroundColor: string;
   textColor: string;
-  isSectionVisible: boolean;
 }) {
-  const cardHover = useHoverTracking();
+  const cardRef = useRef<HTMLDivElement>(null);
+  const isVisible = useIntersectionObserver(cardRef, { threshold: 0.1 });
   const { text } = useCustomPalette();
-  const [index, setIndex] = useState<number>(0);
-  useEffect(() => {
-    setIndex(index + 1);
-  }, [isSectionVisible]);
+  const [animate, setAnimate] = useState(false);
 
-  const markdownMemo = useMemo(
-    () => (
-      <ReactMarkdown
-        remarkPlugins={[remarkBreaks]}
-        key={index}
-        components={{
-          p: ({ children }) => (
-            <SiblingParagraph
-              className="fade-in-text"
-              variant="body1"
-              sx={{ color: text.secondary }}
-            >
-              {children}
-            </SiblingParagraph>
-          ),
-          strong: ({ children }) => (
-            <HighlightedText
-              className="highlight-animation"
-              style={{ color: text.paper }}
-            >
-              {children}
-            </HighlightedText>
-          ),
-        }}
-      >
-        {data.quote}
-      </ReactMarkdown>
-    ),
-    [index, data.quote],
-  );
+  // When the testimonial card becomes visible, reset animations.
+  useEffect(() => {
+    if (isVisible && cardRef.current) {
+      setAnimate(false);
+      // reset animation by forcing a reflow
+      void cardRef.current.offsetWidth;
+      setAnimate(true);
+    }
+  }, [isVisible]);
+
   const textStyle = {
     color: textColor,
     lineHeight: "1.2em",
   };
+
   return (
     <Card
+      ref={cardRef}
       sx={{
         p: 2,
         backgroundColor: backgroundColor,
         borderRadius: 2,
       }}
       id={`testimonial_card_${data.name}`}
-      onPointerEnter={cardHover.trackPointerEnter}
-      onPointerLeave={cardHover.trackPointerLeave}
       className="subtle-shadow"
     >
       <CardContent>
-        {markdownMemo}
+        <ReactMarkdown
+          remarkPlugins={[remarkBreaks]}
+          components={{
+            p: ({ children }) => (
+              <SiblingParagraph
+                className={animate ? "fade-in-text" : ""}
+                variant="body1"
+                sx={{ color: text.secondary }}
+              >
+                {children}
+              </SiblingParagraph>
+            ),
+            strong: ({ children }) => (
+              <HighlightedText
+                className={animate ? "highlight-animation" : ""}
+                style={{ color: text.paper }}
+              >
+                {children}
+              </HighlightedText>
+            ),
+          }}
+        >
+          {data.quote}
+        </ReactMarkdown>
+
         <Box
           sx={{
             display: "flex",
@@ -113,7 +113,7 @@ export function TestimonialCard({
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "left",
+                alignItems: "flex-start",
                 gap: -1,
               }}
             >
@@ -157,3 +157,5 @@ export function TestimonialCard({
     </Card>
   );
 }
+
+export default React.memo(TestimonialCard);
