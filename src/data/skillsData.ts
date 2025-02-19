@@ -19,7 +19,6 @@ import cpp from "@/assets/skills/c++.svg";
 import bash from "@/assets/skills/bash.svg";
 import devops from "@/assets/skills/devops.webp";
 import hipaa from "@/assets/skills/hipaa.svg";
-import { getProjectsBySkill } from "./projectMapping";
 
 export class SkillData {
   name: string;

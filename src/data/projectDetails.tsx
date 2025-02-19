@@ -1,10 +1,14 @@
 import { SkillData } from "./skillsData";
-import { projectData } from "./projectData.ts";
+import { Project, projectData } from "./projectData.ts";
 import SteamIcon from "@/assets/skills/steam.svg?react";
 import AndroidIcon from "@/assets/skills/android.svg?react";
 import AppleIcon from "@/assets/skills/apple.svg?react";
 import React from "react";
 import GitHub from "@mui/icons-material/GitHub";
+
+const getSkills = (projectTitle: Project["title"]) => {
+  return projectData.find((elm) => elm.title === projectTitle)?.skills ?? null;
+};
 
 export interface AudioButtonData {
   audioPath: string;
@@ -38,7 +42,7 @@ export interface ProjectLink {
 }
 
 export type ProjectDetail = {
-  title: string;
+  title: Project["title"];
   description: string;
   media: MediaItem[];
   skills: SkillData[] | null;
@@ -93,6 +97,12 @@ It uses **real-time feedback** to motivate compliance and objective reporting to
         alt: "device cables",
         type: "firebaseImage",
         text: "Tilt Tracker **reports** compliance and **prompts** behavior change with inexpensive electronics.",
+      },
+      {
+        src: "https://www.youtube-nocookie.com/embed/Z4cu3ySafYU?rel=0&enablejsapi=1",
+        alt: "Youtube",
+        type: "youtube",
+        text: "This is an early overview of the technology during the prototyping stage.",
       },
       {
         src: "tilt-tracker/installation-cropped.webp",
@@ -216,13 +226,9 @@ Users can also choose if they want fun beeps, buzzes, or flashes for the other k
         src: "tilt-tracker/recolored-brandon-pose.webp",
         alt: "brandon posing with Tilt Tracker",
         type: "firebaseImage",
-        text: "Tilt Tracker was initially prototyped at The GApp Lab using a Samsung phone and Unity App for data collection and jQuery, CSS, HTML, NodeJS, Java, and SQL by a team of 5 graduate students. When one team member left, I filled in writing the Java API and SQL queries.",
-      },
-      {
-        src: "tilt-tracker/brandon-and-jeff.webp",
-        alt: "interactive graph animated",
-        type: "firebaseImage",
-        text: "As the team downsized, I gradually took on the **entire tech stack and client meetings.** Dr. Jeffrey Rosenbluth M.D., project sponsor and Director of Spinal Cord Injury at the University of Utah, eventually hired me full time.",
+        text: `Tilt Tracker was initially prototyped at The GApp Lab using a Samsung phone and Unity App for data collection and jQuery, CSS, HTML, NodeJS, Java, and SQL by a team of 5 graduate students. When one team member left, I filled in writing the Java API and SQL queries.
+${_}
+As the team downsized, I gradually took on the entire tech stack and client meetings. Dr. Jeffrey Rosenbluth M.D., project sponsor and Director of Spinal Cord Injury at the University of Utah, eventually hired me full time.`,
       },
       {
         src: "https://www.youtube-nocookie.com/embed/AgdABWQStZo?rel=0&enablejsapi=1",
@@ -334,13 +340,13 @@ _The picture featured here is a sample Leanplum dashboard and does not represent
       },
       {
         src: "abcmouse/64bit-requirement.webp",
-        alt: "",
+        alt: "64-bit requirement roadmap",
         type: "firebaseImage",
         text: `I also upgraded the app's infrastructure to support Android's 64-bit upgrade requirements and ensure future compatibility. This involved careful review of all media assets and external plugins, updating those where necessary.`,
       },
       {
         src: "abcmouse/AgeOfLearning-AllContributions-Redacted.pdf",
-        alt: "",
+        alt: "age of learning contributions pdf",
         type: "firebasePdf",
         text: `I kept a log of nearly all of the contributions I made during my tenure at Age of Learning - a sort of receipt for the engineering leadership team during performance reviews. Some specifics have been removed to maintain ethical adherence to the employee agreement non-disclosure requirements.
 ${_}
@@ -348,14 +354,14 @@ The management team was impressed by my initiative in assisting a QA automation 
       },
       {
         src: "abcmouse/brandon-and-adam.webp",
-        alt: "",
+        alt: "brandon and adam",
         type: "firebaseImage",
         text: `Over the course of 17 months, I contributed to 27 app updates for both iOS and Android, received a promotion, and was told my pay raise was the highest of all staff in my position.
 ${_}
 _This was my first day in the office with friend and colleague, Adam Kay._`,
       },
     ],
-    skills: projectData.find((elm) => elm.title === "ABCmouse")?.skills ?? null,
+    skills: getSkills("ABCmouse"),
     links: [
       {
         href: "https://apps.apple.com/us/app/abcmouse-reading-math-games/id586328581",
@@ -412,6 +418,7 @@ _Shown here is the once-living scripting architecture diagram used to literally 
         text: `Here is a simpler 'Prefab' architecture diagram used to communicate an interoperable structure of GameObjects in Unity during our prototyping period.`,
       },
       {
+        chapterTitle: "Team",
         src: "clawface/team.webp",
         alt: "Team Photo",
         type: "firebaseImage",
@@ -435,7 +442,7 @@ ${dash} tuxdelux
         text: "Made by Aaron Desin, Adam Kay, Bharat Gudihal, Bolun Gao, Brandon Rivera-Melo, Nathan Rivera-Melo, Cornelia Schultz, Cherlin Mao, Chuan-Chin Lai, Garin Richards, I-Shun Lo, Jaxon Whittaker, Josh Beedle, Josh Levenson, Lauren Mee, and Tri Nguyen",
       },
     ],
-    skills: projectData.find((elm) => elm.title === "Clawface")?.skills ?? null,
+    skills: getSkills("Clawface"),
     links: [
       {
         text: "Steam",
@@ -454,7 +461,7 @@ ${dash} tuxdelux
     description: `Derpy Dinos is a 2.5D side-scrolling arcade shooter. Smash, throw, and blast derpy dinosaurs. The more carnage you produce, the more points you earn for a spot on the global leaderboards. Protect your ship, collect power-ups, and earn achievements by completing challenging feats.`,
     media: [
       {
-        chapterTitle: "Videos",
+        chapterTitle: "Media",
         src: "https://www.youtube-nocookie.com/embed/Vkb5LeRYDzk?rel=0&enablejsapi=1",
         alt: "Trailer",
         type: "youtube",
@@ -467,6 +474,7 @@ ${dash} tuxdelux
         text: `We built in 25 achievements for accomplishment-motivated gamers to explore the depth of this simple arcade game.`,
       },
       {
+        chapterTitle: "Reviews",
         src: `### "Great arcade game, overall just a good pick up and play game and **a bit addicting.**
 ${_}
 ### Achievements are also tracked well, **some of the best handled achievements** in terms of updating the player on their progress. This game would work well in any arcade, works great on a stick too."
@@ -487,5 +495,69 @@ ${dash} #FIN Suojeluskunta
         icon: <SteamIcon style={iconStyle} />,
       },
     ],
+  },
+  {
+    title: "AD with Sam",
+    description: `AD with Sam is a highly innovative exhibit for people with spinal cord injury to learn about a life-threatening complication: Autonomic Dysreflexia. This is currently on display at the Craig H. Neilsen Rehabilitation Hospital at the University of Utah. It uses a custom blend of storytelling, 3D projection mapping onto a lifesize mannequin, animated anatomy, surround sound audio, and RGB lighting.`,
+    media: [
+      {
+        chapterTitle: "Media",
+        src: "https://www.youtube-nocookie.com/embed/_aBn0a0uOWA?rel=0&enablejsapi=1",
+        alt: "AD with Sam: 2D",
+        type: "youtube",
+        text: `_This is the full-length content._
+${_}
+AD with Sam is a highly innovative exhibit for people with spinal cord injury to learn about a life-threatening complication: Autonomic Dysreflexia. This is currently on display at the Craig H. Neilsen Rehabilitation Hospital at the University of Utah. It uses a custom blend of storytelling, 3D projection mapping onto a lifesize mannequin, animated anatomy, surround sound audio, and RGB lighting.
+${_}
+_Highlight moments:_
+_0:57 - 1:07 : Spinal Cord Dermatomes_
+_1:32 - 2:03 : Nervous System_
+_2:48 - 3:43 : Symptoms_
+_3:43 - 4:05 : Death_
+`,
+      },
+      {
+        chapterTitle: "Technology",
+        src: "https://www.youtube-nocookie.com/embed/SWx83_OfZpY?rel=0&enablejsapi=1",
+        alt: "Technology Architecture",
+        type: "youtube",
+        text: `This video was presented to a room full of rehabilitation experts at ASCIP (Academy of Spinal Cord Injury Professionals)`,
+      },
+      {
+        src: "ad-with-sam/ASCIP-tech.pdf",
+        alt: "Technology Architecture",
+        type: "firebasePdf",
+        text: `Here are the slides showing the architecture in more detail:
+${_}
+Lightform (projection mapping)
+Adobe After Effects (animation creation tool)
+Easy Standalone 2 (RGB lighting)
+Touch OSC (app-based remote control)
+QLab (video, audio, lighting, input orchestration)`,
+      },
+      {
+        src: "ad-with-sam/ad-touch-osc.webp",
+        alt: "Touch OSC Controls",
+        type: "firebaseImage",
+        text: `We built this custom iPad interface for chapter-based control of the long-presentation, often useful when showcasing highlight moments from the presentation to people quickly touring through.
+${_}
+Also included is a 'safe mode' toggle, which swaps out the irreverent 'Death' section if a therapist thought it would be too overwhelming for the patient (see moment 3:43 of the video).`,
+      },
+      {
+        chapterTitle: `Team`,
+        src: `ad-with-sam/team-photo.webp`,
+        alt: "Positive Review",
+        type: "firebaseImage",
+        text: `- Brandon Rivera-Melo (creative director, narrator)
+- Yuyan Yao, Junhao Fu (technical artists)
+- Lindsay Humphrey, Danielle Houseman (rehab educators)
+- Elizabeth Jayne York, Andrea Aguirre (medical advisors)
+- Thomas Cayias, James Gardner (occupational therapy advisors)
+- Jeffrey Rosenbluth (project sponsor)`,
+        quoteWidth: "auto",
+      },
+    ],
+    skills: getSkills("Derpy Dinos"),
+    links: [],
   },
 ];

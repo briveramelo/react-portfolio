@@ -180,12 +180,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                   borderRadius: "999px",
                   fontSize: "0.875rem",
                   fontWeight: "bold",
-                  backgroundColor: projectData.categoryColor,
-                  color: projectData.categoryTextColor,
+                  backgroundColor: projectData.category?.bgColor,
+                  color: projectData.category?.textColor,
                   whiteSpace: "nowrap",
                 }}
               >
-                {projectData.category}
+                {projectData.category?.name}
               </Box>
 
               {/* Title */}
