@@ -22,6 +22,8 @@ import uofuGames from "@/assets/orgs/uofu-games/uofu-games-color.webp";
 import uofuBizW from "@/assets/orgs/uofu-biz/uofu-biz-white.webp";
 import uofuBiz from "@/assets/orgs/uofu-biz/uofu-biz-color.webp";
 
+import htaLogo from "@/assets/orgs/hta.webp";
+
 export interface InstitutionData {
   whiteSrc: string;
   colorSrc: string;
@@ -53,6 +55,15 @@ Software Developer II`,
     name: "The GApp Lab",
     text: `2016 - 2018
 Full-Stack Web Developer`,
+  },
+];
+export const otherEmployerData: InstitutionData[] = [
+  {
+    whiteSrc: "",
+    colorSrc: "",
+    logoSrc: htaLogo,
+    name: "Health Tech Apps",
+    text: "",
   },
 ];
 export const schoolData: InstitutionData[] = [
@@ -88,6 +99,7 @@ Pre-med
 
 export const allInstitutionsData: InstitutionData[] = [
   ...featuredEmployerData,
+  ...otherEmployerData,
   ...schoolData,
   {
     whiteSrc: hathos,

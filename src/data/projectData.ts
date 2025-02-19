@@ -2,6 +2,7 @@ import tiltLogo from "@/assets/projects/tilt/original/logo.svg";
 import abcmouseLogo from "@/assets/projects/abcmouse/compressed/abcmouse-icon2.webp";
 import clawfaceLogo from "@/assets/projects/clawface/compressed/icon.webp";
 import derpyDinosLogo from "@/assets/projects/derpydinos/compressed/icon.webp";
+import mkJourney from "@/assets/projects/mindkloud-journey/compressed/mk-journey-icon-small.webp";
 
 import { getSkills, SkillData } from "./skillsData";
 import { InstitutionData, getInstitutions } from "./institutionData.ts";
@@ -13,6 +14,7 @@ export interface Project {
     | "Clawface"
     | "ABCmouse"
     | "Derpy Dinos"
+    | "MindKloud"
     | "AD with Sam";
   category: ProjectCategory | undefined;
   description: string;
@@ -54,7 +56,7 @@ export const projectData: Project[] = [
     category: getCategory("Health Tech"),
     imageSrc: "tilt-tracker/josh-tilt-cropped.webp",
     gifSrc: "",
-    description: `Tilt Tracker is **like FitBit for power wheelchair users**; it **prevents pressure ulcers** with real-time reminders for patients and compliance reports for family and clinical care teams.`,
+    description: `Tilt Tracker is **like FitBit for power wheelchair users**; it **prevents pressure ulcers** with real-time reminders and compliance reports for patients, family, and clinical care teams.`,
     skills: getSkills(
       "Docker",
       "DevOps",
@@ -88,7 +90,7 @@ export const projectData: Project[] = [
     category: getCategory("Game Dev"),
     imageSrc: "clawface/clawface-cover.webp",
     gifSrc: "clawface/clawface-bullethell-compressed.mp4",
-    description: `Clawface is a published video game on Steam, made with an indie studio. We received **Very Positive reviews** (9/10) and **70,000+ downloads.**`,
+    description: `Clawface is an indie, twin-stick, arcade-style bullet hell published to Steam in 2018, **"Very Positive" reviews** (9/10) and **70,000+ downloads.**`,
     skills: getSkills("Unity", "C#"),
     institutions: getInstitutions("Hathos Interactive"),
     iconSrc: clawfaceLogo,
@@ -98,7 +100,7 @@ export const projectData: Project[] = [
     category: getCategory("Game Dev"),
     imageSrc: "derpy-dinos/derpy-dinos-logo.webp",
     gifSrc: "derpy-dinos/derpy-dinos-slow-down.mp4",
-    description: `Derpy Dinos is a published video game on Steam, made with an indie team. We received **Mostly Positive reviews** (7/10) and **49,000+ downloads.**`,
+    description: `Derpy Dinos is an indie, 2.5D, side-scrolling arcade shooter published to Steam in 2017. Smash, throw, and blast derpy dinosaurs. The more carnage you produce, the more points you earn for a spot on the global leaderboards. We received **Mostly Positive reviews** (7/10) and **49,000+ downloads.**`,
     skills: getSkills("Unity", "C#"),
     institutions: [],
     iconSrc: derpyDinosLogo,
@@ -112,6 +114,16 @@ export const projectData: Project[] = [
     skills: getSkills("Bash"),
     institutions: getInstitutions("UHealth"),
     iconSrc: derpyDinosLogo,
+  },
+  {
+    title: "MindKloud",
+    category: getCategory("Health Tech"),
+    imageSrc: "mindkloud-journey/mk-journey-icon.webp",
+    gifSrc: "",
+    description: `MindKloud Journey is a mobile app for young adults to improve emotional literacy by journaling and for college institutions to facilitate a thriving social atmosphere.`,
+    skills: getSkills("Unity", "C#", "AWS"),
+    institutions: getInstitutions("Health Tech Apps"),
+    iconSrc: mkJourney,
   },
 ];
 

@@ -6,10 +6,6 @@ import AppleIcon from "@/assets/skills/apple.svg?react";
 import React from "react";
 import GitHub from "@mui/icons-material/GitHub";
 
-const getSkills = (projectTitle: Project["title"]) => {
-  return projectData.find((elm) => elm.title === projectTitle)?.skills ?? null;
-};
-
 export interface AudioButtonData {
   audioPath: string;
   // x and y can be defined as percentages (0 to 100) of the image width/height
@@ -41,22 +37,36 @@ export interface ProjectLink {
   icon: React.ReactNode;
 }
 
-export type ProjectDetail = {
-  title: Project["title"];
-  description: string;
-  media: MediaItem[];
-  skills: SkillData[] | null;
-  links: ProjectLink[];
-};
+export class ProjectDetail {
+  public title: Project["title"];
+  public media: MediaItem[];
+  public links: ProjectLink[];
+
+  constructor({
+    title,
+    media,
+    links,
+  }: {
+    title: Project["title"];
+    media: MediaItem[];
+    links: ProjectLink[];
+  }) {
+    this.title = title;
+    this.media = media;
+    this.links = links;
+  }
+
+  get skills(): SkillData[] | null {
+    return projectData.find((elm) => elm.title === this.title)?.skills ?? null;
+  }
+}
 
 const dash = "&#45;";
 const _ = "&nbsp;"; //whitespace character. When on its own line, produces a line break.
 const iconStyle = { width: 20, height: 20, color: "inherit" };
 export const projectDetails: ProjectDetail[] = [
-  {
+  new ProjectDetail({
     title: "Tilt Tracker",
-    description:
-      "Tilt Tracker is like FitBit for power wheelchair users and a revolutionary approach to pressure ulcer prevention.",
     media: [
       {
         chapterTitle: "Problem",
@@ -281,14 +291,10 @@ ${dash} Tilt Tracker user`,
         text: "Tilt Tracker: where rehab is a relief.",
       },
     ],
-    skills:
-      projectData.find((elm) => elm.title === "Tilt Tracker")?.skills ?? null,
     links: [],
-  },
-  {
+  }),
+  new ProjectDetail({
     title: "ABCmouse",
-    description:
-      "ABCmouse is a digital education program for children ages 2–8 with over 18M users",
     media: [
       {
         chapterTitle: "Videos",
@@ -361,7 +367,6 @@ ${_}
 _This was my first day in the office with friend and colleague, Adam Kay._`,
       },
     ],
-    skills: getSkills("ABCmouse"),
     links: [
       {
         href: "https://apps.apple.com/us/app/abcmouse-reading-math-games/id586328581",
@@ -374,10 +379,9 @@ _This was my first day in the office with friend and colleague, Adam Kay._`,
         icon: <AndroidIcon style={iconStyle} />,
       },
     ],
-  },
-  {
+  }),
+  new ProjectDetail({
     title: "Clawface",
-    description: `Clawface is a twin-stick, arcade-style retro shooter published to Steam in 2018, rated 9/10 with "Very Positive" reviews and over 70,000 downloads`,
     media: [
       {
         chapterTitle: "Videos",
@@ -442,7 +446,6 @@ ${dash} tuxdelux
         text: "Made by Aaron Desin, Adam Kay, Bharat Gudihal, Bolun Gao, Brandon Rivera-Melo, Nathan Rivera-Melo, Cornelia Schultz, Cherlin Mao, Chuan-Chin Lai, Garin Richards, I-Shun Lo, Jaxon Whittaker, Josh Beedle, Josh Levenson, Lauren Mee, and Tri Nguyen",
       },
     ],
-    skills: getSkills("Clawface"),
     links: [
       {
         text: "Steam",
@@ -455,10 +458,9 @@ ${dash} tuxdelux
         icon: <GitHub style={iconStyle} />,
       },
     ],
-  },
-  {
+  }),
+  new ProjectDetail({
     title: "Derpy Dinos",
-    description: `Derpy Dinos is a 2.5D side-scrolling arcade shooter. Smash, throw, and blast derpy dinosaurs. The more carnage you produce, the more points you earn for a spot on the global leaderboards. Protect your ship, collect power-ups, and earn achievements by completing challenging feats.`,
     media: [
       {
         chapterTitle: "Media",
@@ -486,8 +488,6 @@ ${dash} #FIN Suojeluskunta
         quoteWidth: "60%",
       },
     ],
-    skills:
-      projectData.find((elm) => elm.title === "Derpy Dinos")?.skills ?? null,
     links: [
       {
         text: "Steam",
@@ -495,10 +495,9 @@ ${dash} #FIN Suojeluskunta
         icon: <SteamIcon style={iconStyle} />,
       },
     ],
-  },
-  {
+  }),
+  new ProjectDetail({
     title: "AD with Sam",
-    description: `AD with Sam is a highly innovative exhibit for people with spinal cord injury to learn about a life-threatening complication: Autonomic Dysreflexia. This is currently on display at the Craig H. Neilsen Rehabilitation Hospital at the University of Utah. It uses a custom blend of storytelling, 3D projection mapping onto a lifesize mannequin, animated anatomy, surround sound audio, and RGB lighting.`,
     media: [
       {
         chapterTitle: "Media",
@@ -557,7 +556,54 @@ Also included is a 'safe mode' toggle, which swaps out the irreverent 'Death' se
         quoteWidth: "auto",
       },
     ],
-    skills: getSkills("Derpy Dinos"),
     links: [],
-  },
+  }),
+  new ProjectDetail({
+    title: "MindKloud",
+    media: [
+      {
+        src: "mindkloud-journey/face-id.webp",
+        alt: "",
+        type: "firebaseImage",
+        text: ``,
+      },
+      {
+        src: "mindkloud-journey/home-page.webp",
+        alt: "",
+        type: "firebaseImage",
+        text: ``,
+      },
+      {
+        src: "mindkloud-journey/emotion-log.webp",
+        alt: "",
+        type: "firebaseImage",
+        text: ``,
+      },
+      {
+        src: "mindkloud-journey/health-questionnaire.webp",
+        alt: "",
+        type: "firebaseImage",
+        text: ``,
+      },
+      {
+        src: "mindkloud-journey/video-recording.webp",
+        alt: "",
+        type: "firebaseImage",
+        text: ``,
+      },
+      {
+        src: "mindkloud-journey/uploaded.webp",
+        alt: "",
+        type: "firebaseImage",
+        text: ``,
+      },
+      {
+        src: "mindkloud-journey/health-story.webp",
+        alt: "",
+        type: "firebaseImage",
+        text: ``,
+      },
+    ],
+    links: [],
+  }),
 ];
