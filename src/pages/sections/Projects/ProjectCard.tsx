@@ -7,17 +7,17 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import ReactMarkdown from "react-markdown";
-import { HighlightedText } from "../../components/reusable/HighlightedText.tsx";
+import { HighlightedText } from "../../components/Markdown/HighlightedText.tsx";
 import { Project } from "../../../data/projectData.ts";
-import InvertableImage from "../../components/reusable/InvertableImage.tsx";
+import InvertableImage from "../../components/InvertableImage.tsx";
 import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
-import { Collapsible } from "../../components/reusable/Collapsible.tsx";
+import { Collapsible } from "../../components/Collapsible.tsx";
 import { useCursor } from "../../../context/CursorContext.tsx";
 import { useCustomPalette } from "../../../theme/theme.ts";
 import { useAuth } from "../../../context/AuthContext.tsx";
-import FirebaseImage from "./MediaCarousel/FirebaseImage.tsx";
+import FirebaseImage from "../../components/MediaCarousel/MediaItems/FirebaseImage.tsx";
 import { useIntersectionObserver } from "../../../utils/hooks/useIntersectionObserver.ts";
-import FirebaseVideoAsGif from "./MediaCarousel/FirebaseVideoAsGif.tsx";
+import FirebaseVideoAsGif from "../../components/MediaCarousel/MediaItems/FirebaseVideoAsGif.tsx";
 
 interface ProjectCardProps {
   projectData: Project;

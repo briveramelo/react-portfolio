@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { MediaItem, ProjectDetail } from "../../../data/projectDetails.tsx";
 import { Box, Typography, Grid, useMediaQuery } from "@mui/material";
-import MediaCarousel from "./MediaCarousel/MediaCarousel";
-import InvertableImage from "../../components/reusable/InvertableImage";
+import MediaCarousel from "../../components/MediaCarousel/MediaCarousel";
+import InvertableImage from "../../components/InvertableImage.tsx";
 import { ThemeMode, useCustomPalette } from "../../../theme/theme.ts";
 import { useTheme } from "@mui/material/styles";
 import StoryChapter from "./StoryChapter";
-import NavigationControls from "./MediaCarousel/NavigationControls.tsx";
+import NavigationControls from "../../components/MediaCarousel/NavigationControls.tsx";
 import { trackCustomEvent } from "../../../utils/tracking/plausibleHelpers.ts";
 import withDwellTimeTracking from "../../../utils/tracking/withDwellTimeTracking.tsx";
 import ProjectLiveLinks from "./ProjectLiveLinks.tsx";

@@ -12,10 +12,10 @@ import ProjectDetails from "./Projects/ProjectDetails.tsx";
 import { Project, projectData } from "../../data/projectData";
 import { ThemeMode, useCustomPalette } from "../../theme/theme.ts";
 import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
-import { Collapsible } from "../components/reusable/Collapsible.tsx";
+import { Collapsible } from "../components/Collapsible.tsx";
 import { ProjectDetail, projectDetails } from "../../data/projectDetails.tsx";
-import { HoverExpandGrid } from "../components/reusable/HoverExpandGrid.tsx";
-import AnimatedCursor from "../components/specialty/AnimatedCursor.tsx";
+import { HoverExpandGrid } from "../components/HoverExpandGrid.tsx";
+import AnimatedCursor from "../components/AnimatedCursor.tsx";
 import { toSlug } from "../../utils/utils.ts";
 
 interface ProjectsProps {

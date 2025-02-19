@@ -14,7 +14,7 @@ import {
   starArcAnimationDurationMs,
   maxYearsOfExperience,
 } from "../../../data/constants.ts";
-import InvertableImage from "../../components/reusable/InvertableImage.tsx";
+import InvertableImage from "../../components/InvertableImage.tsx";
 import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
 import { useCursor } from "../../../context/CursorContext.tsx";
 import RelatedProjects from "./RelatedProjects.tsx";

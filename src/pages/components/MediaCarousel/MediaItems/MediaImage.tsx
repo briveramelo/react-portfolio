@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import Box from "@mui/material/Box";
-import { useResizeDimensions } from "./useResizeDimensions";
+import { useResizeDimensions } from "../useResizeDimensions.ts";
 
 interface MediaImageProps {
   src: string;

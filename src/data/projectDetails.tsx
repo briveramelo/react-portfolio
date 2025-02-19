@@ -19,6 +19,7 @@ export interface MediaItem {
   alt: string;
   type:
     | "firebaseImage"
+    | "firebaseVideoAsGif"
     | "image"
     | "firebasePdf"
     | "pdf"
@@ -326,9 +327,9 @@ ${_}
 _The picture featured here is a sample Leanplum dashboard and does not represent actual ABCmouse mobile usage data_`,
       },
       {
-        src: "abcmouse/mastering-math.gif",
+        src: "abcmouse/mastering-math-counting.mp4",
         alt: "Mastering Math",
-        type: "firebaseImage",
+        type: "firebaseVideoAsGif",
         text: `I integrated essential features like Mastering Math - a standalone app built by another team at Age of Learning - seamlessly into ABCmouse Mobile through close cross-team collaboration.`,
       },
       {

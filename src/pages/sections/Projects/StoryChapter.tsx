@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
-import { HighlightedText } from "../../components/reusable/HighlightedText";
+import { HighlightedText } from "../../components/Markdown/HighlightedText.tsx";
 import { useCustomPalette } from "../../../theme/theme";
 
 export interface StoryChapterProps {

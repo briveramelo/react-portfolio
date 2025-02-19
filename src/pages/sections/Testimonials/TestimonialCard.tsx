@@ -7,11 +7,11 @@ import {
   IconButton,
 } from "@mui/material";
 import ReactMarkdown from "react-markdown";
-import { HighlightedText } from "../../components/reusable/HighlightedText.tsx";
+import { HighlightedText } from "../../components/Markdown/HighlightedText.tsx";
 import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
 import { useEffect, useMemo, useState } from "react";
 import "./TestimonialCard.css";
-import { SiblingParagraph } from "../../components/reusable/SiblingParagraph.tsx";
+import { SiblingParagraph } from "../../components/Markdown/SiblingParagraph.tsx";
 import { Testimonial } from "../../../data/testimonialData.ts";
 import { LinkedIn } from "@mui/icons-material";
 import remarkBreaks from "remark-breaks";

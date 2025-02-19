@@ -3,7 +3,7 @@ import { Box, Container } from "@mui/material";
 import { HeroText } from "./Hero/HeroText";
 import HeroCard from "./Hero/HeroCard.tsx";
 import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
-import ScrollDownIndicator from "../components/specialty/ScrollDownIndicator.tsx";
+import ScrollDownIndicator from "../components/ScrollDownIndicator.tsx";
 import { useCustomPalette } from "../../theme/theme.ts";
 
 interface HeroProps {

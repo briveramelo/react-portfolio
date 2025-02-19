@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Box } from "@mui/material";
-import { MediaItem } from "../../../../data/projectDetails";
-import PdfViewer from "./PdfViewer";
-import YouTubePlayer from "./YouTubePlayer";
-import FirebaseImage from "./FirebaseImage";
-import FirebasePdf from "./FirebasePdf";
-import Quote from "./Quote";
-import ChangeMediaButton from "./ChangeMediaButton";
-import FirebaseImageWithAudioButtons from "./FirebaseImageWithAudioButtons";
-import MediaImage from "./MediaImage";
+import { MediaItem } from "../../../data/projectDetails.tsx";
+import ChangeMediaButton from "./ChangeMediaButton.tsx";
+import PdfViewer from "./MediaItems/PdfViewer.tsx";
+import YouTubePlayer from "./MediaItems/YouTubePlayer.tsx";
+import FirebaseImage from "./MediaItems/FirebaseImage.tsx";
+import FirebasePdf from "./MediaItems/FirebasePdf.tsx";
+import Quote from "./MediaItems/Quote.tsx";
+import FirebaseImageWithAudioButtons from "./MediaItems/FirebaseImageWithAudioButtons.tsx";
+import MediaImage from "./MediaItems/MediaImage.tsx";
+import FirebaseVideoAsGif from "./MediaItems/FirebaseVideoAsGif.tsx";
 
 interface MediaCarouselProps {
   media: MediaItem[];
@@ -89,6 +90,14 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
             {item.type === "firebaseImage" ? (
               <FirebaseImage
                 firebaseImagePath={item.src}
+                height={height}
+                alt={item.alt}
+                isActive={index === selectedIndex}
+                style={{ borderRadius }}
+              />
+            ) : item.type === "firebaseVideoAsGif" ? (
+              <FirebaseVideoAsGif
+                firebaseVideoPath={item.src}
                 height={height}
                 alt={item.alt}
                 isActive={index === selectedIndex}

@@ -2,9 +2,9 @@ import React, { useState, useRef, useLayoutEffect } from "react";
 import { Box, IconButton } from "@mui/material";
 import SpeakerIcon from "@mui/icons-material/VolumeUp";
 import { getStorage } from "firebase/storage";
-import FirebaseAsset from "./FirebaseAsset";
+import FirebaseAsset from "./FirebaseAsset.tsx";
 import { AudioButtonData } from "../../../../data/projectDetails.tsx";
-import { firebaseApp } from "../../../../firebaseConfig";
+import { firebaseApp } from "../../../../firebaseConfig.ts";
 import {
   firebaseAssetCacheKey,
   getCachedFirebaseAsset,

@@ -3,8 +3,8 @@ import { Box, Typography } from "@mui/material";
 import ChangeMediaButton from "./ChangeMediaButton.tsx";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import { MediaItem } from "../../../../data/projectDetails.tsx";
-import { useCustomPalette } from "../../../../theme/theme.ts";
+import { MediaItem } from "../../../data/projectDetails.tsx";
+import { useCustomPalette } from "../../../theme/theme.ts";
 
 interface NavigationControlsProps {
   media: MediaItem[];

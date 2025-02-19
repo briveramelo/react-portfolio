@@ -2,7 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
-import FirebaseDownloadLink from "../Projects/MediaCarousel/FirebaseDownloadLink.tsx";
+import FirebaseDownloadLink from "../../components/FirebaseDownloadLink.tsx";
 import { useAuth } from "../../../context/AuthContext.tsx";
 import { useCustomPalette } from "../../../theme/theme.ts";
 

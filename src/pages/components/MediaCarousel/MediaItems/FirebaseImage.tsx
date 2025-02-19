@@ -1,47 +1,45 @@
 import React, { useRef, useEffect } from "react";
 import Box from "@mui/material/Box";
-import FirebaseAsset from "./FirebaseAsset";
-import { useResizeDimensions } from "./useResizeDimensions";
+import FirebaseAsset from "./FirebaseAsset.tsx";
+import { useResizeDimensions } from "../useResizeDimensions.ts";
 
-interface FirebaseVideoAsGifProps {
-  firebaseVideoPath: string;
+interface FirebaseImageProps {
+  firebaseImagePath: string;
   height: number | string;
   alt: string;
   isActive?: boolean;
   style?: React.CSSProperties;
 }
 
-const FirebaseVideoAsGif: React.FC<FirebaseVideoAsGifProps> = ({
-  firebaseVideoPath,
+const FirebaseImage: React.FC<FirebaseImageProps> = ({
+  firebaseImagePath,
   height,
   alt,
   isActive = true,
   style = {},
 }) => {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const imgRef = useRef<HTMLImageElement | null>(null);
   const { dimensions, resizeDimensions } = useResizeDimensions();
 
+  // Recalculate dimensions when the image becomes active.
   useEffect(() => {
-    if (isActive && videoRef.current) {
-      resizeDimensions(videoRef.current);
+    if (isActive && imgRef.current) {
+      resizeDimensions(imgRef.current);
     }
   }, [isActive, resizeDimensions]);
 
   return (
     <Box sx={{ width: "100%", height }}>
       <FirebaseAsset
-        firebasePath={firebaseVideoPath}
+        firebasePath={firebaseImagePath}
         height={height}
         render={(url) =>
           url ? (
-            <video
-              ref={videoRef}
+            <img
+              onLoad={() => resizeDimensions(imgRef.current)}
+              ref={imgRef}
               src={url}
-              onLoadedData={() => resizeDimensions(videoRef.current)}
-              autoPlay
-              loop
-              muted
-              playsInline
+              alt={alt}
               style={{
                 width: dimensions.width,
                 height: dimensions.height,
@@ -50,11 +48,9 @@ const FirebaseVideoAsGif: React.FC<FirebaseVideoAsGifProps> = ({
                 display: "block",
                 ...style,
               }}
-            >
-              {alt}
-            </video>
+            />
           ) : (
-            <p>No video available</p>
+            <p>No image available</p>
           )
         }
       />
@@ -62,4 +58,4 @@ const FirebaseVideoAsGif: React.FC<FirebaseVideoAsGifProps> = ({
   );
 };
 
-export default FirebaseVideoAsGif;
+export default FirebaseImage;

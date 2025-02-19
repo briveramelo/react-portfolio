@@ -7,7 +7,7 @@ import { enablePerformanceTracking } from "./utils/tracking/autoTracking/enableP
 import { AuthProvider } from "./context/AuthContext.tsx";
 import { FirebaseCacheProvider } from "./context/FirebaseCacheContext";
 import { CursorProvider } from "./context/CursorContext.tsx";
-import DebugConsole from "./pages/components/specialty/DebugConsole.tsx";
+import DebugConsole from "./pages/components/DebugConsole.tsx";
 import { HeaderHeightProvider } from "./context/HeaderHeightContext.tsx";
 
 enablePerformanceTracking();

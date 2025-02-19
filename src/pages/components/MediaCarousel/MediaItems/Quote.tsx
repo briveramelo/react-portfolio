@@ -1,9 +1,9 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import { Box, Typography, useMediaQuery } from "@mui/material";
-import { HighlightedText } from "../../../components/reusable/HighlightedText";
+import { HighlightedText } from "../../Markdown/HighlightedText.tsx";
 import { useTheme } from "@mui/material/styles";
-import { useCustomPalette } from "../../../../theme/theme";
+import { useCustomPalette } from "../../../../theme/theme.ts";
 import remarkBreaks from "remark-breaks";
 
 interface QuoteProps {

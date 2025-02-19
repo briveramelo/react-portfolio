@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
 import { useHoverTracking } from "../../../../utils/tracking/hooks/useHoverTracking";
-import FirebaseImage from "../../Projects/MediaCarousel/FirebaseImage";
+import FirebaseImage from "../../../components/MediaCarousel/MediaItems/FirebaseImage.tsx";
 import { useAuth } from "../../../../context/AuthContext";
 
 interface BeatingHeartProps {

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { Box, keyframes } from "@mui/material";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
-import { useCursor } from "../../../context/CursorContext";
+import { useCursor } from "../../context/CursorContext.tsx";
 
 interface AnimatedCursorProps {
   color: string;

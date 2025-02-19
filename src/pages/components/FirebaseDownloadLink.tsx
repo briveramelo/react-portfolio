@@ -1,13 +1,13 @@
 import React, { useState, useRef } from "react";
 import { Link, CircularProgress, Box, SxProps } from "@mui/material";
 import { getStorage } from "firebase/storage";
-import { useAuth } from "../../../../context/AuthContext";
-import { firebaseApp } from "../../../../firebaseConfig";
+import { useAuth } from "../../context/AuthContext.tsx";
+import { firebaseApp } from "../../firebaseConfig.ts";
 import {
   firebaseAssetCacheKey,
   getCachedFirebaseAsset,
-} from "../../../../utils/cache";
-import { useFirebaseCache } from "../../../../context/FirebaseCacheContext";
+} from "../../utils/cache.ts";
+import { useFirebaseCache } from "../../context/FirebaseCacheContext.tsx";
 
 interface FirebaseDownloadLinkProps {
   firebasePath: string;
