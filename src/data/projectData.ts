@@ -226,7 +226,7 @@ export const projectData: Project[] = [
     description: `Offender is a 2D Arcade Style Shooter with a looping arena filled with endless carnage and destruction! Hurl unsuspecting humans into helicopters, tanks, and paratroopers as you invade Earth. How long can you survive? This is the precursor to Derpy Dinos, based on arcade classic: Defender.`,
     skills: getSkills("HTML", "JS", "Leadership"),
     institutions: [],
-    iconSrc: bobbyIcon,
+    iconSrc: bobbyIcon, //todo: update
     details: abductor,
   }),
 ];

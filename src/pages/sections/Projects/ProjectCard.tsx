@@ -61,7 +61,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             : `transform ${slideDurationMs}ms ease-in-out !important`,
         transform: `translate3d(${targetDestinationX}, 0, 0)`,
         cursor: "pointer",
-        willChange: "transform", // first time (and subsequent) appearance is key
+        willChange: "transform",
       }}
     >
       <Card
@@ -99,7 +99,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             overflow: "hidden",
           }}
         >
-          {/* IMAGE  */}
+          {/* IMAGE */}
           <FirebaseImage
             firebaseImagePath={projectData.imageSrc}
             height={"100%"}
@@ -142,7 +142,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           )}
         </Box>
 
-        {/* TEXT + SKILLS COLUMN */}
+        {/* Header, Body, Skills, and Institutions */}
         <CardContent
           id={`project_card_content_${projectData.title}`}
           sx={{
@@ -154,21 +154,20 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             flexGrow: 1,
           }}
         >
-          {/* MAIN CONTENT AREA */}
+          {/* Header + Body */}
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               gap: 2,
-              flexGrow: 1,
             }}
           >
-            {/* Category + Title + Logos */}
+            {/* Header: Category, Title, and Year */}
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
-                flexWrap: "wrap",
+                justifyContent: "space-between",
                 gap: 2,
               }}
             >
@@ -194,56 +193,22 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 variant="h3"
                 sx={{
                   fontWeight: "bold",
+                  textAlign: "center",
                   color: text.secondary,
-                  flexGrow: 1,
-                  whiteSpace: { xs: "normal", md: "nowrap" },
                 }}
               >
                 {projectData.title}
               </Typography>
+
+              {/* Year */}
               <Typography
-                variant="body2"
+                variant="h5"
                 sx={{
                   color: text.secondary,
                 }}
               >
                 {projectData.year}
               </Typography>
-
-              {/* Institution Logos */}
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  alignContent: "center",
-                  justifyContent: "center",
-                  gap: 1,
-                  flexWrap: "wrap",
-                }}
-              >
-                {projectData.institutions.map((institution, index) => (
-                  <Box
-                    key={`${institution.name}-${index}`}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      height: 30,
-                      flexShrink: 1,
-                    }}
-                  >
-                    <img
-                      src={institution.logoSrc}
-                      alt={institution.name}
-                      style={{
-                        maxHeight: "100%",
-                        width: "auto",
-                        display: "block",
-                        objectFit: "contain",
-                      }}
-                    />
-                  </Box>
-                ))}
-              </Box>
             </Box>
 
             {/* DESCRIPTION */}
@@ -285,35 +250,82 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             </Collapsible>
           </Box>
 
-          {/* SKILLS */}
+          {/* Skills and Institutions */}
           <Box
             sx={{
               display: "flex",
-              flexWrap: "wrap",
-              gap: 1.17,
+              justifyContent: "space-between",
+              alignItems: "flex-end",
               mt: "auto",
+              mb: -1,
             }}
           >
-            {projectData.skills.map((skill) => (
-              <Box
-                key={skill.name}
-                sx={{
-                  width: "25px",
-                  height: "25px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexShrink: 0,
-                }}
-              >
-                <InvertableImage
-                  id={`${projectData.title}_skills_${skill.name}`}
-                  src={useLight ? skill.srcLight : skill.srcDark}
-                  alt={skill.name}
-                  invert={useLight && !!skill.invertIfLight}
-                />
-              </Box>
-            ))}
+            {/* Skills */}
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 1.17,
+                alignContent: "flex-end",
+              }}
+            >
+              {projectData.skills.map((skill) => (
+                <Box
+                  key={skill.name}
+                  sx={{
+                    width: "25px",
+                    height: "25px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexShrink: 0,
+                  }}
+                >
+                  <InvertableImage
+                    id={`${projectData.title}_skills_${skill.name}`}
+                    src={useLight ? skill.srcLight : skill.srcDark}
+                    alt={skill.name}
+                    invert={useLight && !!skill.invertIfLight}
+                  />
+                </Box>
+              ))}
+            </Box>
+
+            {/* Institutions */}
+            {projectData.institutions &&
+              projectData.institutions.length > 0 && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    flexWrap: "nowrap",
+                  }}
+                >
+                  {projectData.institutions.map((institution, index) => (
+                    <Box
+                      key={`${institution.name}-${index}`}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        height: 30,
+                        flexShrink: 1,
+                      }}
+                    >
+                      <img
+                        src={institution.logoSrc}
+                        alt={institution.name}
+                        style={{
+                          maxHeight: "100%",
+                          width: "auto",
+                          display: "block",
+                          objectFit: "contain",
+                        }}
+                      />
+                    </Box>
+                  ))}
+                </Box>
+              )}
           </Box>
         </CardContent>
       </Card>
