@@ -9,6 +9,16 @@ import bobbyIcon from "@/assets/projects/bobby-the-bladder/compressed/bobb-e-ico
 import { getSkills, SkillData } from "./skillsData";
 import { InstitutionData, getInstitutions } from "./institutionData.ts";
 import { getProjectsBySkill } from "./projectMapping.ts";
+import { ProjectDetail } from "./projectDetails.tsx";
+import { tiltTracker } from "./projects/tiltTracker.tsx";
+import { clawface } from "./projects/clawface.tsx";
+import { abcMouse } from "./projects/abcmouse.tsx";
+import { derpyDinos } from "./projects/derpyDinos.tsx";
+import { adWithSam } from "./projects/adWithSam.tsx";
+import { bobbyTheBladder } from "./projects/bobbyTheBladder.tsx";
+import { mindkloud } from "./projects/mindkloud.tsx";
+import { pocketOptimist } from "./projects/pocketOptimist.tsx";
+import { abductor } from "./projects/abductor.tsx";
 
 export interface ProjectCategory {
   name: "Health Tech" | "Game Dev";
@@ -49,6 +59,7 @@ export interface ProjectOptions {
   institutions: InstitutionData[];
   iconSrc: string;
   year: number;
+  details: ProjectDetail;
 }
 
 export class Project {
@@ -61,6 +72,7 @@ export class Project {
   public institutions: ProjectOptions["institutions"];
   public iconSrc: ProjectOptions["iconSrc"];
   public year: ProjectOptions["year"];
+  public details: ProjectOptions["details"];
 
   constructor({
     title,
@@ -72,6 +84,7 @@ export class Project {
     institutions,
     iconSrc,
     year,
+    details,
   }: ProjectOptions) {
     this.title = title;
     this.category = category;
@@ -82,6 +95,7 @@ export class Project {
     this.institutions = institutions;
     this.iconSrc = iconSrc;
     this.year = year;
+    this.details = details;
   }
 }
 
@@ -117,6 +131,7 @@ export const projectData: Project[] = [
     ),
     institutions: getInstitutions("UHealth", "The GApp Lab"),
     iconSrc: tiltIcon,
+    details: tiltTracker,
   }),
   new Project({
     title: "Clawface",
@@ -128,6 +143,7 @@ export const projectData: Project[] = [
     skills: getSkills("Unity", "C#", "Leadership"),
     institutions: getInstitutions("Hathos Interactive"),
     iconSrc: clawfaceIcon,
+    details: clawface,
   }),
   new Project({
     title: "ABCmouse",
@@ -139,6 +155,7 @@ export const projectData: Project[] = [
     skills: getSkills("Unity", "C#"),
     institutions: getInstitutions("Age of Learning"),
     iconSrc: abcmouseIcon,
+    details: abcMouse,
   }),
   new Project({
     title: "AD with Sam",
@@ -149,7 +166,8 @@ export const projectData: Project[] = [
     description: `AD with Sam is a highly innovative exhibit for people with spinal cord injury to learn about a life-threatening complication: Autonomic Dysreflexia. This is **currently on display at the Craig H. Neilsen Rehabilitation Hospital** at the University of Utah. It uses a custom blend of storytelling, 3D projection mapping onto a lifesize mannequin, animated anatomy, surround sound audio, and RGB lighting.`,
     skills: getSkills("Bash", "Leadership"),
     institutions: getInstitutions("UHealth"),
-    iconSrc: derpyDinosIcon,
+    iconSrc: derpyDinosIcon, //todo: replace
+    details: adWithSam,
   }),
   new Project({
     title: "Derpy Dinos",
@@ -161,6 +179,7 @@ export const projectData: Project[] = [
     skills: getSkills("Unity", "C#", "Leadership"),
     institutions: [],
     iconSrc: derpyDinosIcon,
+    details: derpyDinos,
   }),
   new Project({
     title: "Bobby The Bladder",
@@ -172,6 +191,7 @@ export const projectData: Project[] = [
     skills: getSkills("Leadership"),
     institutions: getInstitutions("UHealth"),
     iconSrc: bobbyIcon,
+    details: bobbyTheBladder,
   }),
   new Project({
     title: "MindKloud",
@@ -183,6 +203,7 @@ export const projectData: Project[] = [
     skills: getSkills("Unity", "C#", "AWS"),
     institutions: getInstitutions("Health Tech Apps"),
     iconSrc: mkJourneyIcon,
+    details: mindkloud,
   }),
   new Project({
     title: "The Pocket Optimist",
@@ -194,6 +215,7 @@ export const projectData: Project[] = [
     skills: getSkills("Python"),
     institutions: getInstitutions("Digital Health"),
     iconSrc: pocketOptimistIcon,
+    details: pocketOptimist,
   }),
   new Project({
     title: "Abductor",
@@ -205,6 +227,7 @@ export const projectData: Project[] = [
     skills: getSkills("HTML", "JS", "Leadership"),
     institutions: [],
     iconSrc: bobbyIcon,
+    details: abductor,
   }),
 ];
 

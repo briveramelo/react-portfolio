@@ -13,7 +13,7 @@ import { Project, projectData } from "../../data/projectData";
 import { ThemeMode, useCustomPalette } from "../../theme/theme.ts";
 import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import { Collapsible } from "../components/Collapsible.tsx";
-import { ProjectDetail, projectDetails } from "../../data/projectDetails.tsx";
+import { ProjectDetail } from "../../data/projectDetails.tsx";
 import { HoverExpandGrid } from "../components/HoverExpandGrid.tsx";
 import AnimatedCursor from "../components/AnimatedCursor.tsx";
 import { toSlug } from "../../utils/utils.ts";
@@ -63,13 +63,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
       project: Project,
       triggeredByClick: boolean = true,
     ) => {
-      const matchingDetails =
-        projectDetails.find((pd) => project.title === pd.title) ?? null;
-      if (matchingDetails === null) {
-        console.error("no matching details found");
-        handleCloseProjectDetails();
-        return;
-      }
+      const matchingDetails = project.details;
 
       setSelectedProjectDetails(matchingDetails);
       setIsProjectSelected(true);
@@ -78,7 +72,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
       }
 
       setIsAnimationComplete(false);
-      window.location.href = `#projects-${toSlug(matchingDetails.title)}`;
+      window.location.href = `#projects-${toSlug(project.title)}`;
       sectionRef.current!.scrollIntoView({ behavior: "smooth" });
       setTimeout(() => {
         setIsAnimationComplete(true);
