@@ -1,8 +1,9 @@
-import tiltLogo from "@/assets/projects/tilt/original/logo.svg";
-import abcmouseLogo from "@/assets/projects/abcmouse/compressed/abcmouse-icon2.webp";
-import clawfaceLogo from "@/assets/projects/clawface/compressed/icon.webp";
-import derpyDinosLogo from "@/assets/projects/derpydinos/compressed/icon.webp";
-import mkJourney from "@/assets/projects/mindkloud-journey/compressed/mk-journey-icon-small.webp";
+import tiltIcon from "@/assets/projects/tilt/original/icon.svg";
+import abcmouseIcon from "@/assets/projects/abcmouse/compressed/abcmouse-icon2.webp";
+import clawfaceIcon from "@/assets/projects/clawface/compressed/icon.webp";
+import derpyDinosIcon from "@/assets/projects/derpydinos/compressed/icon.webp";
+import mkJourneyIcon from "@/assets/projects/mindkloud-journey/compressed/mk-journey-icon-small.webp";
+import pocketOptimistIcon from "@/assets/projects/pocket-optimist/compressed/icon.webp";
 
 import { getSkills, SkillData } from "./skillsData";
 import { InstitutionData, getInstitutions } from "./institutionData.ts";
@@ -15,6 +16,7 @@ export interface Project {
     | "ABCmouse"
     | "Derpy Dinos"
     | "MindKloud"
+    | "The Pocket Optimist"
     | "AD with Sam";
   category: ProjectCategory | undefined;
   description: string;
@@ -73,7 +75,7 @@ export const projectData: Project[] = [
       "HIPAA",
     ),
     institutions: getInstitutions("UHealth", "The GApp Lab"),
-    iconSrc: tiltLogo,
+    iconSrc: tiltIcon,
   },
   {
     title: "ABCmouse",
@@ -83,7 +85,7 @@ export const projectData: Project[] = [
     description: `ABCmouse is the **#1 learning app** for children ages 2–8, where over **18 million students** have completed more than **4 billion educational activities**, earning the trust of families worldwide.`,
     skills: getSkills("Unity", "C#"),
     institutions: getInstitutions("Age of Learning"),
-    iconSrc: abcmouseLogo,
+    iconSrc: abcmouseIcon,
   },
   {
     title: "Clawface",
@@ -93,7 +95,7 @@ export const projectData: Project[] = [
     description: `Clawface is an indie, twin-stick, arcade-style bullet hell published to Steam in 2018, **"Very Positive" reviews** (9/10) and **70,000+ downloads.**`,
     skills: getSkills("Unity", "C#"),
     institutions: getInstitutions("Hathos Interactive"),
-    iconSrc: clawfaceLogo,
+    iconSrc: clawfaceIcon,
   },
   {
     title: "Derpy Dinos",
@@ -103,7 +105,7 @@ export const projectData: Project[] = [
     description: `Derpy Dinos is an indie, 2.5D, side-scrolling arcade shooter published to Steam in 2017. Smash, throw, and blast derpy dinosaurs. The more carnage you produce, the more points you earn for a spot on the global leaderboards. We received **Mostly Positive reviews** (7/10) and **49,000+ downloads.**`,
     skills: getSkills("Unity", "C#"),
     institutions: [],
-    iconSrc: derpyDinosLogo,
+    iconSrc: derpyDinosIcon,
   },
   {
     title: "AD with Sam",
@@ -113,7 +115,7 @@ export const projectData: Project[] = [
     description: `AD with Sam is a highly innovative exhibit for people with spinal cord injury to learn about a life-threatening complication: Autonomic Dysreflexia. This is **currently on display at the Craig H. Neilsen Rehabilitation Hospital** at the University of Utah. It uses a custom blend of storytelling, 3D projection mapping onto a lifesize mannequin, animated anatomy, surround sound audio, and RGB lighting.`,
     skills: getSkills("Bash"),
     institutions: getInstitutions("UHealth"),
-    iconSrc: derpyDinosLogo,
+    iconSrc: derpyDinosIcon,
   },
   {
     title: "MindKloud",
@@ -123,7 +125,17 @@ export const projectData: Project[] = [
     description: `MindKloud Journey is a mobile app for young adults to improve emotional literacy by journaling and for college institutions to facilitate a thriving social atmosphere.`,
     skills: getSkills("Unity", "C#", "AWS"),
     institutions: getInstitutions("Health Tech Apps"),
-    iconSrc: mkJourney,
+    iconSrc: mkJourneyIcon,
+  },
+  {
+    title: "The Pocket Optimist",
+    category: getCategory("Health Tech"),
+    imageSrc: "pocket-optimist/pessimistic-night2.webp",
+    gifSrc: "pocket-optimist/pocket-opt-animals-compressed.mp4",
+    description: `The Pocket Optimist is a personal development service for working professionals, busy parents, and athletes to identify and reframe self-limiting beliefs.`,
+    skills: getSkills("Python"),
+    institutions: getInstitutions("Digital Health"),
+    iconSrc: pocketOptimistIcon,
   },
 ];
 

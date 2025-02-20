@@ -29,7 +29,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
   const pdfInstanceRef = useRef<any>(null);
   const { background } = useCustomPalette();
   const controlBarHeight = "40px";
-  const isMountedRef = useRef(false);
+  const isMountedRef = useRef(true);
 
   const recalcScaleForPage = (pageNum: number) => {
     if (
@@ -37,8 +37,9 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
       !isActive ||
       !pdfInstanceRef.current ||
       !containerRef.current
-    )
+    ) {
       return;
+    }
 
     pdfInstanceRef.current.getPage(pageNum).then((page: any) => {
       if (!isMountedRef.current || !containerRef.current) return;
@@ -72,6 +73,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
 
   // mark as unmounted to avoid null refs in callbacks when dismounted
   useEffect(() => {
+    isMountedRef.current = true;
     return () => {
       isMountedRef.current = false;
     };

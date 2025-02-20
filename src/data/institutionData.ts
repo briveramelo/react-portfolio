@@ -23,6 +23,7 @@ import uofuBizW from "@/assets/orgs/uofu-biz/uofu-biz-white.webp";
 import uofuBiz from "@/assets/orgs/uofu-biz/uofu-biz-color.webp";
 
 import htaLogo from "@/assets/orgs/hta/hta.webp";
+import digitalHealthLogo from "@/assets/orgs/digital-health/digital-health.svg";
 
 export interface InstitutionData {
   whiteSrc: string;
@@ -63,6 +64,13 @@ export const otherEmployerData: InstitutionData[] = [
     colorSrc: "",
     logoSrc: htaLogo,
     name: "Health Tech Apps",
+    text: "",
+  },
+  {
+    whiteSrc: "",
+    colorSrc: "",
+    logoSrc: digitalHealthLogo,
+    name: "Digital Health",
     text: "",
   },
 ];

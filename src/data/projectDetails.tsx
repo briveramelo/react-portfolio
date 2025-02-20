@@ -29,6 +29,7 @@ export interface MediaItem {
   text?: string;
   audioButtons?: AudioButtonData[];
   quoteWidth?: string;
+  playAsGif?: boolean;
 }
 
 export interface ProjectLink {
@@ -429,6 +430,13 @@ _Shown here is the once-living scripting architecture diagram used to literally 
         text: "This game was developed over the course of 1.5 years as our Master's Thesis at The University of Utah. We formed an independent company - Hathos Interactive - for distribution and publishing, of which I was a founding member.",
       },
       {
+        src: "https://www.youtube-nocookie.com/embed/_RPYYtuWjW8?autoplay=1&mute=1&controls=0&loop=1&playlist=_RPYYtuWjW8&disablekb=1",
+        alt: "Team Video",
+        type: "youtube",
+        text: "This game was developed over the course of 1.5 years as our Master's Thesis at The University of Utah. We formed an independent company - Hathos Interactive - for distribution and publishing, of which I was a founding member.",
+        playAsGif: true,
+      },
+      {
         src: `### "**Fun** twin-stick shooter, with old time Robotron controls. I was about to write that it might be **worth getting for a couple bucks**, but then I saw it didn't cost anything. So check out this fun little game. It even comes with a nice techno-industrial soundtrack and a level editor. Nice enemy animations, too. Worked well on ubuntu linux and no controller issues. **Hope this developer continues making games like this one.**
 ${_}
 ### Update: came back two years later and got the one game achievement. **Claw Face. The gameplay holds up.**"
@@ -602,6 +610,42 @@ Also included is a 'safe mode' toggle, which swaps out the irreverent 'Death' se
         alt: "",
         type: "firebaseImage",
         text: ``,
+      },
+    ],
+    links: [],
+  }),
+  new ProjectDetail({
+    title: "The Pocket Optimist",
+    media: [
+      {
+        chapterTitle: "What is it?",
+        src: "pocket-optimist/book-cover.webp",
+        alt: "",
+        type: "firebaseImage",
+        text: `The Pocket Optimist is a personalized service to help individuals identify and overcome self-limiting pessimism.
+${_}
+Based on (but not affiliated with) the groundbreaking research of Dr. Martin Seligman, Dr. Peter Schulman, and Dr. Albert Ellis, the service leverages research-validated science to create long-lasting behavior change.
+${_}
+Ideal for athletes, professionals, coaches, therapists, and therapy-goers, The Pocket Optimist transforms how individuals approach life's challenges, helping them live more realistically and optimistically.`,
+      },
+      {
+        src: "pocket-optimist/sample-optimism-report.pdf",
+        alt: "",
+        type: "firebasePdf",
+        text: `Here is a sample optimism report that the Pocket Optimist might generate for you.
+${_}
+The tool 'extracts' key events from things you've said, identifies how you explain why those things happened, and then rates your explanation.`,
+      },
+      {
+        chapterTitle: "Contributions",
+        src: "pocket-optimist/sample-optimism-report.pdf",
+        alt: "",
+        type: "firebasePdf",
+        text: `I am the founder, developer, and operator of the service
+${_}
+The interview transcription and optimism ratings are automated with AI using the langchain library in python, and the report generation is similarly automated using matplotlib and fpdf. 
+
+Contact me to learn about your explanatory style and apply this transformational framework to your life.`,
       },
     ],
     links: [],

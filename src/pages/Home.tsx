@@ -4,7 +4,6 @@ import { HeroSection } from "./sections/HeroSection.tsx";
 import { SkillsSection } from "./sections/SkillsSection";
 import { ProjectsSection } from "./sections/ProjectsSection.tsx";
 import { TestimonialsSection } from "./sections/TestimonialsSection";
-import { RecentWorkSection } from "./sections/RecentWorkSection";
 import { ContactSection } from "./sections/ContactSection.tsx";
 import { InstitutionsSection } from "./sections/InstitutionsSection.tsx";
 import { ThemeMode, useCustomPalette } from "../theme/theme.ts";
@@ -23,7 +22,6 @@ export function HomePage() {
   const skillsRef = useRef<HTMLElement | null>(null);
   const projectsRef = useRef<HTMLElement | null>(null);
   const testimonialsRef = useRef<HTMLElement | null>(null);
-  const recentWorkRef = useRef<HTMLElement | null>(null);
   const contactRef = useRef<HTMLElement | null>(null);
 
   const sectionRefs = [
@@ -32,15 +30,10 @@ export function HomePage() {
     skillsRef,
     projectsRef,
     testimonialsRef,
-    recentWorkRef,
     contactRef,
   ];
 
-  const desktopHiddenNavLinks: string[] = [
-    "#home",
-    "#institutions",
-    // "#recent",
-  ];
+  const desktopHiddenNavLinks: string[] = ["#home", "#institutions"];
 
   const allNavLinks: NavLink[] = [
     { ref: heroLinkRef, href: "#home", label: "Home", offset: 200 },
@@ -48,7 +41,6 @@ export function HomePage() {
     { ref: skillsRef, href: "#experience", label: "Experience" },
     { ref: projectsRef, href: "#projects", label: "Projects" },
     { ref: testimonialsRef, href: "#testimonials", label: "Testimonials" },
-    { ref: recentWorkRef, href: "#recent", label: "Recent" },
     { ref: contactRef, href: "#contact", label: "Contact" },
   ];
 
@@ -93,12 +85,6 @@ export function HomePage() {
         id="testimonials"
         backgroundColor={sectionStyles.testimonials.backgroundColor(cp)}
         textColor={sectionStyles.testimonials.textColor(cp)}
-      />
-      <RecentWorkSection
-        ref={recentWorkRef}
-        id="recent"
-        backgroundColor={sectionStyles.recent.backgroundColor(cp)}
-        textColor={sectionStyles.recent.textColor(cp)}
       />
       <ContactSection
         ref={contactRef}
