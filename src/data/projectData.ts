@@ -4,28 +4,11 @@ import clawfaceIcon from "@/assets/projects/clawface/compressed/icon.webp";
 import derpyDinosIcon from "@/assets/projects/derpydinos/compressed/icon.webp";
 import mkJourneyIcon from "@/assets/projects/mindkloud-journey/compressed/mk-journey-icon-small.webp";
 import pocketOptimistIcon from "@/assets/projects/pocket-optimist/compressed/icon.webp";
+import bobbyIcon from "@/assets/projects/bobby-the-bladder/compressed/bobb-e-icon.webp";
 
 import { getSkills, SkillData } from "./skillsData";
 import { InstitutionData, getInstitutions } from "./institutionData.ts";
 import { getProjectsBySkill } from "./projectMapping.ts";
-
-export interface Project {
-  title:
-    | "Tilt Tracker"
-    | "Clawface"
-    | "ABCmouse"
-    | "Derpy Dinos"
-    | "MindKloud"
-    | "The Pocket Optimist"
-    | "AD with Sam";
-  category: ProjectCategory | undefined;
-  description: string;
-  imageSrc: string;
-  gifSrc?: string;
-  skills: SkillData[];
-  institutions: InstitutionData[];
-  iconSrc: string;
-}
 
 export interface ProjectCategory {
   name: "Health Tech" | "Game Dev";
@@ -46,6 +29,62 @@ const categories: ProjectCategory[] = [
   },
 ];
 
+export interface ProjectOptions {
+  title:
+    | "Tilt Tracker"
+    | "Clawface"
+    | "ABCmouse"
+    | "Derpy Dinos"
+    | "MindKloud"
+    | "The Pocket Optimist"
+    | "Bobby The Bladder"
+    | "NRH Control"
+    | "Abductor"
+    | "AD with Sam";
+  category: ProjectCategory | undefined;
+  description: string;
+  imageSrc: string;
+  gifSrc?: string;
+  skills: SkillData[];
+  institutions: InstitutionData[];
+  iconSrc: string;
+  year: number;
+}
+
+export class Project {
+  public title: ProjectOptions["title"];
+  public category: ProjectOptions["category"];
+  public description: ProjectOptions["description"];
+  public imageSrc: ProjectOptions["imageSrc"];
+  public gifSrc?: ProjectOptions["gifSrc"];
+  public skills: ProjectOptions["skills"];
+  public institutions: ProjectOptions["institutions"];
+  public iconSrc: ProjectOptions["iconSrc"];
+  public year: ProjectOptions["year"];
+
+  constructor({
+    title,
+    category,
+    description,
+    imageSrc,
+    gifSrc,
+    skills,
+    institutions,
+    iconSrc,
+    year,
+  }: ProjectOptions) {
+    this.title = title;
+    this.category = category;
+    this.description = description;
+    this.imageSrc = imageSrc;
+    this.gifSrc = gifSrc;
+    this.skills = skills;
+    this.institutions = institutions;
+    this.iconSrc = iconSrc;
+    this.year = year;
+  }
+}
+
 const getCategory = (
   name: ProjectCategory["name"],
 ): ProjectCategory | undefined => {
@@ -53,8 +92,9 @@ const getCategory = (
 };
 
 export const projectData: Project[] = [
-  {
+  new Project({
     title: "Tilt Tracker",
+    year: 2023,
     category: getCategory("Health Tech"),
     imageSrc: "tilt-tracker/josh-tilt-cropped.webp",
     gifSrc: "",
@@ -73,12 +113,25 @@ export const projectData: Project[] = [
       "AWS",
       "C#",
       "HIPAA",
+      "Leadership",
     ),
     institutions: getInstitutions("UHealth", "The GApp Lab"),
     iconSrc: tiltIcon,
-  },
-  {
+  }),
+  new Project({
+    title: "Clawface",
+    year: 2018,
+    category: getCategory("Game Dev"),
+    imageSrc: "clawface/clawface-cover.webp",
+    gifSrc: "clawface/clawface-bullethell-compressed.mp4",
+    description: `Clawface is an indie, twin-stick, arcade-style bullet hell published to Steam in 2018, **"Very Positive" reviews** (9/10) and **70,000+ downloads.**`,
+    skills: getSkills("Unity", "C#", "Leadership"),
+    institutions: getInstitutions("Hathos Interactive"),
+    iconSrc: clawfaceIcon,
+  }),
+  new Project({
     title: "ABCmouse",
+    year: 2019,
     category: getCategory("Game Dev"),
     imageSrc: "abcmouse/abcmouse.webp",
     gifSrc: "abcmouse/abcmouse-learning-path.mp4",
@@ -86,39 +139,43 @@ export const projectData: Project[] = [
     skills: getSkills("Unity", "C#"),
     institutions: getInstitutions("Age of Learning"),
     iconSrc: abcmouseIcon,
-  },
-  {
-    title: "Clawface",
-    category: getCategory("Game Dev"),
-    imageSrc: "clawface/clawface-cover.webp",
-    gifSrc: "clawface/clawface-bullethell-compressed.mp4",
-    description: `Clawface is an indie, twin-stick, arcade-style bullet hell published to Steam in 2018, **"Very Positive" reviews** (9/10) and **70,000+ downloads.**`,
-    skills: getSkills("Unity", "C#"),
-    institutions: getInstitutions("Hathos Interactive"),
-    iconSrc: clawfaceIcon,
-  },
-  {
-    title: "Derpy Dinos",
-    category: getCategory("Game Dev"),
-    imageSrc: "derpy-dinos/derpy-dinos-logo.webp",
-    gifSrc: "derpy-dinos/derpy-dinos-slow-down.mp4",
-    description: `Derpy Dinos is an indie, 2.5D, side-scrolling arcade shooter published to Steam in 2017. Smash, throw, and blast derpy dinosaurs. The more carnage you produce, the more points you earn for a spot on the global leaderboards. We received **Mostly Positive reviews** (7/10) and **49,000+ downloads.**`,
-    skills: getSkills("Unity", "C#"),
-    institutions: [],
-    iconSrc: derpyDinosIcon,
-  },
-  {
+  }),
+  new Project({
     title: "AD with Sam",
+    year: 2021,
     category: getCategory("Health Tech"),
     imageSrc: "ad-with-sam/sam-pressure-ulcers.webp",
     gifSrc: "ad-with-sam/ad-lightning-compressed2.mp4",
     description: `AD with Sam is a highly innovative exhibit for people with spinal cord injury to learn about a life-threatening complication: Autonomic Dysreflexia. This is **currently on display at the Craig H. Neilsen Rehabilitation Hospital** at the University of Utah. It uses a custom blend of storytelling, 3D projection mapping onto a lifesize mannequin, animated anatomy, surround sound audio, and RGB lighting.`,
-    skills: getSkills("Bash"),
+    skills: getSkills("Bash", "Leadership"),
     institutions: getInstitutions("UHealth"),
     iconSrc: derpyDinosIcon,
-  },
-  {
+  }),
+  new Project({
+    title: "Derpy Dinos",
+    year: 2017,
+    category: getCategory("Game Dev"),
+    imageSrc: "derpy-dinos/derpy-dinos-logo.webp",
+    gifSrc: "derpy-dinos/derpy-dinos-slow-down.mp4",
+    description: `Derpy Dinos is an indie, 2.5D, side-scrolling arcade shooter published to Steam in 2017. Smash, throw, and blast derpy dinosaurs. The more carnage you produce, the more points you earn for a spot on the global leaderboards. We received **Mostly Positive reviews** (7/10) and **49,000+ downloads.**`,
+    skills: getSkills("Unity", "C#", "Leadership"),
+    institutions: [],
+    iconSrc: derpyDinosIcon,
+  }),
+  new Project({
+    title: "Bobby The Bladder",
+    year: 2022,
+    category: getCategory("Health Tech"),
+    imageSrc: "bobby-the-bladder/sam-and-bobby-thumbnail.webp",
+    gifSrc: "",
+    description: `Bobby the Bladder is an interactive, branching narrative game for people with spinal cord injury and their family to learn about bladder maintenance. This is **currently installed on all patient iPads at the Craig H. Neilsen Rehabilitation Hospital.**`,
+    skills: getSkills("Leadership"),
+    institutions: getInstitutions("UHealth"),
+    iconSrc: bobbyIcon,
+  }),
+  new Project({
     title: "MindKloud",
+    year: 2023,
     category: getCategory("Health Tech"),
     imageSrc: "mindkloud-journey/mk-journey-icon.webp",
     gifSrc: "",
@@ -126,9 +183,10 @@ export const projectData: Project[] = [
     skills: getSkills("Unity", "C#", "AWS"),
     institutions: getInstitutions("Health Tech Apps"),
     iconSrc: mkJourneyIcon,
-  },
-  {
+  }),
+  new Project({
     title: "The Pocket Optimist",
+    year: 2024,
     category: getCategory("Health Tech"),
     imageSrc: "pocket-optimist/pessimistic-night2.webp",
     gifSrc: "pocket-optimist/pocket-opt-animals-compressed.mp4",
@@ -136,7 +194,18 @@ export const projectData: Project[] = [
     skills: getSkills("Python"),
     institutions: getInstitutions("Digital Health"),
     iconSrc: pocketOptimistIcon,
-  },
+  }),
+  new Project({
+    title: "Abductor",
+    year: 2016,
+    category: getCategory("Game Dev"),
+    imageSrc: "abductor/offender.webp",
+    gifSrc: "",
+    description: `Offender is a 2D Arcade Style Shooter with a looping arena filled with endless carnage and destruction! Hurl unsuspecting humans into helicopters, tanks, and paratroopers as you invade Earth. How long can you survive? This is the precursor to Derpy Dinos, based on arcade classic: Defender.`,
+    skills: getSkills("HTML", "JS", "Leadership"),
+    institutions: [],
+    iconSrc: bobbyIcon,
+  }),
 ];
 
 SkillData.getProjects = getProjectsBySkill;

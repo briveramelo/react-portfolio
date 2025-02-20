@@ -19,6 +19,7 @@ import cpp from "@/assets/skills/c++.svg";
 import bash from "@/assets/skills/bash.svg";
 import devops from "@/assets/skills/devops.webp";
 import hipaa from "@/assets/skills/hipaa.svg";
+import leadership from "@/assets/skills/leadership.webp";
 
 export class SkillData {
   name: string;
@@ -219,6 +220,14 @@ export const skillsData: SkillCategoryData[] = [
         years: [2019, 2020, 2021, 2022, 2023, 2024, 2025],
         srcLight: hipaa,
         srcDark: hipaa,
+      }),
+      new SkillData({
+        name: "Leadership",
+        starCount: 4,
+        years: [2016, 2017, 2018, 2020, 2021, 2022, 2023],
+        srcLight: leadership,
+        srcDark: leadership,
+        invertIfLight: true,
       }),
     ],
   },

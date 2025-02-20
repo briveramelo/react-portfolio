@@ -8,6 +8,7 @@ interface HoverExpandGridProps {
   maxCardWidth: number; // in pixels – the maximum width a card should have when at rest (solo)
   maxFlex: number; // relative flex value for the hovered card
   minFlex: number; // relative flex value for non-hovered cards
+  gap: number; // gap in pixels between cards
 }
 
 export const HoverExpandGrid: React.FC<HoverExpandGridProps> = ({
@@ -17,10 +18,10 @@ export const HoverExpandGrid: React.FC<HoverExpandGridProps> = ({
   minCardWidth,
   maxCardWidth,
   transitionDurationMs,
+  gap,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  // Precompute the number of cards per row based on container width,
-  // minCardWidth, and our flex safety constraints.
+  // Precompute the number of cards per row based on container width, minCardWidth, and safety constraints.
   const [cardsPerRow, setCardsPerRow] = useState(1);
   // Track the globally hovered card's index.
   const [hoveredGlobalIndex, setHoveredGlobalIndex] = useState<number | null>(
@@ -34,23 +35,26 @@ export const HoverExpandGrid: React.FC<HoverExpandGridProps> = ({
         const containerWidth = containerRef.current.offsetWidth;
         // Ideal count if each card were exactly minCardWidth.
         const idealCount = Math.floor(containerWidth / minCardWidth) || 1;
-        // Preemptive safety:
-        // In a hover situation with n cards in the row,
-        // the container must be at least:
-        //    (maxFlex + (n - 1) * minFlex) * minCardWidth
-        // Rearranging for n:
-        //    n <= ((containerWidth / minCardWidth - maxFlex) / minFlex) + 1
+        // Safety calculation: In a hover situation with n cards in the row,
+        // the container must be at least: (maxFlex + (n - 1) * minFlex) * minCardWidth + (n - 1) * gap.
         const safeCount = Math.floor(
-          (containerWidth / minCardWidth - maxFlex) / minFlex + 1,
+          (containerWidth - gap) /
+            (minCardWidth * minFlex +
+              gap * (minFlex - 1) +
+              (maxFlex - minFlex) * minCardWidth) +
+            1,
         );
-        const count = Math.max(1, Math.min(idealCount, safeCount));
+        const count = Math.max(
+          1,
+          Math.min(idealCount, safeCount || idealCount),
+        );
         setCardsPerRow(count);
       }
     };
     updateCardsPerRow();
     window.addEventListener("resize", updateCardsPerRow);
     return () => window.removeEventListener("resize", updateCardsPerRow);
-  }, [minCardWidth, maxFlex, minFlex]);
+  }, [minCardWidth, maxFlex, minFlex, gap]);
 
   // Group children into rows based on the fixed cardsPerRow.
   const childrenArray = React.Children.toArray(children);
@@ -61,6 +65,8 @@ export const HoverExpandGrid: React.FC<HoverExpandGridProps> = ({
 
   /**
    * Compute the card width (as a percentage string) for a card in a row.
+   * The effective container width for cards is reduced by the total horizontal gap:
+   *    effectiveWidth = containerWidth - gap * (rowCount - 1)
    *
    * For rows with more than one card, if the row is hovered the hovered card
    * gets a share based on maxFlex and the others based on minFlex.
@@ -79,37 +85,46 @@ export const HoverExpandGrid: React.FC<HoverExpandGridProps> = ({
     isThisHovered: boolean,
     containerWidth: number,
   ): string => {
+    // For rows with a single card:
     if (rowCount === 1) {
-      // For a solo card row:
       if (!isThisHovered) {
-        // At rest, cap the width to maxCardWidth.
         const pct =
           containerWidth > maxCardWidth
             ? (maxCardWidth / containerWidth) * 100
             : 100;
         return `${pct}%`;
       } else {
-        // On hover, expand to full width.
         return `100%`;
       }
     }
 
-    // For rows with multiple cards:
+    // Calculate the total gap in the row.
+    const totalGap = (rowCount - 1) * gap;
+    const effectiveWidth = containerWidth - totalGap;
+
     if (!isHoveredRow) {
-      return `${100 / rowCount}%`;
+      // Each card gets an equal share of the effective width.
+      const cardWidthPx = effectiveWidth / rowCount;
+      return `${(cardWidthPx / containerWidth) * 100}%`;
     }
-    // In a hovered row, compute based on the flex ratios.
+
+    // For a hovered row, assign flex ratios.
     const totalRatio = maxFlex + (rowCount - 1) * minFlex;
-    return isThisHovered
-      ? `${(maxFlex / totalRatio) * 100}%`
-      : `${(minFlex / totalRatio) * 100}%`;
+    const ratio = isThisHovered ? maxFlex : minFlex;
+    const cardWidthPx = (ratio / totalRatio) * effectiveWidth;
+    return `${(cardWidthPx / containerWidth) * 100}%`;
   };
 
   return (
-    <Box ref={containerRef} display="flex" flexDirection="column" gap={2}>
+    <Box
+      ref={containerRef}
+      display="flex"
+      flexDirection="column"
+      gap={`${gap}px`}
+    >
       {rows.map((row, rowIndex) => {
         const rowStartIndex = rowIndex * cardsPerRow;
-        // Determine if this row is hovered (i.e. contains the hovered card).
+        // Determine if this row is hovered.
         const isHoveredRow =
           hoveredGlobalIndex !== null &&
           hoveredGlobalIndex >= rowStartIndex &&
@@ -119,9 +134,8 @@ export const HoverExpandGrid: React.FC<HoverExpandGridProps> = ({
           <Box
             key={rowIndex}
             display="flex"
-            gap={2}
+            gap={`${gap}px`}
             alignItems="stretch"
-            // For a solo card row, center the card.
             sx={row.length === 1 ? { justifyContent: "center" } : {}}
           >
             {row.map((child, localIndex) => {

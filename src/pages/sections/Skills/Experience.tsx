@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -56,19 +56,21 @@ const Experience: React.FC<ExperienceProps> = ({
   const roundedText = Math.round(animatedValue);
   const hoverKey = `${skill.name}_experience`;
   const { isKeyHovered, onHoverChange } = useCursor();
-  const { trackPointerEnter, trackPointerLeave, isHovered } =
-    useHoverTracking();
+  const { trackPointerEnter, trackPointerLeave } = useHoverTracking();
 
-  const handleHoverChange = (
-    event: React.MouseEvent<HTMLElement>,
-    on: boolean,
-  ) => {
-    onHoverChange(hoverKey, on);
-    if (on) {
-      trackPointerEnter();
-    } else {
-      trackPointerLeave(event);
-    }
+  // Capture the anchor element for positioning the overlay.
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+  const handlePointerEnter = (event: React.PointerEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+    onHoverChange(hoverKey, true);
+    trackPointerEnter();
+  };
+
+  const handlePointerLeave = (event: React.PointerEvent<HTMLElement>) => {
+    setAnchorEl(null);
+    onHoverChange(hoverKey, false);
+    trackPointerLeave(event);
   };
 
   return (
@@ -78,8 +80,8 @@ const Experience: React.FC<ExperienceProps> = ({
       alignItems="center"
       sx={{ mb: 2, position: "relative" }}
       wrap="nowrap"
-      onPointerEnter={(event) => handleHoverChange(event, true)}
-      onPointerLeave={(event) => handleHoverChange(event, false)}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
       id={hoverKey}
     >
       {/* Skill icon */}
@@ -132,10 +134,11 @@ const Experience: React.FC<ExperienceProps> = ({
         </Box>
       </Grid>
 
-      {isKeyHovered(hoverKey) && (
+      {isKeyHovered(hoverKey) && anchorEl && (
         <RelatedProjects
           hoverKey={hoverKey}
           projects={skill.getRelatedProjects()}
+          anchorEl={anchorEl}
         />
       )}
     </Grid>

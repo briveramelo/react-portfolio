@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Typography, Grid } from "@mui/material";
 import { SkillData } from "../../../data/skillsData.ts";
 import InvertableImage from "../../components/InvertableImage.tsx";
@@ -28,17 +28,21 @@ const Skill: React.FC<SkillProps> = ({
   const { isKeyHovered, onHoverChange } = useCursor();
   const { trackPointerEnter, trackPointerLeave } = useHoverTracking();
 
-  const handleHoverChange = (
-    event: React.MouseEvent<HTMLElement>,
-    on: boolean,
-  ) => {
-    onHoverChange(hoverKey, on);
-    if (on) {
-      trackPointerEnter();
-    } else {
-      trackPointerLeave(event);
-    }
+  // Capture the anchor element for the popper.
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+  const handlePointerEnter = (event: React.PointerEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+    onHoverChange(hoverKey, true);
+    trackPointerEnter();
   };
+
+  const handlePointerLeave = (event: React.PointerEvent<HTMLElement>) => {
+    setAnchorEl(null);
+    onHoverChange(hoverKey, false);
+    trackPointerLeave(event);
+  };
+
   return (
     <Grid
       container
@@ -50,8 +54,8 @@ const Skill: React.FC<SkillProps> = ({
         position: "relative",
       }}
       wrap="nowrap"
-      onPointerEnter={(event) => handleHoverChange(event, true)}
-      onPointerLeave={(event) => handleHoverChange(event, false)}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
       id={hoverKey}
     >
       {/* Skill Icon - Center Aligned */}
@@ -71,10 +75,11 @@ const Skill: React.FC<SkillProps> = ({
             invert={useLight && !!invertIfLight}
           />
         </Grid>
-        {isKeyHovered(hoverKey) && (
+        {isKeyHovered(hoverKey) && anchorEl && (
           <RelatedProjects
             hoverKey={hoverKey}
             projects={skill.getRelatedProjects()}
+            anchorEl={anchorEl}
           />
         )}
       </Box>

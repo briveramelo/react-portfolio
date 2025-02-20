@@ -213,6 +213,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
               transitionDurationMs={600}
               minCardWidth={300}
               maxCardWidth={500}
+              gap={20}
             >
               {projectData.map((project) => (
                 <ProjectCard

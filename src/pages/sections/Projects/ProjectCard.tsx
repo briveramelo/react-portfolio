@@ -148,7 +148,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           sx={{
             display: "flex",
             flexDirection: "column",
-            p: 3,
+            pt: 1,
+            px: 2,
             gap: 3,
             flexGrow: 1,
           }}
@@ -199,6 +200,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 }}
               >
                 {projectData.title}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: text.secondary,
+                }}
+              >
+                {projectData.year}
               </Typography>
 
               {/* Institution Logos */}

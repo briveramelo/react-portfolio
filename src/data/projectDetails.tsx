@@ -3,6 +3,7 @@ import { Project, projectData } from "./projectData.ts";
 import SteamIcon from "@/assets/skills/steam.svg?react";
 import AndroidIcon from "@/assets/skills/android.svg?react";
 import AppleIcon from "@/assets/skills/apple.svg?react";
+import GameJoltIcon from "@/assets/misc/gamejolt.svg?react";
 import React from "react";
 import GitHub from "@mui/icons-material/GitHub";
 
@@ -649,5 +650,104 @@ Contact me to learn about your explanatory style and apply this transformational
       },
     ],
     links: [],
+  }),
+  new ProjectDetail({
+    title: "Bobby The Bladder",
+    media: [
+      {
+        chapterTitle: "Media",
+        src: "bobby-the-bladder/sam-choice.webp",
+        alt: "",
+        type: "firebaseImage",
+        text: `Bobby the Bladder is an interactive, branching narrative game for people with spinal cord injury and their family to learn about bladder maintenance.
+${_}
+This is currently installed on **all patient iPads** at the Craig H. Neilsen Rehabilitation Hospital.`,
+      },
+      {
+        src: "bobby-the-bladder/bobby-choice.webp",
+        alt: "",
+        type: "firebaseImage",
+        text: `${_}`,
+      },
+      {
+        src: "bobby-the-bladder/bobby-faints.webp",
+        alt: "",
+        type: "firebaseImage",
+        text: `${_}`,
+      },
+      {
+        src: "bobby-the-bladder/funeral.webp",
+        alt: "",
+        type: "firebaseImage",
+        text: `${_}`,
+      },
+      {
+        src: "bobby-the-bladder/germs.webp",
+        alt: "",
+        type: "firebaseImage",
+        text: `${_}`,
+      },
+      {
+        src: "bobby-the-bladder/medication.webp",
+        alt: "",
+        type: "firebaseImage",
+        text: `${_}`,
+      },
+      {
+        src: "bobby-the-bladder/organ-discomfort.webp",
+        alt: "",
+        type: "firebaseImage",
+        text: `${_}`,
+      },
+      {
+        src: "bobby-the-bladder/sam-and-bobby.webp",
+        alt: "",
+        type: "firebaseImage",
+        text: `${_}`,
+      },
+      {
+        src: "bobby-the-bladder/underwater.webp",
+        alt: "",
+        type: "firebaseImage",
+        text: `${_}`,
+      },
+    ],
+    links: [
+      {
+        text: "GameJolt",
+        href: "https://gamejolt.com/games/bobby-the-bladder/651307",
+        icon: <GameJoltIcon style={iconStyle} />,
+      },
+    ],
+  }),
+  new ProjectDetail({
+    title: "Abductor",
+    media: [
+      {
+        chapterTitle: "Abductor",
+        src: "https://www.youtube-nocookie.com/embed/ZmLbGYhIXPE?rel=0&enablejsapi=1",
+        alt: "",
+        type: "youtube",
+        text: `Abductor is a 2D Arcade Style Shooter with a looping arena filled with endless carnage and destruction! Hurl unsuspecting humans into helicopters, tanks, and paratroopers as you invade Earth. How long can you survive?
+${_}
+I architected the project in Typescript using the Phaser library, implemented the AI for helicopters, paratroopers, and tanks, implemented the ship shields, blaster, and difficulty ramp for AI spawning.
+${_}
+Made in the University of Utah Masters of Game Design Rapid Prototyping course 2016 with Alanna Carroll, Sarah Cotner, Brandon Rivera-Melo, Ajay Satish, Andy Sain, and Joshua Levenson.
+${_}
+This is the precursor to Derpy Dinos and based off the 1981 classic arcade game: Defender`,
+      },
+    ],
+    links: [
+      {
+        text: "Play In Browser",
+        href: "https://www.dasritemedia.com/games/abductor/",
+        icon: <GameJoltIcon style={iconStyle} />,
+      },
+      {
+        text: "Github",
+        href: "https://github.com/briveramelo/EAE-RP2-Defender",
+        icon: <GitHub style={iconStyle} />,
+      },
+    ],
   }),
 ];
