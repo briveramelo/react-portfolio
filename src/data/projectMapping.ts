@@ -1,7 +1,7 @@
-import { Project, projectData } from "./projectData.ts";
+import { Project, allProjects } from "./projectData.ts";
 
 export function getProjectsBySkill(skillName: string): Project[] {
-  return projectData.filter((project) =>
+  return allProjects.filter((project) =>
     project.skills.some((skill) => skill.name === skillName),
   );
 }

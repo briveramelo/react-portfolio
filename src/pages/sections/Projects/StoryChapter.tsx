@@ -39,7 +39,7 @@ const MemoizedMarkdown = React.memo(
             <Typography
               component="span"
               variant="body1"
-              className="fade-in-text"
+              className="fade-in"
               sx={{ fontStyle: "italic" }}
             >
               {children}

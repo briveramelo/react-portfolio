@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import {
   Container,
   Typography,
@@ -9,14 +9,14 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { ProjectCard } from "./Projects/ProjectCard.tsx";
 import ProjectDetails from "./Projects/ProjectDetails.tsx";
-import { Project, projectData } from "../../data/projectData";
+import { Project, allProjects } from "../../data/projectData";
 import { ThemeMode, useCustomPalette } from "../../theme/theme.ts";
 import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import { Collapsible } from "../components/Collapsible.tsx";
-import { ProjectDetail } from "../../data/projectDetails.tsx";
-import { HoverExpandGrid } from "../components/HoverExpandGrid.tsx";
 import AnimatedCursor from "../components/AnimatedCursor.tsx";
 import { toSlug } from "../../utils/utils.ts";
+import { ConsideredProject } from "./Projects/ConsideredProject.tsx";
+import { useCursor } from "../../context/CursorContext.tsx";
 
 interface ProjectsProps {
   backgroundColor: string;
@@ -28,19 +28,28 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
   ({ backgroundColor, textColor, id }, ref) => {
     const { mode, interactable } = useCustomPalette();
     const useLight = mode === ThemeMode.Dark;
+    const isTouchDevice = useMediaQuery("(pointer: coarse)");
     const theme = useTheme();
+    const hoverKey = "project-card";
+    const { onHoverChange } = useCursor();
+    const onHoverProject = (project: Project, mouseEnter: boolean) => {
+      onHoverChange(hoverKey, mouseEnter);
+      setHoveredProject(mouseEnter ? project : null);
+    };
     const isXs = useMediaQuery(theme.breakpoints.down("sm"));
-    const [selectedProjectDetails, setSelectedProjectDetails] =
-      useState<ProjectDetail | null>(null);
+    const [selectedProject, setSelectedProject] = useState<Project | null>(
+      null,
+    );
     const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false);
+    const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
 
     const [hasProjectBeenClicked, setHasProjectBeenClicked] =
       useState<boolean>(false);
+    const hasMediaNextBeenClickedRef = useRef<boolean>(false);
     const [isAnimationComplete, setIsAnimationComplete] =
       useState<boolean>(true);
     const slideDurationMs = 750;
     const sectionRef = ref as React.RefObject<HTMLElement>;
-    const hoverKey = "project-card";
 
     const isSectionVisibleLead = useIntersectionObserver(sectionRef, {
       threshold: 0.1,
@@ -63,9 +72,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
       project: Project,
       triggeredByClick: boolean = true,
     ) => {
-      const matchingDetails = project.details;
-
-      setSelectedProjectDetails(matchingDetails);
+      setSelectedProject(project);
       setIsProjectSelected(true);
       if (triggeredByClick) {
         setHasProjectBeenClicked(true);
@@ -83,7 +90,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
       setIsProjectSelected(false);
       setIsAnimationComplete(false);
       setTimeout(() => {
-        setSelectedProjectDetails(null);
+        setSelectedProject(null);
         setIsAnimationComplete(true);
       }, slideDurationMs);
     };
@@ -98,7 +105,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
         }
 
         const projectSlug = hash.replace("#projects-", "");
-        const matchingProject = projectData.find(
+        const matchingProject = allProjects.find(
           (project) => toSlug(project.title) === projectSlug,
         );
         if (matchingProject) {
@@ -194,25 +201,25 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                   flexGrow: isXs ? 1 : "unset",
                 }}
               >
-                {isProjectSelected ? selectedProjectDetails?.title : "Projects"}
+                {isProjectSelected ? selectedProject?.title : "Projects"}
               </Typography>
             </Box>
           </Box>
 
           {/* Project Cards */}
           <Collapsible durationMs={slideDurationMs} isOpen={!isProjectSelected}>
-            <HoverExpandGrid
-              maxFlex={2}
-              minFlex={1}
-              transitionDurationMs={600}
-              minCardWidth={300}
-              maxCardWidth={500}
-              gap={20}
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 450px))",
+                gap: "20px",
+                justifyContent: "center",
+              }}
             >
-              {projectData.map((project) => (
+              {allProjects.map((project) => (
                 <ProjectCard
                   key={project.title}
-                  projectData={project}
+                  project={project}
                   useLight={useLight}
                   onClick={() => handleCardClick(project)}
                   targetDestinationX={
@@ -220,10 +227,12 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                   }
                   animationComplete={isAnimationComplete}
                   slideDurationMs={slideDurationMs}
+                  onHover={onHoverProject}
+                  isAnyHovered={hoveredProject !== null}
                   hoverKey={hoverKey}
                 />
               ))}
-            </HoverExpandGrid>
+            </Box>
           </Collapsible>
 
           {/* Selected Project Details */}
@@ -234,12 +243,19 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                 opacity: isProjectSelected ? 1 : 0,
               }}
             >
-              {selectedProjectDetails && (
-                <ProjectDetails project={selectedProjectDetails} />
+              {selectedProject && (
+                <ProjectDetails
+                  project={selectedProject}
+                  hasMediaNextBeenClickedRef={hasMediaNextBeenClickedRef}
+                />
               )}
             </Box>
           </Collapsible>
         </Container>
+
+        {!isTouchDevice && (
+          <ConsideredProject project={hoveredProject} useLight={useLight} />
+        )}
 
         {/* Only hide the animated cursor after an explicit click */}
         {isSectionVisibleLead && !hasProjectBeenClicked && (

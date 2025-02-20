@@ -105,7 +105,7 @@ const getCategory = (
   return categories.find((cat) => cat.name === name);
 };
 
-export const projectData: Project[] = [
+export const allProjects: Project[] = [
   new Project({
     title: "Tilt Tracker",
     year: 2023,
@@ -139,7 +139,7 @@ export const projectData: Project[] = [
     category: getCategory("Game Dev"),
     imageSrc: "clawface/clawface-cover.webp",
     gifSrc: "clawface/clawface-bullethell-compressed.mp4",
-    description: `Clawface is an indie, twin-stick, arcade-style bullet hell published to Steam in 2018, **"Very Positive" reviews** (9/10) and **70,000+ downloads.**`,
+    description: `Clawface is an indie, twin-stick, arcade-style bullet hell shooter published to Steam in 2018 with **"Very Positive" reviews** (9/10) and **over 70,000 downloads.**`,
     skills: getSkills("Unity", "C#", "Leadership"),
     institutions: getInstitutions("Hathos Interactive"),
     iconSrc: clawfaceIcon,

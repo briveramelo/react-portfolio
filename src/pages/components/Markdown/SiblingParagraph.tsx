@@ -32,7 +32,7 @@ interface SiblingParagraphProps {
  *   components={{
  *     p: ({ children }) => (
  *       <SiblingParagraph
- *         className="fade-in-text"
+ *         className="fade-in"
  *         variant="body1"
  *         sx={{ color: 'text.secondary' }}
  *       >
@@ -65,7 +65,7 @@ interface SiblingParagraphProps {
  * ```html
  * <p>
  *   <strong class="highlight-animation">Bold Text</strong>
- *   <span class="fade-in-text"> Regular text.</span>
+ *   <span class="fade-in"> Regular text.</span>
  * </p>
  * ```
  */

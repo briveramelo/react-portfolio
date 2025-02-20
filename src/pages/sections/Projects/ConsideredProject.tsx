@@ -1,85 +1,42 @@
 import React, { useRef } from "react";
-import {
-  Card,
-  CardContent,
-  Typography,
-  Box,
-  useMediaQuery,
-} from "@mui/material";
+import { Card, CardContent, Typography, Box } from "@mui/material";
+import ReactMarkdown from "react-markdown";
 import { HighlightedText } from "../../components/Markdown/HighlightedText.tsx";
 import { Project } from "../../../data/projectData.ts";
-import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
-import { Collapsible } from "../../components/Collapsible.tsx";
+import InvertableImage from "../../components/InvertableImage.tsx";
 import { useCustomPalette } from "../../../theme/theme.ts";
 import { useAuth } from "../../../context/AuthContext.tsx";
-import { useIntersectionObserver } from "../../../utils/hooks/useIntersectionObserver.ts";
-import ReactMarkdown from "react-markdown";
-import InvertableImage from "../../components/InvertableImage.tsx";
-import FirebaseImage from "../../components/MediaCarousel/MediaItems/FirebaseImage.tsx";
 import FirebaseVideoAsGif from "../../components/MediaCarousel/MediaItems/FirebaseVideoAsGif.tsx";
+import FirebaseImage from "../../components/MediaCarousel/MediaItems/FirebaseImage.tsx";
 
-interface ProjectCardProps {
-  project: Project;
+interface ConsideredProjectProps {
+  project: Project | null;
   useLight: boolean;
-  onClick: () => void;
-  onHover: (project: Project, mouseEnter: boolean) => void;
-  isAnyHovered: boolean;
-  targetDestinationX: string;
-  slideDurationMs: number;
-  animationComplete: boolean;
-  hoverKey: string;
 }
 
-export const ProjectCard: React.FC<ProjectCardProps> = ({
+export const ConsideredProject: React.FC<ConsideredProjectProps> = ({
   project,
   useLight,
-  onClick,
-  onHover,
-  isAnyHovered,
-  targetDestinationX,
-  slideDurationMs,
-  animationComplete,
 }) => {
-  const isOnScreen = targetDestinationX === "0";
+  if (project === null) return null;
+
   const borderRadius = "8px";
-  const cardHover = useHoverTracking();
   const { user } = useAuth();
   const { background, text } = useCustomPalette();
-  const isTouchDevice = useMediaQuery("(pointer: coarse)");
   const cardRef = useRef<HTMLDivElement>(null);
-  const isCardVisible = useIntersectionObserver(cardRef, { threshold: 0.94 });
-  const revealDescription = isTouchDevice && isCardVisible;
-  const revealAnimation = user && project.gifSrc && revealDescription;
-  const isHoverable = isOnScreen && animationComplete;
 
   return (
     <Box
       sx={{
-        position: "relative",
-        visibility: !isOnScreen && animationComplete ? "hidden" : "visible",
-        transition: isHoverable
-          ? "opacity 300ms ease-in-out !important"
-          : `transform ${slideDurationMs}ms ease-in-out`,
-        transform: `translate3d(${targetDestinationX}, 0, 0)`,
-        cursor: "pointer",
-        willChange: "transform",
-        pointerEvents: isHoverable ? "all" : "none",
-        opacity:
-          isTouchDevice || (isAnyHovered && !cardHover.isHovered) ? 0.15 : 1,
+        position: "fixed",
+        pointerEvents: "none",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        zIndex: 3,
+        "--fade-duration": "400ms",
       }}
-      onPointerEnter={() => {
-        onHover(project, true);
-        cardHover.trackPointerEnter();
-      }}
-      onPointerLeave={(event: React.MouseEvent<HTMLElement>) => {
-        onHover(project, false);
-        cardHover.trackPointerLeave(event);
-      }}
-      onClick={(event) => {
-        onHover(project, false);
-        cardHover.trackPointerLeave(event);
-        onClick();
-      }}
+      className={"fade-in"}
     >
       <Card
         sx={{
@@ -89,7 +46,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           alignItems: "stretch",
           backgroundColor: background.paper,
           borderRadius,
-          pointerEvents: "none",
         }}
         className="pop-shadow"
         id={`project_card_${project.title}`}
@@ -99,52 +55,36 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           ref={cardRef}
           sx={{
             position: "relative",
-            maxHeight: "600px",
-            aspectRatio: revealDescription ? undefined : "16 / 9",
             borderRadius: `${borderRadius} ${borderRadius} 0 0`,
             overflow: "hidden",
           }}
         >
-          {/* IMAGE */}
-          <FirebaseImage
-            firebaseImagePath={project.imageSrc}
-            height={"100%"}
-            alt={project.title}
-            style={{
-              width: "100%",
-              height: "auto",
-              objectFit: "cover",
-              borderRadius: `${borderRadius} ${borderRadius} 0 0`,
-              opacity: revealAnimation ? 0 : 1,
-              transition: "opacity 0.5s ease",
-            }}
-          />
-
-          {/* ANIMATED OVERLAY */}
-          {user && project.gifSrc && (
-            <Box
-              sx={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                opacity: revealAnimation ? 1 : 0,
-                transition: "opacity 0.5s ease",
-                pointerEvents: "none",
+          {/* ANIMATED IMAGE OR STATIC IMAGE */}
+          {user && project.gifSrc ? (
+            <FirebaseVideoAsGif
+              firebaseVideoPath={project.gifSrc}
+              height="100%"
+              alt={project.title}
+              allowResizing={false}
+              style={{
                 borderRadius: `${borderRadius} ${borderRadius} 0 0`,
+                objectFit: "cover",
               }}
-            >
-              <FirebaseVideoAsGif
-                firebaseVideoPath={project.gifSrc}
-                height="100%"
-                alt={project.title}
-                style={{
-                  borderRadius: `${borderRadius} ${borderRadius} 0 0`,
-                  objectFit: "cover",
-                }}
-              />
-            </Box>
+            />
+          ) : (
+            <FirebaseImage
+              firebaseImagePath={project.imageSrc}
+              height={"100%"}
+              alt={project.title}
+              allowResizing={false}
+              style={{
+                width: "100%",
+                height: "auto",
+                objectFit: "cover",
+                borderRadius: `${borderRadius} ${borderRadius} 0 0`,
+                transition: "opacity 0.5s ease",
+              }}
+            />
           )}
         </Box>
 
@@ -160,7 +100,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             flexGrow: 1,
           }}
         >
-          {/* Header */}
+          {/* Header + Body */}
           <Box
             sx={{
               display: "flex",
@@ -215,6 +155,37 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               >
                 {project.year}
               </Typography>
+            </Box>
+
+            {/* DESCRIPTION */}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+              }}
+            >
+              <ReactMarkdown
+                components={{
+                  p: ({ children }) => (
+                    <Typography
+                      variant="body1"
+                      fontSize={{ xs: "1rem", md: "1rem" }}
+                      sx={{
+                        color: text.secondary,
+                        whiteSpace: "normal",
+                      }}
+                    >
+                      {children}
+                    </Typography>
+                  ),
+                  strong: ({ children }) => (
+                    <HighlightedText>{children}</HighlightedText>
+                  ),
+                }}
+              >
+                {project.description}
+              </ReactMarkdown>
             </Box>
           </Box>
 

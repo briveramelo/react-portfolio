@@ -9,6 +9,7 @@ interface FirebaseVideoAsGifProps {
   height: number | string;
   alt: string;
   isActive?: boolean;
+  allowResizing?: boolean;
   style?: React.CSSProperties;
 }
 
@@ -17,13 +18,14 @@ const FirebaseVideoAsGif: React.FC<FirebaseVideoAsGifProps> = ({
   height,
   alt,
   isActive = true,
+  allowResizing = true,
   style = {},
 }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const { dimensions, resizeDimensions } = useResizeDimensions();
 
   useEffect(() => {
-    if (isActive && videoRef.current) {
+    if (allowResizing && isActive && videoRef.current) {
       resizeDimensions(videoRef.current);
     }
   }, [isActive, resizeDimensions]);

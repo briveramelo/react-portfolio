@@ -9,6 +9,7 @@ interface FirebaseImageProps {
   height: number | string;
   alt: string;
   isActive?: boolean;
+  allowResizing?: boolean;
   style?: React.CSSProperties;
 }
 
@@ -17,6 +18,7 @@ const FirebaseImage: React.FC<FirebaseImageProps> = ({
   height,
   alt,
   isActive = true,
+  allowResizing = true,
   style = {},
 }) => {
   const imgRef = useRef<HTMLImageElement | null>(null);
@@ -24,7 +26,7 @@ const FirebaseImage: React.FC<FirebaseImageProps> = ({
 
   // Recalculate dimensions when the image becomes active.
   useEffect(() => {
-    if (isActive && imgRef.current) {
+    if (allowResizing && isActive && imgRef.current) {
       resizeDimensions(imgRef.current);
     }
   }, [isActive, resizeDimensions]);

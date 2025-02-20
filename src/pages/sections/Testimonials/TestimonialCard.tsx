@@ -63,7 +63,7 @@ function TestimonialCard({
           components={{
             p: ({ children }) => (
               <SiblingParagraph
-                className={animate ? "fade-in-text" : ""}
+                className={animate ? "fade-in" : ""}
                 variant="body1"
                 sx={{ color: text.secondary }}
               >

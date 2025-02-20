@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { MediaItem, ProjectDetail } from "../../../data/projectDetails.tsx";
+import { MediaItem } from "../../../data/projectDetails.tsx";
 import { Box, Typography, Grid, useMediaQuery } from "@mui/material";
 import MediaCarousel from "../../components/MediaCarousel/MediaCarousel";
 import InvertableImage from "../../components/InvertableImage.tsx";
@@ -10,21 +10,26 @@ import NavigationControls from "../../components/MediaCarousel/NavigationControl
 import { trackCustomEvent } from "../../../utils/tracking/plausibleHelpers.ts";
 import withDwellTimeTracking from "../../../utils/tracking/withDwellTimeTracking.tsx";
 import ProjectLiveLinks from "./ProjectLiveLinks.tsx";
+import { Project } from "../../../data/projectData.ts";
 
 interface ProjectDetailsProps {
-  project: ProjectDetail;
+  project: Project;
+  hasMediaNextBeenClickedRef: React.MutableRefObject<boolean>;
 }
 
-const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
+const ProjectDetails: React.FC<ProjectDetailsProps> = ({
+  project,
+  hasMediaNextBeenClickedRef,
+}) => {
   const { mode } = useCustomPalette();
   const useLight = mode === ThemeMode.Dark;
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
-  const { media, skills } = project;
+  const { details, skills } = project;
+  const { media, links } = details;
   const [chapterTitleIndex, setChapterTitleIndex] = useState<number>(0);
   const [selectedMediaIndex, setSelectedMediaIndex] = useState<number>(0);
-  const [hasBeenClicked, setHasBeenClicked] = useState<boolean>(false);
 
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmMd = useMediaQuery(theme.breakpoints.between("sm", "md"));
@@ -88,14 +93,14 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
   const nextMedia = () => {
     const newIndex = (selectedMediaIndex + 1) % media.length;
     handleMediaChange(newIndex);
-    setHasBeenClicked(true);
+    hasMediaNextBeenClickedRef.current = true;
   };
 
   const prevMedia = () => {
     const newIndex =
       selectedMediaIndex === 0 ? media.length - 1 : selectedMediaIndex - 1;
     handleMediaChange(newIndex);
-    setHasBeenClicked(true);
+    hasMediaNextBeenClickedRef.current = true;
   };
 
   return (
@@ -110,7 +115,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
               <NavigationControls
                 media={media}
                 selectedMediaIndex={selectedMediaIndex}
-                hasBeenClicked={hasBeenClicked}
+                hasBeenClicked={hasMediaNextBeenClickedRef.current}
                 onNext={nextMedia}
                 onPrev={prevMedia}
                 onDotClick={handleMediaChange}
@@ -146,7 +151,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
               <NavigationControls
                 media={media}
                 selectedMediaIndex={selectedMediaIndex}
-                hasBeenClicked={hasBeenClicked}
+                hasBeenClicked={hasMediaNextBeenClickedRef.current}
                 onNext={nextMedia}
                 onPrev={prevMedia}
                 onDotClick={handleMediaChange}
@@ -205,7 +210,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
       </Box>
 
       {/* Call to Action */}
-      <ProjectLiveLinks links={project.links} />
+      <ProjectLiveLinks links={links} />
     </Box>
   );
 };
