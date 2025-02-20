@@ -34,6 +34,7 @@ export const ConsideredProject: React.FC<ConsideredProjectProps> = ({
         left: "50%",
         transform: "translate(-50%, -50%)",
         zIndex: 3,
+        willChange: "opacity",
         "--fade-duration": "400ms",
       }}
       className={"fade-in"}

@@ -253,7 +253,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
           </Collapsible>
         </Container>
 
-        {!isTouchDevice && (
+        {!isTouchDevice && isSectionVisibleLead && (
           <ConsideredProject project={hoveredProject} useLight={useLight} />
         )}
 

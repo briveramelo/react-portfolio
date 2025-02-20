@@ -62,10 +62,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           : `transform ${slideDurationMs}ms ease-in-out`,
         transform: `translate3d(${targetDestinationX}, 0, 0)`,
         cursor: "pointer",
-        willChange: "transform",
+        willChange: "transform, opacity",
         pointerEvents: isHoverable ? "all" : "none",
-        opacity:
-          isTouchDevice || (isAnyHovered && !cardHover.isHovered) ? 0.15 : 1,
+        opacity: isTouchDevice
+          ? 1
+          : isAnyHovered && !cardHover.isHovered
+            ? 0.15
+            : 1,
       }}
       onPointerEnter={() => {
         onHover(project, true);
@@ -121,7 +124,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           />
 
           {/* ANIMATED OVERLAY */}
-          {user && project.gifSrc && (
+          {isTouchDevice && user && project.gifSrc && (
             <Box
               sx={{
                 position: "absolute",
@@ -156,7 +159,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             flexDirection: "column",
             pt: 1,
             px: 2,
-            gap: 3,
+            gap: 1,
             flexGrow: 1,
           }}
         >
@@ -172,28 +175,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             <Box
               sx={{
                 display: "flex",
-                alignItems: "center",
+                alignItems: "baseline",
                 justifyContent: "space-between",
                 gap: 2,
               }}
             >
-              {/* Category Tag */}
-              <Box
-                sx={{
-                  display: "inline-block",
-                  px: 2,
-                  py: 1,
-                  borderRadius: "999px",
-                  fontSize: "0.875rem",
-                  fontWeight: "bold",
-                  backgroundColor: project.category?.bgColor,
-                  color: project.category?.textColor,
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {project.category?.name}
-              </Box>
-
               {/* Title */}
               <Typography
                 variant="h3"
@@ -201,6 +187,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                   fontWeight: "bold",
                   textAlign: "center",
                   color: text.secondary,
+                  fontSize: { xs: "1.75rem", sm: "2rem" },
+                  whiteSpace: "nowrap",
                 }}
               >
                 {project.title}
@@ -259,40 +247,67 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               ))}
             </Box>
 
-            {/* Institutions */}
-            {project.institutions && project.institutions.length > 0 && (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                gap: 2,
+                flexWrap: "wrap", // allow the category tag to wrap if needed
+              }}
+            >
+              {/* Institutions Container */}
+              {project.institutions && project.institutions.length > 0 && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    flexWrap: "nowrap", // ensure institutions never wrap
+                  }}
+                >
+                  {project.institutions.map((institution, index) => (
+                    <Box
+                      key={`${institution.name}-${index}`}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        height: 30,
+                        flexShrink: 0, // prevent shrinking
+                      }}
+                    >
+                      <img
+                        src={institution.logoSrc}
+                        alt={institution.name}
+                        style={{
+                          maxHeight: "100%",
+                          width: "auto",
+                          display: "block",
+                          objectFit: "contain",
+                        }}
+                      />
+                    </Box>
+                  ))}
+                </Box>
+              )}
+
+              {/* Category Tag */}
               <Box
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                  flexWrap: "nowrap",
+                  display: "inline-block",
+                  px: 2,
+                  py: 1,
+                  borderRadius: "999px",
+                  fontSize: "0.875rem",
+                  fontWeight: "bold",
+                  backgroundColor: project.category?.bgColor,
+                  color: project.category?.textColor,
+                  whiteSpace: "nowrap",
                 }}
               >
-                {project.institutions.map((institution, index) => (
-                  <Box
-                    key={`${institution.name}-${index}`}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      height: 30,
-                      flexShrink: 1,
-                    }}
-                  >
-                    <img
-                      src={institution.logoSrc}
-                      alt={institution.name}
-                      style={{
-                        maxHeight: "100%",
-                        width: "auto",
-                        display: "block",
-                        objectFit: "contain",
-                      }}
-                    />
-                  </Box>
-                ))}
+                {project.category?.name}
               </Box>
-            )}
+            </Box>
           </Box>
         </CardContent>
       </Card>
