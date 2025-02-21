@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { MediaItem } from "../../../data/projectDetails.tsx";
 import { Box, Typography, Grid, useMediaQuery } from "@mui/material";
 import MediaCarousel from "../../components/MediaCarousel/MediaCarousel";
@@ -11,6 +11,7 @@ import { trackCustomEvent } from "../../../utils/tracking/plausibleHelpers.ts";
 import withDwellTimeTracking from "../../../utils/tracking/withDwellTimeTracking.tsx";
 import ProjectLiveLinks from "./ProjectLiveLinks.tsx";
 import { Project } from "../../../data/projectData.ts";
+import { YouTubePlayerHandle } from "../../components/MediaCarousel/MediaItems/YouTubePlayer.tsx";
 
 interface ProjectDetailsProps {
   project: Project;
@@ -25,6 +26,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   const useLight = mode === ThemeMode.Dark;
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const youtubePlayerRef = useRef<YouTubePlayerHandle>(null);
 
   const { details, skills } = project;
   const { media, links } = details;
@@ -103,6 +105,12 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
     hasMediaNextBeenClickedRef.current = true;
   };
 
+  const onTimestampClick = (timeSec: number) => {
+    if (!youtubePlayerRef.current) return;
+
+    youtubePlayerRef.current.seekTo(timeSec);
+  };
+
   return (
     <Box sx={{ overflow: "visible" }}>
       {/* Story and Images */}
@@ -129,6 +137,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
                       isActive={index === chapterTitleIndex}
                       onClick={() => handleChapterClick(index)}
                       markdown={media[selectedMediaIndex].text}
+                      onTimestampClick={onTimestampClick}
                     />
                   ),
               )}
@@ -139,6 +148,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
         {/* Media Carousel */}
         <Grid item lg={9} xs={12} sx={{ mt: isMobile ? -8 : 0 }}>
           <MediaCarousel
+            ref={youtubePlayerRef}
             showArrows={false}
             media={media}
             selectedIndex={selectedMediaIndex}
@@ -162,6 +172,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
                 isActive={true}
                 onClick={() => {}}
                 markdown={media[selectedMediaIndex].text}
+                onTimestampClick={onTimestampClick}
               />
             </>
           )}

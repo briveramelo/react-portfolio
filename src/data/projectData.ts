@@ -3,8 +3,10 @@ import abcmouseIcon from "@/assets/projects/abcmouse/compressed/abcmouse-icon2.w
 import clawfaceIcon from "@/assets/projects/clawface/compressed/icon.webp";
 import derpyDinosIcon from "@/assets/projects/derpydinos/compressed/icon.webp";
 import mkJourneyIcon from "@/assets/projects/mindkloud-journey/compressed/mk-journey-icon-small.webp";
+import samIcon from "@/assets/projects/ad-with-sam/sam-head.webp";
 import pocketOptimistIcon from "@/assets/projects/pocket-optimist/compressed/icon.webp";
 import bobbyIcon from "@/assets/projects/bobby-the-bladder/compressed/bobb-e-icon.webp";
+import bobIcon from "@/assets/projects/abductor/bob-head.webp";
 
 import { getSkills, SkillData } from "./skillsData";
 import { InstitutionData, getInstitutions } from "./institutionData.ts";
@@ -179,7 +181,7 @@ export const allProjects: Project[] = [
     description: `AD with Sam is a highly innovative exhibit for people with spinal cord injury to learn about a life-threatening complication: Autonomic Dysreflexia. This is **currently on display at the Craig H. Neilsen Rehabilitation Hospital** at the University of Utah. It uses a custom blend of storytelling, 3D projection mapping onto a lifesize mannequin, animated anatomy, surround sound audio, and RGB lighting.`,
     skills: getSkills("Leadership", "Bash"),
     institutions: getInstitutions("UHealth"),
-    iconSrc: derpyDinosIcon, //todo: replace
+    iconSrc: samIcon,
     details: adWithSam,
   }),
   new Project({
@@ -244,7 +246,7 @@ export const allProjects: Project[] = [
     description: `Offender is a 2D Arcade Style Shooter with a looping arena filled with endless carnage and destruction! Hurl unsuspecting humans into helicopters, tanks, and paratroopers as you invade Earth. How long can you survive? This is the precursor to Derpy Dinos, based on arcade classic: Defender.`,
     skills: getSkills("Leadership", "HTML", "JS"),
     institutions: [],
-    iconSrc: bobbyIcon, //todo: update
+    iconSrc: bobIcon,
     details: abductor,
   }),
 ];

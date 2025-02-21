@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import { HighlightedText } from "../../components/Markdown/HighlightedText.tsx";
 import { useCustomPalette } from "../../../theme/theme";
+import TimestampLink from "../../components/Markdown/TimestampLink.tsx";
 
 export interface StoryChapterProps {
   chapterTitle: string | undefined;
@@ -11,10 +12,17 @@ export interface StoryChapterProps {
   onClick: () => void;
   markdown: string | undefined;
   mobile?: boolean;
+  onTimestampClick: (timeSec: number) => void;
 }
 
 const MemoizedMarkdown = React.memo(
-  ({ markdown }: { markdown: string | undefined }) => {
+  ({
+    markdown,
+    onTimestampClick,
+  }: {
+    markdown: string | undefined;
+    onTimestampClick: (timeSec: number) => void;
+  }) => {
     const { text } = useCustomPalette();
 
     return (
@@ -45,6 +53,32 @@ const MemoizedMarkdown = React.memo(
               {children}
             </Typography>
           ),
+          // Override link rendering
+          a: ({ href, children }) => {
+            // If the link is a timestamp (href starts with '#' and matches a timestamp pattern), render our custom component
+            if (
+              href &&
+              href.startsWith("#") &&
+              /^\d{1,2}:\d{2}$/.test(href.slice(1))
+            ) {
+              return (
+                <TimestampLink href={href} onTimestampClick={onTimestampClick}>
+                  {children}
+                </TimestampLink>
+              );
+            }
+            // Otherwise, render a default anchor
+            return (
+              <Typography
+                component="a"
+                variant="body1"
+                sx={{ color: text.secondary, textDecoration: "underline" }}
+                href={href}
+              >
+                {children}
+              </Typography>
+            );
+          },
         }}
       >
         {markdown}
@@ -59,6 +93,7 @@ const StoryChapter: React.FC<StoryChapterProps> = ({
   markdown,
   onClick,
   mobile = false,
+  onTimestampClick,
 }) => {
   const hasText = Boolean(isActive && markdown && markdown.trim().length > 0);
   const { background, text: textCp, interactable } = useCustomPalette();
@@ -94,7 +129,12 @@ const StoryChapter: React.FC<StoryChapterProps> = ({
         >
           {chapterTitle}
         </Typography>
-        {hasText && <MemoizedMarkdown markdown={markdown} />}
+        {hasText && (
+          <MemoizedMarkdown
+            markdown={markdown}
+            onTimestampClick={onTimestampClick}
+          />
+        )}
       </CardContent>
     </Card>
   );
