@@ -13,12 +13,10 @@ import {
 interface HeroTextProps {
   textColor: string;
   isSectionVisible: boolean;
-  isFirstCardAnimation: boolean;
 }
 
 export const HeroText: React.FC<HeroTextProps> = ({
   textColor,
-  isFirstCardAnimation,
   isSectionVisible,
 }) => {
   const rolesText = useAnimatedText({
@@ -31,10 +29,7 @@ Team Player`,
     ],
     msPerCharAdd: 60,
     msPerCharDelete: 30,
-    startingPauseMs: isFirstCardAnimation
-      ? FIRST_ANIMATION_START_DELAY_MS +
-        FIRST_ANIMATED_TRANSITION_DURATION_MS / 2
-      : ANIMATION_START_DELAY_MS + ANIMATED_TRANSITION_DURATION_MS / 2,
+    startingPauseMs: 0,
     endingPauseMs: 1000,
     loopAnimation: false,
     variationFactor: 0.4,

@@ -26,75 +26,92 @@ import htaLogo from "@/assets/orgs/hta/hta.webp";
 import digitalHealthLogo from "@/assets/orgs/digital-health/digital-health.svg";
 
 export interface InstitutionData {
-  whiteSrc: string;
-  colorSrc: string;
+  name:
+    | "UHealth"
+    | "Age of Learning"
+    | "The GApp Lab"
+    | "Health Tech Apps"
+    | "Digital Health"
+    | "Hathos Interactive"
+    | "University of Utah"
+    | "Northwestern University";
+  whiteSrc?: string;
+  colorSrc?: string;
   logoSrc?: string;
-  name: string;
   text: string;
 }
+
 export const featuredEmployerData: InstitutionData[] = [
   {
+    name: "UHealth",
     whiteSrc: uhealthW,
     colorSrc: uhealth,
     logoSrc: uhealthLogo,
-    name: "UHealth",
     text: `2019 - 2023
 Software Design Engineer`,
   },
   {
+    name: "Age of Learning",
     whiteSrc: aolW,
     colorSrc: aol,
     logoSrc: aolLogo,
-    name: "Age of Learning",
     text: `2018 - 2019
 Software Developer II`,
   },
   {
+    name: "The GApp Lab",
     whiteSrc: gapplabW,
     colorSrc: gapplab,
     logoSrc: gapplabLogo,
-    name: "The GApp Lab",
     text: `2016 - 2018
 Full-Stack Web Developer`,
   },
 ];
 export const otherEmployerData: InstitutionData[] = [
   {
+    name: "Health Tech Apps",
     whiteSrc: "",
     colorSrc: "",
     logoSrc: htaLogo,
-    name: "Health Tech Apps",
     text: "",
   },
   {
+    name: "Digital Health",
     whiteSrc: "",
     colorSrc: "",
     logoSrc: digitalHealthLogo,
-    name: "Digital Health",
     text: "",
+  },
+  {
+    name: "Hathos Interactive",
+    whiteSrc: hathos,
+    colorSrc: hathos,
+    logoSrc: hathosLogo,
+    text: `2017 - 2018
+Lead Engineer`,
   },
 ];
 export const schoolData: InstitutionData[] = [
   {
+    name: "University of Utah",
     whiteSrc: uofuBizW,
     colorSrc: uofuBiz,
-    name: "University of Utah",
     text: `2020 - 2022
 Master of Business Administration
 Certificate: Information Systems`,
   },
   {
+    name: "University of Utah",
     whiteSrc: uofuGamesW,
     colorSrc: uofuGames,
-    name: "University of Utah",
     text: `2016 - 2018
 Master of Engineering, Arts, and Entertainment
 Emphasis in Engineering Leadership`,
   },
   {
+    name: "Northwestern University",
     whiteSrc: nuW,
     colorSrc: nu,
-    name: "Northwestern University",
     text: `2009 - 2014
 B.S. Biomedical Engineering
 2nd Major: Psychology
@@ -109,17 +126,11 @@ export const allInstitutionsData: InstitutionData[] = [
   ...featuredEmployerData,
   ...otherEmployerData,
   ...schoolData,
-  {
-    whiteSrc: hathos,
-    colorSrc: hathos,
-    logoSrc: hathosLogo,
-    name: "Hathos Interactive",
-    text: `2017 - 2018
-Lead Engineer`,
-  },
 ];
 
-export function getInstitutions(...names: string[]): InstitutionData[] {
+export function getInstitutions(
+  ...names: InstitutionData["name"][]
+): InstitutionData[] {
   return names
     .map((name) =>
       allInstitutionsData.find((institution) => institution.name === name),

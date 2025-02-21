@@ -8,9 +8,9 @@ export const adWithSam = new ProjectDetail({
       src: "https://www.youtube-nocookie.com/embed/_aBn0a0uOWA?rel=0&enablejsapi=1",
       alt: "AD with Sam: 2D",
       type: "youtube",
-      text: `_This is the full-length content._
+      text: `AD with Sam is a highly innovative exhibit for people with spinal cord injury to learn about a life-threatening complication: Autonomic Dysreflexia. This is currently on display at the Craig H. Neilsen Rehabilitation Hospital at the University of Utah.
 ${_}
-AD with Sam is a highly innovative exhibit for people with spinal cord injury to learn about a life-threatening complication: Autonomic Dysreflexia. This is currently on display at the Craig H. Neilsen Rehabilitation Hospital at the University of Utah. It uses a custom blend of storytelling, 3D projection mapping onto a lifesize mannequin, animated anatomy, surround sound audio, and RGB lighting.
+It uses a custom blend of storytelling, 3D projection mapping onto a lifesize mannequin, animated anatomy, surround sound audio, and RGB lighting.
 ${_}
 _Highlight moments:_
 _0:57 - 1:07 : Spinal Cord Dermatomes_

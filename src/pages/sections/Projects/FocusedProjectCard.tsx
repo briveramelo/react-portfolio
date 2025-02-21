@@ -22,7 +22,7 @@ export const FocusedProjectCard: React.FC<ConsideredProjectProps> = ({
   const { user } = useAuth();
   const { background, text } = useCustomPalette();
   const boxRef = useRef<HTMLDivElement | null>(null);
-  const boxWidth = "50vw";
+  const boxWidth = project?.gifWidth ?? "50vw";
   const [dimensions, setDimensions] = useState<{
     width: number;
     height: number;

@@ -76,11 +76,7 @@ export const HeroSection = forwardRef<HTMLElement, HeroProps>(
             my: 8,
           }}
         >
-          <HeroText
-            textColor={textColor}
-            isFirstCardAnimation={isFirstCardAnimationRef.current}
-            isSectionVisible={isSectionVisible}
-          />
+          <HeroText textColor={textColor} isSectionVisible={isSectionVisible} />
           <HeroCard
             isSectionVisible={isSectionVisible}
             onHoveredChange={setHasCardBeenHovered}
