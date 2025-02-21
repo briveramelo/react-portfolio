@@ -21,7 +21,7 @@ import { pocketOptimist } from "./projects/pocketOptimist.tsx";
 import { abductor } from "./projects/abductor.tsx";
 
 export interface ProjectCategory {
-  name: "Health Tech" | "Game Dev";
+  name: "Health Tech" | "Game Dev" | "Health Game";
   bgColor: string;
   textColor: string;
 }
@@ -35,6 +35,11 @@ const categories: ProjectCategory[] = [
   {
     name: "Game Dev",
     bgColor: "#1e88e5",
+    textColor: "#ffffff",
+  },
+  {
+    name: "Health Game",
+    bgColor: "#b01e80",
     textColor: "#ffffff",
   },
 ];
@@ -184,7 +189,7 @@ export const allProjects: Project[] = [
   new Project({
     title: "Bobby The Bladder",
     year: 2022,
-    category: getCategory("Health Tech"),
+    category: getCategory("Health Game"),
     imageSrc: "bobby-the-bladder/sam-and-bobby-thumbnail.webp",
     gifSrc: "",
     description: `Bobby the Bladder is an interactive, branching narrative game for people with spinal cord injury and their family to learn about bladder maintenance. This is **currently installed on all patient iPads at the Craig H. Neilsen Rehabilitation Hospital.**`,

@@ -39,7 +39,11 @@ const FirebaseImage: React.FC<FirebaseImageProps> = ({
         render={(url) =>
           url ? (
             <img
-              onLoad={() => resizeDimensions(imgRef.current)}
+              onLoad={() => {
+                if (!allowResizing) return;
+
+                resizeDimensions(imgRef.current);
+              }}
               ref={imgRef}
               src={url}
               alt={alt}

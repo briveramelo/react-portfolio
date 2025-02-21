@@ -40,7 +40,11 @@ const FirebaseVideoAsGif: React.FC<FirebaseVideoAsGifProps> = ({
             <video
               ref={videoRef}
               src={url}
-              onLoadedData={() => resizeDimensions(videoRef.current)}
+              onLoadedData={() => {
+                if (!allowResizing) return;
+
+                resizeDimensions(videoRef.current);
+              }}
               autoPlay
               loop
               muted

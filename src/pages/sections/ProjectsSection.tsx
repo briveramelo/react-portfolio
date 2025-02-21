@@ -15,7 +15,7 @@ import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserv
 import { Collapsible } from "../components/Collapsible.tsx";
 import AnimatedCursor from "../components/AnimatedCursor.tsx";
 import { toSlug } from "../../utils/utils.ts";
-import { ConsideredProject } from "./Projects/ConsideredProject.tsx";
+import { FocusedProjectCard } from "./Projects/FocusedProjectCard.tsx";
 import { useCursor } from "../../context/CursorContext.tsx";
 
 interface ProjectsProps {
@@ -254,7 +254,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
         </Container>
 
         {!isTouchDevice && isSectionVisibleLead && (
-          <ConsideredProject project={hoveredProject} useLight={useLight} />
+          <FocusedProjectCard project={hoveredProject} useLight={useLight} />
         )}
 
         {/* Only hide the animated cursor after an explicit click */}

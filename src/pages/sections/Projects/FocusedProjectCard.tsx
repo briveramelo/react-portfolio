@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Card, CardContent, Typography, Box } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import { HighlightedText } from "../../components/Markdown/HighlightedText.tsx";
@@ -14,37 +14,58 @@ interface ConsideredProjectProps {
   useLight: boolean;
 }
 
-export const ConsideredProject: React.FC<ConsideredProjectProps> = ({
+export const FocusedProjectCard: React.FC<ConsideredProjectProps> = ({
   project,
   useLight,
 }) => {
-  if (project === null) return null;
-
   const borderRadius = "8px";
   const { user } = useAuth();
   const { background, text } = useCustomPalette();
-  const cardRef = useRef<HTMLDivElement>(null);
+  const boxRef = useRef<HTMLDivElement | null>(null);
+  const boxWidth = "50vw";
+  const [dimensions, setDimensions] = useState<{
+    width: number;
+    height: number;
+  } | null>(null);
+
+  // Reposition the card when the size changes
+  useEffect(() => {
+    if (!boxRef.current) return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        setDimensions({ width, height });
+      }
+    });
+
+    observer.observe(boxRef.current);
+
+    return () => observer.disconnect();
+  }, [project]);
+
+  if (!project) return null;
 
   return (
     <Box
+      ref={boxRef}
       sx={{
         position: "fixed",
-        pointerEvents: "none",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
+        top: dimensions ? `calc((100vh - ${dimensions.height}px) / 2)` : "20vh",
+        left: `calc((100vw - ${boxWidth}) / 2)`,
         zIndex: 3,
-        willChange: "opacity",
-        "--fade-duration": "400ms",
+        pointerEvents: "none",
+        width: boxWidth,
+        willChange: "opacity, top",
+        transition: "top 1000ms ease",
+        "--fade-duration": "1000ms",
       }}
       className={"fade-in"}
     >
       <Card
         sx={{
-          position: "relative",
           display: "flex",
           flexDirection: "column",
-          alignItems: "stretch",
           backgroundColor: background.paper,
           borderRadius,
         }}
@@ -53,35 +74,39 @@ export const ConsideredProject: React.FC<ConsideredProjectProps> = ({
       >
         {/* IMAGE & VIDEO CONTAINER */}
         <Box
-          ref={cardRef}
           sx={{
             position: "relative",
+            flex: "1 1 auto",
             borderRadius: `${borderRadius} ${borderRadius} 0 0`,
-            overflow: "hidden",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#000",
           }}
         >
-          {/* ANIMATED IMAGE OR STATIC IMAGE */}
           {user && project.gifSrc ? (
             <FirebaseVideoAsGif
               firebaseVideoPath={project.gifSrc}
-              height="100%"
               alt={project.title}
               allowResizing={false}
+              height={"100%"}
               style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
                 borderRadius: `${borderRadius} ${borderRadius} 0 0`,
-                objectFit: "cover",
               }}
             />
           ) : (
             <FirebaseImage
               firebaseImagePath={project.imageSrc}
-              height={"100%"}
               alt={project.title}
               allowResizing={false}
+              height={"100%"}
               style={{
                 width: "100%",
-                height: "auto",
-                objectFit: "cover",
+                height: "100%",
+                objectFit: "contain",
                 borderRadius: `${borderRadius} ${borderRadius} 0 0`,
                 transition: "opacity 0.5s ease",
               }}
@@ -89,7 +114,7 @@ export const ConsideredProject: React.FC<ConsideredProjectProps> = ({
           )}
         </Box>
 
-        {/* Header, Body, Skills, and Institutions */}
+        {/* Header, Description, Skills, and Institutions */}
         <CardContent
           id={`project_card_content_${project.title}`}
           sx={{
@@ -98,7 +123,7 @@ export const ConsideredProject: React.FC<ConsideredProjectProps> = ({
             pt: 1,
             px: 2,
             gap: 3,
-            flexGrow: 1,
+            flexShrink: 0,
           }}
         >
           {/* Header + Body */}
