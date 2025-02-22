@@ -256,40 +256,70 @@ export const FocusedProjectCard: React.FC<ConsideredProjectProps> = ({
               ))}
             </Box>
 
-            {/* Institutions */}
-            {project.institutions && project.institutions.length > 0 && (
+            {/* Right-side Group: Media Count and Institutions */}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+              }}
+            >
+              {/* Media Count */}
               <Box
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                  flexWrap: "nowrap",
+                  display: "inline-block",
+                  px: 2,
+                  py: 1,
+                  borderRadius: "999px",
+                  fontSize: "0.875rem",
+                  fontWeight: "bold",
+                  backgroundColor: "rgba(255,255,255,0.8)",
+                  color: "black",
+                  whiteSpace: "nowrap",
+                  border: "2px solid black",
                 }}
               >
-                {project.institutions.map((institution, index) => (
-                  <Box
-                    key={`${institution.name}-${index}`}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      height: 30,
-                      flexShrink: 1,
-                    }}
-                  >
-                    <img
-                      src={institution.logoSrc}
-                      alt={institution.name}
-                      style={{
-                        maxHeight: "100%",
-                        width: "auto",
-                        display: "block",
-                        objectFit: "contain",
-                      }}
-                    />
-                  </Box>
-                ))}
+                {project.details.media.length}{" "}
+                {project.details.media.length === 1
+                  ? "media item"
+                  : "media items"}
               </Box>
-            )}
+
+              {/* Institutions */}
+              {project.institutions && project.institutions.length > 0 && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    flexWrap: "nowrap",
+                  }}
+                >
+                  {project.institutions.map((institution, index) => (
+                    <Box
+                      key={`${institution.name}-${index}`}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        height: 30,
+                        flexShrink: 1,
+                      }}
+                    >
+                      <img
+                        src={institution.logoSrc}
+                        alt={institution.name}
+                        style={{
+                          maxHeight: "100%",
+                          width: "auto",
+                          display: "block",
+                          objectFit: "contain",
+                        }}
+                      />
+                    </Box>
+                  ))}
+                </Box>
+              )}
+            </Box>
           </Box>
         </CardContent>
       </Card>
