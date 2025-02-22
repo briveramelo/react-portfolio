@@ -13,10 +13,10 @@ ${_}
 It uses a custom blend of storytelling, 3D projection mapping onto a lifesize mannequin, animated anatomy, surround sound audio, and RGB lighting.
 ${_}
 _Highlight moments:_
-_[0:57](#0:57) - 1:07 : Spinal Cord Dermatomes_
-_[1:32](#1:32) - 2:03 : Nervous System_
-_[2:48](#2:48) - 3:43 : Symptoms_
-_[3:43](#3:43) - 4:05 : Death_
+_[0:59](#0:59) - 1:07 : Spinal Cord Dermatomes_
+_[1:33](#1:33) - 2:03 : Nervous System_
+_[2:49](#2:49.500) - 3:43 : Symptoms_
+_[3:44](#3:44.500) - 4:05 : Death_
 `,
     },
     {

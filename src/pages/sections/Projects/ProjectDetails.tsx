@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { MediaItem } from "../../../data/projectDetails.tsx";
 import { Box, Typography, Grid, useMediaQuery } from "@mui/material";
 import MediaCarousel from "../../components/MediaCarousel/MediaCarousel";
@@ -11,7 +11,7 @@ import { trackCustomEvent } from "../../../utils/tracking/plausibleHelpers.ts";
 import withDwellTimeTracking from "../../../utils/tracking/withDwellTimeTracking.tsx";
 import ProjectLiveLinks from "./ProjectLiveLinks.tsx";
 import { Project } from "../../../data/projectData.ts";
-import { YouTubePlayerHandle } from "../../components/MediaCarousel/MediaItems/YouTubePlayer.tsx";
+import { MediaControlProvider } from "../../components/MediaCarousel/MediaControlContext.tsx";
 
 interface ProjectDetailsProps {
   project: Project;
@@ -26,7 +26,6 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   const useLight = mode === ThemeMode.Dark;
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
-  const youtubePlayerRef = useRef<YouTubePlayerHandle>(null);
 
   const { details, skills } = project;
   const { media, links } = details;
@@ -105,124 +104,119 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
     hasMediaNextBeenClickedRef.current = true;
   };
 
-  const onTimestampClick = (timeSec: number) => {
-    if (!youtubePlayerRef.current) return;
-
-    youtubePlayerRef.current.seekTo(timeSec);
-  };
-
   return (
-    <Box sx={{ overflow: "visible" }}>
-      {/* Story and Images */}
-      <Grid container spacing={2} flexDirection="row" alignContent="left">
-        {/* Story Chapters */}
-        <Grid item lg={3} xs={12}>
-          {/* Desktop */}
-          {!isMobile && (
-            <>
-              <NavigationControls
-                media={media}
-                selectedMediaIndex={selectedMediaIndex}
-                hasBeenClicked={hasMediaNextBeenClickedRef.current}
-                onNext={nextMedia}
-                onPrev={prevMedia}
-                onDotClick={handleMediaChange}
-              />
-              {media.map(
-                (mediaItem, index) =>
-                  mediaItem.chapterTitle && (
-                    <StoryChapter
-                      key={index}
-                      chapterTitle={mediaItem.chapterTitle}
-                      isActive={index === chapterTitleIndex}
-                      onClick={() => handleChapterClick(index)}
-                      markdown={media[selectedMediaIndex].text}
-                      onTimestampClick={onTimestampClick}
-                    />
-                  ),
-              )}
-            </>
-          )}
+    <MediaControlProvider>
+      <Box sx={{ overflow: "visible" }}>
+        {/* Story and Images */}
+        <Grid container spacing={2} flexDirection="row" alignContent="left">
+          {/* Story Chapters */}
+          <Grid item lg={3} xs={12}>
+            {/* Desktop */}
+            {!isMobile && (
+              <>
+                <NavigationControls
+                  media={media}
+                  selectedMediaIndex={selectedMediaIndex}
+                  hasBeenClicked={hasMediaNextBeenClickedRef.current}
+                  onNext={nextMedia}
+                  onPrev={prevMedia}
+                  onDotClick={handleMediaChange}
+                />
+                {media.map(
+                  (mediaItem, index) =>
+                    mediaItem.chapterTitle && (
+                      <StoryChapter
+                        key={index}
+                        chapterTitle={mediaItem.chapterTitle}
+                        isActive={index === chapterTitleIndex}
+                        onClick={() => handleChapterClick(index)}
+                        markdown={media[selectedMediaIndex].text}
+                      />
+                    ),
+                )}
+              </>
+            )}
+          </Grid>
+
+          {/* Media Carousel */}
+          <Grid item lg={9} xs={12} sx={{ mt: isMobile ? -8 : 0 }}>
+            <MediaCarousel
+              showArrows={false}
+              media={media}
+              selectedIndex={selectedMediaIndex}
+              onMediaChange={handleMediaChange}
+              height={getCarouselHeight()}
+            />
+            {/* Mobile */}
+            {isMobile && (
+              <>
+                <NavigationControls
+                  media={media}
+                  selectedMediaIndex={selectedMediaIndex}
+                  hasBeenClicked={hasMediaNextBeenClickedRef.current}
+                  onNext={nextMedia}
+                  onPrev={prevMedia}
+                  onDotClick={handleMediaChange}
+                />
+                <StoryChapter
+                  mobile
+                  chapterTitle={media[chapterTitleIndex].chapterTitle}
+                  isActive={true}
+                  onClick={() => {}}
+                  markdown={media[selectedMediaIndex].text}
+                />
+              </>
+            )}
+          </Grid>
         </Grid>
 
-        {/* Media Carousel */}
-        <Grid item lg={9} xs={12} sx={{ mt: isMobile ? -8 : 0 }}>
-          <MediaCarousel
-            ref={youtubePlayerRef}
-            showArrows={false}
-            media={media}
-            selectedIndex={selectedMediaIndex}
-            onMediaChange={handleMediaChange}
-            height={getCarouselHeight()}
-          />
-          {/* Mobile */}
-          {isMobile && (
-            <>
-              <NavigationControls
-                media={media}
-                selectedMediaIndex={selectedMediaIndex}
-                hasBeenClicked={hasMediaNextBeenClickedRef.current}
-                onNext={nextMedia}
-                onPrev={prevMedia}
-                onDotClick={handleMediaChange}
-              />
-              <StoryChapter
-                mobile
-                chapterTitle={media[chapterTitleIndex].chapterTitle}
-                isActive={true}
-                onClick={() => {}}
-                markdown={media[selectedMediaIndex].text}
-                onTimestampClick={onTimestampClick}
-              />
-            </>
-          )}
-        </Grid>
-      </Grid>
+        <Box sx={{ height: 20 }} />
 
-      <Box sx={{ height: 20 }} />
+        {/* SKILLS */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignContent: "center",
+            flexWrap: "wrap",
+            gap: 3,
+            mt: 1,
+            position: "relative",
+          }}
+        >
+          <Typography
+            sx={{ position: "absolute", textAlign: "center", mt: -3 }}
+          >
+            Built With:{" "}
+          </Typography>
+          {skills &&
+            skills.map((skill) => (
+              <Box
+                key={skill.name}
+                sx={{
+                  width: "40px",
+                  height: "40px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexShrink: 0,
+                }}
+              >
+                <InvertableImage
+                  id={`${project.title}_skills_${skill.name}`}
+                  src={useLight ? skill.srcLight : skill.srcDark}
+                  alt={skill.name}
+                  invert={useLight && !!skill.invertIfLight}
+                />
+              </Box>
+            ))}
+        </Box>
 
-      {/* SKILLS */}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignContent: "center",
-          flexWrap: "wrap",
-          gap: 3,
-          mt: 1,
-          position: "relative",
-        }}
-      >
-        <Typography sx={{ position: "absolute", textAlign: "center", mt: -3 }}>
-          Built With:{" "}
-        </Typography>
-        {skills &&
-          skills.map((skill) => (
-            <Box
-              key={skill.name}
-              sx={{
-                width: "40px",
-                height: "40px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexShrink: 0,
-              }}
-            >
-              <InvertableImage
-                id={`${project.title}_skills_${skill.name}`}
-                src={useLight ? skill.srcLight : skill.srcDark}
-                alt={skill.name}
-                invert={useLight && !!skill.invertIfLight}
-              />
-            </Box>
-          ))}
+        {/* Call to Action */}
+        <ProjectLiveLinks links={links} />
       </Box>
-
-      {/* Call to Action */}
-      <ProjectLiveLinks links={links} />
-    </Box>
+    </MediaControlProvider>
   );
 };
 
