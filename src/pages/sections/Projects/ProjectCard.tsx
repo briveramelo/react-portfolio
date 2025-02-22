@@ -149,6 +149,31 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               />
             </Box>
           )}
+
+          {/* Media Count */}
+          <Box
+            sx={{
+              position: "absolute",
+              top: "4px",
+              right: "4px",
+              width: 30,
+              height: 30,
+              borderRadius: "50%",
+              backgroundColor: "rgba(255,255,255,0.8)",
+              border: "2px solid black",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 1,
+            }}
+          >
+            <Typography
+              variant="caption"
+              sx={{ color: "black", fontWeight: "bold", lineHeight: 1 }}
+            >
+              {project.details.media.length}
+            </Typography>
+          </Box>
         </Box>
 
         {/* Header, Body, Skills, and Institutions */}
