@@ -139,7 +139,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
             maxWidth="xl"
             sx={{
               textAlign: "center",
-              mb: 6,
+              mb: { xs: 6, sm: 2 },
               mx: "auto",
             }}
           >

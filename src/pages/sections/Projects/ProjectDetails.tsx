@@ -181,7 +181,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
             alignContent: "center",
             flexWrap: "wrap",
             gap: 3,
-            mt: 1,
+            mt: 3,
             position: "relative",
           }}
         >

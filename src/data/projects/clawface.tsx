@@ -11,7 +11,7 @@ export const clawface = new ProjectDetail({
       src: "https://www.youtube-nocookie.com/embed/Qy-SYG2P4SA?rel=0&enablejsapi=1",
       alt: "Trailer",
       type: "youtube",
-      text: `Clawface is a twin-stick, arcade-style, bullet-hell shooter published to Steam in 2018, rated 9/10 with "Very Positive" reviews and over 70,000 downloads. The game comes with Steam Achievements, Steam Workshop (for a built-in level editor whose levels you can share), Steam Leaderboards, 11 enemies, 6 weapons, and a killer soundtrack that adapts to the in-game difficulty.`,
+      text: `Clawface is a twin-stick, arcade-style, bullet-hell shooter published to Steam in 2018, rated 9/10 with "Very Positive" reviews and over 70,000 downloads. The game comes with Steam Achievements, a level editor (through Steam Workshop), Steam Leaderboards, 11 enemies, 6 weapons, and a killer soundtrack that adapts to the in-game difficulty.`,
     },
     {
       src: "https://www.youtube-nocookie.com/embed/A41UPDj2UNg?rel=0&enablejsapi=1",
@@ -22,15 +22,15 @@ ${_}
 _This video shows progress along that development pathway._`,
     },
     {
+      chapterTitle: "Contributions",
       src: "https://www.youtube-nocookie.com/embed/1kNYnjChNVM?rel=0&enablejsapi=1",
       alt: "Level Editor",
       type: "youtube",
-      text: `I provided critical hands-on development for our Level Editor, where players can explore their creative side by designing the environment and challenges they will face. Players can share these levels with peers in the online community through the Steam Workshop and play the designs made by others.
+      text: `I provided critical hands-on development for the Level Editor, where players can explore their creative side by designing the environment and challenges they will face. Players can share these levels with peers in the online community through the Steam Workshop and play the designs made by others.
 ${_}
 _This was created in close collaboration with Garin Richards and Chuan Chin Lai._`,
     },
     {
-      chapterTitle: "Contributions",
       src: "clawface/Clawface-Scripting-Architecture.pdf",
       alt: "Scripting Architecture Diagram",
       type: "firebasePdf",
@@ -49,13 +49,13 @@ _Shown here is the once-living scripting architecture diagram used to literally 
       src: "clawface/team.webp",
       alt: "Team Photo",
       type: "firebaseImage",
-      text: "This game was developed over the course of 1.5 years as our Master's Thesis at The University of Utah. We formed an independent company - Hathos Interactive - for distribution and publishing, of which I was a founding member.",
+      text: "This game was developed over the course of 1.5 years as a Master's Thesis at The University of Utah. We formed an independent company - Hathos Interactive - for distribution and publishing, of which I was a founding member.",
     },
     {
       src: "https://www.youtube-nocookie.com/embed/_RPYYtuWjW8?autoplay=1&mute=1&controls=0&loop=1&playlist=_RPYYtuWjW8&disablekb=1",
       alt: "Team Video",
       type: "youtube",
-      text: "This game was developed over the course of 1.5 years as our Master's Thesis at The University of Utah. We formed an independent company - Hathos Interactive - for distribution and publishing, of which I was a founding member.",
+      text: "This game was developed over the course of 1.5 years as a Master's Thesis at The University of Utah. We formed an independent company - Hathos Interactive - for distribution and publishing, of which I was a founding member.",
       playAsGif: true,
     },
     {

@@ -82,6 +82,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                     ? "flex"
                     : "block",
               width: "100%",
+              minHeight: height,
               height: item.type === "quote" ? "auto" : height,
               justifyContent: "center",
               alignItems: "center",
