@@ -1,4 +1,4 @@
-import { _, ProjectDetail } from "../projectDetails.tsx";
+import { _, ProjectDetail } from "./projectDetails.tsx";
 
 export const adWithSam = new ProjectDetail({
   title: "AD with Sam",

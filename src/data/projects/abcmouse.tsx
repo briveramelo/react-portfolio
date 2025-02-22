@@ -1,7 +1,7 @@
 import AndroidIcon from "@/assets/skills/android.svg?react";
 import AppleIcon from "@/assets/skills/apple.svg?react";
 import React from "react";
-import { _, iconStyle, ProjectDetail } from "../projectDetails.tsx";
+import { _, iconStyle, ProjectDetail } from "./projectDetails.tsx";
 
 export const abcMouse = new ProjectDetail({
   title: "ABCmouse",

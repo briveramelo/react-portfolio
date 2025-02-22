@@ -1,4 +1,4 @@
-import { ProjectDetail } from "../projectDetails.tsx";
+import { ProjectDetail } from "./projectDetails.tsx";
 
 export const mindkloud = new ProjectDetail({
   title: "MindKloud",

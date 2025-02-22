@@ -168,7 +168,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             sx={{
               display: "flex",
               flexDirection: "column",
-              gap: 2,
             }}
           >
             {/* Header: Category, Title, and Year */}

@@ -17,13 +17,9 @@ const ExperienceCategory: React.FC<ExperienceCategoryProps> = ({
 }) => {
   const { category, skills } = skillCategory;
 
-  const averageYears = React.useMemo(() => {
+  const maxYears = React.useMemo(() => {
     if (!skills || skills.length === 0) return 0;
-    const totalYears = skills.reduce(
-      (sum, skill) => sum + skill.years.length,
-      0,
-    );
-    return totalYears / skills.length;
+    return Math.max(...skills.map((skill) => skill.years.length));
   }, [skills]);
 
   return (
@@ -51,7 +47,7 @@ const ExperienceCategory: React.FC<ExperienceCategoryProps> = ({
       >
         <ExperienceArc
           key={`${category}-exp`}
-          years={isVisible ? averageYears : 0}
+          years={isVisible ? maxYears : 0}
           isVisible={isVisible}
         />
       </Box>

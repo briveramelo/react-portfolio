@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { MediaItem } from "../../../data/projectDetails.tsx";
+import { MediaItem } from "../../../data/projects/projectDetails.tsx";
 import { Box, Typography, Grid, useMediaQuery } from "@mui/material";
 import MediaCarousel from "../../components/MediaCarousel/MediaCarousel";
 import InvertableImage from "../../components/InvertableImage.tsx";

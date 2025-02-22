@@ -11,7 +11,7 @@ import bobIcon from "@/assets/projects/abductor/bob-head.webp";
 import { getSkills, SkillData } from "./skillsData";
 import { InstitutionData, getInstitutions } from "./institutionData.ts";
 import { getProjectsBySkill } from "./projectMapping.ts";
-import { ProjectDetail } from "./projectDetails.tsx";
+import { ProjectDetail } from "./projects/projectDetails.tsx";
 import { tiltTracker } from "./projects/tiltTracker.tsx";
 import { clawface } from "./projects/clawface.tsx";
 import { abcMouse } from "./projects/abcmouse.tsx";
@@ -166,7 +166,7 @@ export const allProjects: Project[] = [
     gifSrc: "abcmouse/abcmouse-learning-path.mp4",
     gifWidth: "60vw",
     description: `ABCmouse is the **#1 learning app** for children ages 2–8, where over **18 million students** have completed more than **4 billion educational activities**, earning the trust of families worldwide.`,
-    skills: getSkills("Unity", "C#"),
+    skills: getSkills("Unity", "C#", "Android", "iOS"),
     institutions: getInstitutions("Age of Learning"),
     iconSrc: abcmouseIcon,
     details: abcMouse,
@@ -218,7 +218,7 @@ export const allProjects: Project[] = [
     gifSrc: "",
     gifWidth: "35vw",
     description: `MindKloud Journey is a mobile app for young adults to improve emotional literacy by journaling and for college institutions to facilitate a thriving social atmosphere.`,
-    skills: getSkills("Unity", "C#", "AWS"),
+    skills: getSkills("Unity", "C#", "AWS", "Android", "iOS"),
     institutions: getInstitutions("Health Tech Apps"),
     iconSrc: mkJourneyIcon,
     details: mindkloud,

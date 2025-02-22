@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box } from "@mui/material";
-import { MediaItem } from "../../../data/projectDetails.tsx";
+import { MediaItem } from "../../../data/projects/projectDetails.tsx";
 import ChangeMediaButton from "./ChangeMediaButton.tsx";
 import PdfViewer from "./MediaItems/PdfViewer.tsx";
 import YouTubePlayer from "./MediaItems/YouTubePlayer.tsx";

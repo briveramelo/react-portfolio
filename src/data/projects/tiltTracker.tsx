@@ -1,5 +1,5 @@
-import { ProjectDetail } from "../projectDetails.tsx";
-import { _, dash } from "../projectDetails.tsx";
+import { ProjectDetail } from "./projectDetails.tsx";
+import { _, dash } from "./projectDetails.tsx";
 
 export const tiltTracker = new ProjectDetail({
   title: "Tilt Tracker",
