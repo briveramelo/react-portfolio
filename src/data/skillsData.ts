@@ -21,7 +21,7 @@ import devops from "@/assets/skills/devops.webp";
 import hipaa from "@/assets/skills/hipaa.svg";
 import leadership from "@/assets/skills/leadership.webp";
 import apple from "@/assets/skills/apple.svg";
-import android from "@/assets/skills/android.svg";
+import android from "@/assets/skills/android-green.svg";
 
 export class SkillData {
   name: string;
@@ -163,7 +163,6 @@ export const skillsData: SkillCategoryData[] = [
         years: [2015, 2016, 2018, 2019, 2023],
         srcLight: android,
         srcDark: android,
-        invertIfLight: true,
       }),
     ],
   },
