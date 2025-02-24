@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Box } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
@@ -9,6 +9,27 @@ import { useCustomPalette } from "../../../theme/theme.ts";
 const HeroCardBack: React.FC = () => {
   const { user } = useAuth();
   const { background, text } = useCustomPalette();
+  const createMarkdownComponents = useCallback(
+    (fontSize: string, strongFontSize: string) => ({
+      p: ({ children }: { children?: React.ReactNode }) => (
+        <Box
+          component="p"
+          sx={{
+            fontSize,
+            color: text.paper,
+            mt: -1,
+          }}
+        >
+          {children}
+        </Box>
+      ),
+      strong: ({ children }: { children?: React.ReactNode }) => (
+        <strong style={{ fontSize: strongFontSize }}>{children}</strong>
+      ),
+      br: () => <span style={{ display: "block", height: "0rem" }} />,
+    }),
+    [text.paper],
+  );
 
   return (
     <Box
@@ -22,27 +43,14 @@ const HeroCardBack: React.FC = () => {
         borderColor: background.paper,
         backfaceVisibility: "hidden",
         transform: "rotateY(180deg)",
+        px: 2,
+        py: 2,
       }}
       className="pop-shadow"
-      padding={2}
     >
       <ReactMarkdown
         remarkPlugins={[remarkBreaks]}
-        components={{
-          p: ({ children }) => (
-            <Box
-              component="p"
-              sx={{
-                fontSize: "1.15rem",
-                color: text.paper,
-                marginBottom: "1.25rem",
-              }}
-            >
-              {children}
-            </Box>
-          ),
-          br: () => <span style={{ display: "block", height: "0.01rem" }} />,
-        }}
+        components={createMarkdownComponents("1.15rem", "1.15rem")}
       >
         {`**Professional Mission**
 Restore 1,000,000 quality-adjusted life years (QALYs) for people using digital solutions like video games, apps, web services, and biometric sensors.
@@ -51,11 +59,11 @@ Restore 1,000,000 quality-adjusted life years (QALYs) for people using digital s
 As a Type 1 Diabetic, I rely on smart glucose management technology to stay healthy. This inspires me to create similar systems that restore balance and empower others to thrive.
 
 **Curious?**
-Peruse the portfolio and see how we might build a healthier world at scale. 
+Peruse the portfolio and see how we might build a healthier world. 
 `}
       </ReactMarkdown>
       {user && (
-        <Box mt={4}>
+        <Box mb={2}>
           <FirebaseDownloadLink
             downloadFilename={"Brandon Rivera-Melo Resume 2025.01.pdf"}
             height={20}
@@ -65,6 +73,13 @@ Peruse the portfolio and see how we might build a healthier world at scale.
           />
         </Box>
       )}
+      <ReactMarkdown
+        remarkPlugins={[remarkBreaks]}
+        components={createMarkdownComponents("1.1rem", "1.15rem")}
+      >
+        {`**Philosophy**
+We are all interconnected in the web of cause and effect; every thought, word, and action stems from our genes and environment. This recognition calls me to create compassionate environments that nurture human flourishing at every scale - from conversations to global apps.`}
+      </ReactMarkdown>
     </Box>
   );
 };

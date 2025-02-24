@@ -3,12 +3,6 @@ import { Typography, Box } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import { useAnimatedText } from "../../../utils/hooks/useAnimatedText.ts";
-import {
-  ANIMATION_START_DELAY_MS,
-  ANIMATED_TRANSITION_DURATION_MS,
-  FIRST_ANIMATION_START_DELAY_MS,
-  FIRST_ANIMATED_TRANSITION_DURATION_MS,
-} from "./heroHelpers.ts";
 
 interface HeroTextProps {
   textColor: string;

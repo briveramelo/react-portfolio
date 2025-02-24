@@ -116,7 +116,8 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
             {!formSubmitted ? "Your Move" : "Nice Move"}
           </Typography>
           <Typography variant="h6" sx={{ color: textColor }}>
-            You came all this way. Are you going to stop here?
+            You don't have to say hi, but there is a fun surprise waiting for
+            you.
           </Typography>
 
           {/* Render the Form or Confirmation */}
