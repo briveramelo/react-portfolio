@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import {
   Card,
   CardContent,
@@ -6,17 +6,15 @@ import {
   Box,
   useMediaQuery,
 } from "@mui/material";
-import { HighlightedText } from "../../components/Markdown/HighlightedText.tsx";
 import { Project } from "../../../data/projectData.ts";
 import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
-import { Collapsible } from "../../components/Collapsible.tsx";
 import { useCustomPalette } from "../../../theme/theme.ts";
 import { useAuth } from "../../../context/AuthContext.tsx";
 import { useIntersectionObserver } from "../../../utils/hooks/useIntersectionObserver.ts";
-import ReactMarkdown from "react-markdown";
 import InvertableImage from "../../components/InvertableImage.tsx";
 import FirebaseImage from "../../components/MediaCarousel/MediaItems/FirebaseImage.tsx";
 import FirebaseVideoAsGif from "../../components/MediaCarousel/MediaItems/FirebaseVideoAsGif.tsx";
+import { generateSinusoidalBorderColorKeyframes } from "../../../utils/keyframeGenerator.ts";
 
 interface ProjectCardProps {
   project: Project;
@@ -44,14 +42,20 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   const borderRadius = "8px";
   const cardHover = useHoverTracking();
   const { user } = useAuth();
-  const { background, text } = useCustomPalette();
+  const { background, text, interactable } = useCustomPalette();
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
   const cardRef = useRef<HTMLDivElement>(null);
   const isCardVisible = useIntersectionObserver(cardRef, { threshold: 0.94 });
   const revealDescription = isTouchDevice && isCardVisible;
   const revealAnimation = user && project.gifSrc && revealDescription;
   const isHoverable = isOnScreen && animationComplete;
-
+  const pulseBorder = useMemo(() => {
+    return generateSinusoidalBorderColorKeyframes(
+      interactable.highlighted,
+      20,
+      2,
+    );
+  }, [interactable.highlighted]);
   return (
     <Box
       sx={{
@@ -61,7 +65,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           ? "opacity 300ms ease-in-out !important"
           : `transform ${slideDurationMs}ms ease-in-out`,
         transform: `translate3d(${targetDestinationX}, 0, 0)`,
-        cursor: "pointer",
         willChange: "transform, opacity",
         pointerEvents: isHoverable ? "all" : "none",
         opacity: isTouchDevice
@@ -70,19 +73,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             ? 0.15
             : 1,
       }}
-      onPointerEnter={() => {
-        onHover(project, true);
-        cardHover.trackPointerEnter();
-      }}
-      onPointerLeave={(event: React.MouseEvent<HTMLElement>) => {
-        onHover(project, false);
-        cardHover.trackPointerLeave(event);
-      }}
-      onClick={(event) => {
-        onHover(project, false);
-        cardHover.trackPointerLeave(event);
-        onClick();
-      }}
     >
       <Card
         sx={{
@@ -90,12 +80,39 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           display: "flex",
           flexDirection: "column",
           alignItems: "stretch",
+          cursor: "pointer",
           backgroundColor: background.paper,
           borderRadius,
-          pointerEvents: "none",
+          "&::after": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            border: `4px solid transparent`,
+            borderRadius: borderRadius,
+            animation: cardHover.isHovered
+              ? `${pulseBorder} 2s infinite`
+              : undefined,
+            pointerEvents: "none",
+          },
         }}
         className="pop-shadow"
         id={`project_card_${project.title}`}
+        onPointerEnter={() => {
+          onHover(project, true);
+          cardHover.trackPointerEnter();
+        }}
+        onPointerLeave={(event: React.MouseEvent<HTMLElement>) => {
+          onHover(project, false);
+          cardHover.trackPointerLeave(event);
+        }}
+        onClick={(event) => {
+          onHover(project, false);
+          cardHover.trackPointerLeave(event);
+          onClick();
+        }}
       >
         {/* IMAGE & VIDEO CONTAINER */}
         <Box
@@ -106,6 +123,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             aspectRatio: revealDescription ? undefined : "16 / 9",
             borderRadius: `${borderRadius} ${borderRadius} 0 0`,
             overflow: "hidden",
+            pointerEvents: "none",
           }}
         >
           {/* IMAGE */}
@@ -186,6 +204,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             px: 2,
             gap: 1,
             flexGrow: 1,
+            pointerEvents: "none",
           }}
         >
           {/* Header */}

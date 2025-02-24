@@ -81,7 +81,7 @@ export const FocusedProjectCard: React.FC<ConsideredProjectProps> = ({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "#000",
+            backgroundColor: "transparent",
           }}
         >
           {user && project.gifSrc ? (

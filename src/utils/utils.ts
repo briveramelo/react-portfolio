@@ -23,18 +23,17 @@ export function getProgressColor(
   }
 }
 
-export function isColorDark(color: string) {
-  // Helper to convert hex to RGB
-  const hexToRgb = (hex: string) => {
-    const normalizedHex = hex.replace(/^#/, "");
-    const bigint = parseInt(normalizedHex, 16);
-    return {
-      r: (bigint >> 16) & 255,
-      g: (bigint >> 8) & 255,
-      b: bigint & 255,
-    };
+export const hexToRgb = (hex: string) => {
+  const normalizedHex = hex.replace(/^#/, "");
+  const bigint = parseInt(normalizedHex, 16);
+  return {
+    r: (bigint >> 16) & 255,
+    g: (bigint >> 8) & 255,
+    b: bigint & 255,
   };
+};
 
+export function isColorDark(color: string) {
   // Handle hex colors
   if (color.startsWith("#")) {
     const { r, g, b } = hexToRgb(color);

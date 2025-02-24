@@ -31,12 +31,10 @@ ${_}
 _This was created in close collaboration with Garin Richards and Chuan Chin Lai._`,
     },
     {
-      src: "clawface/Clawface-Scripting-Architecture.pdf",
-      alt: "Scripting Architecture Diagram",
-      type: "firebasePdf",
-      text: `I led our engineering team of 6 using sprint ceremonies, architecture diagrams, one-on-ones, coding standards, and source control standards (which required careful collaboration with our art teams).
-${_}
-_Shown here is the once-living scripting architecture diagram used to literally get engineers on the same page during team meetings._`,
+      src: "clawface/Clawface-Levels.webp",
+      alt: "Clawface Levels",
+      type: "firebaseImage",
+      text: `I developed the intensity progression system based on Jesse Schell's (game developer) book - The Book of Lenses - where about talks about the lens of  `,
     },
     {
       src: "clawface/prefabs-diagram.pdf",

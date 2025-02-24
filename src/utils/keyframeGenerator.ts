@@ -1,4 +1,5 @@
 import { keyframes } from "@emotion/react";
+import { hexToRgb } from "./utils";
 
 /**
  * Generates a sinusoidal scaling keyframe animation.
@@ -23,15 +24,57 @@ export const generateSinusoidalScaleKeyframes = (
   const scaleMax = baseline + amplitude;
 
   return keyframes`
-    ${[...Array(numKeyframes + 1)]
-      .map((_, i) => {
-        const percent = i * (100 / numKeyframes); // Evenly spaced keyframes
-        const radians = i * ((2 * Math.PI) / numKeyframes); // Full cosine wave (0 → 2π)
-        const scaleValue =
-          scaleMin + (scaleMax - scaleMin) * (0.5 + 0.5 * Math.cos(radians));
-        return `${percent.toFixed(2)}% { transform: scale(${scaleValue.toFixed(numDecimals)}); }`;
-      })
-      .join("\n    ")}
+  ${[...Array(numKeyframes + 1)]
+    .map((_, i) => {
+      const percent = i * (100 / numKeyframes); // Evenly spaced keyframes
+      const radians = i * ((2 * Math.PI) / numKeyframes); // Full cosine wave (0 → 2π)
+      const scaleValue =
+        scaleMin + (scaleMax - scaleMin) * (0.5 + 0.5 * Math.cos(radians));
+      return `${percent.toFixed(2)}% { transform: scale(${scaleValue.toFixed(numDecimals)}); }`;
+    })
+    .join("\n    ")}
+  `;
+};
+
+/**
+ * Generates a sinusoidal border-color keyframe animation.
+ *
+ * The animation will vary the border color's opacity between 0 (transparent)
+ * and the provided base color at full opacity using a sine wave.
+ *
+ * @param {string} hexColor - The color to pulse toward (e.g., #ff0000).
+ * @param {number} numKeyframes - The number of keyframes in the animation cycle (more keyframes yield a smoother animation).
+ * @param {number} numDecimals - The number of decimal places to round the opacity values.
+ * @returns A keyframes object representing the sinusoidal border-color animation.
+ *
+ * Example usage:
+ * const pulseAnimation = generateSinusoidalBorderColorKeyframes("#ff0000", 20, 2);
+ */
+export const generateSinusoidalBorderColorKeyframes = (
+  hexColor: string,
+  numKeyframes: number,
+  numDecimals: number,
+) => {
+  console.log(hexColor);
+  if (!hexColor.startsWith("#") || hexColor.length !== 7) {
+    console.error(
+      `invalid color: ${hexColor}. Should be a hex value (eg: #ffffff)`,
+    );
+    return null;
+  }
+  const { r, g, b } = hexToRgb(hexColor);
+
+  return keyframes`
+  ${[...Array(numKeyframes + 1)]
+    .map((_, i) => {
+      const percent = i * (100 / numKeyframes);
+      const radians = i * ((2 * Math.PI) / numKeyframes);
+      // Calculate opacity from a sine wave:
+      // sin(radians) yields values in [-1,1]. Shifting and scaling gives [0,1].
+      const opacity = ((Math.cos(radians) + 1) / 2).toFixed(numDecimals);
+      return `${percent.toFixed(2)}% { border-color: rgba(${r}, ${g}, ${b}, ${opacity}); }`;
+    })
+    .join("\n    ")}
   `;
 };
 
@@ -55,18 +98,18 @@ export const generateGravityBounceScaleKeyframes = (
   numDecimals: number,
 ) => {
   return keyframes`
-    ${[...Array(numKeyframes + 1)]
-      .map((_, i) => {
-        const percent = i * (100 / numKeyframes); // Evenly spaced keyframes
-        const progress = i / numKeyframes; // 0 → 1 normalized time
+  ${[...Array(numKeyframes + 1)]
+    .map((_, i) => {
+      const percent = i * (100 / numKeyframes); // Evenly spaced keyframes
+      const progress = i / numKeyframes; // 0 → 1 normalized time
 
-        // Parabolic motion for gravity-like bounce (symmetric around 50%)
-        const t = progress <= 0.5 ? progress * 2 : (1 - progress) * 2; // Normalize to [0,1]
-        const scaleValue = peak - (peak - baseline) * (t * t); // Quadratic easing (simulating gravity)
+      // Parabolic motion for gravity-like bounce (symmetric around 50%)
+      const t = progress <= 0.5 ? progress * 2 : (1 - progress) * 2; // Normalize to [0,1]
+      const scaleValue = peak - (peak - baseline) * (t * t); // Quadratic easing (simulating gravity)
 
-        return `${percent.toFixed(2)}% { transform: scale(${scaleValue.toFixed(numDecimals)}); }`;
-      })
-      .join("\n    ")}
+      return `${percent.toFixed(2)}% { transform: scale(${scaleValue.toFixed(numDecimals)}); }`;
+    })
+    .join("\n    ")}
   `;
 };
 
