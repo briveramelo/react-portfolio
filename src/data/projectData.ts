@@ -21,6 +21,7 @@ import { bobbyTheBladder } from "./projects/bobbyTheBladder.tsx";
 import { mindkloud } from "./projects/mindkloud.tsx";
 import { pocketOptimist } from "./projects/pocketOptimist.tsx";
 import { abductor } from "./projects/abductor.tsx";
+import { nrhControl } from "./projects/nrhControl.tsx";
 
 export interface ProjectCategory {
   name: "Health Tech" | "Game Dev" | "Health Game";
@@ -172,10 +173,23 @@ export const allProjects: Project[] = [
     details: clawface,
   }),
   new Project({
+    title: "NRH Control",
+    year: 2022,
+    category: getCategory("Health Tech"),
+    imageSrc: "nrh-control/nrh-control-ipad.webp",
+    gifSrc: "nrh-control/nrh-trimmed.mp4",
+    gifWidth: "60vw",
+    description: `NRH Control is an hospital smartroom controller for patients, family, and staff at the Craig H. Neilsen Rehabilitation Hospital at the University of Utah. It supports touch, voice, and even 'sip-and-puff' breath control with custom hardware. I coordinated the UI/UX development.`,
+    skills: getSkills("Leadership", "iOS", "Android", "HIPAA"),
+    institutions: getInstitutions("UHealth"),
+    iconSrc: samIcon,
+    details: nrhControl,
+  }),
+  new Project({
     title: "AD with Sam",
     year: 2021,
     category: getCategory("Health Tech"),
-    imageSrc: "ad-with-sam/sam-pressure-ulcers.webp",
+    imageSrc: "ad-with-sam/adwithsam-cleaned.webp",
     gifSrc: "ad-with-sam/ad-lightning-vid1.mp4",
     gifWidth: "60vw",
     description: `AD with Sam is a highly innovative exhibit for people with spinal cord injury to learn about a life-threatening complication: Autonomic Dysreflexia. This is **currently on display at the Craig H. Neilsen Rehabilitation Hospital** at the University of Utah. It uses a custom blend of storytelling, 3D projection mapping onto a lifesize mannequin, animated anatomy, surround sound audio, and RGB lighting.`,

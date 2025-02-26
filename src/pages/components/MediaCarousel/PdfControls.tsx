@@ -21,7 +21,54 @@ const PdfControls: React.FC = () => {
     scale,
     setScale,
     recalcScaleForPage,
+    containerRef,
   } = useContext(PdfViewerContext);
+
+  // In your PdfViewer component (or a wrapper component)
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let startX = 0;
+    let startY = 0;
+    let scrollLeft = 0;
+    let scrollTop = 0;
+    let isPanning = false;
+
+    const handleMouseDown = (e: MouseEvent) => {
+      // Only trigger for middle mouse button
+      if (e.button !== 1) return;
+      e.preventDefault(); // Prevent default autoscroll behavior
+      isPanning = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      scrollLeft = container.scrollLeft;
+      scrollTop = container.scrollTop;
+
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isPanning) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      container.scrollLeft = scrollLeft - dx;
+      container.scrollTop = scrollTop - dy;
+    };
+
+    const handleMouseUp = () => {
+      isPanning = false;
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+
+    container.addEventListener("mousedown", handleMouseDown);
+    return () => {
+      container.removeEventListener("mousedown", handleMouseDown);
+    };
+  }, []);
 
   const [editingZoom, setEditingZoom] = useState<boolean>(false);
   const [zoomInput, setZoomInput] = useState<string>(

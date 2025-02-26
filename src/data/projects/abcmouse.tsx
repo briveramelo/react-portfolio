@@ -66,7 +66,7 @@ _The picture featured here is a sample Leanplum dashboard and does not represent
       type: "firebasePdf",
       text: `I kept a log of nearly all of the contributions I made during my tenure at Age of Learning - a sort of receipt for the engineering leadership team during performance reviews. Some specifics have been removed to maintain ethical adherence to the employee agreement non-disclosure requirements.
 ${_}
-The management team was impressed by my initiative in assisting a QA automation teammate to streamline our testing process. I developed a recording tool to capture the names of interactive elements, which are essential for writing reliable, programmatic system tests for the ABCmouse mobile app. One colleague estimated it saved him a day's worth of work for every test he needed to write.`,
+The management team was impressed by my initiative in assisting a QA automation teammate to streamline our testing process. I developed a recording tool - #1 on this list - to capture the names of interactive elements, which are time-consuming to gather but essential for writing reliable system tests for the ABCmouse mobile app. One colleague estimated it saved him a day's worth of work for every test he needed to write.`,
     },
     {
       src: "abcmouse/brandon-and-adam.webp",

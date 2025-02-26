@@ -20,11 +20,17 @@ _[3:44](#3:44.500) - 4:05 : Death_
 `,
     },
     {
+      src: "ad-with-sam/Sam-ASCIP-poster.pdf",
+      alt: "ASCIP Poster",
+      type: "firebasePdf",
+      text: `The content was also presented at an ASCIP (Academy of Spinal Cord Injury Professionals) conference for rehab educators with this as the poster.`,
+    },
+    {
       chapterTitle: "Technology",
       src: "https://www.youtube-nocookie.com/embed/SWx83_OfZpY?rel=0&enablejsapi=1",
       alt: "Technology Architecture",
       type: "youtube",
-      text: `This video was presented to a room full of rehabilitation experts at ASCIP (Academy of Spinal Cord Injury Professionals)`,
+      text: `This video was presented during the conference to a room full of rehabilitation experts at ASCIP.`,
     },
     {
       src: "ad-with-sam/ASCIP-tech.pdf",
@@ -44,7 +50,7 @@ QLab (video, audio, lighting, input orchestration)`,
       type: "firebaseImage",
       text: `We built this custom iPad interface for chapter-based control of the long-presentation, often useful when showcasing highlight moments from the presentation to people quickly touring through.
 ${_}
-Also included is a 'safe mode' toggle, which swaps out the irreverent 'Death' section if a therapist thought it would be too overwhelming for the patient (see moment 3:43 of the video).`,
+Also included is a 'safe mode' toggle, which swaps out the irreverent 'Death' section at 3:44 if a therapist thought it would be too overwhelming for the patient.`,
     },
     {
       chapterTitle: `Team`,

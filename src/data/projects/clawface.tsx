@@ -28,19 +28,27 @@ _This video shows progress along that development pathway._`,
       type: "youtube",
       text: `I provided critical hands-on development for the Level Editor, where players can explore their creative side by designing the environment and challenges they will face. Players can share these levels with peers in the online community through the Steam Workshop and play the designs made by others.
 ${_}
-_This was created in close collaboration with Garin Richards and Chuan Chin Lai._`,
+_This was created in close collaboration with Garin Richards and Chuan-Chin Lai._`,
     },
     {
       src: "clawface/Clawface-Levels.webp",
       alt: "Clawface Levels",
       type: "firebaseImage",
-      text: `I developed the intensity progression system based on Jesse Schell's (game developer) book - The Book of Lenses - where about talks about the lens of  `,
+      text: `Here are some of the player-made levels loaded in game.`,
+    },
+    {
+      src: "clawface/brandon-schell-lenses.webp",
+      alt: "Clawface Levels",
+      type: "firebaseImage",
+      text: `After reading Jesse Schell's The Art of Game Design: A Book of Lenses, I applied a standout lens to the Clawface game design: #69 The Interest Curve, which describes a narrative arc of intensity over time. It so cleanly captured what I find engaging in games that I developed a difficulty system to control the foe spawning to replicate this curve.
+${_}
+_After attending his GDC session, I told him of its influence on my games (Abductor, Derpy Dinos, and Clawface all use this). He said this lens was the impetus for writing the entire book._`,
     },
     {
       src: "clawface/prefabs-diagram.pdf",
       alt: "Prefabs Architecture Diagram",
       type: "firebasePdf",
-      text: `Here is a simpler 'Prefab' architecture diagram used to communicate an interoperable structure of GameObjects in Unity during our prototyping period.`,
+      text: `Here is a simpler 'Prefab' architecture diagram used to communicate an interoperable structure of GameObjects in Unity during our prototyping period. We found great team attunement when communicating visually with quick whiteboard sketches, shown here.`,
     },
     {
       chapterTitle: "Team",
@@ -57,6 +65,13 @@ _This was created in close collaboration with Garin Richards and Chuan Chin Lai.
       playAsGif: true,
     },
     {
+      src: "clawface/clawface-poster-2.webp",
+      alt: "Game Poster",
+      type: "firebaseImage",
+      text: "Made by Aaron Desin, Adam Kay, Bharat Gudihal, Bolun Gao, Brandon Rivera-Melo, Nathan Rivera-Melo, Cornelia Schultz, Cherlin Mao, Chuan-Chin Lai, Garin Richards, I-Shun Lo, Jaxon Whittaker, Josh Beedle, Josh Levenson, Lauren Mee, and Tri Nguyen",
+    },
+    {
+      chapterTitle: "Reviews",
       src: `### "**Fun** twin-stick shooter, with old time Robotron controls. I was about to write that it might be **worth getting for a couple bucks**, but then I saw it didn't cost anything. So check out this fun little game. It even comes with a nice techno-industrial soundtrack and a level editor. Nice enemy animations, too. Worked well on ubuntu linux and no controller issues. **Hope this developer continues making games like this one.**
 ${_}
 ### Update: came back two years later and got the one game achievement. **Claw Face. The gameplay holds up.**"
@@ -66,12 +81,6 @@ ${dash} tuxdelux
       type: "quote",
       text: "The reviews are really quite uplifting",
       quoteWidth: "95%",
-    },
-    {
-      src: "clawface/clawface-poster-2.webp",
-      alt: "Game Poster",
-      type: "firebaseImage",
-      text: "Made by Aaron Desin, Adam Kay, Bharat Gudihal, Bolun Gao, Brandon Rivera-Melo, Nathan Rivera-Melo, Cornelia Schultz, Cherlin Mao, Chuan-Chin Lai, Garin Richards, I-Shun Lo, Jaxon Whittaker, Josh Beedle, Josh Levenson, Lauren Mee, and Tri Nguyen",
     },
   ],
   links: [

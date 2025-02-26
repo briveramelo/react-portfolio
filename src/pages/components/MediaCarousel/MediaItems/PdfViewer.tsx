@@ -111,6 +111,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
             display: "flex",
             justifyContent: "center",
             backgroundColor: background.dark,
+            minWidth: "max-content",
           }}
         >
           {!isLoaded && (
