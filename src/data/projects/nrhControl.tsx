@@ -8,14 +8,15 @@ export const nrhControl = new ProjectDetail({
   media: [
     {
       chapterTitle: "Video",
-      src: "https://www.youtube-nocookie.com/embed/qyt4u7Lw-PM?rel=0&enablejsapi=1",
+      src: "https://www.youtube-nocookie.com/embed/T4OEciSQBUE?rel=0&enablejsapi=1",
       alt: "",
       type: "youtube",
       text: `NRH Control is an innovative smartroom controller for patients, family, and staff at the Craig H. Neilsen Rehabilitation Hospital at the University of Utah. It supports touch, voice, and even 'sip-and-puff' breath control with custom hardware.
 ${_}
 I coordinated the UI/UX development.
 ${_}
-_See the app in action at [2:20](#1:59.15)._`,
+_See a brief explanation and demo of the app in action at [0:52](#0:52) - 1:30._`,
+      startTime: 52,
     },
     {
       chapterTitle: "Media",

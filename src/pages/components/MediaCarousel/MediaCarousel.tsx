@@ -141,6 +141,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                 borderRadius={borderRadius}
                 isActive={index === selectedIndex}
                 playAsGif={item.playAsGif}
+                startTime={item.startTime}
               />
             ) : item.type === "quote" ? (
               <Quote

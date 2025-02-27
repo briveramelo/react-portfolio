@@ -54,7 +54,7 @@ It uses **real-time feedback** to motivate compliance and objective reporting to
       src: "tilt-tracker/installation-cropped.webp",
       alt: "installation",
       type: "firebaseImage",
-      text: `It is compatible with **all** power wheelchairs.
+      text: `Tilt Tracker is **compatible with all power wheelchairs.**
 ${_}
 These tenets of low-cost and maximum compatibility increase user access.`,
     },

@@ -25,6 +25,7 @@ export interface MediaItem {
   audioButtons?: AudioButtonData[];
   quoteWidth?: string;
   playAsGif?: boolean;
+  startTime?: number;
 }
 
 export interface ProjectLink {

@@ -1,19 +1,23 @@
-import React, { useCallback, useContext, useEffect, useRef } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Box } from "@mui/material";
 import { MediaControlContext } from "../MediaControlContext";
-
-export interface YouTubePlayerHandle {
-  seekTo: (time: number) => void;
-}
+import AutoplayToggle from "../Controls/AutoplayToggle.tsx";
 
 interface YouTubePlayerProps {
+  // Use a src format like this in conjunction with playAsGif = true:
+  // "https://www.youtube-nocookie.com/embed/9uP0CscXHB8?autoplay=1&mute=1&controls=0&loop=1&playlist=9uP0CscXHB8&disablekb=1",
   src: string;
   title: string;
   isActive: boolean;
   borderRadius?: string;
   playAsGif?: boolean;
-  // use a src format like this in conjunction with playAsGif = true
-  // "https://www.youtube-nocookie.com/embed/9uP0CscXHB8?autoplay=1&mute=1&controls=0&loop=1&playlist=9uP0CscXHB8&disablekb=1",
+  startTime?: number;
 }
 
 const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
@@ -22,26 +26,14 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   isActive,
   borderRadius,
   playAsGif = false,
+  startTime,
 }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-
-  // Pause the video when inactive
-  useEffect(() => {
-    if (!playAsGif && !isActive && iframeRef.current) {
-      iframeRef.current.contentWindow?.postMessage(
-        JSON.stringify({
-          event: "command",
-          func: "pauseVideo",
-          args: [],
-        }),
-        "*",
-      );
-    }
-  }, [isActive]);
+  const isFirstActivation = useRef(true);
+  const [playerReady, setPlayerReady] = useState(false);
 
   const seekTo = useCallback((timeSec: number) => {
     if (!iframeRef.current) return;
-
     iframeRef.current.contentWindow?.postMessage(
       JSON.stringify({
         event: "command",
@@ -52,47 +44,82 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
     );
   }, []);
 
-  const { setSeekTo } = useContext(MediaControlContext);
+  // Set the global seekTo when the video is active.
+  const { setSeekTo, autoplay } = useContext(MediaControlContext);
   useEffect(() => {
     if (isActive) {
       setSeekTo(seekTo);
     }
   }, [isActive, seekTo, setSeekTo]);
 
+  // Handler to mark the player as ready once the iframe loads.
+  const handlePlayerLoad = () => {
+    setPlayerReady(true);
+  };
+
+  useEffect(() => {
+    if (!iframeRef.current || !playerReady || playAsGif) return;
+
+    // On first activation with a defined start time, seek to it.
+    if (isActive && isFirstActivation.current && startTime !== undefined) {
+      seekTo(startTime);
+      isFirstActivation.current = false;
+    }
+
+    const command = isActive ? "playVideo" : "pauseVideo";
+    if (!autoplay && command === "playVideo") return;
+
+    iframeRef.current.contentWindow?.postMessage(
+      JSON.stringify({
+        event: "command",
+        func: command,
+        args: [],
+      }),
+      "*",
+    );
+  }, [isActive, playerReady, startTime, playAsGif, seekTo]);
+
   const padding = "27.125%";
 
   return (
     <Box
       sx={{
-        position: "relative",
         display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+        flexDirection: "column",
+        alignItems: "left",
         width: "100%",
-        height: playAsGif ? "100%" : undefined,
-        paddingTop: playAsGif ? undefined : padding,
-        paddingBottom: playAsGif ? undefined : padding,
-        // 56.25% fills the play area,
-        // 54.25% ensures the header overlay (icon, title, 'copy' link) shows
-        // though this reduction adds small black letterboxing, this is OK
       }}
     >
-      <iframe
-        ref={iframeRef}
-        src={`${src}`}
-        title={title}
-        frameBorder="0"
-        allowFullScreen
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
+      <Box sx={{ mb: 0 }}>
+        <AutoplayToggle />
+      </Box>
+      <Box
+        sx={{
+          position: "relative",
           width: "100%",
-          height: "100%",
-          borderRadius: borderRadius,
+          height: playAsGif ? "100%" : undefined,
+          paddingTop: playAsGif ? undefined : padding,
+          paddingBottom: playAsGif ? undefined : padding,
         }}
-      />
+      >
+        <iframe
+          ref={iframeRef}
+          src={src}
+          title={title}
+          frameBorder="0"
+          allowFullScreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          onLoad={handlePlayerLoad}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            borderRadius: borderRadius,
+          }}
+        />
+      </Box>
     </Box>
   );
 };
