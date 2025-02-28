@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MediaItem } from "../../../data/projects/projectDetails.tsx";
 import { Box, Typography, Grid, useMediaQuery } from "@mui/material";
 import MediaCarousel from "../../components/MediaCarousel/MediaCarousel";
@@ -11,6 +11,7 @@ import { trackCustomEvent } from "../../../utils/tracking/plausibleHelpers.ts";
 import withDwellTimeTracking from "../../../utils/tracking/withDwellTimeTracking.tsx";
 import ProjectLiveLinks from "./ProjectLiveLinks.tsx";
 import { Project } from "../../../data/projectData.ts";
+import { toSlug } from "../../../utils/utils.ts";
 
 interface ProjectDetailsProps {
   project: Project;
@@ -34,6 +35,21 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmMd = useMediaQuery(theme.breakpoints.between("sm", "md"));
   const isLgUp = useMediaQuery(theme.breakpoints.up("md"));
+
+  // On mount, if there's a matching hash, update the media index accordingly
+  useEffect(() => {
+    const hash = window.location.hash;
+    const slug = toSlug(project.title);
+    const regex = new RegExp(`^#projects-${slug}-(\\d+)$`);
+    const match = hash.match(regex);
+    if (!match || !match[1]) return;
+
+    const mediaIndex = parseInt(match[1], 10);
+    console.log(mediaIndex);
+    if (!isNaN(mediaIndex) && mediaIndex >= 0 && mediaIndex < media.length) {
+      handleMediaChange(mediaIndex);
+    }
+  }, [project, media]);
 
   const getCarouselHeight = () => {
     if (isXs) return 300;
@@ -72,6 +88,10 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
     setSelectedMediaIndex(newMediaIndex);
     const newChapterIndex = findCurrentChapterIndex(media, newMediaIndex);
     setChapterTitleIndex(newChapterIndex);
+
+    // Update the URL hash for deep linking
+    const newHash = `#projects-${toSlug(project.title)}-${newMediaIndex}`;
+    window.history.replaceState(null, "", newHash);
 
     trackCustomEvent("project_media_change", {
       project_title: project.title,

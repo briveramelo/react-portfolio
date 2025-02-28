@@ -7,6 +7,7 @@ import samIcon from "@/assets/projects/ad-with-sam/sam-head.webp";
 import pocketOptimistIcon from "@/assets/projects/pocket-optimist/compressed/icon.webp";
 import bobbyIcon from "@/assets/projects/bobby-the-bladder/compressed/bobb-e-icon.webp";
 import bobIcon from "@/assets/projects/abductor/bob-head.webp";
+import nrhControlIcon from "@/assets/orgs/uhealth/uhealth-logo.webp";
 
 import { getSkills, SkillData } from "./skillsData";
 import { InstitutionData, getInstitutions } from "./institutionData.ts";
@@ -160,7 +161,7 @@ I served a Software Engineer and transitioned to Lead Engineer and  development 
     description: `ABCmouse is the **#1 learning app** for children ages 2–8, where over **18 million students** have completed more than **4 billion educational activities**, earning the trust of families worldwide.
 ${_}
 I served as a Software Engineer on the ABCmouse Core mobile development team for 1.5 years.`,
-    skills: getSkills("Unity", "C#", "Android", "iOS"),
+    skills: getSkills("Unity", "C#", "DevOps", "Android", "iOS"),
     institutions: getInstitutions("Age of Learning"),
     iconSrc: abcmouseIcon,
     details: abcMouse,
@@ -175,7 +176,7 @@ I served as a Software Engineer on the ABCmouse Core mobile development team for
     description: `Clawface is an indie, twin-stick, arcade-style bullet hell shooter published to Steam with **"Very Positive" reviews** and **over 70,000 downloads.**
 ${_}
 I served as the Lead Engineer for a team of 6 engineers in a 15-person game-development studio.`,
-    skills: getSkills("Leadership", "Unity", "C#"),
+    skills: getSkills("Leadership", "Unity", "C#", "DevOps"),
     institutions: getInstitutions("Hathos Interactive"),
     iconSrc: clawfaceIcon,
     details: clawface,
@@ -187,12 +188,12 @@ I served as the Lead Engineer for a team of 6 engineers in a 15-person game-deve
     imageSrc: "nrh-control/nrh-control-ipad.webp",
     gifSrc: "nrh-control/nrh-trimmed.mp4",
     gifWidth: "60vw",
-    description: `NRH Control is an hospital smartroom controller for patients, family, and staff at the Craig H. Neilsen Rehabilitation Hospital at the University of Utah. It supports touch, voice, and even 'sip-and-puff' breath control with custom hardware.
+    description: `NRH Control is a hospital smartroom controller for patients, family, and staff at the Craig H. Neilsen Rehabilitation Hospital at the University of Utah. It supports touch, voice, and even 'sip-and-puff' breath control with custom hardware.
 ${_}
-I served as the UI/UX coordinator for 2 years.`,
+I served as the UI/UX Coordinator for 2 years.`,
     skills: getSkills("Leadership", "iOS", "Android", "HIPAA"),
     institutions: getInstitutions("UHealth"),
-    iconSrc: samIcon,
+    iconSrc: nrhControlIcon,
     details: nrhControl,
   }),
   new Project({
@@ -205,7 +206,7 @@ I served as the UI/UX coordinator for 2 years.`,
     description: `AD with Sam is a highly innovative augmented reality exhibit for people with spinal cord injury to learn about a life-threatening complication: Autonomic Dysreflexia. This is **currently on display at the Craig H. Neilsen Rehabilitation Hospital** at the University of Utah. It uses a custom blend of storytelling, 3D projection mapping onto a lifesize mannequin, animated anatomy, surround sound audio, and RGB lighting.
 ${_}
 I served as the Lead Producer from start to finish.`,
-    skills: getSkills("Leadership", "Bash"),
+    skills: getSkills("Leadership", "Bash", "DevOps"),
     institutions: getInstitutions("UHealth"),
     iconSrc: samIcon,
     details: adWithSam,
@@ -244,13 +245,22 @@ I served as the Lead Engineer and transitioned to Lead Producer after the protot
     title: "MindKloud",
     year: 2023,
     category: getCategory("Health Tech"),
-    imageSrc: "mindkloud-journey/mk-journey-icon.webp",
+    imageSrc: "mindkloud-journey/mk-journey-logo.webp",
     gifSrc: "",
-    gifWidth: "30vw",
+    gifWidth: "60vw",
     description: `MindKloud Journey is a mobile app for young adults to improve emotional self-awareness through journaling and for college institutions to facilitate a thriving social atmosphere.
 ${_}
 I served as the Head of Engineering when porting an iOS-only app to Unity, adding support for Android, analytics, and AWS cloud storage.`,
-    skills: getSkills("Unity", "C#", "Python", "AWS", "SQL", "Android", "iOS"),
+    skills: getSkills(
+      "Unity",
+      "C#",
+      "Python",
+      "AWS",
+      "SQL",
+      "Android",
+      "iOS",
+      "HIPAA",
+    ),
     institutions: getInstitutions("Health Tech Apps"),
     iconSrc: mkJourneyIcon,
     details: mindkloud,

@@ -44,8 +44,6 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
     const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false);
     const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
 
-    const [hasProjectBeenClicked, setHasProjectBeenClicked] =
-      useState<boolean>(false);
     const hasMediaNextBeenClickedRef = useRef<boolean>(false);
     const [isAnimationComplete, setIsAnimationComplete] =
       useState<boolean>(true);
@@ -71,16 +69,15 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
 
     const handleCardClick = (
       project: Project,
-      triggeredByClick: boolean = true,
+      isHashChange: boolean = true,
     ) => {
       setSelectedProject(project);
       setIsProjectSelected(true);
-      if (triggeredByClick) {
-        setHasProjectBeenClicked(true);
-      }
 
       setIsAnimationComplete(false);
-      window.location.href = `#projects-${toSlug(project.title)}`;
+      if (!isHashChange) {
+        window.location.href = `#projects-${toSlug(project.title)}`;
+      }
       sectionRef.current!.scrollIntoView({ behavior: "smooth" });
       setTimeout(() => {
         setIsAnimationComplete(true);
@@ -90,6 +87,17 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
     const handleCloseProjectDetails = () => {
       setIsProjectSelected(false);
       setIsAnimationComplete(false);
+      if (selectedProject) {
+        // Revert the URL to the canonical project hash
+        window.history.replaceState(
+          null,
+          "",
+          `#projects-${toSlug(selectedProject.title)}`,
+        );
+      }
+      // Now push the closed project state
+      window.location.href = "#projects";
+      sectionRef.current!.scrollIntoView({ behavior: "smooth" });
       setTimeout(() => {
         setSelectedProject(null);
         setIsAnimationComplete(true);
@@ -100,17 +108,16 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
     useEffect(() => {
       const handleHashChange = () => {
         const hash = window.location.hash;
-        if (!hash.startsWith("#projects-")) {
-          handleCloseProjectDetails();
-          return;
-        }
+        const regex = /^#projects-(.+?)(?:-(\d+))?$/;
+        const match = hash.match(regex);
+        if (!match) return;
 
-        const projectSlug = hash.replace("#projects-", "");
+        const projectSlug = match[1];
         const matchingProject = allProjects.find(
           (project) => toSlug(project.title) === projectSlug,
         );
         if (matchingProject) {
-          handleCardClick(matchingProject, false);
+          handleCardClick(matchingProject, true);
         }
       };
 
@@ -267,7 +274,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
           )}
 
           {/* Only hide the animated cursor after an explicit click */}
-          {isSectionVisibleLead && !hasProjectBeenClicked && (
+          {isSectionVisibleLead && (
             <AnimatedCursor
               size={25}
               durationMs={2000}
