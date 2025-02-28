@@ -31,6 +31,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
     const useLight = mode === ThemeMode.Dark;
     const isTouchDevice = useMediaQuery("(pointer: coarse)");
     const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
     const hoverKey = "project-card";
     const { onHoverChange } = useCursor();
     const onHoverProject = (project: Project, mouseEnter: boolean) => {
@@ -139,13 +140,13 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
             position: "relative",
             overflow: "hidden",
             minHeight: "100vh",
-            width: "100vw",
+            width: "100%",
           }}
           ref={ref}
         >
           {/* Header */}
           <Box
-            maxWidth="xl"
+            maxWidth="lg"
             sx={{
               textAlign: "center",
               mb: { xs: 6, sm: 2 },
@@ -178,6 +179,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                       "&:hover": { backgroundColor: interactable.hovered },
                       pr: { xs: "8px", sm: "16px" },
                       mt: { xs: "-18px", sm: "0px" },
+                      ml: "22px",
                       whiteSpace: "nowrap",
                       display: "flex",
                     }}
@@ -216,67 +218,72 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
           </Box>
 
           {/* Project Card Groups */}
-          <Box
-            sx={{
-              width: "100%",
-              overflow: "visible",
-              mx: 4,
-            }}
-          >
-            <Collapsible
-              durationMs={slideDurationMs}
-              isOpen={!isProjectSelected}
+          <Box sx={{ width: "100%", px: 4 }}>
+            <Box
+              sx={{
+                overflow: "visible",
+              }}
             >
-              <ProjectGroup
-                label="Featured"
-                projects={allProjects.filter(
-                  (project) => project.focus === "Featured",
-                )}
-                direction="left"
-                useLight={useLight}
-                isProjectSelected={isProjectSelected}
-                isSectionVisibleLag={isSectionVisibleLag}
-                isAnimationComplete={isAnimationComplete}
-                slideDurationMs={slideDurationMs}
-                onHoverProject={onHoverProject}
-                hoveredProject={hoveredProject}
-                handleCardClick={handleCardClick}
-              />
-              <Box height={"40px"} />
-              <ProjectGroup
-                label="Archived"
-                projects={allProjects.filter(
-                  (project) => project.focus === "Archived",
-                )}
-                direction="right"
-                useLight={useLight}
-                isProjectSelected={isProjectSelected}
-                isSectionVisibleLag={isSectionVisibleLag}
-                isAnimationComplete={isAnimationComplete}
-                slideDurationMs={slideDurationMs}
-                onHoverProject={onHoverProject}
-                hoveredProject={hoveredProject}
-                handleCardClick={handleCardClick}
-              />
-            </Collapsible>
+              <Collapsible
+                durationMs={slideDurationMs}
+                isOpen={!isProjectSelected}
+              >
+                <ProjectGroup
+                  label="Featured"
+                  projects={allProjects.filter(
+                    (project) => project.focus === "Featured",
+                  )}
+                  direction="left"
+                  useLight={useLight}
+                  isProjectSelected={isProjectSelected}
+                  isSectionVisibleLag={isSectionVisibleLag}
+                  isAnimationComplete={isAnimationComplete}
+                  slideDurationMs={slideDurationMs}
+                  onHoverProject={onHoverProject}
+                  hoveredProject={hoveredProject}
+                  handleCardClick={handleCardClick}
+                />
+                <Box height={"40px"} />
+                <ProjectGroup
+                  label="Archived"
+                  projects={allProjects.filter(
+                    (project) => project.focus === "Archived",
+                  )}
+                  direction="right"
+                  useLight={useLight}
+                  isProjectSelected={isProjectSelected}
+                  isSectionVisibleLag={isSectionVisibleLag}
+                  isAnimationComplete={isAnimationComplete}
+                  slideDurationMs={slideDurationMs}
+                  onHoverProject={onHoverProject}
+                  hoveredProject={hoveredProject}
+                  handleCardClick={handleCardClick}
+                />
+              </Collapsible>
+            </Box>
           </Box>
 
           {/* Selected Project Details */}
-          <Collapsible durationMs={slideDurationMs} isOpen={isProjectSelected}>
-            <Box
-              sx={{
-                transition: `opacity ${slideDurationMs}ms ease-out`,
-                opacity: isProjectSelected ? 1 : 0,
-              }}
+          <Box sx={{ width: "100%", px: 6, mt: isMobile ? 5 : 0 }}>
+            <Collapsible
+              durationMs={slideDurationMs}
+              isOpen={isProjectSelected}
             >
-              {selectedProject && (
-                <ProjectDetails
-                  project={selectedProject}
-                  hasMediaNextBeenClickedRef={hasMediaNextBeenClickedRef}
-                />
-              )}
-            </Box>
-          </Collapsible>
+              <Box
+                sx={{
+                  transition: `opacity ${slideDurationMs}ms ease-out`,
+                  opacity: isProjectSelected ? 1 : 0,
+                }}
+              >
+                {selectedProject && (
+                  <ProjectDetails
+                    project={selectedProject}
+                    hasMediaNextBeenClickedRef={hasMediaNextBeenClickedRef}
+                  />
+                )}
+              </Box>
+            </Collapsible>
+          </Box>
 
           {!isTouchDevice &&
             isSectionVisibleLead &&
