@@ -23,14 +23,38 @@ import leadership from "@/assets/skills/leadership.webp";
 import apple from "@/assets/skills/apple.svg";
 import android from "@/assets/skills/android-green.svg";
 
+export type SkillName =
+  | "HTML"
+  | "CSS"
+  | "JS"
+  | "React"
+  | "jQuery"
+  | "AWS"
+  | "GCP"
+  | "Docker"
+  | "Unity"
+  | "C#"
+  | "iOS"
+  | "Android"
+  | "Java"
+  | "Python"
+  | "Go"
+  | "SQL"
+  | "NoSQL"
+  | "C++"
+  | "Bash"
+  | "DevOps"
+  | "HIPAA"
+  | "Leadership";
+
 export class SkillData {
-  name: string;
+  name: SkillName;
   starCount: number;
   years: number[];
   srcLight: string;
   srcDark: string;
   invertIfLight?: boolean;
-  static getProjects: (skillName: string) => any[] = () => [];
+  static getProjects: (skillName: SkillData["name"]) => any[] = () => [];
 
   constructor({
     name,
@@ -40,7 +64,7 @@ export class SkillData {
     srcDark,
     invertIfLight,
   }: {
-    name: string;
+    name: SkillName;
     starCount: number;
     years: number[];
     srcLight: string;
@@ -250,7 +274,7 @@ export const skillsData: SkillCategoryData[] = [
   },
 ];
 
-export function getSkills(...names: string[]): SkillData[] {
+export function getSkills(...names: SkillName[]): SkillData[] {
   const allSkills = skillsData.flatMap((category) => category.skills); // Flatten all skills into a single array
   return names
     .map((name) => allSkills.find((skill) => skill.name === name)) // Map names to skills in the same order

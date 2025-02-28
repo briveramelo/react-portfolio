@@ -55,7 +55,6 @@ export const generateSinusoidalBorderColorKeyframes = (
   numKeyframes: number,
   numDecimals: number,
 ) => {
-  console.log(hexColor);
   if (!hexColor.startsWith("#") || hexColor.length !== 7) {
     console.error(
       `invalid color: ${hexColor}. Should be a hex value (eg: #ffffff)`,

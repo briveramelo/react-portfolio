@@ -116,7 +116,7 @@ const FirebaseImageWithAudioButtons: React.FC<
     );
     if (blobUrl) {
       const audio = new Audio(blobUrl);
-      audio.play();
+      await audio.play();
     }
   };
 

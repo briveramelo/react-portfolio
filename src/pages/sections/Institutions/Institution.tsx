@@ -3,7 +3,6 @@ import React, { useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import { InstitutionData } from "../../../data/institutionData.ts";
-import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
 import { useIntersectionObserver } from "../../../utils/hooks/useIntersectionObserver.ts";
 
 interface InstitutionProps {

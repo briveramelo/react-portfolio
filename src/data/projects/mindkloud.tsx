@@ -7,7 +7,7 @@ export const mindkloud = new ProjectDetail({
       src: "mindkloud-journey/face-id.webp",
       alt: "",
       type: "firebaseImage",
-      text: ``,
+      text: `MindKloud Journey is a mobile app for young adults to improve emotional self-awareness by journaling and for college institutions to facilitate a thriving social atmosphere.`,
     },
     {
       src: "mindkloud-journey/home-page.webp",

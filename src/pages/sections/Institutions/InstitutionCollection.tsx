@@ -1,8 +1,7 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import Institution from "./Institution";
 import { InstitutionData } from "../../../data/institutionData";
-import { useIntersectionObserver } from "../../../utils/hooks/useIntersectionObserver";
 
 interface InstitutionCollectionProps {
   title: string;

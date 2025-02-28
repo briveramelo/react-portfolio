@@ -7,7 +7,7 @@ export const nrhControl = new ProjectDetail({
   title: "NRH Control",
   media: [
     {
-      chapterTitle: "Video",
+      chapterTitle: "Overview",
       src: "https://www.youtube-nocookie.com/embed/T4OEciSQBUE?rel=0&enablejsapi=1",
       alt: "",
       type: "youtube",
@@ -15,17 +15,19 @@ export const nrhControl = new ProjectDetail({
 ${_}
 I coordinated the UI/UX development.
 ${_}
-_See a brief explanation and demo of the app in action at [0:52](#0:52) - 1:30._`,
+_See a brief explanation and demo of the app in action from [0:52](#0:52) - 1:30._`,
       startTime: 52,
     },
     {
-      chapterTitle: "Media",
+      chapterTitle: "Contributions",
       src: "nrh-control/all-pages.pdf",
       alt: "",
       type: "firebasePdf",
       text: `The app allows for control of the hospital room Door, TV, Lights, Blinds, Temperature, Soundbar, Nurse Call, Hospital Elevators, and other options and administrative functions.
 ${_}
-Because of the breadth, we agreed that consistency across pages would reduce the cognitive load on patients. We organized development with a top-level view to quickly spot discrepancies and align style on mobile phones and tablets.`,
+Because of the breadth, we agreed that consistency across pages would reduce the cognitive load on patients. We organized development with a top-level view, shown here in the pdf, to quickly spot discrepancies and align style on mobile phones and tablets.
+${_}
+Although I did not do the hands-on UI development, I coordinated team meetings with our interdisciplinary staff of Software Engineers, IT managers, therapists, doctors, researchers, and artists to ensure a smooth translation of requirements into usable and consistent design. I would sketch drafts for our artists, track todos, and ensure cohesion with design and engineering.`,
     },
     {
       src: "nrh-control/tutorial-small.pdf",
@@ -34,6 +36,14 @@ Because of the breadth, we agreed that consistency across pages would reduce the
       text: `User testing also revealed a need for explicit usability explanations that labels and therapists could not already solve. The patients involved a wide range of technology savvy, including many with almost no prior smartphone or tablet usage.
 ${_}
 This led to the development of an optional tutorial, which could be enabled on a per-screen basis as a quick reference or for the whole app from start to finish.`,
+    },
+    {
+      src: "nrh-control/nrh-control-style-guide.pdf",
+      alt: "",
+      type: "firebasePdf",
+      text: `Because the resident artist would change often and lead to an accumulation of minor inconsistencies across pages, I also established use of a style guide. Although I did not create the style guide itself, I did ask for each artist to use and update this as a living process document for their onboarding and the onboarding of subsequent artists.
+${_}
+A key aspect of this was maintaining adherence to the University of Utah's color, typography, and branding guide.`,
     },
   ],
   links: [

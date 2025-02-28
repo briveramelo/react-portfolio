@@ -27,9 +27,9 @@ Developed at the University of Utah Department of Physical Medicine and Rehabili
       src: "bobby-the-bladder/bobby-choice.webp",
       alt: "the game can be replayed",
       type: "firebaseImage",
-      text: `Following on the heals of AD with Sam, our rehabilitation education team identified two key areas for process improvement:
+      text: `Following completion of AD with Sam, our team identified several key goals for improvement:
 1. Rapid development cycle
-2. Artist-driven development 
+2. Artist-driven development
 3. Widespread access`,
     },
     {

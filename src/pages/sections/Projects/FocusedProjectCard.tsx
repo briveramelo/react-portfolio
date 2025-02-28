@@ -8,6 +8,7 @@ import { useCustomPalette } from "../../../theme/theme.ts";
 import { useAuth } from "../../../context/AuthContext.tsx";
 import FirebaseVideoAsGif from "../../components/MediaCarousel/MediaItems/FirebaseVideoAsGif.tsx";
 import FirebaseImage from "../../components/MediaCarousel/MediaItems/FirebaseImage.tsx";
+import remarkBreaks from "remark-breaks";
 
 interface ConsideredProjectProps {
   project: Project | null;
@@ -192,6 +193,7 @@ export const FocusedProjectCard: React.FC<ConsideredProjectProps> = ({
               }}
             >
               <ReactMarkdown
+                remarkPlugins={[remarkBreaks]}
                 components={{
                   p: ({ children }) => (
                     <Typography

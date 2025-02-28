@@ -74,5 +74,3 @@ export const FlareEffect: React.FC<FlareEffectProps> = ({
     />
   );
 };
-
-export default FlareEffect;

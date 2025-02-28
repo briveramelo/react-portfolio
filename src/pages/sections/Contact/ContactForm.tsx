@@ -6,7 +6,6 @@ import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking
 import { useCustomPalette } from "../../../theme/theme.ts";
 
 interface ContactFormProps {
-  formData: FormData;
   errors: FormErrors;
   onChange: (field: keyof FormData, value: string) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -16,7 +15,6 @@ interface ContactFormProps {
 }
 
 export const ContactForm: React.FC<ContactFormProps> = ({
-  formData,
   errors,
   onChange,
   onSubmit,

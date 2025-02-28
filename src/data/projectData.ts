@@ -117,6 +117,8 @@ const getCategory = (
   return categories.find((cat) => cat.name === name);
 };
 
+const _ = "&nbsp;"; //whitespace character. When on its own line, produces a line break.
+
 export const allProjects: Project[] = [
   new Project({
     title: "Tilt Tracker",
@@ -125,7 +127,9 @@ export const allProjects: Project[] = [
     imageSrc: "tilt-tracker/josh-tilt-cropped.webp",
     gifSrc: "",
     gifWidth: "60vw",
-    description: `Tilt Tracker is **like FitBit for power wheelchair users**; it **prevents pressure ulcers** with real-time reminders and compliance reports for patients, family, and clinical care teams.`,
+    description: `Tilt Tracker is **like FitBit for power wheelchair users**; it **prevents pressure ulcers** with real-time reminders and compliance reports for patients, family, and clinical care teams.
+${_}
+I served a Software Engineer and transitioned to Lead Engineer and  development for over 4 years.`,
     skills: getSkills(
       "Leadership",
       "Docker",
@@ -153,7 +157,9 @@ export const allProjects: Project[] = [
     imageSrc: "abcmouse/abcmouse.webp",
     gifSrc: "abcmouse/abcmouse-learning-path.mp4",
     gifWidth: "60vw",
-    description: `ABCmouse is the **#1 learning app** for children ages 2–8, where over **18 million students** have completed more than **4 billion educational activities**, earning the trust of families worldwide.`,
+    description: `ABCmouse is the **#1 learning app** for children ages 2–8, where over **18 million students** have completed more than **4 billion educational activities**, earning the trust of families worldwide.
+${_}
+I served as a Software Engineer on the ABCmouse Core mobile development team for 1.5 years.`,
     skills: getSkills("Unity", "C#", "Android", "iOS"),
     institutions: getInstitutions("Age of Learning"),
     iconSrc: abcmouseIcon,
@@ -166,7 +172,9 @@ export const allProjects: Project[] = [
     imageSrc: "clawface/clawface-cover.webp",
     gifSrc: "clawface/clawface-bullethell-compressed.mp4",
     gifWidth: "60vw",
-    description: `Clawface is an indie, twin-stick, arcade-style bullet hell shooter published to Steam with **"Very Positive" reviews** and **over 70,000 downloads.**`,
+    description: `Clawface is an indie, twin-stick, arcade-style bullet hell shooter published to Steam with **"Very Positive" reviews** and **over 70,000 downloads.**
+${_}
+I served as the Lead Engineer for a team of 6 engineers in a 15-person game-development studio.`,
     skills: getSkills("Leadership", "Unity", "C#"),
     institutions: getInstitutions("Hathos Interactive"),
     iconSrc: clawfaceIcon,
@@ -179,7 +187,9 @@ export const allProjects: Project[] = [
     imageSrc: "nrh-control/nrh-control-ipad.webp",
     gifSrc: "nrh-control/nrh-trimmed.mp4",
     gifWidth: "60vw",
-    description: `NRH Control is an hospital smartroom controller for patients, family, and staff at the Craig H. Neilsen Rehabilitation Hospital at the University of Utah. It supports touch, voice, and even 'sip-and-puff' breath control with custom hardware. I coordinated the UI/UX development.`,
+    description: `NRH Control is an hospital smartroom controller for patients, family, and staff at the Craig H. Neilsen Rehabilitation Hospital at the University of Utah. It supports touch, voice, and even 'sip-and-puff' breath control with custom hardware.
+${_}
+I served as the UI/UX coordinator for 2 years.`,
     skills: getSkills("Leadership", "iOS", "Android", "HIPAA"),
     institutions: getInstitutions("UHealth"),
     iconSrc: samIcon,
@@ -192,7 +202,9 @@ export const allProjects: Project[] = [
     imageSrc: "ad-with-sam/adwithsam-cleaned.webp",
     gifSrc: "ad-with-sam/ad-lightning-vid1.mp4",
     gifWidth: "60vw",
-    description: `AD with Sam is a highly innovative exhibit for people with spinal cord injury to learn about a life-threatening complication: Autonomic Dysreflexia. This is **currently on display at the Craig H. Neilsen Rehabilitation Hospital** at the University of Utah. It uses a custom blend of storytelling, 3D projection mapping onto a lifesize mannequin, animated anatomy, surround sound audio, and RGB lighting.`,
+    description: `AD with Sam is a highly innovative augmented reality exhibit for people with spinal cord injury to learn about a life-threatening complication: Autonomic Dysreflexia. This is **currently on display at the Craig H. Neilsen Rehabilitation Hospital** at the University of Utah. It uses a custom blend of storytelling, 3D projection mapping onto a lifesize mannequin, animated anatomy, surround sound audio, and RGB lighting.
+${_}
+I served as the Lead Producer from start to finish.`,
     skills: getSkills("Leadership", "Bash"),
     institutions: getInstitutions("UHealth"),
     iconSrc: samIcon,
@@ -204,8 +216,10 @@ export const allProjects: Project[] = [
     category: getCategory("Health Game"),
     imageSrc: "bobby-the-bladder/sam-and-bobby-thumbnail.webp",
     gifSrc: "bobby-the-bladder/bobby-death.mp4",
-    gifWidth: "55vw",
-    description: `Bobby the Bladder is an interactive, branching narrative game for people with spinal cord injury and their family to learn about bladder maintenance. This is **currently installed on all patient iPads at the Craig H. Neilsen Rehabilitation Hospital.**`,
+    gifWidth: "50vw",
+    description: `Bobby the Bladder is an interactive, branching narrative game for people with spinal cord injury and their family to learn about bladder maintenance. This is **currently installed on all patient iPads at the Craig H. Neilsen Rehabilitation Hospital.**
+${_}
+I served as the Lead Producer from start to finish.`,
     skills: getSkills("Leadership"),
     institutions: getInstitutions("UHealth"),
     iconSrc: bobbyIcon,
@@ -218,7 +232,9 @@ export const allProjects: Project[] = [
     imageSrc: "derpy-dinos/derpy-dinos-logo.webp",
     gifSrc: "derpy-dinos/derpy-dinos-slow-down.mp4",
     gifWidth: "60vw",
-    description: `Derpy Dinos is a 2.5D side-scrolling arcade shooter published to Steam that challenges players to blast through dinosaurs and compete for global leaderboard rankings. We received **Mostly Positive reviews** (7/10) and **49,000+ downloads.**`,
+    description: `Derpy Dinos is a 2.5D side-scrolling arcade shooter published to Steam that challenges players to blast through dinosaurs and compete for global leaderboard rankings. We received **Mostly Positive reviews** (7/10) and **49,000+ downloads.**
+${_}
+I served as the Lead Engineer and transitioned to Lead Producer after the prototyping phase and through to release.`,
     skills: getSkills("Leadership", "Unity", "C#"),
     institutions: [],
     iconSrc: derpyDinosIcon,
@@ -230,9 +246,11 @@ export const allProjects: Project[] = [
     category: getCategory("Health Tech"),
     imageSrc: "mindkloud-journey/mk-journey-icon.webp",
     gifSrc: "",
-    gifWidth: "35vw",
-    description: `MindKloud Journey is a mobile app for young adults to improve emotional literacy by journaling and for college institutions to facilitate a thriving social atmosphere.`,
-    skills: getSkills("Unity", "C#", "AWS", "Android", "iOS"),
+    gifWidth: "30vw",
+    description: `MindKloud Journey is a mobile app for young adults to improve emotional self-awareness through journaling and for college institutions to facilitate a thriving social atmosphere.
+${_}
+I served as the Head of Engineering when porting an iOS-only app to Unity, adding support for Android, analytics, and AWS cloud storage.`,
+    skills: getSkills("Unity", "C#", "Python", "AWS", "SQL", "Android", "iOS"),
     institutions: getInstitutions("Health Tech Apps"),
     iconSrc: mkJourneyIcon,
     details: mindkloud,
@@ -244,8 +262,10 @@ export const allProjects: Project[] = [
     imageSrc: "pocket-optimist/pessimistic-night2.webp",
     gifSrc: "pocket-optimist/pocket-opt-animals-compressed.mp4",
     gifWidth: "80vw",
-    description: `The Pocket Optimist is a science-based, personal development service for athletes, working professionals, and parents to break through hidden mental barriers. It turns your everyday language into clear insights and offers straightforward workshops to help you improve.`,
-    skills: getSkills("Python"),
+    description: `The Pocket Optimist is a science-based, personal development service for athletes, working professionals, and parents to break through hidden mental barriers. It turns your everyday language into clear insights and offers straightforward workshops to help you improve.
+${_}
+I served as the Inventor, Developer, and Coach when deploying the technology with family, friends, and clients.`,
+    skills: getSkills("Leadership", "Python"),
     institutions: getInstitutions("Digital Health"),
     iconSrc: pocketOptimistIcon,
     details: pocketOptimist,
@@ -257,7 +277,9 @@ export const allProjects: Project[] = [
     imageSrc: "abductor/abductor.webp",
     gifSrc: "abductor/abductor4.mp4",
     gifWidth: "60vw",
-    description: `Offender is a 2D Arcade Style Shooter with a looping arena filled with endless carnage and destruction! Hurl unsuspecting humans into helicopters, tanks, and paratroopers as you invade Earth. How long can you survive? This is the precursor to Derpy Dinos, based on arcade classic: Defender.`,
+    description: `Offender is a 2D Arcade Style Shooter with a looping arena filled with endless carnage and destruction! Hurl unsuspecting humans into helicopters, tanks, and paratroopers as you invade Earth. How long can you survive? This is the precursor to Derpy Dinos, based on arcade classic: Defender.
+${_}
+I served as the Lead Engineer during prototyping, and afterward I co-lead production through publishing.`,
     skills: getSkills("Leadership", "HTML", "JS"),
     institutions: [],
     iconSrc: bobIcon,

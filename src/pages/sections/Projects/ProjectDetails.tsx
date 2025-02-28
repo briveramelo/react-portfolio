@@ -11,7 +11,6 @@ import { trackCustomEvent } from "../../../utils/tracking/plausibleHelpers.ts";
 import withDwellTimeTracking from "../../../utils/tracking/withDwellTimeTracking.tsx";
 import ProjectLiveLinks from "./ProjectLiveLinks.tsx";
 import { Project } from "../../../data/projectData.ts";
-import { MediaControlProvider } from "../../components/MediaCarousel/MediaControlContext.tsx";
 
 interface ProjectDetailsProps {
   project: Project;
