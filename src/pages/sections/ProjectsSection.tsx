@@ -7,7 +7,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { ProjectCard } from "./Projects/ProjectCard.tsx";
 import ProjectDetails from "./Projects/ProjectDetails.tsx";
 import { Project, allProjects } from "../../data/projectData";
 import { ThemeMode, useCustomPalette } from "../../theme/theme.ts";
@@ -18,6 +17,7 @@ import { toSlug } from "../../utils/utils.ts";
 import { FocusedProjectCard } from "./Projects/FocusedProjectCard.tsx";
 import { useCursor } from "../../context/CursorContext.tsx";
 import { MediaControlProvider } from "../components/MediaCarousel/MediaControlContext.tsx";
+import ProjectGroup from "./Projects/ProjectGroup.tsx";
 
 interface ProjectsProps {
   backgroundColor: string;
@@ -137,141 +137,155 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
             backgroundColor: backgroundColor,
             color: textColor,
             position: "relative",
-            overflowY: "hidden",
+            overflow: "hidden",
             minHeight: "100vh",
+            width: "100vw",
           }}
           ref={ref}
         >
-          <Container maxWidth="xl">
-            {/* Header */}
+          {/* Header */}
+          <Box
+            maxWidth="xl"
+            sx={{
+              textAlign: "center",
+              mb: { xs: 6, sm: 2 },
+              mx: "auto",
+            }}
+          >
             <Box
-              maxWidth="xl"
               sx={{
-                textAlign: "center",
-                mb: { xs: 6, sm: 2 },
-                mx: "auto",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
               }}
             >
-              <Box
+              {isProjectSelected && (
+                <>
+                  <Box
+                    sx={{
+                      backgroundColor: interactable.idle,
+                      color: "white",
+                      position: "absolute",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                      left: isXs ? 4 : 0,
+                      top: isXs ? 32 : 14,
+                      contentAlign: "center",
+                      justifyContent: "center",
+                      padding: "8px 8px",
+                      gap: 2,
+                      "&:hover": { backgroundColor: interactable.hovered },
+                      pr: { xs: "8px", sm: "16px" },
+                      mt: { xs: "-18px", sm: "0px" },
+                      whiteSpace: "nowrap",
+                      display: "flex",
+                    }}
+                    id="close_project_button"
+                    onClick={handleCloseProjectDetails}
+                    className="pop-shadow"
+                  >
+                    <CloseIcon
+                      id="close_project_x"
+                      sx={{ fontSize: "1.25rem" }}
+                    />
+                    <Box
+                      id="close_project_typography_wrapper"
+                      sx={{
+                        display: { xs: "none", sm: "inline" },
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography id="close_project_text">CLOSE</Typography>
+                    </Box>
+                  </Box>
+                  <Box width={20}></Box>
+                </>
+              )}
+              <Typography
+                variant="h1"
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  position: "relative",
+                  fontWeight: "bold",
+                  color: textColor,
+                  flexGrow: isXs ? 1 : "unset",
                 }}
               >
-                {isProjectSelected && (
-                  <>
-                    <Box
-                      sx={{
-                        backgroundColor: interactable.idle,
-                        color: "white",
-                        position: "absolute",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                        left: isXs ? 4 : 0,
-                        top: isXs ? 32 : 14,
-                        contentAlign: "center",
-                        justifyContent: "center",
-                        padding: "8px 8px",
-                        gap: 2,
-                        "&:hover": { backgroundColor: interactable.hovered },
-                        pr: { xs: "8px", sm: "16px" },
-                        mt: { xs: "-18px", sm: "0px" },
-                        whiteSpace: "nowrap",
-                        display: "flex",
-                      }}
-                      id="close_project_button"
-                      onClick={handleCloseProjectDetails}
-                      className="pop-shadow"
-                    >
-                      <CloseIcon
-                        id="close_project_x"
-                        sx={{ fontSize: "1.25rem" }}
-                      />
-                      <Box
-                        id="close_project_typography_wrapper"
-                        sx={{
-                          display: { xs: "none", sm: "inline" },
-                          alignItems: "center",
-                        }}
-                      >
-                        <Typography id="close_project_text">CLOSE</Typography>
-                      </Box>
-                    </Box>
-                    <Box width={20}></Box>
-                  </>
-                )}
-                <Typography
-                  variant="h1"
-                  sx={{
-                    fontWeight: "bold",
-                    color: textColor,
-                    flexGrow: isXs ? 1 : "unset",
-                  }}
-                >
-                  {isProjectSelected ? selectedProject?.title : "Projects"}
-                </Typography>
-              </Box>
+                {isProjectSelected ? selectedProject?.title : "Projects"}
+              </Typography>
             </Box>
+          </Box>
 
-            {/* Project Cards */}
+          {/* Project Card Groups */}
+          <Box
+            sx={{
+              width: "100%",
+              overflow: "visible",
+              mx: 4,
+            }}
+          >
             <Collapsible
               durationMs={slideDurationMs}
               isOpen={!isProjectSelected}
             >
-              <Box
-                sx={{
-                  display: "grid",
-                  gridTemplateColumns:
-                    "repeat(auto-fill, minmax(300px, 450px))",
-                  gap: "20px",
-                  justifyContent: "center",
-                }}
-              >
-                {allProjects.map((project) => (
-                  <ProjectCard
-                    key={project.title}
-                    project={project}
-                    useLight={useLight}
-                    onClick={() => handleCardClick(project)}
-                    targetDestinationX={
-                      isProjectSelected || !isSectionVisibleLag ? "-100vw" : "0"
-                    }
-                    animationComplete={isAnimationComplete}
-                    slideDurationMs={slideDurationMs}
-                    onHover={onHoverProject}
-                    isAnyHovered={hoveredProject !== null}
-                    hoverKey={hoverKey}
-                  />
-                ))}
-              </Box>
-            </Collapsible>
-
-            {/* Selected Project Details */}
-            <Collapsible
-              durationMs={slideDurationMs}
-              isOpen={isProjectSelected}
-            >
-              <Box
-                sx={{
-                  transition: `opacity ${slideDurationMs}ms ease-out`,
-                  opacity: isProjectSelected ? 1 : 0,
-                }}
-              >
-                {selectedProject && (
-                  <ProjectDetails
-                    project={selectedProject}
-                    hasMediaNextBeenClickedRef={hasMediaNextBeenClickedRef}
-                  />
+              <ProjectGroup
+                label="Featured"
+                projects={allProjects.filter(
+                  (project) => project.focus === "Featured",
                 )}
-              </Box>
+                direction="left"
+                useLight={useLight}
+                isProjectSelected={isProjectSelected}
+                isSectionVisibleLag={isSectionVisibleLag}
+                isAnimationComplete={isAnimationComplete}
+                slideDurationMs={slideDurationMs}
+                onHoverProject={onHoverProject}
+                hoveredProject={hoveredProject}
+                handleCardClick={handleCardClick}
+              />
+              <Box height={"40px"} />
+              <ProjectGroup
+                label="Archived"
+                projects={allProjects.filter(
+                  (project) => project.focus === "Archived",
+                )}
+                direction="right"
+                useLight={useLight}
+                isProjectSelected={isProjectSelected}
+                isSectionVisibleLag={isSectionVisibleLag}
+                isAnimationComplete={isAnimationComplete}
+                slideDurationMs={slideDurationMs}
+                onHoverProject={onHoverProject}
+                hoveredProject={hoveredProject}
+                handleCardClick={handleCardClick}
+              />
             </Collapsible>
-          </Container>
+          </Box>
 
-          {!isTouchDevice && isSectionVisibleLead && (
-            <FocusedProjectCard project={hoveredProject} useLight={useLight} />
-          )}
+          {/* Selected Project Details */}
+          <Collapsible durationMs={slideDurationMs} isOpen={isProjectSelected}>
+            <Box
+              sx={{
+                transition: `opacity ${slideDurationMs}ms ease-out`,
+                opacity: isProjectSelected ? 1 : 0,
+              }}
+            >
+              {selectedProject && (
+                <ProjectDetails
+                  project={selectedProject}
+                  hasMediaNextBeenClickedRef={hasMediaNextBeenClickedRef}
+                />
+              )}
+            </Box>
+          </Collapsible>
+
+          {!isTouchDevice &&
+            isSectionVisibleLead &&
+            selectedProject === null && (
+              <FocusedProjectCard
+                project={hoveredProject}
+                useLight={useLight}
+              />
+            )}
 
           {/* Only hide the animated cursor after an explicit click */}
           {isSectionVisibleLead && (

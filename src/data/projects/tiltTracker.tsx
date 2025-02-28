@@ -9,7 +9,11 @@ export const tiltTracker = new ProjectDetail({
       src: "tilt-tracker/stages-of-ulcer.webp",
       alt: "stages of ulcer",
       type: "firebaseImage",
-      text: `For people in power wheelchairs, sitting in the same position for too long can cause a **pressure ulcer.**`,
+      text: `Tilt Tracker is **like FitBit for power wheelchair users**; it **prevents pressure ulcers** with real-time reminders and compliance reports for patients, family, and clinical care teams.
+${_}
+I served a Software Engineer and transitioned to Lead Engineer, Co-Inventor, and Lead Producer for over 4 years.
+${_}
+For people in power wheelchairs, sitting in the same position for too long can cause a pressure ulcer.`,
     },
     {
       src: "tilt-tracker/nrh-patient-in-bed.webp",

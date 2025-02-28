@@ -6,15 +6,15 @@ import {
   Box,
   useMediaQuery,
 } from "@mui/material";
-import { Project } from "../../../data/projectData.ts";
-import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
-import { useCustomPalette } from "../../../theme/theme.ts";
-import { useAuth } from "../../../context/AuthContext.tsx";
-import { useIntersectionObserver } from "../../../utils/hooks/useIntersectionObserver.ts";
-import InvertableImage from "../../components/InvertableImage.tsx";
-import FirebaseImage from "../../components/MediaCarousel/MediaItems/FirebaseImage.tsx";
-import FirebaseVideoAsGif from "../../components/MediaCarousel/MediaItems/FirebaseVideoAsGif.tsx";
-import { generateSinusoidalBorderColorKeyframes } from "../../../utils/keyframeGenerator.ts";
+import { Project } from "../../../data/projectData";
+import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking";
+import { useCustomPalette } from "../../../theme/theme";
+import { useAuth } from "../../../context/AuthContext";
+import { useIntersectionObserver } from "../../../utils/hooks/useIntersectionObserver";
+import InvertableImage from "../../components/InvertableImage";
+import FirebaseImage from "../../components/MediaCarousel/MediaItems/FirebaseImage";
+import FirebaseVideoAsGif from "../../components/MediaCarousel/MediaItems/FirebaseVideoAsGif";
+import { generateSinusoidalBorderColorKeyframes } from "../../../utils/keyframeGenerator";
 
 interface ProjectCardProps {
   project: Project;
@@ -22,10 +22,6 @@ interface ProjectCardProps {
   onClick: () => void;
   onHover: (project: Project, mouseEnter: boolean) => void;
   isAnyHovered: boolean;
-  targetDestinationX: string;
-  slideDurationMs: number;
-  animationComplete: boolean;
-  hoverKey: string;
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -34,11 +30,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   onClick,
   onHover,
   isAnyHovered,
-  targetDestinationX,
-  slideDurationMs,
-  animationComplete,
 }) => {
-  const isOnScreen = targetDestinationX === "0";
   const borderRadius = "8px";
   const cardHover = useHoverTracking();
   const { user } = useAuth();
@@ -48,29 +40,22 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   const isCardVisible = useIntersectionObserver(cardRef, { threshold: 0.94 });
   const revealDescription = isTouchDevice && isCardVisible;
   const revealAnimation = user && project.gifSrc && revealDescription;
-  const isHoverable = isOnScreen && animationComplete;
-  const pulseBorder = useMemo(() => {
-    return generateSinusoidalBorderColorKeyframes(
-      interactable.highlighted,
-      20,
-      2,
-    );
-  }, [interactable.highlighted]);
+  const pulseBorder = useMemo(
+    () =>
+      generateSinusoidalBorderColorKeyframes(interactable.highlighted, 20, 2),
+    [interactable.highlighted],
+  );
+
   return (
     <Box
       sx={{
         position: "relative",
-        visibility: !isOnScreen && animationComplete ? "hidden" : "visible",
-        transition: isHoverable
-          ? "opacity 300ms ease-in-out !important"
-          : `transform ${slideDurationMs}ms ease-in-out`,
-        transform: `translate3d(${targetDestinationX}, 0, 0)`,
-        willChange: "transform, opacity",
-        pointerEvents: isHoverable ? "all" : "none",
+        transition: "opacity 300ms ease-in-out",
+        pointerEvents: "all",
         opacity: isTouchDevice
           ? 1
           : isAnyHovered && !cardHover.isHovered
-            ? 0.15
+            ? 0.1
             : 1,
       }}
     >
@@ -296,7 +281,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 alignItems: "center",
                 justifyContent: "flex-end",
                 gap: 2,
-                flexWrap: "wrap", // allow the category tag to wrap if needed
+                flexWrap: "wrap",
               }}
             >
               {/* Institutions Container */}
@@ -306,7 +291,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                     display: "flex",
                     alignItems: "center",
                     gap: 1,
-                    flexWrap: "nowrap", // ensure institutions never wrap
+                    flexWrap: "nowrap",
                   }}
                 >
                   {project.institutions.map((institution, index) => (
@@ -316,7 +301,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                         display: "flex",
                         alignItems: "center",
                         height: 30,
-                        flexShrink: 0, // prevent shrinking
+                        flexShrink: 0,
                       }}
                     >
                       <img

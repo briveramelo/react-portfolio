@@ -15,7 +15,7 @@ export const HeroText: React.FC<HeroTextProps> = ({
 }) => {
   const rolesText = useAnimatedText({
     texts: [
-      `Health Tech Innovator
+      `Health Tech Innovator | Inventor
 Lead Software Engineer
 Game Developer
 Project Manager
@@ -74,7 +74,7 @@ Team Player`,
         variant="body1"
         sx={{
           fontSize: "1.25rem",
-          mt: 6,
+          mt: 4,
           color: textColor,
           maxWidth: "600px",
         }}

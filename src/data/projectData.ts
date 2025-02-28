@@ -48,6 +48,8 @@ const categories: ProjectCategory[] = [
   },
 ];
 
+type Focus = "Featured" | "Archived";
+
 export interface ProjectOptions {
   title:
     | "Tilt Tracker"
@@ -61,6 +63,7 @@ export interface ProjectOptions {
     | "Abductor"
     | "AD with Sam";
   category: ProjectCategory | undefined;
+  focus: Focus | undefined;
   description: string;
   imageSrc: string;
   gifSrc?: string;
@@ -75,6 +78,7 @@ export interface ProjectOptions {
 export class Project {
   public title: ProjectOptions["title"];
   public category: ProjectOptions["category"];
+  public focus: ProjectOptions["focus"];
   public description: ProjectOptions["description"];
   public imageSrc: ProjectOptions["imageSrc"];
   public gifSrc?: ProjectOptions["gifSrc"];
@@ -88,6 +92,7 @@ export class Project {
   constructor({
     title,
     category,
+    focus,
     description,
     imageSrc,
     gifSrc,
@@ -100,6 +105,7 @@ export class Project {
   }: ProjectOptions) {
     this.title = title;
     this.category = category;
+    this.focus = focus;
     this.description = description;
     this.imageSrc = imageSrc;
     this.gifSrc = gifSrc;
@@ -125,12 +131,13 @@ export const allProjects: Project[] = [
     title: "Tilt Tracker",
     year: 2023,
     category: getCategory("Health Tech"),
+    focus: "Featured",
     imageSrc: "tilt-tracker/josh-tilt-cropped.webp",
     gifSrc: "",
     gifWidth: "60vw",
     description: `Tilt Tracker is **like FitBit for power wheelchair users**; it **prevents pressure ulcers** with real-time reminders and compliance reports for patients, family, and clinical care teams.
 ${_}
-I served a Software Engineer and transitioned to Lead Engineer and  development for over 4 years.`,
+I served a Software Engineer and transitioned to Lead Engineer, Co-Inventor, and Lead Producer for over 4 years.`,
     skills: getSkills(
       "Leadership",
       "Docker",
@@ -155,6 +162,7 @@ I served a Software Engineer and transitioned to Lead Engineer and  development 
     title: "ABCmouse",
     year: 2019,
     category: getCategory("Game Dev"),
+    focus: "Featured",
     imageSrc: "abcmouse/abcmouse.webp",
     gifSrc: "abcmouse/abcmouse-learning-path.mp4",
     gifWidth: "60vw",
@@ -170,6 +178,7 @@ I served as a Software Engineer on the ABCmouse Core mobile development team for
     title: "Clawface",
     year: 2018,
     category: getCategory("Game Dev"),
+    focus: "Featured",
     imageSrc: "clawface/clawface-cover.webp",
     gifSrc: "clawface/clawface-bullethell-compressed.mp4",
     gifWidth: "60vw",
@@ -185,6 +194,7 @@ I served as the Lead Engineer for a team of 6 engineers in a 15-person game-deve
     title: "NRH Control",
     year: 2022,
     category: getCategory("Health Tech"),
+    focus: "Archived",
     imageSrc: "nrh-control/nrh-control-ipad.webp",
     gifSrc: "nrh-control/nrh-trimmed.mp4",
     gifWidth: "60vw",
@@ -200,6 +210,7 @@ I served as the UI/UX Coordinator for 2 years.`,
     title: "AD with Sam",
     year: 2021,
     category: getCategory("Health Tech"),
+    focus: "Archived",
     imageSrc: "ad-with-sam/adwithsam-cleaned.webp",
     gifSrc: "ad-with-sam/ad-lightning-vid1.mp4",
     gifWidth: "60vw",
@@ -215,6 +226,7 @@ I served as the Lead Producer from start to finish.`,
     title: "Bobby The Bladder",
     year: 2022,
     category: getCategory("Health Game"),
+    focus: "Archived",
     imageSrc: "bobby-the-bladder/sam-and-bobby-thumbnail.webp",
     gifSrc: "bobby-the-bladder/bobby-death.mp4",
     gifWidth: "50vw",
@@ -230,6 +242,7 @@ I served as the Lead Producer from start to finish.`,
     title: "Derpy Dinos",
     year: 2017,
     category: getCategory("Game Dev"),
+    focus: "Archived",
     imageSrc: "derpy-dinos/derpy-dinos-logo.webp",
     gifSrc: "derpy-dinos/derpy-dinos-slow-down.mp4",
     gifWidth: "60vw",
@@ -245,6 +258,7 @@ I served as the Lead Engineer and transitioned to Lead Producer after the protot
     title: "MindKloud",
     year: 2023,
     category: getCategory("Health Tech"),
+    focus: "Archived",
     imageSrc: "mindkloud-journey/mk-journey-logo.webp",
     gifSrc: "",
     gifWidth: "60vw",
@@ -269,10 +283,11 @@ I served as the Head of Engineering when porting an iOS-only app to Unity, addin
     title: "The Pocket Optimist",
     year: 2024,
     category: getCategory("Health Tech"),
+    focus: "Archived",
     imageSrc: "pocket-optimist/pessimistic-night2.webp",
     gifSrc: "pocket-optimist/pocket-opt-animals-compressed.mp4",
     gifWidth: "80vw",
-    description: `The Pocket Optimist is a science-based, personal development service for athletes, working professionals, and parents to break through hidden mental barriers. It turns your everyday language into clear insights and offers straightforward workshops to help you improve.
+    description: `The Pocket Optimist is a science-based, personal development service for athletes, working professionals, and parents to break through hidden mental barriers. It turns everyday language into clear insights and offers straightforward workshops to mediate improvement.
 ${_}
 I served as the Inventor, Developer, and Coach when deploying the technology with family, friends, and clients.`,
     skills: getSkills("Leadership", "Python"),
@@ -284,12 +299,13 @@ I served as the Inventor, Developer, and Coach when deploying the technology wit
     title: "Abductor",
     year: 2016,
     category: getCategory("Game Dev"),
+    focus: "Archived",
     imageSrc: "abductor/abductor.webp",
     gifSrc: "abductor/abductor4.mp4",
     gifWidth: "60vw",
     description: `Offender is a 2D Arcade Style Shooter with a looping arena filled with endless carnage and destruction! Hurl unsuspecting humans into helicopters, tanks, and paratroopers as you invade Earth. How long can you survive? This is the precursor to Derpy Dinos, based on arcade classic: Defender.
 ${_}
-I served as the Lead Engineer during prototyping, and afterward I co-lead production through publishing.`,
+I served as the Lead Engineer during prototyping and Production Co-Lead after and through publishing.`,
     skills: getSkills("Leadership", "HTML", "JS"),
     institutions: [],
     iconSrc: bobIcon,
