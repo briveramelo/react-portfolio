@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import { Box } from "@mui/material";
 import { MediaControlContext } from "../MediaControlContext";
-import AutoplayToggle from "../Controls/AutoplayToggle.tsx";
 
 interface YouTubePlayerProps {
   // Use a src format like this in conjunction with playAsGif = true:

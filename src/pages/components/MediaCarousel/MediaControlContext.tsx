@@ -1,8 +1,10 @@
-import React, { createContext, useState, ReactNode } from "react";
+import React, { createContext, useState, ReactNode, useCallback } from "react";
 
 export interface MediaControlContextType {
   seekTo: (time: number) => void;
   setSeekTo: (fn: (time: number) => void) => void;
+  goToPage: (page: number) => void;
+  setGoToPage: (fn: (page: number) => void) => void;
   autoplay: boolean;
   setAutoplay: (value: boolean) => void;
 }
@@ -10,6 +12,8 @@ export interface MediaControlContextType {
 export const MediaControlContext = createContext<MediaControlContextType>({
   seekTo: () => {},
   setSeekTo: () => {},
+  goToPage: () => {},
+  setGoToPage: () => {},
   autoplay: true,
   setAutoplay: () => {},
 });
@@ -24,16 +28,29 @@ export const MediaControlProvider: React.FC<MediaControlProviderProps> = ({
   const [seekToFn, setSeekToFn] = useState<(time: number) => void>(
     () => () => {},
   );
+  const [goToPageFn, setGoToPageFn] = useState<(page: number) => void>(
+    () => () => {},
+  );
   const [autoplay, setAutoplay] = useState(true);
 
-  // This setter updates the current seek function.
-  const setSeekTo = (fn: (time: number) => void) => {
+  const setSeekTo = useCallback((fn: (time: number) => void) => {
     setSeekToFn(() => fn);
-  };
+  }, []);
+
+  const setGoToPage = useCallback((fn: (page: number) => void) => {
+    setGoToPageFn(() => fn);
+  }, []);
 
   return (
     <MediaControlContext.Provider
-      value={{ seekTo: seekToFn, setSeekTo, autoplay, setAutoplay }}
+      value={{
+        seekTo: seekToFn,
+        setSeekTo,
+        goToPage: goToPageFn,
+        setGoToPage,
+        autoplay,
+        setAutoplay,
+      }}
     >
       {children}
     </MediaControlContext.Provider>

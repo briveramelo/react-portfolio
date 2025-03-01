@@ -1,11 +1,5 @@
 import React, { forwardRef, useEffect, useRef, useState } from "react";
-import {
-  Container,
-  Typography,
-  Box,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import { Typography, Box, useTheme, useMediaQuery } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ProjectDetails from "./Projects/ProjectDetails.tsx";
 import { Project, allProjects } from "../../data/projectData";
@@ -70,7 +64,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
 
     const handleCardClick = (
       project: Project,
-      isHashChange: boolean = true,
+      isHashChange: boolean = false,
     ) => {
       setSelectedProject(project);
       setIsProjectSelected(true);
@@ -109,6 +103,11 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
     useEffect(() => {
       const handleHashChange = () => {
         const hash = window.location.hash;
+        if (hash === "#projects") {
+          handleCloseProjectDetails();
+          return;
+        }
+
         const regex = /^#projects-(.+?)(?:-(\d+))?$/;
         const match = hash.match(regex);
         if (!match) return;

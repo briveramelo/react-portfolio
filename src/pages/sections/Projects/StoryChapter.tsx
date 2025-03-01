@@ -5,6 +5,7 @@ import remarkBreaks from "remark-breaks";
 import { HighlightedText } from "../../components/Markdown/HighlightedText.tsx";
 import { useCustomPalette } from "../../../theme/theme";
 import TimestampLink from "../../components/Markdown/TimestampLink.tsx";
+import PdfPageLink from "../../components/Markdown/PdfPageLink.tsx";
 
 export interface StoryChapterProps {
   chapterTitle: string | undefined;
@@ -47,18 +48,21 @@ const MemoizedMarkdown = React.memo(
             </Typography>
           ),
           a: ({ href, children }) => {
-            if (
-              href &&
-              href.startsWith("#") &&
-              /^\d{1,2}:\d{2}(?:\.\d+)?$/.test(href.slice(1))
-            ) {
-              return <TimestampLink href={href}>{children}</TimestampLink>;
+            if (href && href.startsWith("#")) {
+              if (/^\d+$/.test(href.slice(1))) {
+                return <PdfPageLink href={href}>{children}</PdfPageLink>;
+              }
+              if (/^\d{1,2}:\d{2}(?:\.\d+)?$/.test(href.slice(1))) {
+                return <TimestampLink href={href}>{children}</TimestampLink>;
+              }
             }
+
+            // Fallback to a standard link.
             return (
               <Typography
                 component="a"
                 variant="body1"
-                sx={{ color: text.secondary, textDecoration: "underline" }}
+                sx={{ color: "text.secondary", textDecoration: "underline" }}
                 href={href}
               >
                 {children}

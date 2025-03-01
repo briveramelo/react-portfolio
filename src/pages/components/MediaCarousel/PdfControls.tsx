@@ -11,6 +11,7 @@ import FitScreenIcon from "@mui/icons-material/FitScreen";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { useCustomPalette } from "../../../theme/theme.ts";
 import { PdfViewerContext } from "./MediaItems/PdfViewer.tsx";
+import { MediaControlContext } from "./MediaControlContext.tsx";
 
 const PdfControls: React.FC = () => {
   const {
@@ -24,8 +25,15 @@ const PdfControls: React.FC = () => {
     containerRef,
   } = useContext(PdfViewerContext);
 
-  // In your PdfViewer component (or a wrapper component)
+  const { setGoToPage } = useContext(MediaControlContext);
+  // Set the goToPage function for MediaControlContext to update PDF pages.
+  useEffect(() => {
+    setGoToPage((page: number) => {
+      setPageNumber(page);
+    });
+  }, [setGoToPage, setPageNumber]);
 
+  // handle panning with middle mouse click
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;

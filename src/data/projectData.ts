@@ -8,6 +8,7 @@ import pocketOptimistIcon from "@/assets/projects/pocket-optimist/compressed/ico
 import bobbyIcon from "@/assets/projects/bobby-the-bladder/compressed/bobb-e-icon.webp";
 import bobIcon from "@/assets/projects/abductor/bob-head.webp";
 import nrhControlIcon from "@/assets/orgs/uhealth/uhealth-logo.webp";
+import fruitBuddiIcon from "@/assets/orgs/dfa/fruit-buddi-logo.webp";
 
 import { getSkills, SkillData } from "./skillsData";
 import { InstitutionData, getInstitutions } from "./institutionData.ts";
@@ -23,6 +24,7 @@ import { mindkloud } from "./projects/mindkloud.tsx";
 import { pocketOptimist } from "./projects/pocketOptimist.tsx";
 import { abductor } from "./projects/abductor.tsx";
 import { nrhControl } from "./projects/nrhControl.tsx";
+import { fruitBuddi } from "./projects/fruitBuddi.tsx";
 
 export interface ProjectCategory {
   name: "Health Tech" | "Game Dev" | "Health Game";
@@ -61,6 +63,7 @@ export interface ProjectOptions {
     | "Bobby The Bladder"
     | "NRH Control"
     | "Abductor"
+    | "Fruit Buddi"
     | "AD with Sam";
   category: ProjectCategory | undefined;
   focus: Focus | undefined;
@@ -310,6 +313,22 @@ I served as the Lead Engineer during prototyping and Production Co-Lead after an
     institutions: [],
     iconSrc: bobIcon,
     details: abductor,
+  }),
+  new Project({
+    title: "Fruit Buddi",
+    year: 2013,
+    category: getCategory("Health Game"),
+    focus: "Archived",
+    imageSrc: "fruit-buddi/fruitmoney.jpg",
+    gifSrc: "fruit-buddi/fruit-buddi-action.mp4",
+    gifWidth: "60vw",
+    description: `Fruit Buddi is a shopping cart attachment for parents to engage their kids with healthy food choices in the grocery store. It is a simple, analog matching game.
+${_}
+I served as a Co-Inventor and Designer for this product.`,
+    skills: getSkills("Leadership"),
+    institutions: getInstitutions("Design for America"),
+    iconSrc: fruitBuddiIcon,
+    details: fruitBuddi,
   }),
 ];
 

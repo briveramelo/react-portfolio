@@ -13,6 +13,9 @@ import aolLogo from "@/assets/orgs/aol/aol-logo.webp";
 import hathos from "@/assets/orgs/hathos/hathos.webp";
 import hathosLogo from "@/assets/orgs/hathos/hathos-logo.webp";
 
+import dfa from "@/assets/orgs/dfa/dfa.webp";
+import dfaW from "@/assets/orgs/hathos/hathos-logo.webp";
+
 import nuW from "@/assets/orgs/nu/nu-white.webp";
 import nu from "@/assets/orgs/nu/nu-color.webp";
 
@@ -34,6 +37,7 @@ export interface InstitutionData {
     | "Digital Health"
     | "Hathos Interactive"
     | "University of Utah"
+    | "Design for America"
     | "Northwestern University";
   whiteSrc?: string;
   colorSrc?: string;
@@ -89,6 +93,14 @@ export const otherEmployerData: InstitutionData[] = [
     logoSrc: hathosLogo,
     text: `2017 - 2018
 Lead Engineer`,
+  },
+  {
+    name: "Design for America",
+    whiteSrc: dfa,
+    colorSrc: dfa,
+    logoSrc: dfa,
+    text: `2010 - 2014
+Studio Lead, Workshop Coordinator`,
   },
 ];
 export const schoolData: InstitutionData[] = [
