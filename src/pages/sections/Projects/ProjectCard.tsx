@@ -7,7 +7,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Project } from "../../../data/projectData";
-import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking";
 import { useCustomPalette } from "../../../theme/theme";
 import { useAuth } from "../../../context/AuthContext";
 import { useIntersectionObserver } from "../../../utils/hooks/useIntersectionObserver";
@@ -15,6 +14,8 @@ import InvertableImage from "../../components/InvertableImage";
 import FirebaseImage from "../../components/MediaCarousel/MediaItems/FirebaseImage";
 import FirebaseVideoAsGif from "../../components/MediaCarousel/MediaItems/FirebaseVideoAsGif";
 import { generateSinusoidalBorderColorKeyframes } from "../../../utils/keyframeGenerator";
+import { useDebouncedHoverTracking } from "../../../utils/tracking/hooks/useDebouncedHoverTracking.ts";
+import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
 
 interface ProjectCardProps {
   project: Project;
@@ -32,7 +33,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   isAnyHovered,
 }) => {
   const borderRadius = "8px";
-  const cardHover = useHoverTracking();
+  const debouncedHover = useDebouncedHoverTracking(350, false);
+  const instantHover = useHoverTracking(true);
   const { user } = useAuth();
   const { background, text, interactable } = useCustomPalette();
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
@@ -54,8 +56,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         pointerEvents: "all",
         opacity: isTouchDevice
           ? 1
-          : isAnyHovered && !cardHover.isHovered
-            ? 0.1
+          : isAnyHovered && !debouncedHover.isHovered
+            ? 0.075
             : 1,
       }}
     >
@@ -77,7 +79,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             bottom: 0,
             border: `4px solid transparent`,
             borderRadius: borderRadius,
-            animation: cardHover.isHovered
+            animation: instantHover.isHovered
               ? `${pulseBorder} 2s infinite`
               : undefined,
             pointerEvents: "none",
@@ -86,16 +88,20 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         className="pop-shadow"
         id={`project_card_${project.title}`}
         onPointerEnter={() => {
-          onHover(project, true);
-          cardHover.trackPointerEnter();
+          instantHover.trackPointerEnter();
+          debouncedHover.trackPointerEnter(() => {
+            onHover(project, true);
+          });
         }}
         onPointerLeave={(event: React.MouseEvent<HTMLElement>) => {
           onHover(project, false);
-          cardHover.trackPointerLeave(event);
+          instantHover.trackPointerLeave(event);
+          debouncedHover.trackPointerLeave(event);
         }}
         onClick={(event) => {
           onHover(project, false);
-          cardHover.trackPointerLeave(event);
+          instantHover.trackPointerLeave(event);
+          debouncedHover.trackPointerLeave(event);
           onClick();
         }}
       >
