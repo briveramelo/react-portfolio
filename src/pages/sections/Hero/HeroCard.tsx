@@ -1,5 +1,5 @@
 import React, { useState, useRef, MouseEvent, useEffect, useMemo } from "react";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import FuseEffect from "./Fuse/FuseEffect";
 import { FlareEffect } from "./Flare/FlareEffect";
 import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking";
@@ -39,10 +39,12 @@ const HeroCard: React.FC<HeroCardProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const entrySideRef = useRef<"left" | "right" | null>(null);
-  const transitionStartTimeRef = useRef<number>(performance.now());
+  const transitionStartTimeMsRef = useRef<number>(performance.now());
   const { interactable } = useCustomPalette();
 
-  // Spin sequence for the card animation.
+  const isTouchDevice = useMediaQuery("(pointer: coarse)");
+
+  // Spin sequence for the initial card animation.
   const runSpinSequence = (): ReturnType<typeof setTimeout>[] => {
     const timers: ReturnType<typeof setTimeout>[] = [];
     let accumulatedDelay = 0;
@@ -53,7 +55,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
           ? FIRST_ANIMATION_START_DELAY_MS
           : ANIMATION_START_DELAY_MS,
         action: () => {
-          transitionStartTimeRef.current = performance.now();
+          transitionStartTimeMsRef.current = performance.now();
           setTransitionDurationMs(
             isFirstCardAnimationRef.current
               ? FIRST_ANIMATED_TRANSITION_DURATION_MS
@@ -68,11 +70,11 @@ const HeroCard: React.FC<HeroCardProps> = ({
           : ANIMATED_TRANSITION_DURATION_MS,
         action: () => {
           setInstantFlip(true);
-          transitionStartTimeRef.current = performance.now();
+          transitionStartTimeMsRef.current = performance.now();
           setTargetRotationDeg(0);
           setTransitionDurationMs(USER_TRANSITION_DURATION_MS);
 
-          // this delay, force reflow, delay is a common pattern to a complex browser rendering pipeline issue
+          // Force reflow to mitigate rendering issues.
           requestAnimationFrame(() => {
             containerRef.current?.getBoundingClientRect();
             requestAnimationFrame(() => {
@@ -129,6 +131,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
     }, PROJECTILE_DURATION_MS);
   }, [hasBeenHovered, isSectionVisible]);
 
+  // Desktop hover handlers remain unchanged.
   const isRight = (event: MouseEvent<HTMLDivElement>): boolean => {
     const { left, width } = event.currentTarget.getBoundingClientRect();
     return event.clientX - left > width / 2;
@@ -139,9 +142,8 @@ const HeroCard: React.FC<HeroCardProps> = ({
 
     const entrySide = isRight(event) ? "right" : "left";
     entrySideRef.current = entrySide;
-
     setTargetRotationDeg((prev) => prev + (entrySide === "right" ? -180 : 180));
-    transitionStartTimeRef.current = performance.now();
+    transitionStartTimeMsRef.current = performance.now();
     trackPointerEnter();
   };
 
@@ -165,9 +167,21 @@ const HeroCard: React.FC<HeroCardProps> = ({
     const additional =
       exitSide === entrySideRef.current ? -initialEffect : initialEffect;
     setTargetRotationDeg((prev) => prev + additional);
-    transitionStartTimeRef.current = performance.now();
+    transitionStartTimeMsRef.current = performance.now();
     entrySideRef.current = null;
     trackPointerLeave(event);
+  };
+
+  // New tap handler for mobile: always flip 180° as if entering from the left.
+  const handleTap = (event: MouseEvent<HTMLDivElement>): void => {
+    const isFlipping =
+      performance.now() - transitionStartTimeMsRef.current <
+      transitionDurationMs;
+    if (isCardAnimating || isFlipping) return;
+
+    setTargetRotationDeg((prev) => prev + 180);
+    transitionStartTimeMsRef.current = performance.now();
+    trackPointerEnter();
   };
 
   useEffect(() => {
@@ -187,21 +201,23 @@ const HeroCard: React.FC<HeroCardProps> = ({
       }}
       id="home_avatar_card"
       ref={containerRef}
-      onPointerLeave={handlePointerLeave}
+      onClick={isTouchDevice ? handleTap : undefined}
+      onPointerLeave={isTouchDevice ? undefined : handlePointerLeave}
     >
-      {/* Fixed overlay that intercepts pointer events for 'enter', hands off to the backside for 'leave' */}
-      <Box
-        sx={{
-          position: "absolute",
-          width: imageWidth,
-          height: imageHeight,
-          zIndex: isCardAnimating || isHovered ? -1 : 2,
-          borderRadius: `${borderRadius}px`,
-          pointerEvents: isCardAnimating || isHovered ? "none" : "auto",
-        }}
-        id="home_avatar_card_enter"
-        onPointerEnter={handlePointerEnter}
-      />
+      {!isTouchDevice && (
+        <Box
+          sx={{
+            position: "absolute",
+            width: imageWidth,
+            height: imageHeight,
+            zIndex: isCardAnimating || isHovered ? -1 : 2,
+            borderRadius: `${borderRadius}px`,
+            pointerEvents: isCardAnimating || isHovered ? "none" : "auto",
+          }}
+          id="home_avatar_card_enter"
+          onPointerEnter={handlePointerEnter}
+        />
+      )}
 
       <Box
         sx={{
