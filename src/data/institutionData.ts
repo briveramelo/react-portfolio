@@ -25,7 +25,9 @@ import uofuGames from "@/assets/orgs/uofu-games/uofu-games-color.webp";
 import uofuBizW from "@/assets/orgs/uofu-biz/uofu-biz-white.webp";
 import uofuBiz from "@/assets/orgs/uofu-biz/uofu-biz-color.webp";
 
-import htaLogo from "@/assets/orgs/hta/hta.webp";
+import hta from "@/assets/orgs/hta/hta-logo.webp";
+import htaLogo from "@/assets/orgs/hta/hta-logo.webp";
+
 import digitalHealthLogo from "@/assets/orgs/digital-health/digital-health-logo.webp";
 
 export interface InstitutionData {

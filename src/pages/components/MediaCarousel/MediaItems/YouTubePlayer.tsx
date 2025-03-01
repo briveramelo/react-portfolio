@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { MediaControlContext } from "../MediaControlContext";
 
 interface YouTubePlayerProps {
@@ -14,7 +14,7 @@ interface YouTubePlayerProps {
   src: string;
   title: string;
   isActive: boolean;
-  height: string;
+  height: number;
   borderRadius?: string;
   playAsGif?: boolean;
   startTime?: number;
@@ -29,6 +29,8 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   playAsGif = false,
   startTime,
 }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const isFirstActivation = useRef(true);
   const [playerReady, setPlayerReady] = useState(false);
@@ -81,6 +83,8 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   }, [isActive, playerReady, startTime, playAsGif, seekTo]);
 
   const padding = "54.25%";
+  const autoplayHeight = isMobile && playAsGif ? 0 : 30;
+  const finalHeight = height - autoplayHeight;
 
   return (
     <Box
@@ -89,7 +93,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
         flexDirection: "column",
         alignItems: "left",
         width: "100%",
-        height: height,
+        height: finalHeight,
       }}
     >
       <Box
@@ -113,7 +117,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
             top: 0,
             left: 0,
             width: "100%",
-            height: height,
+            height: finalHeight,
             borderRadius: borderRadius,
           }}
         />

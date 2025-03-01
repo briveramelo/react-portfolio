@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { MediaItem } from "../../../data/projects/projectDetails.tsx";
 import ChangeMediaButton from "./ChangeMediaButton.tsx";
 import PdfViewer from "./MediaItems/PdfViewer.tsx";
@@ -16,7 +16,7 @@ interface MediaCarouselProps {
   media: MediaItem[];
   selectedIndex: number;
   onMediaChange: (index: number) => void;
-  height: string;
+  height: number;
   showArrows: boolean;
 }
 
@@ -39,9 +39,12 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
     setHasBeenClicked(true);
   };
 
+  const heightPx = `${height}px`;
   const borderRadius = "10px";
   const activeMediaType = media[selectedIndex]?.type;
   const containerHeight = activeMediaType === "quote" ? "auto" : height;
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   return (
     <Box
@@ -92,7 +95,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
             {item.type === "firebaseImage" ? (
               <FirebaseImage
                 firebaseImagePath={item.src}
-                height={height}
+                height={heightPx}
                 alt={item.alt}
                 isActive={index === selectedIndex}
                 style={{ borderRadius }}
@@ -100,7 +103,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
             ) : item.type === "firebaseVideoAsGif" ? (
               <FirebaseVideoAsGif
                 firebaseVideoPath={item.src}
-                height={height}
+                height={heightPx}
                 alt={item.alt}
                 isActive={index === selectedIndex}
                 style={{ borderRadius }}
@@ -108,7 +111,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
             ) : item.type === "firebaseImageWithAudioButtons" ? (
               <FirebaseImageWithAudioButtons
                 firebaseImagePath={item.src}
-                height={height}
+                height={heightPx}
                 alt={item.alt}
                 audioButtons={item.audioButtons || []}
                 isSelected={index === selectedIndex}
@@ -117,7 +120,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
             ) : item.type === "image" ? (
               <MediaImage
                 src={item.src}
-                height={height}
+                height={heightPx}
                 alt={item.alt}
                 isActive={index === selectedIndex}
                 style={{ borderRadius }}
@@ -125,7 +128,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
             ) : item.type === "firebasePdf" ? (
               <FirebasePdf
                 firebasePdfPath={item.src}
-                height={height}
+                height={heightPx}
                 borderRadius={borderRadius}
                 isActive={index === selectedIndex}
               />
@@ -138,7 +141,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
             ) : item.type === "youtube" ? (
               <Box
                 sx={{
-                  mt: !item.playAsGif ? -10 : 0,
+                  mt: !isMobile && !item.playAsGif ? -10 : -5,
                   width: "100%",
                   height: "100%",
                 }}

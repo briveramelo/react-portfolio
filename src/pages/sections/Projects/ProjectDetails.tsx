@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { MediaItem } from "../../../data/projects/projectDetails.tsx";
 import { Box, Typography, Grid, useMediaQuery } from "@mui/material";
 import MediaCarousel from "../../components/MediaCarousel/MediaCarousel";
@@ -50,12 +50,12 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
     }
   }, [project, media]);
 
-  const getCarouselHeight = () => {
+  const getCarouselHeight = useCallback(() => {
     if (isXs) return 300;
     if (isSmMd) return 400;
     if (isLgUp) return 600;
     return 600;
-  };
+  }, [isXs, isSmMd, isLgUp]);
 
   const handleChapterClick = (index: number) => {
     handleMediaChange(index);
@@ -162,7 +162,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
             media={media}
             selectedIndex={selectedMediaIndex}
             onMediaChange={handleMediaChange}
-            height={`${getCarouselHeight()}px`}
+            height={getCarouselHeight()}
           />
           {/* Mobile */}
           {isMobile && (
@@ -190,23 +190,25 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
       <Box sx={{ height: 20 }} />
 
       {/* SKILLS */}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignContent: "center",
-          flexWrap: "wrap",
-          gap: 3,
-          mt: 3,
-          position: "relative",
-        }}
-      >
-        <Typography sx={{ position: "absolute", textAlign: "center", mt: -3 }}>
-          Built With:{" "}
-        </Typography>
-        {skills &&
-          skills.map((skill) => (
+      {skills !== null && skills.length > 0 && (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignContent: "center",
+            flexWrap: "wrap",
+            gap: 3,
+            mt: 3,
+            position: "relative",
+          }}
+        >
+          <Typography
+            sx={{ position: "absolute", textAlign: "center", mt: -3 }}
+          >
+            Built With:{" "}
+          </Typography>
+          {skills.map((skill) => (
             <Box
               key={skill.name}
               sx={{
@@ -226,7 +228,8 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
               />
             </Box>
           ))}
-      </Box>
+        </Box>
+      )}
 
       {/* Call to Action */}
       <ProjectLiveLinks links={links} />

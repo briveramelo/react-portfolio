@@ -103,7 +103,7 @@ export const fruitBuddi = new ProjectDetail({
       type: "firebasePdf",
       text: `Fruit Buddi won an online award on GOODmaker and has been featured on HCD Connect and in the Design for America (DFA) Process Guide.
 ${_}
-In the DFA Process Guide, shown here, Fruit Buddi is featured on pages: [34](#34), [97](#97), [119](#119), [138](#138), [159](#159), [179](#179), [209](#209)`,
+_In the DFA Process Guide, shown here, Fruit Buddi is featured on pages: [34](#34), [97](#97), [119](#119), [138](#138), [159](#159), [179](#179), and [209](#209)._`,
     },
   ],
   links: [],

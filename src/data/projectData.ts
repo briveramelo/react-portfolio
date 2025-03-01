@@ -269,6 +269,7 @@ I served as the Lead Engineer and transitioned to Lead Producer after the protot
 ${_}
 I served as the Head of Engineering when porting an iOS-only app to Unity, adding support for Android, analytics, and a smart AWS backend.`,
     skills: getSkills(
+      "Leadership",
       "Unity",
       "C#",
       "Python",
@@ -325,7 +326,7 @@ I served as the Lead Engineer during prototyping and Production Co-Lead after an
     description: `Fruit Buddi is a shopping cart attachment for parents to engage their kids with healthy food choices in the grocery store. It is a simple, analog matching game.
 ${_}
 I served as a Co-Inventor and Designer for this product.`,
-    skills: getSkills("Leadership"),
+    skills: [],
     institutions: getInstitutions("Design for America"),
     iconSrc: fruitBuddiIcon,
     details: fruitBuddi,

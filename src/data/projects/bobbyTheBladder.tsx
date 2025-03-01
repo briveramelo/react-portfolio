@@ -95,8 +95,7 @@ Through a series of meetings, we hammered out the script details into this docum
       src: "bobby-the-bladder/sam-and-bobby.webp",
       alt: "",
       type: "firebaseImage",
-      text: `Credits
-Jessica Adamson (Artist, Game Developer)
+      text: `Jessica Adamson (Artist, Game Developer)
 Brandon Rivera-Melo (Project Manager)
 Thomas Caiyas (Concept Artist, Therapist)
 Lindsay Humphrey (Rehab Educator)
