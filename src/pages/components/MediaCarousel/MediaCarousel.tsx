@@ -10,12 +10,13 @@ import Quote from "./MediaItems/Quote.tsx";
 import FirebaseImageWithAudioButtons from "./MediaItems/FirebaseImageWithAudioButtons.tsx";
 import MediaImage from "./MediaItems/MediaImage.tsx";
 import FirebaseVideoAsGif from "./MediaItems/FirebaseVideoAsGif.tsx";
+import AutoplayToggle from "./Controls/AutoplayToggle.tsx";
 
 interface MediaCarouselProps {
   media: MediaItem[];
   selectedIndex: number;
   onMediaChange: (index: number) => void;
-  height: number;
+  height: string;
   showArrows: boolean;
 }
 
@@ -135,14 +136,24 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                 borderRadius={borderRadius}
               />
             ) : item.type === "youtube" ? (
-              <YouTubePlayer
-                src={item.src}
-                title={item.alt}
-                borderRadius={borderRadius}
-                isActive={index === selectedIndex}
-                playAsGif={item.playAsGif}
-                startTime={item.startTime}
-              />
+              <Box
+                sx={{
+                  mt: !item.playAsGif ? -10 : 0,
+                  width: "100%",
+                  height: "100%",
+                }}
+              >
+                {!item.playAsGif && <AutoplayToggle />}
+                <YouTubePlayer
+                  src={item.src}
+                  title={item.alt}
+                  height={height}
+                  borderRadius={borderRadius}
+                  isActive={index === selectedIndex}
+                  playAsGif={item.playAsGif}
+                  startTime={item.startTime}
+                />
+              </Box>
             ) : item.type === "quote" ? (
               <Quote
                 content={item.src}

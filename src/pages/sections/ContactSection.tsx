@@ -116,8 +116,7 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
             {!formSubmitted ? "Your Move" : "Nice Move"}
           </Typography>
           <Typography variant="h6" sx={{ color: textColor }}>
-            You don't have to say hi, but there is a fun surprise waiting for
-            you.
+            You don't have to say hi, but a fun surprise happens when you do...
           </Typography>
 
           {/* Render the Form or Confirmation */}
@@ -125,7 +124,6 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
             <ConfirmationMessage />
           ) : (
             <ContactForm
-              formData={formData}
               errors={errors}
               onChange={handleChange}
               onSubmit={handleSubmit}

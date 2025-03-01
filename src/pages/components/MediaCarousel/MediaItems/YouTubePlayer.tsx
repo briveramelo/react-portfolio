@@ -15,6 +15,7 @@ interface YouTubePlayerProps {
   src: string;
   title: string;
   isActive: boolean;
+  height: string;
   borderRadius?: string;
   playAsGif?: boolean;
   startTime?: number;
@@ -24,6 +25,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   src,
   title,
   isActive,
+  height,
   borderRadius,
   playAsGif = false,
   startTime,
@@ -79,7 +81,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
     );
   }, [isActive, playerReady, startTime, playAsGif, seekTo]);
 
-  const padding = "27.125%";
+  const padding = "54.25%";
 
   return (
     <Box
@@ -88,18 +90,15 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
         flexDirection: "column",
         alignItems: "left",
         width: "100%",
+        height: height,
       }}
     >
-      <Box sx={{ mb: 0 }}>
-        <AutoplayToggle />
-      </Box>
       <Box
         sx={{
           position: "relative",
           width: "100%",
-          height: playAsGif ? "100%" : undefined,
-          paddingTop: playAsGif ? undefined : padding,
-          paddingBottom: playAsGif ? undefined : padding,
+          paddingBottom: padding,
+          pointerEvents: playAsGif ? "none" : "auto",
         }}
       >
         <iframe
@@ -115,7 +114,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
             top: 0,
             left: 0,
             width: "100%",
-            height: "100%",
+            height: height,
             borderRadius: borderRadius,
           }}
         />

@@ -11,7 +11,7 @@ import {
 
 interface FirebaseAssetProps {
   firebasePath: string;
-  height: number | string;
+  height: string;
   render: (url: string | null) => ReactNode;
 }
 

@@ -264,7 +264,9 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
           </Box>
 
           {/* Selected Project Details */}
-          <Box sx={{ width: "100%", px: 6, mt: isMobile ? 5 : 0 }}>
+          <Box
+            sx={{ width: "100%", px: isMobile ? 1 : 6, mt: isMobile ? 5 : 0 }}
+          >
             <Collapsible
               durationMs={slideDurationMs}
               isOpen={isProjectSelected}

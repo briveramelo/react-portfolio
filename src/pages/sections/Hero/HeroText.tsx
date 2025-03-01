@@ -15,7 +15,7 @@ export const HeroText: React.FC<HeroTextProps> = ({
 }) => {
   const rolesText = useAnimatedText({
     texts: [
-      `Health Tech Innovator | Inventor
+      `Health Tech Innovator
 Lead Software Engineer
 Game Developer
 Project Manager

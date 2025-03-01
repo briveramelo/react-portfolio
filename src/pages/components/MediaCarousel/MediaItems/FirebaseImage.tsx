@@ -6,7 +6,7 @@ import { CircularProgress } from "@mui/material";
 
 interface FirebaseImageProps {
   firebaseImagePath: string;
-  height: number | string;
+  height: string;
   alt: string;
   isActive?: boolean;
   allowResizing?: boolean;

@@ -15,7 +15,7 @@ import { CircularProgress } from "@mui/material";
 
 interface FirebaseImageWithAudioButtonsProps {
   firebaseImagePath: string;
-  height: number;
+  height: string;
   alt: string;
   audioButtons: AudioButtonData[];
   isSelected: boolean;

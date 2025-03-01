@@ -5,7 +5,7 @@ import { CircularProgress } from "@mui/material";
 
 interface FirebasePdfProps {
   firebasePdfPath: string;
-  height: number;
+  height: string;
   borderRadius: string;
   isActive?: boolean;
 }

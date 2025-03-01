@@ -264,7 +264,7 @@ I served as the Lead Engineer and transitioned to Lead Producer after the protot
     gifWidth: "60vw",
     description: `MindKloud Journey is a mobile app for young adults to improve emotional self-awareness through journaling and for college institutions to facilitate a thriving social atmosphere.
 ${_}
-I served as the Head of Engineering when porting an iOS-only app to Unity, adding support for Android, analytics, and AWS cloud storage.`,
+I served as the Head of Engineering when porting an iOS-only app to Unity, adding support for Android, analytics, and a smart AWS backend.`,
     skills: getSkills(
       "Unity",
       "C#",

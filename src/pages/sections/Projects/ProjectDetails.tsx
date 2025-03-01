@@ -45,7 +45,6 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
     if (!match || !match[1]) return;
 
     const mediaIndex = parseInt(match[1], 10);
-    console.log(mediaIndex);
     if (!isNaN(mediaIndex) && mediaIndex >= 0 && mediaIndex < media.length) {
       handleMediaChange(mediaIndex);
     }
@@ -163,7 +162,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
             media={media}
             selectedIndex={selectedMediaIndex}
             onMediaChange={handleMediaChange}
-            height={getCarouselHeight()}
+            height={`${getCarouselHeight()}px`}
           />
           {/* Mobile */}
           {isMobile && (

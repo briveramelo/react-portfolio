@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import FirebaseDownloadLink from "../../components/FirebaseDownloadLink.tsx";
@@ -9,6 +9,9 @@ import { useCustomPalette } from "../../../theme/theme.ts";
 const HeroCardBack: React.FC = () => {
   const { user } = useAuth();
   const { background, text } = useCustomPalette();
+  const theme = useTheme();
+  const isXs = useMediaQuery(theme.breakpoints.down("sm"));
+  const philosophyFontSize = isXs ? "1rem" : "1.1rem";
   const createMarkdownComponents = useCallback(
     (fontSize: string, strongFontSize: string) => ({
       p: ({ children }: { children?: React.ReactNode }) => (
@@ -75,7 +78,7 @@ Peruse the portfolio and see how we might build a healthier world.
       )}
       <ReactMarkdown
         remarkPlugins={[remarkBreaks]}
-        components={createMarkdownComponents("1.1rem", "1.15rem")}
+        components={createMarkdownComponents(philosophyFontSize, "1.15rem")}
       >
         {`**Philosophy**
 We are all interconnected in the web of cause and effect; every thought, word, and action stems from our genes and environment. This recognition calls me to create compassionate environments that nurture human flourishing at every scale - from conversations to global apps.`}

@@ -10,12 +10,12 @@ import FirebaseVideoAsGif from "../../components/MediaCarousel/MediaItems/Fireba
 import FirebaseImage from "../../components/MediaCarousel/MediaItems/FirebaseImage.tsx";
 import remarkBreaks from "remark-breaks";
 
-interface ConsideredProjectProps {
+interface FocusedProjectProps {
   project: Project | null;
   useLight: boolean;
 }
 
-export const FocusedProjectCard: React.FC<ConsideredProjectProps> = ({
+export const FocusedProjectCard: React.FC<FocusedProjectProps> = ({
   project,
   useLight,
 }) => {
@@ -24,6 +24,8 @@ export const FocusedProjectCard: React.FC<ConsideredProjectProps> = ({
   const { background, text } = useCustomPalette();
   const boxRef = useRef<HTMLDivElement | null>(null);
   const boxWidth = project?.gifWidth ?? "50vw";
+  const clampedWidth = `clamp(450px, ${boxWidth}, 100vw)`;
+
   const [dimensions, setDimensions] = useState<{
     width: number;
     height: number;
@@ -53,10 +55,10 @@ export const FocusedProjectCard: React.FC<ConsideredProjectProps> = ({
       sx={{
         position: "fixed",
         top: dimensions ? `calc((100vh - ${dimensions.height}px) / 2)` : "20vh",
-        left: `calc((100vw - ${boxWidth}) / 2)`,
+        left: `calc((100% - ${clampedWidth}) / 2)`,
         zIndex: 3,
         pointerEvents: "none",
-        width: boxWidth,
+        width: clampedWidth,
         willChange: "opacity, top",
         transition: "top 1000ms ease",
         "--fade-duration": "1000ms",
