@@ -54,7 +54,7 @@ ${_}
 Through a series of meetings, we hammered out the script details into this document.`,
     },
     {
-      src: "bobby-the-bladder/patient-ipad.webp",
+      src: "bobby-the-bladder/bobby-ipad.webp",
       alt: "",
       type: "firebaseImage",
       text: `Working with IT management, we installed Bobby The Bladder to the homepage of all patient iPads using JAMF for hospital-wide app management.`,
