@@ -92,11 +92,25 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
                     justifyContent: "flex-start",
                   }}
                 >
-                  <img
-                    src={project.iconSrc}
-                    alt={project.title}
-                    style={{ width: imgSize, height: imgSize, borderRadius: 5 }}
-                  />
+                  {/* Fixed-width container for the image */}
+                  <Box
+                    sx={{
+                      width: 40,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <img
+                      src={project.iconSrc}
+                      alt={project.title}
+                      style={{
+                        height: imgSize,
+                        borderRadius: 5,
+                      }}
+                    />
+                  </Box>
+                  {/* Left-aligned title */}
                   <Typography
                     variant="body1"
                     color={text.paper}

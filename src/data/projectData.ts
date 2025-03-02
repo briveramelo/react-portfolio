@@ -5,7 +5,7 @@ import derpyDinosIcon from "@/assets/projects/derpydinos/compressed/icon.webp";
 import mkJourneyIcon from "@/assets/projects/mindkloud-journey/compressed/mk-journey-icon-small.webp";
 import samIcon from "@/assets/projects/ad-with-sam/sam-head.webp";
 import pocketOptimistIcon from "@/assets/projects/pocket-optimist/compressed/icon.webp";
-import bobbyIcon from "@/assets/projects/bobby-the-bladder/compressed/bobb-e-icon.webp";
+import bobbyIcon from "@/assets/projects/bobby-the-bladder/compressed/bobby-icon.webp";
 import bobIcon from "@/assets/projects/abductor/bob-head.webp";
 import nrhControlIcon from "@/assets/orgs/uhealth/uhealth-logo.webp";
 import fruitBuddiIcon from "@/assets/orgs/dfa/fruit-buddi-logo.webp";
