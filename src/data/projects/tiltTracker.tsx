@@ -228,7 +228,10 @@ ${dash} Tilt Tracker user`,
       src: "tilt-tracker/logo.svg",
       alt: "tilt tracker logo",
       type: "firebaseImage",
-      text: "Tilt Tracker: where rehab is a relief.",
+      text: `Tilt Tracker: where rehab is a relief.
+${_}
+Contributors:
+Brandon Rivera-Melo (Project Manager, Lead Engineer), Dr. Jeffrey Rosenbluth (Clinical Director), Stephen Trapp (Rehabilitation Psychologist), Venessa Lee, Daniel Shelly, Carolyn Campbell, Tanja Kari, Sue Sandwick, Casey Fenger (Clinical Researchers), Roger Altizer (GApp Lab Director), Jesse Ferraro (Project Manager), Ben Steele (Producer), Suwas Walve (Software Developer), Vega Bai, Andrew Liu (Front-End Developers), Mark Smith (Back-End Developer), Mitch Colina (Researcher), Ross Imburgia (Electrical Engineer), Mateo Godinez (Intern Data Curator), Abdullah Kareem (Intern Web Developer)`,
     },
   ],
   links: [],

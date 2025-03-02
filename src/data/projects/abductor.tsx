@@ -17,7 +17,7 @@ I architected the project in Typescript using the Phaser library, implemented th
 ${_}
 Made in the University of Utah Masters of Game Design Rapid Prototyping course 2016 with Alanna Carroll, Sarah Cotner, Brandon Rivera-Melo, Ajay Satish, Andy Sain, and Joshua Levenson.
 ${_}
-This is the precursor to Derpy Dinos and based off the 1981 classic arcade game: Defender`,
+This is the precursor to [Derpy Dinos](#projects-derpydinos) and based off the 1981 classic arcade game: Defender`,
     },
   ],
   links: [
@@ -27,7 +27,7 @@ This is the precursor to Derpy Dinos and based off the 1981 classic arcade game:
       icon: <GameJoltIcon style={iconStyle} />,
     },
     {
-      text: "Github",
+      text: "GitHub",
       href: "https://github.com/briveramelo/EAE-RP2-Defender",
       icon: <GitHub style={iconStyle} />,
     },

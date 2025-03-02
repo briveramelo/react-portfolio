@@ -109,7 +109,10 @@ _Fruit Buddi was born._`,
       type: "firebasePdf",
       text: `Fruit Buddi won an online award on GOODmaker and has been featured on HCD Connect and in the Design for America (DFA) Process Guide.
 ${_}
-_In the DFA Process Guide, shown here, Fruit Buddi is featured on pages: [34](#34), [97](#97), [119](#119), [138](#138), [159](#159), [179](#179), and [209](#209)._`,
+_In the DFA Process Guide, shown here, Fruit Buddi is featured on pages: [34](#34), [97](#97), [119](#119), [138](#138), [159](#159), [179](#179), and [209](#209)._
+${_}
+Contributors:
+Brandon Rivera-Melo, James Kubik, Taylor Reynolds, Phoebe Sexton, Daniel Handler (Designers)`,
     },
   ],
   links: [],

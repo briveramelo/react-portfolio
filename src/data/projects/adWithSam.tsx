@@ -57,11 +57,11 @@ Also included is a 'safe mode' toggle, which swaps out the irreverent 'Death' se
       src: `ad-with-sam/team-photo.webp`,
       alt: "Positive Review",
       type: "firebaseImage",
-      text: `- Brandon Rivera-Melo (creative director, narrator)
-- Yuyan Yao, Junhao Fu (technical artists)
-- Lindsay Humphrey, Danielle Houseman (rehab educators)
-- Elizabeth Jayne York, Andrea Aguirre (medical advisors)
-- Thomas Cayias, James Gardner (occupational therapy advisors)
+      text: `- Brandon Rivera-Melo (Creative Director, Narrator)
+- Yuyan Yao, Junhao Fu (Technical Artists)
+- Lindsay Humphrey, Danielle Houseman (Rehab Educators)
+- Elizabeth Jayne York, Andrea Aguirre (Medical Advisors)
+- Thomas Cayias, James Gardner (Occupational Therapy Advisors)
 - Jeffrey Rosenbluth (project sponsor)`,
       quoteWidth: "auto",
     },

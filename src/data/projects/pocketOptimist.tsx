@@ -29,9 +29,9 @@ Ratings are represented on a Likert scale from 1-7 and then mapped to an emotion
       src: "pocket-optimist/sample-optimism-report.pdf",
       alt: "",
       type: "firebasePdf",
-      text: `I am the founder, developer, and operator of the service
+      text: `I am the founder, developer, and operator of the service.
 ${_}
-The interview transcription and optimism ratings are automated with AI using the langchain library in python, and the report generation is similarly automated using matplotlib and fpdf. 
+The interview transcription and optimism ratings are automated with AI using the Langchain library in Python, and the report generation is similarly automated using Matplotlib and fpdf. 
 ${_}
 Contact me to learn about your explanatory style and apply this transformational framework to your life.`,
     },

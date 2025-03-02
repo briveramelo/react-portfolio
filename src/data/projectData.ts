@@ -9,6 +9,8 @@ import bobbyIcon from "@/assets/projects/bobby-the-bladder/compressed/bobb-e-ico
 import bobIcon from "@/assets/projects/abductor/bob-head.webp";
 import nrhControlIcon from "@/assets/orgs/uhealth/uhealth-logo.webp";
 import fruitBuddiIcon from "@/assets/orgs/dfa/fruit-buddi-logo.webp";
+import debugIcon from "@/assets/projects/debug/debug-ship.webp";
+import talkingPointsIcon from "@/assets/projects/talking-points/tp-flower.webp";
 
 import { getSkills, SkillData } from "./skillsData";
 import { InstitutionData, getInstitutions } from "./institutionData.ts";
@@ -25,6 +27,8 @@ import { pocketOptimist } from "./projects/pocketOptimist.tsx";
 import { abductor } from "./projects/abductor.tsx";
 import { nrhControl } from "./projects/nrhControl.tsx";
 import { fruitBuddi } from "./projects/fruitBuddi.tsx";
+import { debug } from "./projects/debug.tsx";
+import { talkingPoints } from "./projects/talkingPoints.tsx";
 
 export interface ProjectCategory {
   name: "Health Tech" | "Game Dev" | "Health Game";
@@ -64,6 +68,8 @@ export interface ProjectOptions {
     | "NRH Control"
     | "Abductor"
     | "Fruit Buddi"
+    | "Debug"
+    | "Talking Points"
     | "AD with Sam";
   category: ProjectCategory | undefined;
   focus: Focus | undefined;
@@ -172,7 +178,7 @@ I served a Software Engineer and transitioned to Lead Engineer, Co-Inventor, and
     description: `ABCmouse is the **#1 learning app** for children ages 2–8, where over **18 million students** have completed more than **4 billion educational activities**, earning the trust of families worldwide.
 ${_}
 I served as a Software Engineer on the ABCmouse Core mobile development team for 1.5 years.`,
-    skills: getSkills("Unity", "C#", "DevOps", "Android", "iOS"),
+    skills: getSkills("Unity", "C#", "DevOps", "Android", "iOS", "Publishing"),
     institutions: getInstitutions("Age of Learning"),
     iconSrc: abcmouseIcon,
     details: abcMouse,
@@ -188,7 +194,7 @@ I served as a Software Engineer on the ABCmouse Core mobile development team for
     description: `Clawface is an indie, twin-stick, arcade-style bullet hell shooter published to Steam with **"Very Positive" reviews** and **over 70,000 downloads.**
 ${_}
 I served as the Lead Engineer for a team of 6 engineers in a 15-person game-development studio.`,
-    skills: getSkills("Leadership", "Unity", "C#", "DevOps"),
+    skills: getSkills("Leadership", "Unity", "C#", "DevOps", "Publishing"),
     institutions: getInstitutions("Hathos Interactive"),
     iconSrc: clawfaceIcon,
     details: clawface,
@@ -204,7 +210,7 @@ I served as the Lead Engineer for a team of 6 engineers in a 15-person game-deve
     description: `NRH Control is a hospital smartroom controller for patients, family, and staff at the Craig H. Neilsen Rehabilitation Hospital at the University of Utah. It supports touch, voice, and even 'sip-and-puff' breath control with custom hardware.
 ${_}
 I served as the UI/UX Coordinator for 2 years.`,
-    skills: getSkills("Leadership", "iOS", "Android", "HIPAA"),
+    skills: getSkills("Leadership", "iOS", "Android", "HIPAA", "Publishing"),
     institutions: getInstitutions("UHealth"),
     iconSrc: nrhControlIcon,
     details: nrhControl,
@@ -220,7 +226,7 @@ I served as the UI/UX Coordinator for 2 years.`,
     description: `AD with Sam is a highly innovative augmented reality exhibit for people with spinal cord injury to learn about a life-threatening complication: Autonomic Dysreflexia. This is **currently on display at the Craig H. Neilsen Rehabilitation Hospital** at the University of Utah. It uses a custom blend of storytelling, 3D projection mapping onto a lifesize mannequin, animated anatomy, surround sound audio, and RGB lighting.
 ${_}
 I served as the Lead Producer from start to finish.`,
-    skills: getSkills("Leadership", "Bash", "DevOps"),
+    skills: getSkills("Leadership", "Bash", "DevOps", "Publishing"),
     institutions: getInstitutions("UHealth"),
     iconSrc: samIcon,
     details: adWithSam,
@@ -236,7 +242,7 @@ I served as the Lead Producer from start to finish.`,
     description: `Bobby the Bladder is an interactive, branching narrative game for people with spinal cord injury and their family to learn about bladder maintenance. This is **currently installed on all patient iPads at the Craig H. Neilsen Rehabilitation Hospital.**
 ${_}
 I served as the Lead Producer from start to finish.`,
-    skills: getSkills("Leadership"),
+    skills: getSkills("Leadership", "Publishing"),
     institutions: getInstitutions("UHealth"),
     iconSrc: bobbyIcon,
     details: bobbyTheBladder,
@@ -246,13 +252,13 @@ I served as the Lead Producer from start to finish.`,
     year: 2017,
     category: getCategory("Game Dev"),
     focus: "Archived",
-    imageSrc: "derpy-dinos/derpy-dinos-logo.webp",
+    imageSrc: "derpy-dinos/derpy-capsule.webp",
     gifSrc: "derpy-dinos/derpy-dinos-slow-down.mp4",
     gifWidth: "60vw",
     description: `Derpy Dinos is a 2.5D side-scrolling arcade shooter published to Steam that challenges players to blast through dinosaurs and compete for global leaderboard rankings. We received **Mostly Positive reviews** (7/10) and **49,000+ downloads.**
 ${_}
 I served as the Lead Engineer and transitioned to Lead Producer after the prototyping phase and through to release.`,
-    skills: getSkills("Leadership", "Unity", "C#"),
+    skills: getSkills("Leadership", "Unity", "C#", "Publishing"),
     institutions: [],
     iconSrc: derpyDinosIcon,
     details: derpyDinos,
@@ -278,6 +284,7 @@ I served as the Head of Engineering when porting an iOS-only app to Unity, addin
       "Android",
       "iOS",
       "HIPAA",
+      "Publishing",
     ),
     institutions: getInstitutions("Health Tech Apps"),
     iconSrc: mkJourneyIcon,
@@ -310,10 +317,42 @@ I served as the Inventor, Developer, and Coach when deploying the technology wit
     description: `Offender is a 2D Arcade Style Shooter with a looping arena filled with endless carnage and destruction! Hurl unsuspecting humans into helicopters, tanks, and paratroopers as you invade Earth. How long can you survive? This is the precursor to Derpy Dinos, based on arcade classic: Defender.
 ${_}
 I served as the Lead Engineer during prototyping and Production Co-Lead after and through publishing.`,
-    skills: getSkills("Leadership", "HTML", "JS"),
+    skills: getSkills("Leadership", "HTML", "JS", "Publishing"),
     institutions: [],
     iconSrc: bobIcon,
     details: abductor,
+  }),
+  new Project({
+    title: "Talking Points",
+    year: 2017,
+    category: getCategory("Health Game"),
+    focus: "Archived",
+    imageSrc: "talking-points/talking-points-cover.webp",
+    gifSrc: "talking-points/talking-points-loop.mp4",
+    gifWidth: "60vw",
+    description: `Talking Points is like Guitar Hero for speech; it's a rhythm-based game that helps children with dyslexia learn word pronunciation and reading comprehension. Talking Points utilizes the Orton-Gillingham method, the gold standard for teaching children with dyslexia, and timed speech recognition to make learning engaging and self-directed.
+${_}
+I served as the Lead Engineer during prototyping.`,
+    skills: getSkills("Leadership", "C#", "Unity"),
+    institutions: [],
+    iconSrc: talkingPointsIcon,
+    details: talkingPoints,
+  }),
+  new Project({
+    title: "Debug",
+    year: 2016,
+    category: getCategory("Game Dev"),
+    focus: "Archived",
+    imageSrc: "debug/debug-cover.webp",
+    gifSrc: "debug/debug-loop.mp4",
+    gifWidth: "60vw",
+    description: `Debug is an arcade, wave-based survival game. Bugs approach faster and faster from ALL angles threatening to destroy your ship. Fire energy pulses and a last ditch MEGA LASER to destroy these bugs before they can destroy you. Can you blast these bugs away fast and accurate enough to survive? Send in screenshots of your high scores!
+${_}
+I served as the Lead Engineer during prototyping and Production Co-Lead after and through publishing.`,
+    skills: getSkills("Leadership", "C#", "Publishing"),
+    institutions: [],
+    iconSrc: debugIcon,
+    details: debug,
   }),
   new Project({
     title: "Fruit Buddi",

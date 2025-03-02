@@ -27,7 +27,19 @@ ${dash} #FIN Suojeluskunta
 23 reviews`,
       alt: "Positive Review",
       type: "quote",
-      text: `The virtual crowd goes wild.`,
+      text: `The virtual crowd goes wild.
+${_}
+Contributors:
+- Brandon Rivera-Melo (Lead Producer, Lead Engineer)
+- Joshua Levenson (Co-Producer, Lead Technical Artist)
+- Andrew Liu (3D Animation)
+- Cherlin Mao (Art)
+- Aaron Desin (Music)
+- Nathan Rivera-Melo (Sound Design, Trailer Music)
+
+Special Thanks:
+- Joshua Beedle
+- Jimmy Kelly`,
       quoteWidth: "60%",
     },
   ],

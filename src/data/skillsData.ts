@@ -20,6 +20,7 @@ import bash from "@/assets/skills/bash.svg";
 import devops from "@/assets/skills/devops.webp";
 import hipaa from "@/assets/skills/hipaa.svg";
 import leadership from "@/assets/skills/leadership.webp";
+import publishing from "@/assets/skills/checkered-flag.svg";
 import apple from "@/assets/skills/apple.svg";
 import android from "@/assets/skills/android-green.svg";
 
@@ -45,6 +46,7 @@ export type SkillName =
   | "Bash"
   | "DevOps"
   | "HIPAA"
+  | "Publishing"
   | "Leadership";
 
 export class SkillData {
@@ -268,6 +270,14 @@ export const skillsData: SkillCategoryData[] = [
         years: [2016, 2017, 2018, 2020, 2021, 2022, 2023],
         srcLight: leadership,
         srcDark: leadership,
+        invertIfLight: true,
+      }),
+      new SkillData({
+        name: "Publishing",
+        starCount: 5,
+        years: [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
+        srcLight: publishing,
+        srcDark: publishing,
         invertIfLight: true,
       }),
     ],

@@ -90,7 +90,7 @@ ${dash} tuxdelux
       icon: <SteamIcon style={iconStyle} />,
     },
     {
-      text: "Github",
+      text: "GitHub",
       href: "https://github.com/briveramelo/Clawface",
       icon: <GitHub style={iconStyle} />,
     },
