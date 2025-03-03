@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Typography } from "@mui/material";
 import { MediaControlContext } from "../MediaCarousel/MediaControlContext";
+import { useCustomPalette } from "../../../theme/theme.ts";
 
 interface PdfPageLinkProps {
   href: string;
@@ -9,6 +10,7 @@ interface PdfPageLinkProps {
 
 const PdfPageLink: React.FC<PdfPageLinkProps> = ({ href, children }) => {
   const { goToPage } = useContext(MediaControlContext);
+  const { interactable } = useCustomPalette();
 
   // Remove the leading "#" if present.
   const pageString = href.startsWith("#") ? href.slice(1) : href;
@@ -29,7 +31,7 @@ const PdfPageLink: React.FC<PdfPageLinkProps> = ({ href, children }) => {
       sx={{
         cursor: "pointer",
         textDecoration: "underline",
-        color: "primary.main",
+        color: interactable.idle,
       }}
     >
       {children}

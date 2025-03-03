@@ -17,7 +17,7 @@ export interface StoryChapterProps {
 
 const MemoizedMarkdown = React.memo(
   ({ markdown }: { markdown: string | undefined }) => {
-    const { text } = useCustomPalette();
+    const { text, interactable } = useCustomPalette();
 
     return (
       <ReactMarkdown
@@ -62,7 +62,11 @@ const MemoizedMarkdown = React.memo(
               <Typography
                 component="a"
                 variant="body1"
-                sx={{ color: "text.secondary", textDecoration: "underline" }}
+                sx={{
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                  color: interactable.idle,
+                }}
                 href={href}
               >
                 {children}

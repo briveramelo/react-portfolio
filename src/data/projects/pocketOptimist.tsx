@@ -20,7 +20,7 @@ The Pocket Optimist is based on (but not affiliated with) the groundbreaking res
       type: "firebasePdf",
       text: `In short, The Pocket Optimist helps you attune to belief-laden speech that you may take for granted.
 ${_}
-A phrase like _I can't draw_ paints an permanent, pervasive, and personal stance on a topic, very likely inaccurate and certainly harmful. A phrase like this is built on the speech and belief patterns of our caregivers. While the ineffable feeling behind such a statement is certainly not invalid, the rationale almost certain is.
+A phrase like _I can't draw_ paints a permanent, pervasive, and personal stance on a topic, very likely inaccurate and certainly harmful. A phrase like this is built on the speech and belief patterns of our caregivers. While the ineffable feeling behind such a statement is certainly not invalid, the rationale almost certainly is.
 ${_}
 The Pocket Optimist helps attune to the nuances of this discord and restore realistic optimism.`,
     },
