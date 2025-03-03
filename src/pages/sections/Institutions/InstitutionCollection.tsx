@@ -24,7 +24,7 @@ const InstitutionCollection: React.FC<InstitutionCollectionProps> = ({
       }}
     >
       <Box maxWidth={"lg"} mx={"auto"}>
-        <Typography variant="h3" sx={{ color: textColor, mt: 4 }}>
+        <Typography variant="h3" sx={{ color: textColor, mt: 0 }}>
           {title}
         </Typography>
         <Grid container spacing={12} justifyContent="center" pt={1}>

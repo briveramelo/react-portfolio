@@ -21,10 +21,9 @@ export const InstitutionsSection = forwardRef<HTMLElement, InstitutionsProps>(
         component="section"
         id={id}
         sx={{
-          pt: 5,
+          py: 10,
           backgroundColor: backgroundColor,
           color: textColor,
-          pb: 5,
           display: "flex",
           flexDirection: "column",
           minHeight: "100vh",
@@ -32,10 +31,9 @@ export const InstitutionsSection = forwardRef<HTMLElement, InstitutionsProps>(
         }}
         ref={ref}
       >
-        <Box sx={{ textAlign: "center", mb: 4 }}>
+        <Box sx={{ textAlign: "center", mb: 0 }}>
           <Typography
             variant="h1"
-            gutterBottom
             sx={{ fontWeight: "bold", color: textColor }}
           >
             Institutions

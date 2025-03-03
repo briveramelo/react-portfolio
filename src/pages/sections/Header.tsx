@@ -20,7 +20,7 @@ import { useNavigation } from "../../utils/hooks/useNavigation";
 import { useHeaderHeight } from "../../context/HeaderHeightContext.tsx";
 
 interface HeaderProps {
-  sectionRefs: React.RefObject<HTMLElement>[];
+  sectionRefs: (React.RefObject<HTMLElement> | undefined)[];
   desktopHiddenNavigationLinks: string[];
   navigationLinks: NavLink[];
   defaultBackgroundColor: string;
@@ -89,7 +89,7 @@ export function Header({
     const headerHeight = headerRef.current.offsetHeight;
 
     const activeSection = sectionRefs.find((sectionRef) => {
-      const section = sectionRef.current;
+      const section = sectionRef?.current;
       if (!section) return false;
       const rect = section.getBoundingClientRect();
       return rect.top <= headerHeight && rect.bottom > headerHeight;

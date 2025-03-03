@@ -10,11 +10,11 @@ interface HeroProps {
   backgroundColor: string;
   textColor: string;
   id: string;
-  heroLinkRef: React.RefObject<HTMLElement>;
+  homeLinkRef: React.RefObject<HTMLElement> | undefined;
 }
 
 export const HeroSection = forwardRef<HTMLElement, HeroProps>(
-  ({ backgroundColor, textColor, id, heroLinkRef }, ref) => {
+  ({ backgroundColor, textColor, id, homeLinkRef }, ref) => {
     const isSectionVisible = useIntersectionObserver(
       ref as React.RefObject<HTMLElement>,
       { threshold: 0.1 },
@@ -62,7 +62,7 @@ export const HeroSection = forwardRef<HTMLElement, HeroProps>(
         {/* Link target */}
         <Box
           id={id}
-          ref={heroLinkRef}
+          ref={homeLinkRef}
           sx={{ position: "absolute", mt: -100 }}
         />
         <Container

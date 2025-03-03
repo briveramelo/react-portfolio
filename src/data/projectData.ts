@@ -30,6 +30,7 @@ import { nrhControl } from "./projects/nrhControl.tsx";
 import { fruitBuddi } from "./projects/fruitBuddi.tsx";
 import { debug } from "./projects/debug.tsx";
 import { talkingPoints } from "./projects/talkingPoints.tsx";
+import { thisPortfolio } from "./projects/thisPortfolio.tsx";
 
 export interface ProjectCategory {
   name: "Health Tech" | "Game Dev" | "Health Game";
@@ -83,7 +84,7 @@ export interface ProjectOptions {
   institutions: InstitutionData[];
   iconSrc: string;
   year: number;
-  details: ProjectDetail | undefined;
+  details: ProjectDetail;
 }
 
 export class Project {
@@ -407,7 +408,7 @@ I served as a Co-Inventor and Designer for this product.`,
     ),
     institutions: [],
     iconSrc: brmIcon,
-    details: undefined,
+    details: thisPortfolio,
   }),
 ];
 

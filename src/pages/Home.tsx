@@ -1,93 +1,63 @@
-import React, { useRef } from "react";
-import { Header } from "./sections/Header.tsx";
-import { HeroSection } from "./sections/HeroSection.tsx";
+import React from "react";
+import { useOutletContext } from "react-router-dom";
+import { HeroSection } from "./sections/HeroSection";
+import { InstitutionsSection } from "./sections/InstitutionsSection";
 import { SkillsSection } from "./sections/SkillsSection";
-import { ProjectsSection } from "./sections/ProjectsSection.tsx";
+import { ProjectsSection } from "./sections/ProjectsSection";
 import { TestimonialsSection } from "./sections/TestimonialsSection";
-import { ContactSection } from "./sections/ContactSection.tsx";
-import { InstitutionsSection } from "./sections/InstitutionsSection.tsx";
-import { ThemeMode, useCustomPalette } from "../theme/theme.ts";
-import { NavLink, sectionStyles } from "../data/sectionStyles";
+import { ContactSection } from "./sections/ContactSection";
+import { ThemeMode, useCustomPalette } from "../theme/theme";
+import { sectionStyles } from "../data/sectionStyles";
+import { SectionRef } from "./MainLayout";
+
+interface LayoutContext {
+  sections: SectionRef[];
+  cp: any;
+}
 
 export function HomePage() {
+  const { sections } = useOutletContext<LayoutContext>();
   const cp = useCustomPalette();
 
-  const currentSectionId = window.location.hash.replace("#", "");
-  const initialColors =
-    sectionStyles[currentSectionId] || sectionStyles["home"];
-
-  const heroRef = useRef<HTMLElement | null>(null);
-  const heroLinkRef = useRef<HTMLElement | null>(null);
-  const institutionsRef = useRef<HTMLElement | null>(null);
-  const skillsRef = useRef<HTMLElement | null>(null);
-  const projectsRef = useRef<HTMLElement | null>(null);
-  const testimonialsRef = useRef<HTMLElement | null>(null);
-  const contactRef = useRef<HTMLElement | null>(null);
-
-  const sectionRefs = [
-    heroRef,
-    institutionsRef,
-    skillsRef,
-    projectsRef,
-    testimonialsRef,
-    contactRef,
-  ];
-
-  const desktopHiddenNavLinks: string[] = ["#home", "#institutions"];
-
-  const allNavLinks: NavLink[] = [
-    { ref: heroLinkRef, href: "#home", label: "Home", offset: 200 },
-    { ref: institutionsRef, href: "#institutions", label: "Institutions" },
-    { ref: skillsRef, href: "#experience", label: "Experience" },
-    { ref: projectsRef, href: "#projects", label: "Projects" },
-    { ref: testimonialsRef, href: "#testimonials", label: "Testimonials" },
-    { ref: contactRef, href: "#contact", label: "Contact" },
-  ];
+  const getSectionRef = (label: SectionRef["label"]) =>
+    sections.find((s) => s.label === label)?.ref;
 
   return (
     <>
-      <Header
-        sectionRefs={sectionRefs}
-        desktopHiddenNavigationLinks={desktopHiddenNavLinks}
-        navigationLinks={allNavLinks}
-        defaultBackgroundColor={initialColors.backgroundColor(cp)}
-        defaultTextColor={initialColors.textColor(cp)}
-        defaultIsBackgroundDark={initialColors.isDark(cp)}
-      />
       <HeroSection
-        ref={heroRef}
-        heroLinkRef={heroLinkRef}
+        ref={getSectionRef("Home")}
+        homeLinkRef={getSectionRef("HomeLink")}
         id="home"
         backgroundColor={sectionStyles.home.backgroundColor(cp)}
         textColor={sectionStyles.home.textColor(cp)}
       />
       <InstitutionsSection
-        ref={institutionsRef}
+        ref={getSectionRef("Institutions")}
         id="institutions"
         backgroundColor={sectionStyles.institutions.backgroundColor(cp)}
         textColor={sectionStyles.institutions.textColor(cp)}
         invertImages={cp.mode !== ThemeMode.Dark}
       />
       <SkillsSection
-        ref={skillsRef}
+        ref={getSectionRef("Experience")}
         id="experience"
         backgroundColor={sectionStyles.experience.backgroundColor(cp)}
         textColor={sectionStyles.experience.textColor(cp)}
       />
       <ProjectsSection
-        ref={projectsRef}
+        ref={getSectionRef("Projects")}
         id="projects"
         backgroundColor={sectionStyles.projects.backgroundColor(cp)}
         textColor={sectionStyles.projects.textColor(cp)}
       />
       <TestimonialsSection
-        ref={testimonialsRef}
+        ref={getSectionRef("Testimonials")}
         id="testimonials"
         backgroundColor={sectionStyles.testimonials.backgroundColor(cp)}
         textColor={sectionStyles.testimonials.textColor(cp)}
       />
       <ContactSection
-        ref={contactRef}
+        ref={getSectionRef("Contact")}
         id="contact"
         backgroundColor={sectionStyles.contact.backgroundColor(cp)}
         textColor={sectionStyles.contact.textColor(cp)}

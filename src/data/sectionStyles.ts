@@ -41,7 +41,7 @@ export const sectionStyles: Record<string, SectionStyle> = {
 };
 
 export interface NavLink {
-  ref: React.RefObject<HTMLElement>;
+  ref: React.RefObject<HTMLElement> | undefined;
   href: string;
   label: string;
   offset?: number;
