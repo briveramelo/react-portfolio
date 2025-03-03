@@ -11,6 +11,7 @@ import nrhControlIcon from "@/assets/orgs/uhealth/uhealth-logo.webp";
 import fruitBuddiIcon from "@/assets/orgs/dfa/fruit-buddi-logo.webp";
 import debugIcon from "@/assets/projects/debug/debug-ship.webp";
 import talkingPointsIcon from "@/assets/projects/talking-points/tp-flower.webp";
+import brmIcon from "@/assets/people/brm-head.webp";
 
 import { getSkills, SkillData } from "./skillsData";
 import { InstitutionData, getInstitutions } from "./institutionData.ts";
@@ -54,7 +55,7 @@ const categories: ProjectCategory[] = [
   },
 ];
 
-type Focus = "Featured" | "Archived";
+type Focus = "Featured" | "Archived" | "Hidden";
 
 export interface ProjectOptions {
   title:
@@ -70,6 +71,7 @@ export interface ProjectOptions {
     | "Fruit Buddi"
     | "Debug"
     | "Talking Points"
+    | "This Portfolio"
     | "AD with Sam";
   category: ProjectCategory | undefined;
   focus: Focus | undefined;
@@ -81,7 +83,7 @@ export interface ProjectOptions {
   institutions: InstitutionData[];
   iconSrc: string;
   year: number;
-  details: ProjectDetail;
+  details: ProjectDetail | undefined;
 }
 
 export class Project {
@@ -151,16 +153,16 @@ I served a Software Engineer and transitioned to Lead Engineer, Co-Inventor, and
       "Leadership",
       "Docker",
       "DevOps",
+      "AWS",
       "Java",
+      "C#",
+      "jQuery",
+      "JS",
       "HTML",
       "CSS",
-      "JS",
-      "jQuery",
+      "C++",
       "SQL",
       "Bash",
-      "C++",
-      "AWS",
-      "C#",
       "HIPAA",
     ),
     institutions: getInstitutions("UHealth", "The GApp Lab"),
@@ -178,7 +180,15 @@ I served a Software Engineer and transitioned to Lead Engineer, Co-Inventor, and
     description: `ABCmouse is the **#1 learning app** for children ages 2–8, where over **18 million students** have completed more than **4 billion educational activities**, earning the trust of families worldwide.
 ${_}
 I served as a Software Engineer on the ABCmouse Core mobile development team for 1.5 years.`,
-    skills: getSkills("Unity", "C#", "DevOps", "Android", "iOS", "Publishing"),
+    skills: getSkills(
+      "DevOps",
+      "Unity",
+      "C#",
+      "Android",
+      "iOS",
+      "Analytics",
+      "Publishing",
+    ),
     institutions: getInstitutions("Age of Learning"),
     iconSrc: abcmouseIcon,
     details: abcMouse,
@@ -194,7 +204,7 @@ I served as a Software Engineer on the ABCmouse Core mobile development team for
     description: `Clawface is an indie, twin-stick, arcade-style bullet hell shooter published to Steam with **"Very Positive" reviews** and **over 70,000 downloads.**
 ${_}
 I served as the Lead Engineer for a team of 6 engineers in a 15-person game-development studio.`,
-    skills: getSkills("Leadership", "Unity", "C#", "DevOps", "Publishing"),
+    skills: getSkills("Leadership", "DevOps", "Unity", "C#", "Publishing"),
     institutions: getInstitutions("Hathos Interactive"),
     iconSrc: clawfaceIcon,
     details: clawface,
@@ -226,7 +236,7 @@ I served as the UI/UX Coordinator for 2 years.`,
     description: `AD with Sam is a highly innovative augmented reality exhibit for people with spinal cord injury to learn about a life-threatening complication: Autonomic Dysreflexia. This is **currently on display at the Craig H. Neilsen Rehabilitation Hospital** at the University of Utah. It uses a custom blend of storytelling, 3D projection mapping onto a lifesize mannequin, animated anatomy, surround sound audio, and RGB lighting.
 ${_}
 I served as the Lead Producer from start to finish.`,
-    skills: getSkills("Leadership", "Bash", "DevOps", "Publishing"),
+    skills: getSkills("Leadership", "DevOps", "Bash", "Publishing"),
     institutions: getInstitutions("UHealth"),
     iconSrc: samIcon,
     details: adWithSam,
@@ -276,14 +286,15 @@ ${_}
 I served as the Head of Engineering when porting an iOS-only app to Unity, adding support for Android, analytics, and a smart AWS backend.`,
     skills: getSkills(
       "Leadership",
-      "Unity",
-      "C#",
       "Python",
       "AWS",
+      "Unity",
+      "C#",
       "SQL",
       "Android",
       "iOS",
       "HIPAA",
+      "Analytics",
       "Publishing",
     ),
     institutions: getInstitutions("Health Tech Apps"),
@@ -369,6 +380,34 @@ I served as a Co-Inventor and Designer for this product.`,
     institutions: getInstitutions("Design for America"),
     iconSrc: fruitBuddiIcon,
     details: fruitBuddi,
+  }),
+  new Project({
+    title: "This Portfolio",
+    year: 2025,
+    category: undefined,
+    focus: "Hidden",
+    imageSrc: "",
+    gifSrc: "",
+    gifWidth: "",
+    description: ``,
+    skills: getSkills(
+      "Leadership",
+      "GCP",
+      "DevOps",
+      "Python",
+      "React",
+      "JS",
+      "HTML",
+      "CSS",
+      "Bash",
+      "iOS",
+      "Android",
+      "Analytics",
+      "Publishing",
+    ),
+    institutions: [],
+    iconSrc: brmIcon,
+    details: undefined,
   }),
 ];
 

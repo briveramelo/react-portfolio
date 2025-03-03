@@ -7,6 +7,7 @@ interface FirebasePdfProps {
   firebasePdfPath: string;
   height: string;
   borderRadius: string;
+  startPage?: number;
   isActive?: boolean;
 }
 
@@ -14,6 +15,7 @@ const FirebasePdf: React.FC<FirebasePdfProps> = ({
   firebasePdfPath,
   height,
   borderRadius,
+  startPage,
   isActive = true,
 }) => {
   return (
@@ -26,6 +28,7 @@ const FirebasePdf: React.FC<FirebasePdfProps> = ({
             pdfUrl={url}
             isActive={isActive}
             borderRadius={borderRadius}
+            startPage={startPage}
           />
         ) : (
           <CircularProgress />

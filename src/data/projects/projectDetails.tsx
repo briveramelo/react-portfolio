@@ -26,6 +26,7 @@ export interface MediaItem {
   quoteWidth?: string;
   playAsGif?: boolean;
   startTime?: number;
+  startPage?: number;
 }
 
 export interface ProjectLink {

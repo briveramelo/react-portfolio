@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Box, Typography, Grid, darken, Popper } from "@mui/material";
 import { Project } from "../../../data/projectData";
 import { toSlug } from "../../../utils/utils";
@@ -16,12 +16,27 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
   projects,
   anchorEl,
 }) => {
-  if (projects.length === 0 || !anchorEl) {
-    return null;
-  }
   const { onHoverChange } = useCursor();
   const { background, text } = useCustomPalette();
   const imgSize = 40;
+
+  const handleProjectClick = useCallback(
+    (e: React.MouseEvent<HTMLElement>, slug: string) => {
+      e.preventDefault();
+      const targetHash = `#projects-${slug}`;
+      if (window.location.hash === targetHash) {
+        // If already selected, manually dispatch a hashchange event.
+        window.dispatchEvent(new HashChangeEvent("hashchange"));
+      } else {
+        window.location.hash = targetHash;
+      }
+    },
+    [],
+  );
+
+  if (projects.length === 0 || !anchorEl) {
+    return null;
+  }
 
   return (
     <Popper
@@ -58,70 +73,72 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
               Related Projects
             </Typography>
           </Grid>
-          {projects.map((project) => (
-            <Grid item key={project.title} xs={12}>
-              <Box
-                component="a"
-                href={`#projects-${toSlug(project.title)}`}
-                sx={{
-                  display: "block",
-                  width: "100%",
-                  textDecoration: "none",
-                  color: "inherit",
-                  padding: 1,
-                  borderRadius: 1,
-                  "&:hover": {
-                    backgroundColor: darken(background.paper, 0.2),
-                  },
-                }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  const targetHash = `#projects-${toSlug(project.title)}`;
-                  if (window.location.hash === targetHash) {
-                    // If already selected, manually dispatch a hashchange event.
-                    window.dispatchEvent(new HashChangeEvent("hashchange"));
-                  } else {
-                    window.location.hash = targetHash;
-                  }
-                }}
-              >
+          {projects.map((project) => {
+            const isHidden = project.focus === "Hidden";
+            const slug = toSlug(project.title);
+            return (
+              <Grid item key={project.title} xs={12}>
                 <Box
+                  component={isHidden ? "div" : "a"}
+                  href={isHidden ? undefined : `#projects-${slug}`}
                   sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "flex-start",
+                    display: "block",
+                    width: "100%",
+                    textDecoration: "none",
+                    color: "inherit",
+                    padding: 1,
+                    borderRadius: 1,
+                    "&:hover": {
+                      backgroundColor: isHidden
+                        ? "inherit"
+                        : darken(background.paper, 0.2),
+                    },
                   }}
+                  onClick={
+                    isHidden
+                      ? undefined
+                      : (e: React.MouseEvent<HTMLElement>) =>
+                          handleProjectClick(e, slug)
+                  }
                 >
-                  {/* Fixed-width container for the image */}
                   <Box
                     sx={{
-                      width: 40,
                       display: "flex",
-                      justifyContent: "center",
                       alignItems: "center",
+                      justifyContent: "flex-start",
                     }}
                   >
-                    <img
-                      src={project.iconSrc}
-                      alt={project.title}
-                      style={{
-                        height: imgSize,
-                        borderRadius: 5,
+                    {/* Fixed-width container for the image */}
+                    <Box
+                      sx={{
+                        width: 40,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
                       }}
-                    />
+                    >
+                      <img
+                        src={project.iconSrc}
+                        alt={project.title}
+                        style={{
+                          height: imgSize,
+                          borderRadius: 5,
+                        }}
+                      />
+                    </Box>
+                    {/* Left-aligned title */}
+                    <Typography
+                      variant="body1"
+                      color={text.paper}
+                      sx={{ ml: 2, whiteSpace: "nowrap" }}
+                    >
+                      {project.title}
+                    </Typography>
                   </Box>
-                  {/* Left-aligned title */}
-                  <Typography
-                    variant="body1"
-                    color={text.paper}
-                    sx={{ ml: 2, whiteSpace: "nowrap" }}
-                  >
-                    {project.title}
-                  </Typography>
                 </Box>
-              </Box>
-            </Grid>
-          ))}
+              </Grid>
+            );
+          })}
         </Grid>
       </Box>
     </Popper>

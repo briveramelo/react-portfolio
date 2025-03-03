@@ -109,10 +109,22 @@ _Fruit Buddi was born._`,
       type: "firebasePdf",
       text: `Fruit Buddi won an online award on GOODmaker and has been featured on HCD Connect and in the Design for America (DFA) Process Guide.
 ${_}
-_In the DFA Process Guide, shown here, Fruit Buddi is featured on pages: [34](#34), [97](#97), [119](#119), [138](#138), [159](#159), [179](#179), and [209](#209)._
+_In the DFA Process Guide, shown here, Fruit Buddi is featured on pages: [34](#34), [97](#97), [119](#119), [138](#138), [159](#159), [179](#179), and [209](#209)._`,
+    },
+    {
+      src: "fruit-buddi/fruit-buddi-provisional-patent-p1.pdf",
+      alt: "Fruit Buddi Provisional Patent Page 1",
+      type: "firebasePdf",
+      text: `We filed a provisional patent with the intent to commercialize the product with support of professors and inventors at Northwestern University's Segal Design Institute (special thanks to Dan Brown), though we found commercial viability limited and decided not to pursue the full.
 ${_}
-Contributors:
-Brandon Rivera-Melo, James Kubik, Taylor Reynolds, Phoebe Sexton, Daniel Handler (Designers)`,
+_Here is just the first page._
+${_}
+Designers, Co-Inventors:
+- Brandon Rivera-Melo
+- James Kubik
+- Taylor Reynolds
+- Phoebe Sexton
+- Daniel Handler`,
     },
   ],
   links: [],

@@ -131,12 +131,14 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
                 height={heightPx}
                 borderRadius={borderRadius}
                 isActive={index === selectedIndex}
+                startPage={item.startPage}
               />
             ) : item.type === "pdf" ? (
               <PdfViewer
                 pdfUrl={item.src}
                 isActive={index === selectedIndex}
                 borderRadius={borderRadius}
+                startPage={item.startPage}
               />
             ) : item.type === "youtube" ? (
               <Box

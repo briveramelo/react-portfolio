@@ -14,16 +14,18 @@ interface PdfViewerProps {
   pdfUrl: string;
   isActive: boolean;
   borderRadius: string;
+  startPage?: number;
 }
 
 const PdfViewer: React.FC<PdfViewerProps> = ({
   pdfUrl,
   isActive,
   borderRadius,
+  startPage = 1,
 }) => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [numPages, setNumPages] = useState<number>(0);
-  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [pageNumber, setPageNumber] = useState<number>(startPage);
   const [scale, setScale] = useState<number>(1);
   const containerRef = useRef<HTMLDivElement>(null);
   const pdfInstanceRef = useRef<any>(null);
@@ -59,7 +61,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
   const onDocumentLoadSuccess = (pdf: any) => {
     pdfInstanceRef.current = pdf;
     setNumPages(pdf.numPages);
-    setPageNumber(1);
+    setPageNumber(Math.min(startPage, pdf.numPages));
   };
 
   const onPageLoadSuccess = () => {

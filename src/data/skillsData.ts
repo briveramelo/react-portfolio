@@ -23,6 +23,7 @@ import leadership from "@/assets/skills/leadership.webp";
 import publishing from "@/assets/skills/checkered-flag.svg";
 import apple from "@/assets/skills/apple.svg";
 import android from "@/assets/skills/android-green.svg";
+import analytics from "@/assets/skills/analytics.svg";
 
 export type SkillName =
   | "HTML"
@@ -47,6 +48,7 @@ export type SkillName =
   | "DevOps"
   | "HIPAA"
   | "Publishing"
+  | "Analytics"
   | "Leadership";
 
 export class SkillData {
@@ -155,6 +157,14 @@ export const skillsData: SkillCategoryData[] = [
         years: [2020, 2021, 2022, 2023, 2024, 2025],
         srcLight: docker,
         srcDark: docker,
+      }),
+      new SkillData({
+        name: "Analytics",
+        starCount: 4,
+        years: [2020, 2021, 2022, 2023, 2024, 2025],
+        srcLight: analytics,
+        srcDark: analytics,
+        invertIfLight: true,
       }),
     ],
   },
