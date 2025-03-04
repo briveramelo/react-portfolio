@@ -17,7 +17,7 @@ export interface SpinningCardProps {
   onSpin?: (deltaDeg: number) => void;
   cardWidth: any; // e.g. { sm: "400px", xs: "375px" }
   cardHeight: any;
-  borderRadius: number;
+  borderRadius: string | number;
   children?: React.ReactNode;
   containerProps?: BoxProps;
 }
@@ -139,13 +139,13 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
               trackPointerLeave(event);
             }
       }
-      onPointerEnter={!isTouchDevice ? handlePointerEnter : undefined}
       onPointerLeave={!isTouchDevice ? handlePointerLeave : undefined}
       {...containerProps}
       sx={{
         perspective: "1000px",
         display: "block",
         position: "relative",
+        backgroundColor: "rgba(0,0,255,0.5)",
         ...containerProps?.sx,
       }}
       id={`${id}_container`}
@@ -159,7 +159,8 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
             width: cardWidth,
             height: cardHeight,
             zIndex: isCardAnimating || isHovered ? -1 : 2,
-            borderRadius: `${borderRadius}px`,
+            borderRadius,
+            backgroundColor: "rgba(255,0,0,0.5)",
             pointerEvents: isCardAnimating || isHovered ? "none" : "auto",
           }}
           id={id}
@@ -177,8 +178,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
             : `transform ${transitionDurationMs}ms ease`,
           transform: `rotateY(${targetRotationDeg}deg)`,
           willChange: isSectionVisible ? "transform" : undefined,
-          pointerEvents:
-            isFlipping() || isCardAnimating || isHovered ? "none" : "auto",
+          pointerEvents: isCardAnimating || isHovered ? "none" : "auto",
         }}
       >
         {children}

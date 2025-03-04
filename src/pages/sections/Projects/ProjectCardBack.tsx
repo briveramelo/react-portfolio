@@ -1,11 +1,5 @@
-import React, { useRef } from "react";
-import {
-  Card,
-  CardContent,
-  Typography,
-  Box,
-  useMediaQuery,
-} from "@mui/material";
+import React from "react";
+import { Card, CardContent, Typography, Box } from "@mui/material";
 import { Project } from "../../../data/projectData";
 import FirebaseImage from "../../components/MediaCarousel/MediaItems/FirebaseImage";
 import FirebaseVideoAsGif from "../../components/MediaCarousel/MediaItems/FirebaseVideoAsGif";
@@ -14,20 +8,22 @@ import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import { HighlightedText } from "../../components/Markdown/HighlightedText.tsx";
 
-interface ProjectCardBackProps {
+export interface ProjectCardBackProps {
   project: Project;
   useLight: boolean;
+  height: string | number;
+  borderRadius: string;
 }
 
-export const ProjectCardBack: React.FC<ProjectCardBackProps> = ({
-  project,
-}) => {
-  const borderRadius = "8px";
+export const ProjectCardBack = React.forwardRef<
+  HTMLDivElement,
+  ProjectCardBackProps
+>(({ project, useLight, height, borderRadius }, ref) => {
   const { background, text } = useCustomPalette();
-  const cardRef = useRef<HTMLDivElement>(null);
 
   return (
     <Box
+      ref={ref}
       sx={{
         position: "absolute",
         pointerEvents: "none",
@@ -43,12 +39,12 @@ export const ProjectCardBack: React.FC<ProjectCardBackProps> = ({
           cursor: "pointer",
           backgroundColor: background.paper,
           borderRadius,
+          height,
         }}
         id={`project_card_${project.title}`}
       >
         {/* Media Container */}
         <Box
-          ref={cardRef}
           sx={{
             position: "relative",
             maxHeight: "600px",
@@ -127,4 +123,4 @@ export const ProjectCardBack: React.FC<ProjectCardBackProps> = ({
       </Card>
     </Box>
   );
-};
+});

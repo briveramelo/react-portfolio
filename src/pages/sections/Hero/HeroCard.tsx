@@ -146,7 +146,8 @@ const HeroCard: React.FC<HeroCardProps> = ({
 
   const cardWidth = useMemo(() => ({ sm: "400px", xs: "375px" }), []);
   const cardHeight = useMemo(() => ({ sm: "600px", xs: "562.5px" }), []);
-  const borderRadius = 20;
+  const borderRadius = "20px";
+  const borderRadiusPx = 20;
 
   return (
     <SpinningCard
@@ -161,7 +162,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
           position: "relative",
           width: cardWidth,
           height: cardHeight,
-          borderRadius: `${borderRadius}px`,
+          borderRadius,
         },
       }}
       onHasBeenHovered={onHasBeenHovered}
@@ -178,7 +179,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
         <FuseEffect
           width={cardWidth}
           height={cardHeight}
-          borderRadius={borderRadius}
+          borderRadius={borderRadiusPx}
           fuseHeadLoopDurationMs={3000}
           sparksPerBurst={2}
           burstIntervalMs={50}

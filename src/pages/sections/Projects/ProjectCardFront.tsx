@@ -1,33 +1,26 @@
-import React, { useRef } from "react";
-import {
-  Card,
-  CardContent,
-  Typography,
-  Box,
-  useMediaQuery,
-} from "@mui/material";
+import React from "react";
+import { Card, CardContent, Typography, Box } from "@mui/material";
 import { Project } from "../../../data/projectData";
 import { useCustomPalette } from "../../../theme/theme";
-import { useIntersectionObserver } from "../../../utils/hooks/useIntersectionObserver";
 import InvertableImage from "../../components/InvertableImage";
 import FirebaseImage from "../../components/MediaCarousel/MediaItems/FirebaseImage";
-import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
 
 interface ProjectCardFrontProps {
   project: Project;
   useLight: boolean;
+  height: string | number;
+  borderRadius: string;
 }
 
-export const ProjectCardFront: React.FC<ProjectCardFrontProps> = ({
-  project,
-  useLight,
-}) => {
-  const borderRadius = "8px";
+export const ProjectCardFront = React.forwardRef<
+  HTMLDivElement,
+  ProjectCardFrontProps
+>(({ project, useLight, height, borderRadius }, ref) => {
   const { background, text } = useCustomPalette();
-  const cardRef = useRef<HTMLDivElement>(null);
 
   return (
     <Box
+      ref={ref}
       sx={{
         backfaceVisibility: "hidden",
         pointerEvents: "none",
@@ -43,11 +36,11 @@ export const ProjectCardFront: React.FC<ProjectCardFrontProps> = ({
           cursor: "pointer",
           backgroundColor: background.paper,
           borderRadius,
+          height,
         }}
       >
         {/* IMAGE & VIDEO CONTAINER */}
         <Box
-          ref={cardRef}
           sx={{
             position: "relative",
             maxHeight: "600px",
@@ -258,4 +251,4 @@ export const ProjectCardFront: React.FC<ProjectCardFrontProps> = ({
       </Card>
     </Box>
   );
-};
+});

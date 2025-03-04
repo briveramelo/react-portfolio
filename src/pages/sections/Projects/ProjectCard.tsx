@@ -1,6 +1,5 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 import { useMediaQuery } from "@mui/material";
-import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking";
 import { SpinningCard } from "../../components/SpinningCard.tsx";
 import { ProjectCardFront } from "./ProjectCardFront.tsx";
 import { USER_TRANSITION_DURATION_MS } from "../Hero/heroHelpers.ts";
@@ -22,19 +21,29 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   const [targetRotationDeg, setTargetRotationDeg] = useState<number>(0);
   const [instantFlip, setInstantFlip] = useState<boolean>(false);
-  const [transitionDurationMs, setTransitionDurationMs] = useState<number>(
-    USER_TRANSITION_DURATION_MS,
-  );
+  const [transitionDurationMs] = useState<number>(USER_TRANSITION_DURATION_MS);
+  const [cardHeight, setCardHeight] = useState<string | number>("100%");
   const handleSpin = (deltaDeg: number) => {
     setTargetRotationDeg((prev) => prev + deltaDeg);
   };
 
   const containerRef = useRef<HTMLDivElement>(null);
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
+  const frontRef = useRef<HTMLDivElement>(null);
+  const backRef = useRef<HTMLDivElement>(null);
 
   const cardWidth = "100%";
-  const cardHeight = "100%";
-  const borderRadius = 20;
+  const borderRadius = "8px";
+
+  // Measure the front and back heights and choose the greater value
+  useLayoutEffect(() => {
+    if (frontRef.current && backRef.current) {
+      const frontHeight = frontRef.current.getBoundingClientRect().height;
+      const backHeight = backRef.current.getBoundingClientRect().height;
+      const maxHeight = Math.max(frontHeight, backHeight);
+      setCardHeight(maxHeight);
+    }
+  }, [project, isSectionVisible]);
 
   return (
     <SpinningCard
@@ -48,7 +57,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           position: "relative",
           width: cardWidth,
           height: cardHeight,
-          borderRadius: `${borderRadius}px`,
+          borderRadius,
         },
       }}
       targetRotationDeg={targetRotationDeg}
@@ -64,10 +73,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       }}
       id={`project_card_${project.title}`}
     >
-      {isSectionVisible && (
-        <ProjectCardBack project={project} useLight={useLight} />
-      )}
-      <ProjectCardFront project={project} useLight={useLight} />
+      <ProjectCardBack
+        project={project}
+        useLight={useLight}
+        height={cardHeight}
+        borderRadius={borderRadius}
+        ref={backRef}
+      />
+      <ProjectCardFront
+        project={project}
+        useLight={useLight}
+        height={cardHeight}
+        borderRadius={borderRadius}
+        ref={frontRef}
+      />
     </SpinningCard>
   );
 };
