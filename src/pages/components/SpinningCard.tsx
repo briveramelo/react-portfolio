@@ -1,21 +1,22 @@
-import React, { useRef, useCallback, MouseEvent } from "react";
+import React, { useRef, useCallback, MouseEvent, useEffect } from "react";
 import { Box, BoxProps } from "@mui/material";
+import { useHoverTracking } from "../../utils/tracking/hooks/useHoverTracking.ts";
+import { USER_TRANSITION_DURATION_MS } from "../sections/Hero/heroHelpers.ts";
 
 export interface SpinningCardProps {
   id?: string;
   isCardAnimating: boolean;
-  onSpin?: (deltaDeg: number) => void;
   containerRef: React.RefObject<HTMLDivElement>;
   targetRotationDeg: number;
   instantFlip: boolean;
   transitionDurationMs: number;
   isSectionVisible: boolean;
   isTouchDevice?: boolean;
-  onPointerEnterCard?: (event: MouseEvent<HTMLDivElement>) => void;
-  onPointerLeaveCard?: (event: MouseEvent<HTMLDivElement>) => void;
+  onHasBeenHovered?: () => void;
   onClickCard?: (event: MouseEvent<HTMLDivElement>) => void;
-  imageWidth: any; // e.g. { sm: "400px", xs: "375px" }
-  imageHeight: any;
+  onSpin?: (deltaDeg: number) => void;
+  cardWidth: any; // e.g. { sm: "400px", xs: "375px" }
+  cardHeight: any;
   borderRadius: number;
   children?: React.ReactNode;
   containerProps?: BoxProps;
@@ -31,15 +32,22 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
   transitionDurationMs,
   isSectionVisible,
   isTouchDevice = false,
+  onHasBeenHovered,
   onClickCard,
-  imageWidth,
-  imageHeight,
+  cardWidth,
+  cardHeight,
   borderRadius,
   children,
   containerProps,
-  onPointerEnterCard,
-  onPointerLeaveCard,
 }) => {
+  const { trackPointerEnter, trackPointerLeave, isHovered, hasBeenHovered } =
+    useHoverTracking(true, USER_TRANSITION_DURATION_MS);
+  useEffect(() => {
+    if (hasBeenHovered) {
+      onHasBeenHovered?.();
+    }
+  }, [hasBeenHovered, onHasBeenHovered]);
+
   const entrySideRef = useRef<"left" | "right" | null>(null);
   const transitionStartTimeMsRef = useRef<number>(performance.now());
 
@@ -52,18 +60,41 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     [containerRef.current],
   );
 
+  const isInsideContainer = useCallback(
+    (event: MouseEvent<HTMLDivElement>): boolean => {
+      const tolerance = 1;
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        if (
+          event.clientX >= rect.left - tolerance &&
+          event.clientX <= rect.right + tolerance &&
+          event.clientY >= rect.top - tolerance &&
+          event.clientY <= rect.bottom + tolerance
+        ) {
+          return true;
+        }
+      }
+      return false;
+    },
+    [containerRef.current],
+  );
+
   // Pointer enter: if not animating and no entry side stored, determine side and spin.
   const handlePointerEnter = useCallback(
     (event: MouseEvent<HTMLDivElement>) => {
       if (isCardAnimating || entrySideRef.current) return;
+
+      if (!isInsideContainer(event)) {
+        return;
+      }
+
       const entrySide = isRight(event) ? "right" : "left";
       entrySideRef.current = entrySide;
       onSpin?.(entrySide === "right" ? -180 : 180);
       transitionStartTimeMsRef.current = performance.now();
-      // Call the hover tracking callback provided by the parent
-      onPointerEnterCard?.(event);
+      trackPointerEnter();
     },
-    [isCardAnimating, isRight, onSpin, onPointerEnterCard],
+    [isCardAnimating, isRight, onSpin, trackPointerEnter, isInsideContainer],
   );
 
   // Pointer leave: if not animating and an entry side exists, check if leaving the container
@@ -71,17 +102,11 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
   const handlePointerLeave = useCallback(
     (event: MouseEvent<HTMLDivElement>) => {
       if (isCardAnimating || !entrySideRef.current) return;
-      const rect = containerRef.current?.getBoundingClientRect();
-      if (rect) {
-        if (
-          event.clientX >= rect.left &&
-          event.clientX <= rect.right &&
-          event.clientY >= rect.top &&
-          event.clientY <= rect.bottom
-        ) {
-          return;
-        }
+
+      if (isInsideContainer(event)) {
+        return;
       }
+
       const exitSide = isRight(event) ? "right" : "left";
       const initialEffect = entrySideRef.current === "right" ? -180 : 180;
       const additional =
@@ -90,15 +115,9 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
       transitionStartTimeMsRef.current = performance.now();
       entrySideRef.current = null;
       // Call the hover tracking callback provided by the parent
-      onPointerLeaveCard?.(event);
+      trackPointerLeave(event);
     },
-    [
-      isCardAnimating,
-      isRight,
-      onSpin,
-      onPointerLeaveCard,
-      containerRef.current,
-    ],
+    [isCardAnimating, isRight, onSpin, trackPointerLeave, isInsideContainer],
   );
 
   const handleTap = useCallback(
@@ -115,7 +134,6 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
 
   return (
     <Box
-      ref={containerRef}
       onClick={isTouchDevice ? handleTap : onClickCard}
       onPointerEnter={!isTouchDevice ? handlePointerEnter : undefined}
       onPointerLeave={!isTouchDevice ? handlePointerLeave : undefined}
@@ -131,14 +149,14 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
       {/* For non-touch devices, an invisible overlay to capture pointer enter events */}
       {!isTouchDevice && (
         <Box
+          ref={containerRef}
           sx={{
             position: "absolute",
-            width: imageWidth,
-            height: imageHeight,
-            zIndex: isCardAnimating || isSectionVisible ? -1 : 2,
+            width: cardWidth,
+            height: cardHeight,
+            zIndex: isCardAnimating || isHovered ? -1 : 2,
             borderRadius: `${borderRadius}px`,
-            pointerEvents:
-              isCardAnimating || isSectionVisible ? "none" : "auto",
+            pointerEvents: isCardAnimating || isHovered ? "none" : "auto",
           }}
           id={id}
           onPointerEnter={handlePointerEnter}
@@ -146,8 +164,8 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
       )}
       <Box
         sx={{
-          width: imageWidth,
-          height: imageHeight,
+          width: cardWidth,
+          height: cardHeight,
           position: "relative",
           transformStyle: "preserve-3d",
           transition: instantFlip

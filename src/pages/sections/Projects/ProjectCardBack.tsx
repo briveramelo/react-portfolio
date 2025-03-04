@@ -30,7 +30,7 @@ export const ProjectCardBack: React.FC<ProjectCardBackProps> = ({
     <Box
       sx={{
         position: "absolute",
-        pointerEvents: "all",
+        pointerEvents: "none",
         backfaceVisibility: "hidden",
         transform: "rotateY(180deg)",
       }}
@@ -87,24 +87,12 @@ export const ProjectCardBack: React.FC<ProjectCardBackProps> = ({
         <CardContent
           id={`project_card_content_${project.title}`}
           sx={{
-            pt: 1,
+            pt: 1.5,
+            mb: -1.5,
             px: 2,
             flexGrow: 1,
-            pointerEvents: "none",
           }}
         >
-          <Typography
-            variant="h3"
-            sx={{
-              fontWeight: "bold",
-              textAlign: "center",
-              color: text.secondary,
-              fontSize: { xs: "1.75rem", sm: "2rem" },
-              whiteSpace: "nowrap",
-            }}
-          >
-            {project.title}
-          </Typography>
           <Box
             sx={{
               display: "flex",

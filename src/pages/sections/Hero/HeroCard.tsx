@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
-import { useMediaQuery, Box } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 import FuseEffect from "./Fuse/FuseEffect";
 import { FlareEffect } from "./Flare/FlareEffect";
 import HeroCardBack from "./HeroCardBack";
@@ -12,7 +12,6 @@ import {
   PROJECTILE_DURATION_MS,
   USER_TRANSITION_DURATION_MS,
 } from "./heroHelpers";
-import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking";
 import { useCustomPalette } from "../../../theme/theme";
 import { SpinningCard } from "../../components/SpinningCard.tsx";
 
@@ -32,11 +31,13 @@ const HeroCard: React.FC<HeroCardProps> = ({
   const [transitionDurationMs, setTransitionDurationMs] = useState<number>(
     FIRST_ANIMATED_TRANSITION_DURATION_MS,
   );
+  const [hasBeenHovered, setHasBeenHovered] = useState<boolean>(false);
+  const onHasBeenHovered = () => {
+    setHasBeenHovered(true);
+  };
   const [isCardAnimating, setIsCardAnimating] = useState<boolean>(true);
   const [isFuseActive, setIsFuseActive] = useState<boolean>(false);
 
-  const { trackPointerEnter, trackPointerLeave, hasBeenHovered } =
-    useHoverTracking(true, USER_TRANSITION_DURATION_MS);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const { interactable } = useCustomPalette();
 
@@ -143,8 +144,8 @@ const HeroCard: React.FC<HeroCardProps> = ({
     transitionStartTimeMsRef.current = performance.now();
   };
 
-  const imageWidth = useMemo(() => ({ sm: "400px", xs: "375px" }), []);
-  const imageHeight = useMemo(() => ({ sm: "600px", xs: "562.5px" }), []);
+  const cardWidth = useMemo(() => ({ sm: "400px", xs: "375px" }), []);
+  const cardHeight = useMemo(() => ({ sm: "600px", xs: "562.5px" }), []);
   const borderRadius = 20;
 
   return (
@@ -158,26 +159,25 @@ const HeroCard: React.FC<HeroCardProps> = ({
           perspective: "1000px",
           display: "block",
           position: "relative",
-          width: imageWidth,
-          height: imageHeight,
+          width: cardWidth,
+          height: cardHeight,
           borderRadius: `${borderRadius}px`,
         },
       }}
+      onHasBeenHovered={onHasBeenHovered}
       targetRotationDeg={targetRotationDeg}
       instantFlip={instantFlip}
       transitionDurationMs={transitionDurationMs}
       isSectionVisible={isSectionVisible}
       isTouchDevice={isTouchDevice}
-      imageWidth={imageWidth}
-      imageHeight={imageHeight}
+      cardWidth={cardWidth}
+      cardHeight={cardHeight}
       borderRadius={borderRadius}
-      onPointerEnterCard={trackPointerEnter}
-      onPointerLeaveCard={trackPointerLeave}
     >
       {isFuseActive && (
         <FuseEffect
-          width={imageWidth}
-          height={imageHeight}
+          width={cardWidth}
+          height={cardHeight}
           borderRadius={borderRadius}
           fuseHeadLoopDurationMs={3000}
           sparksPerBurst={2}

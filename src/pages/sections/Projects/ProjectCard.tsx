@@ -36,8 +36,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
 
-  const imageWidth = useMemo(() => ({ sm: "400px", xs: "375px" }), []);
-  const imageHeight = useMemo(() => ({ sm: "600px", xs: "562.5px" }), []);
+  const cardWidth = "100%";
+  const cardHeight = "auto";
   const borderRadius = 20;
 
   return (
@@ -50,8 +50,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           perspective: "1000px",
           display: "block",
           position: "relative",
-          width: imageWidth,
-          height: imageHeight,
+          width: cardWidth,
+          height: cardHeight,
           borderRadius: `${borderRadius}px`,
         },
       }}
@@ -60,21 +60,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       transitionDurationMs={transitionDurationMs}
       isSectionVisible={isSectionVisible}
       isTouchDevice={isTouchDevice}
-      imageWidth={imageWidth}
-      imageHeight={imageHeight}
+      cardWidth={cardWidth}
+      cardHeight={cardHeight}
       borderRadius={borderRadius}
       onClickCard={(event) => {
         trackPointerLeave(event);
         onClick();
       }}
-      onPointerEnterCard={trackPointerEnter}
-      onPointerLeaveCard={trackPointerLeave}
       id={`project_card_${project.title}`}
     >
-      <ProjectCardFront project={project} useLight={useLight} />
       {isSectionVisible && (
         <ProjectCardBack project={project} useLight={useLight} />
       )}
+      <ProjectCardFront project={project} useLight={useLight} />
     </SpinningCard>
   );
 };

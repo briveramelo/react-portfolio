@@ -31,7 +31,7 @@ export const ProjectCardFront: React.FC<ProjectCardFrontProps> = ({
       sx={{
         backfaceVisibility: "hidden",
         pointerEvents: "none",
-        position: "absolute",
+        position: "relative",
       }}
     >
       <Card
