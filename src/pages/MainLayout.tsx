@@ -31,7 +31,7 @@ export const MainLayout: React.FC = () => {
 
   const allNavLinks: NavLink[] = [
     {
-      ref: sections.find((s) => s.label === "Home")!.ref,
+      ref: sections.find((s) => s.label === "HomeLink")!.ref,
       href: "/home",
       label: "Home",
       offset: 200,
