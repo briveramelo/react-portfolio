@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography, Grid } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { SkillData } from "../../../data/skillsData.ts";
 import InvertableImage from "../../components/InvertableImage.tsx";
 import StarRating from "./StarRating.tsx";
@@ -25,120 +25,99 @@ const Skill: React.FC<SkillProps> = ({
   const iconSize = "35px";
   const fixedGap = "20px"; // Fixed space between icon and name
   const hoverKey = `${skill.name}_skill`;
-  const { isKeyHovered, onHoverChange } = useCursor();
+  const { onHoverChange } = useCursor();
   const { trackPointerEnter, trackPointerLeave } = useHoverTracking();
 
-  // Capture the anchor element for the popper.
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [anchorHovered, setAnchorHovered] = useState(false);
+  const [popperHovered, setPopperHovered] = useState(false);
+  const combinedHovered = anchorHovered || popperHovered;
 
   const handlePointerEnter = (event: React.PointerEvent<HTMLElement>) => {
+    setAnchorHovered(true);
     setAnchorEl(event.currentTarget);
     onHoverChange(hoverKey, true);
     trackPointerEnter();
   };
 
   const handlePointerLeave = (event: React.PointerEvent<HTMLElement>) => {
-    setAnchorEl(null);
+    setAnchorHovered(false);
     onHoverChange(hoverKey, false);
     trackPointerLeave(event);
   };
 
   return (
-    <Grid
-      container
-      alignItems="center"
-      justifyContent="center"
+    <Box
+      id={hoverKey}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
       sx={{
         mb: 1,
         p: "5px",
         width: "100%",
         position: "relative",
         borderRadius: 2,
-        backgroundColor: isKeyHovered(hoverKey)
+        backgroundColor: combinedHovered
           ? useLight
             ? "rgba(255,255,255,0.2)"
             : "rgba(0,0,0,0.2)"
           : "transparent",
+        display: "flex",
+        alignItems: "center",
       }}
-      wrap="nowrap"
-      onPointerEnter={handlePointerEnter}
-      onPointerLeave={handlePointerLeave}
-      id={hoverKey}
     >
-      {/* Skill Icon - Center Aligned */}
+      {/* Skill Icon */}
       <Box
         sx={{
           position: "relative",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          width: iconSize,
+          height: iconSize,
+          flexShrink: 0,
         }}
       >
-        <Grid
-          item
-          sx={{
-            width: iconSize,
-            height: iconSize,
-            flexShrink: 0,
-            textAlign: "center",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <InvertableImage
-            src={src}
-            alt={name}
-            invert={useLight && !!invertIfLight}
-          />
-        </Grid>
-        {isKeyHovered(hoverKey) && anchorEl && (
+        <InvertableImage
+          src={src}
+          alt={name}
+          invert={useLight && !!invertIfLight}
+        />
+        {combinedHovered && anchorEl && (
           <RelatedProjects
-            hoverKey={hoverKey}
+            skillName={name}
             projects={skill.getRelatedProjects()}
             anchorEl={anchorEl}
+            onPopperHoverChange={setPopperHovered}
           />
         )}
       </Box>
       {/* Fixed gap between icon and name */}
       <Box sx={{ width: fixedGap, flexShrink: 0 }} />
-      {/* Skill Name - Left Aligned */}
-      <Grid
-        item
+      {/* Skill Name */}
+      <Box
         sx={{
           textAlign: "left",
           flexShrink: 0,
+          minWidth: "60px",
         }}
       >
-        <Typography
-          variant="body1"
-          sx={{ whiteSpace: "nowrap", minWidth: "60px" }}
-        >
+        <Typography variant="body1" sx={{ whiteSpace: "nowrap" }}>
           {name}
         </Typography>
-      </Grid>
-      {/* Flexible space between name and stars */}
-      <Grid
-        item
-        sx={{
-          flexGrow: 1,
-        }}
-      />
-      {/* Star Rating - Right Aligned */}
-      <Grid
-        item
-        sx={{
-          textAlign: "right",
-          flexShrink: 0,
-        }}
-      >
+      </Box>
+      {/* Flexible spacer */}
+      <Box sx={{ flexGrow: 1 }} />
+      {/* Star Rating */}
+      <Box sx={{ textAlign: "right", flexShrink: 0 }}>
         <StarRating
           key={name}
           count={starCount}
           isVisible={isVisible}
           isSectionVisible={isSectionVisible}
         />
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
   );
 };
 

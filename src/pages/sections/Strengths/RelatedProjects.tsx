@@ -2,22 +2,22 @@ import React, { useCallback } from "react";
 import { Box, Typography, Grid, darken, Popper } from "@mui/material";
 import { Project } from "../../../data/projectData";
 import { toSlug } from "../../../utils/utils";
-import { useCursor } from "../../../context/CursorContext";
 import { useCustomPalette } from "../../../theme/theme";
 import { useNavigate } from "react-router-dom";
 
 interface HoverOverlayProps {
-  hoverKey: string;
+  skillName: string;
   projects: Project[];
   anchorEl: HTMLElement | null; // the element to which the overlay is anchored
+  onPopperHoverChange: (hovered: boolean) => void;
 }
 
 const RelatedProjects: React.FC<HoverOverlayProps> = ({
-  hoverKey,
+  skillName,
   projects,
   anchorEl,
+  onPopperHoverChange,
 }) => {
-  const { onHoverChange } = useCursor();
   const { background, text } = useCustomPalette();
   const imgSize = 40;
   const navigate = useNavigate();
@@ -29,6 +29,15 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
     },
     [navigate],
   );
+
+  // When pointer enters or leaves the popper, update the popper hover state.
+  const handlePopperEnter = () => {
+    onPopperHoverChange(true);
+  };
+
+  const handlePopperLeave = () => {
+    onPopperHoverChange(false);
+  };
 
   if (projects.length === 0 || !anchorEl) {
     return null;
@@ -52,8 +61,8 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
         },
       ]}
       style={{ zIndex: 2 }}
-      onPointerEnter={() => onHoverChange(hoverKey, true)}
-      onPointerLeave={() => onHoverChange(hoverKey, false)}
+      onPointerEnter={handlePopperEnter}
+      onPointerLeave={handlePopperLeave}
     >
       <Box
         sx={{
@@ -78,7 +87,7 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
                 whiteSpace: "nowrap",
               }}
             >
-              Related Projects
+              {`Projects with ${skillName}`}
             </Typography>
           </Grid>
           {projects.map((project) => {

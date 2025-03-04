@@ -57,7 +57,7 @@ const StarRating: React.FC<StarRatingProps> = ({
             <StarIcon
               style={{
                 height: 16,
-                fill: isGold ? experience.star : experience.empty, // Immediately assign correct color
+                color: isGold ? experience.star : experience.empty, // Immediately assign correct color
                 marginRight: 4,
               }}
             />

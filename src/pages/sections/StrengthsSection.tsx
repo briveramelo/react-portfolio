@@ -41,13 +41,25 @@ export const StrengthsSection = forwardRef<HTMLElement, StrengthsSectionProps>(
       backgroundColor: background.paper,
       color: text.paper,
       outline: "none",
+      margin: 0.5,
+      "&:hover": {
+        backgroundColor: darken(background.paper, 0.2),
+      },
       "&.Mui-selected": {
-        margin: 0.5,
         backgroundColor: interactable.hovered,
         color: text.light,
         "&:hover": {
           backgroundColor: darken(interactable.hovered, 0.2),
         },
+        "& svg": {
+          color: text.light,
+        },
+        "&:hover svg": {
+          color: text.light,
+        },
+      },
+      "& svg": {
+        color: text.paper,
       },
     };
 
@@ -55,10 +67,6 @@ export const StrengthsSection = forwardRef<HTMLElement, StrengthsSectionProps>(
       marginRight: 8,
       height: 20,
       marginTop: -2,
-      color: text.paper,
-      "&.Mui-selected": {
-        color: text.light,
-      },
     };
 
     const handleToggle = (

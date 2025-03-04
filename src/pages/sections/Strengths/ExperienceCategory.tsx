@@ -51,7 +51,7 @@ const ExperienceCategory: React.FC<ExperienceCategoryProps> = ({
           isVisible={isVisible}
         />
       </Box>
-      <Box sx={{ pt: "30px" }}>
+      <Box sx={{ pt: "34px" }}>
         {skills.map((skill) => (
           <Experience
             key={`${skill.name}-exp`}

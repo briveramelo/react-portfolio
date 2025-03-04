@@ -16,14 +16,7 @@ import {
 } from "../../../data/constants.ts";
 import InvertableImage from "../../components/InvertableImage.tsx";
 import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
-import { useCursor } from "../../../context/CursorContext.tsx";
 import RelatedProjects from "./RelatedProjects.tsx";
-
-interface ExperienceProps {
-  skill: SkillData;
-  useLight: boolean;
-  isVisible: boolean;
-}
 
 const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 8,
@@ -39,11 +32,11 @@ const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
 
 const SIZE = "50px";
 
-const Experience: React.FC<ExperienceProps> = ({
-  skill,
-  useLight,
-  isVisible,
-}) => {
+const Experience: React.FC<{
+  skill: SkillData;
+  useLight: boolean;
+  isVisible: boolean;
+}> = ({ skill, useLight, isVisible }) => {
   const { name, years, srcLight, srcDark, invertIfLight } = skill;
   const rawValue = years.length;
   const src = useLight ? srcLight : srcDark;
@@ -55,21 +48,21 @@ const Experience: React.FC<ExperienceProps> = ({
   );
   const roundedText = Math.round(animatedValue);
   const hoverKey = `${skill.name}_experience`;
-  const { isKeyHovered, onHoverChange } = useCursor();
   const { trackPointerEnter, trackPointerLeave } = useHoverTracking();
 
-  // Capture the anchor element for positioning the overlay.
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [anchorHovered, setAnchorHovered] = useState(false);
+  const [popperHovered, setPopperHovered] = useState(false);
+  const combinedHovered = anchorHovered || popperHovered;
 
   const handlePointerEnter = (event: React.PointerEvent<HTMLElement>) => {
+    setAnchorHovered(true);
     setAnchorEl(event.currentTarget);
-    onHoverChange(hoverKey, true);
     trackPointerEnter();
   };
 
   const handlePointerLeave = (event: React.PointerEvent<HTMLElement>) => {
-    setAnchorEl(null);
-    onHoverChange(hoverKey, false);
+    setAnchorHovered(false);
     trackPointerLeave(event);
   };
 
@@ -84,7 +77,7 @@ const Experience: React.FC<ExperienceProps> = ({
         width: "100%",
         position: "relative",
         borderRadius: 2,
-        backgroundColor: isKeyHovered(hoverKey)
+        backgroundColor: combinedHovered
           ? useLight
             ? "rgba(255,255,255,0.2)"
             : "rgba(0,0,0,0.2)"
@@ -103,7 +96,7 @@ const Experience: React.FC<ExperienceProps> = ({
           height: SIZE,
           display: "flex",
           justifyContent: "center",
-          verticalAlign: "middle", // Ensures the SVG centers with the text
+          alignItems: "center",
         }}
       >
         <InvertableImage
@@ -125,9 +118,7 @@ const Experience: React.FC<ExperienceProps> = ({
             <Typography variant="body1">{name}</Typography>
             <Typography
               variant="body1"
-              sx={{
-                color: getProgressColor(animatedValue, true),
-              }}
+              sx={{ color: getProgressColor(animatedValue, true) }}
             >
               {roundedText} {roundedText === 1 ? "yr" : "yrs"}
             </Typography>
@@ -139,18 +130,19 @@ const Experience: React.FC<ExperienceProps> = ({
               [`& .${linearProgressClasses.bar}`]: {
                 backgroundColor: getProgressColor(animatedValue, true),
                 transition: `width ${starArcAnimationDurationMs}ms ease`,
-                willChange: "width", //first time and subsequent must look great
+                willChange: "width",
               },
             }}
           />
         </Box>
       </Grid>
 
-      {isKeyHovered(hoverKey) && anchorEl && (
+      {combinedHovered && anchorEl && (
         <RelatedProjects
-          hoverKey={hoverKey}
+          skillName={name}
           projects={skill.getRelatedProjects()}
           anchorEl={anchorEl}
+          onPopperHoverChange={setPopperHovered}
         />
       )}
     </Grid>
