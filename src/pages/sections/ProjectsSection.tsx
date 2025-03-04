@@ -259,25 +259,6 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
               </Box>
             </Collapsible>
           </Box>
-
-          {!isTouchDevice &&
-            isSectionVisibleLead &&
-            selectedProject === null && (
-              <FocusedProjectCard
-                project={hoveredProject}
-                useLight={useLight}
-              />
-            )}
-
-          {/* Only hide the animated cursor after an explicit click */}
-          {isSectionVisibleLead && (
-            <AnimatedCursor
-              size={25}
-              durationMs={2000}
-              color={interactable.highlighted}
-              hoverKey={hoverKey}
-            />
-          )}
         </Box>
       </MediaControlProvider>
     );

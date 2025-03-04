@@ -149,6 +149,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
 
   return (
     <SpinningCard
+      id={"home_avatar_card_enter"}
       isCardAnimating={isCardAnimating}
       onSpin={handleSpin}
       containerRef={containerRef}

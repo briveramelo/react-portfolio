@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import { ProjectCard } from "./ProjectCard";
+import ProjectCard from "./ProjectCard.tsx";
 import { Project } from "../../../data/projectData";
 
 interface ProjectGroupProps {
@@ -71,6 +71,7 @@ const ProjectGroup: React.FC<ProjectGroupProps> = ({
             onClick={() => handleCardClick(project)}
             onHover={onHoverProject}
             isAnyHovered={hoveredProject !== null}
+            isSectionVisible={isSectionVisibleLag}
           />
         ))}
       </Box>

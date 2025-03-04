@@ -2,8 +2,9 @@ import React, { useRef, useCallback, MouseEvent } from "react";
 import { Box, BoxProps } from "@mui/material";
 
 export interface SpinningCardProps {
+  id?: string;
   isCardAnimating: boolean;
-  onSpin: (deltaDeg: number) => void;
+  onSpin?: (deltaDeg: number) => void;
   containerRef: React.RefObject<HTMLDivElement>;
   targetRotationDeg: number;
   instantFlip: boolean;
@@ -21,6 +22,7 @@ export interface SpinningCardProps {
 }
 
 export const SpinningCard: React.FC<SpinningCardProps> = ({
+  id,
   isCardAnimating,
   onSpin,
   containerRef,
@@ -56,7 +58,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
       if (isCardAnimating || entrySideRef.current) return;
       const entrySide = isRight(event) ? "right" : "left";
       entrySideRef.current = entrySide;
-      onSpin(entrySide === "right" ? -180 : 180);
+      onSpin?.(entrySide === "right" ? -180 : 180);
       transitionStartTimeMsRef.current = performance.now();
       // Call the hover tracking callback provided by the parent
       onPointerEnterCard?.(event);
@@ -84,7 +86,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
       const initialEffect = entrySideRef.current === "right" ? -180 : 180;
       const additional =
         exitSide === entrySideRef.current ? -initialEffect : initialEffect;
-      onSpin(additional);
+      onSpin?.(additional);
       transitionStartTimeMsRef.current = performance.now();
       entrySideRef.current = null;
       // Call the hover tracking callback provided by the parent
@@ -105,7 +107,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
         performance.now() - transitionStartTimeMsRef.current <
         transitionDurationMs;
       if (isCardAnimating || isFlipping) return;
-      onSpin(180);
+      onSpin?.(180);
       transitionStartTimeMsRef.current = performance.now();
     },
     [isCardAnimating, onSpin, transitionDurationMs],
@@ -124,6 +126,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
         position: "relative",
         ...containerProps?.sx,
       }}
+      id={`${id}_container`}
     >
       {/* For non-touch devices, an invisible overlay to capture pointer enter events */}
       {!isTouchDevice && (
@@ -137,7 +140,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
             pointerEvents:
               isCardAnimating || isSectionVisible ? "none" : "auto",
           }}
-          id="spinning_card_overlay"
+          id={id}
           onPointerEnter={handlePointerEnter}
         />
       )}
