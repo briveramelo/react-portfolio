@@ -55,21 +55,20 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     (event: MouseEvent<HTMLDivElement>): boolean => {
       const rect = containerRef.current?.getBoundingClientRect();
       if (!rect) return false;
-      return event.clientX - rect.left > rect.width / 2;
+      return event.clientX > rect.left + rect.width / 2;
     },
     [containerRef.current],
   );
 
   const isInsideContainer = useCallback(
-    (event: MouseEvent<HTMLDivElement>): boolean => {
-      const tolerance = 1;
+    (event: MouseEvent<HTMLDivElement>, enter: boolean): boolean => {
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
         if (
-          event.clientX >= rect.left - tolerance &&
-          event.clientX <= rect.right + tolerance &&
-          event.clientY >= rect.top - tolerance &&
-          event.clientY <= rect.bottom + tolerance
+          event.clientX >= rect.left &&
+          event.clientX <= rect.right &&
+          event.clientY >= rect.top &&
+          event.clientY <= rect.bottom
         ) {
           return true;
         }
@@ -78,15 +77,16 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     },
     [containerRef.current],
   );
-
+  const isFlipping = useCallback(() => {
+    return (
+      performance.now() - transitionStartTimeMsRef.current <
+      transitionDurationMs
+    );
+  }, [transitionDurationMs]);
   // Pointer enter: if not animating and no entry side stored, determine side and spin.
   const handlePointerEnter = useCallback(
     (event: MouseEvent<HTMLDivElement>) => {
       if (isCardAnimating || entrySideRef.current) return;
-
-      if (!isInsideContainer(event)) {
-        return;
-      }
 
       const entrySide = isRight(event) ? "right" : "left";
       entrySideRef.current = entrySide;
@@ -94,7 +94,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
       transitionStartTimeMsRef.current = performance.now();
       trackPointerEnter();
     },
-    [isCardAnimating, isRight, onSpin, trackPointerEnter, isInsideContainer],
+    [isCardAnimating, isRight, onSpin, trackPointerEnter],
   );
 
   // Pointer leave: if not animating and an entry side exists, check if leaving the container
@@ -103,7 +103,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     (event: MouseEvent<HTMLDivElement>) => {
       if (isCardAnimating || !entrySideRef.current) return;
 
-      if (isInsideContainer(event)) {
+      if (isInsideContainer(event, false)) {
         return;
       }
 
@@ -122,19 +122,23 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
 
   const handleTap = useCallback(
     (event: MouseEvent<HTMLDivElement>): void => {
-      const isFlipping =
-        performance.now() - transitionStartTimeMsRef.current <
-        transitionDurationMs;
-      if (isCardAnimating || isFlipping) return;
+      if (isCardAnimating || isFlipping()) return;
       onSpin?.(180);
       transitionStartTimeMsRef.current = performance.now();
     },
-    [isCardAnimating, onSpin, transitionDurationMs],
+    [isCardAnimating, onSpin, isFlipping],
   );
 
   return (
     <Box
-      onClick={isTouchDevice ? handleTap : onClickCard}
+      onClick={
+        isTouchDevice
+          ? handleTap
+          : (event) => {
+              onClickCard?.(event);
+              trackPointerLeave(event);
+            }
+      }
       onPointerEnter={!isTouchDevice ? handlePointerEnter : undefined}
       onPointerLeave={!isTouchDevice ? handlePointerLeave : undefined}
       {...containerProps}
@@ -173,6 +177,8 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
             : `transform ${transitionDurationMs}ms ease`,
           transform: `rotateY(${targetRotationDeg}deg)`,
           willChange: isSectionVisible ? "transform" : undefined,
+          pointerEvents:
+            isFlipping() || isCardAnimating || isHovered ? "none" : "auto",
         }}
       >
         {children}

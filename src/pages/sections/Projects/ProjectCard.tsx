@@ -25,10 +25,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const [transitionDurationMs, setTransitionDurationMs] = useState<number>(
     USER_TRANSITION_DURATION_MS,
   );
-  const { trackPointerEnter, trackPointerLeave } = useHoverTracking(
-    true,
-    USER_TRANSITION_DURATION_MS,
-  );
   const handleSpin = (deltaDeg: number) => {
     setTargetRotationDeg((prev) => prev + deltaDeg);
   };
@@ -37,7 +33,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
 
   const cardWidth = "100%";
-  const cardHeight = "auto";
+  const cardHeight = "100%";
   const borderRadius = 20;
 
   return (
@@ -64,7 +60,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       cardHeight={cardHeight}
       borderRadius={borderRadius}
       onClickCard={(event) => {
-        trackPointerLeave(event);
         onClick();
       }}
       id={`project_card_${project.title}`}
