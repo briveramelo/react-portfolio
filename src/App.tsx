@@ -12,7 +12,11 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
-          <Route path="projects/*" element={<HomePage />} />
+          <Route
+            path="projects/:projectSlug?/:mediaIndex?"
+            element={<HomePage />}
+          />
+          <Route path="*" element={<HomePage />} />
         </Route>
       </Routes>
     </BrowserRouter>

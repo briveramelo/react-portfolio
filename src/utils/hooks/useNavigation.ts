@@ -1,19 +1,17 @@
+import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
-import { NavLink } from "../../data/sectionStyles"; // Adjust the import path as needed
+import { NavLink } from "../../data/sectionStyles";
 
 export interface UseNavigationOptions {
-  /** Optional callback to run when a navigation link is clicked (e.g. to close a mobile drawer) */
   onNavigate?: () => void;
 }
 
-/**
- * A custom hook that encapsulates navigation link handling.
- * It scrolls to the target section and updates the URL hash.
- */
 export function useNavigation(
   navigationLinks: NavLink[],
   options?: UseNavigationOptions,
 ) {
+  const navigate = useNavigate();
+
   const handleNavClick = useCallback(
     (href: string) => {
       // Run any additional logic (e.g. close a mobile drawer)
@@ -29,13 +27,9 @@ export function useNavigation(
         block: "start",
       });
 
-      // If the hash already matches, do nothing more
-      if (window.location.hash === href) return;
-
-      // Update the URL without a page reload
-      window.history.pushState(null, "", href);
+      navigate(href, { replace: false });
     },
-    [navigationLinks, options],
+    [navigationLinks, options, navigate],
   );
 
   return handleNavClick;

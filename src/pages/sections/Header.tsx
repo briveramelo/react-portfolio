@@ -221,10 +221,10 @@ export function Header({
         >
           <Typography
             component="a"
-            href="#home"
+            href="/home"
             onClick={(e) => {
               e.preventDefault();
-              handleNavClick("#home");
+              handleNavClick("/home");
             }}
             color={colors.text}
             sx={{

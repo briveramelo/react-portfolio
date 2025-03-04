@@ -39,10 +39,10 @@ export function HomePage() {
         invertImages={cp.mode !== ThemeMode.Dark}
       />
       <SkillsSection
-        ref={getSectionRef("Experience")}
-        id="experience"
-        backgroundColor={sectionStyles.experience.backgroundColor(cp)}
-        textColor={sectionStyles.experience.textColor(cp)}
+        ref={getSectionRef("Strengths")}
+        id="strengths"
+        backgroundColor={sectionStyles.strengths.backgroundColor(cp)}
+        textColor={sectionStyles.strengths.textColor(cp)}
       />
       <ProjectsSection
         ref={getSectionRef("Projects")}

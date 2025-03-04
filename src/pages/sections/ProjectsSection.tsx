@@ -12,6 +12,7 @@ import { FocusedProjectCard } from "./Projects/FocusedProjectCard.tsx";
 import { useCursor } from "../../context/CursorContext.tsx";
 import { MediaControlProvider } from "../components/MediaCarousel/MediaControlContext.tsx";
 import ProjectGroup from "./Projects/ProjectGroup.tsx";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface ProjectsProps {
   backgroundColor: string;
@@ -26,6 +27,8 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
     const isTouchDevice = useMediaQuery("(pointer: coarse)");
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+    const { projectSlug } = useParams<{ projectSlug?: string }>();
+    const navigate = useNavigate();
     const hoverKey = "project-card";
     const { onHoverChange } = useCursor();
     const onHoverProject = (project: Project, mouseEnter: boolean) => {
@@ -62,17 +65,12 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
       return () => clearTimeout(timeoutId);
     }, [isSectionVisibleLead, slideDurationMs]);
 
-    const handleCardClick = (
-      project: Project,
-      isHashChange: boolean = false,
-    ) => {
+    const handleCardClick = (project: Project) => {
       setSelectedProject(project);
       setIsProjectSelected(true);
 
       setIsAnimationComplete(false);
-      if (!isHashChange) {
-        window.location.href = `#projects-${toSlug(project.title)}`;
-      }
+      navigate(`/projects/${toSlug(project.title)}`);
       sectionRef.current!.scrollIntoView({ behavior: "smooth" });
       setTimeout(() => {
         setIsAnimationComplete(true);
@@ -82,17 +80,8 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
     const handleCloseProjectDetails = () => {
       setIsProjectSelected(false);
       setIsAnimationComplete(false);
-      if (selectedProject) {
-        // Revert the URL to the canonical project hash
-        window.history.replaceState(
-          null,
-          "",
-          `#projects-${toSlug(selectedProject.title)}`,
-        );
-      }
-      // Now push the closed project state
-      window.location.href = "#projects";
-      sectionRef.current!.scrollIntoView({ behavior: "smooth" });
+      navigate("/projects");
+      sectionRef.current?.scrollIntoView({ behavior: "smooth" });
       setTimeout(() => {
         setSelectedProject(null);
         setIsAnimationComplete(true);
@@ -101,31 +90,16 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
 
     // Deep Link Handling
     useEffect(() => {
-      const handleHashChange = () => {
-        const hash = window.location.hash;
-        if (hash === "#projects") {
-          handleCloseProjectDetails();
-          return;
-        }
+      if (projectSlug === undefined) return;
 
-        const regex = /^#projects-(.+?)(?:-(\d+))?$/;
-        const match = hash.match(regex);
-        if (!match) return;
+      const matchingProject = allProjects.find(
+        (project) => toSlug(project.title) === projectSlug,
+      );
 
-        const projectSlug = match[1];
-        const matchingProject = allProjects.find(
-          (project) => toSlug(project.title) === projectSlug,
-        );
-        if (matchingProject) {
-          handleCardClick(matchingProject, true);
-        }
-      };
-
-      window.addEventListener("hashchange", handleHashChange);
-      handleHashChange();
-
-      return () => window.removeEventListener("hashchange", handleHashChange);
-    }, []);
+      if (matchingProject) {
+        handleCardClick(matchingProject);
+      }
+    }, [projectSlug]);
 
     return (
       <MediaControlProvider>

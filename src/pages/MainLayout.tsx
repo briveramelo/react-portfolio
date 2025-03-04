@@ -9,7 +9,7 @@ export interface SectionRef {
     | "Home"
     | "HomeLink"
     | "Institutions"
-    | "Experience"
+    | "Strengths"
     | "Projects"
     | "Testimonials"
     | "Contact";
@@ -19,52 +19,50 @@ export interface SectionRef {
 export const MainLayout: React.FC = () => {
   const cp = useCustomPalette();
 
-  // Create section refs with labels
   const sections: SectionRef[] = [
     { label: "Home", ref: useRef<HTMLElement>(null) },
     { label: "HomeLink", ref: useRef<HTMLElement>(null) },
     { label: "Institutions", ref: useRef<HTMLElement>(null) },
-    { label: "Experience", ref: useRef<HTMLElement>(null) },
+    { label: "Strengths", ref: useRef<HTMLElement>(null) },
     { label: "Projects", ref: useRef<HTMLElement>(null) },
     { label: "Testimonials", ref: useRef<HTMLElement>(null) },
     { label: "Contact", ref: useRef<HTMLElement>(null) },
   ];
 
-  // Set up navigation links using the sectionRefs by finding matching refs by label
   const allNavLinks: NavLink[] = [
     {
       ref: sections.find((s) => s.label === "Home")!.ref,
-      href: "#home",
+      href: "/home",
       label: "Home",
       offset: 200,
     },
     {
       ref: sections.find((s) => s.label === "Institutions")!.ref,
-      href: "#institutions",
+      href: "/institutions",
       label: "Institutions",
     },
     {
-      ref: sections.find((s) => s.label === "Experience")!.ref,
-      href: "#experience",
-      label: "Experience",
+      ref: sections.find((s) => s.label === "Strengths")!.ref,
+      href: "/strengths",
+      label: "Strengths",
     },
     {
       ref: sections.find((s) => s.label === "Projects")!.ref,
-      href: "#projects",
+      href: "/projects",
       label: "Projects",
     },
     {
       ref: sections.find((s) => s.label === "Testimonials")!.ref,
-      href: "#testimonials",
+      href: "/testimonials",
       label: "Testimonials",
     },
     {
       ref: sections.find((s) => s.label === "Contact")!.ref,
-      href: "#contact",
+      href: "/contact",
       label: "Contact",
     },
   ];
-  const desktopHiddenNavLinks: string[] = ["#home"];
+  const desktopHiddenNavLinks: string[] = ["/home"];
 
   return (
     <>

@@ -12,6 +12,7 @@ import withDwellTimeTracking from "../../../utils/tracking/withDwellTimeTracking
 import ProjectLiveLinks from "./ProjectLiveLinks.tsx";
 import { Project } from "../../../data/projectData.ts";
 import { toSlug } from "../../../utils/utils.ts";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface ProjectDetailsProps {
   project: Project;
@@ -25,12 +26,14 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   const { mode } = useCustomPalette();
   const useLight = mode === ThemeMode.Dark;
   const theme = useTheme();
+  const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   const { details, skills } = project;
   const { media, links } = details;
   const [chapterTitleIndex, setChapterTitleIndex] = useState<number>(0);
   const [selectedMediaIndex, setSelectedMediaIndex] = useState<number>(0);
+  const { mediaIndex: routeMediaIndex } = useParams<{ mediaIndex?: string }>();
 
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmMd = useMediaQuery(theme.breakpoints.between("sm", "md"));
@@ -38,17 +41,13 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 
   // On mount, if there's a matching hash, update the media index accordingly
   useEffect(() => {
-    const hash = window.location.hash;
-    const slug = toSlug(project.title);
-    const regex = new RegExp(`^#projects-${slug}-(\\d+)$`);
-    const match = hash.match(regex);
-    if (!match || !match[1]) return;
+    if (routeMediaIndex === undefined) return;
 
-    const mediaIndex = parseInt(match[1], 10);
-    if (!isNaN(mediaIndex) && mediaIndex >= 0 && mediaIndex < media.length) {
-      handleMediaChange(mediaIndex);
+    const index = parseInt(routeMediaIndex, 10);
+    if (!isNaN(index) && index >= 0 && index < media.length) {
+      handleMediaChange(index);
     }
-  }, [project, media]);
+  }, [routeMediaIndex, project, media]);
 
   const getCarouselHeight = useCallback(() => {
     if (isXs) return 300;
@@ -88,9 +87,9 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
     const newChapterIndex = findCurrentChapterIndex(media, newMediaIndex);
     setChapterTitleIndex(newChapterIndex);
 
-    // Update the URL hash for deep linking
-    const newHash = `#projects-${toSlug(project.title)}-${newMediaIndex}`;
-    window.history.replaceState(null, "", newHash);
+    navigate(`/projects/${toSlug(project.title)}/${newMediaIndex}`, {
+      replace: true,
+    });
 
     trackCustomEvent("project_media_change", {
       project_title: project.title,

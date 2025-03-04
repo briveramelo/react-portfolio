@@ -1,14 +1,19 @@
-import React, { forwardRef, useCallback, useRef, useState } from "react";
-import { Box, Typography, Grid, Button } from "@mui/material";
+import React, { forwardRef, useRef, useState } from "react";
+import {
+  Box,
+  Typography,
+  Grid,
+  ToggleButtonGroup,
+  ToggleButton,
+} from "@mui/material";
+import { darken } from "@mui/material/styles";
 import CalendarIcon from "@/assets/misc/calendar-check.svg?react";
 import StarIcon from "@/assets/misc/star.svg?react";
-
-import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
+import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver";
 import { skillsData } from "../../data/skillsData";
-import { ThemeMode, useCustomPalette } from "../../theme/theme.ts";
+import { ThemeMode, useCustomPalette } from "../../theme/theme";
 import ExperienceCategory from "./Skills/ExperienceCategory";
 import SkillCategory from "./Skills/SkillCategory";
-import { generateGravityBounceScaleKeyframes } from "../../utils/keyframeGenerator.ts";
 
 interface SkillsSectionProps {
   backgroundColor: string;
@@ -16,37 +21,60 @@ interface SkillsSectionProps {
   textColor: string;
 }
 
-const buttonAnim = generateGravityBounceScaleKeyframes(1, 1.1, 20, 3);
-const iconAnim = generateGravityBounceScaleKeyframes(1, 1.4, 20, 3);
 export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
   ({ backgroundColor, textColor, id }, ref) => {
-    const [isYearsOfExperience, setIsYearsOfExperience] =
-      useState<boolean>(true);
-    const [hasClickedButton, setHasClickedButton] = useState<boolean>(false);
-    const sectionRef = useRef<HTMLDivElement>(null!);
+    const [isYearsOfExperience, setIsYearsOfExperience] = useState(true);
+
+    const sectionRef = useRef<HTMLDivElement>(null);
     const isSectionVisible = useIntersectionObserver(sectionRef, {
       threshold: 0.1,
     });
-    const { mode, interactable } = useCustomPalette();
+
+    const { mode, interactable, background, text } = useCustomPalette();
     const useLight = mode !== ThemeMode.Light;
-    const iconStyle = {
-      fill: "white",
-      height: 20,
-      marginRight: "8px",
-      marginTop: 3.25,
+
+    const buttonStyle = {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: 200,
+      backgroundColor: background.paper,
+      color: text.paper,
+      outline: "none",
+      "&.Mui-selected": {
+        margin: 0.5,
+        backgroundColor: interactable.hovered,
+        color: text.light,
+        "&:hover": {
+          backgroundColor: darken(interactable.hovered, 0.2),
+        },
+      },
     };
 
-    const handleButtonClick = useCallback(() => {
-      setHasClickedButton(true);
-      setIsYearsOfExperience((prev) => !prev);
-    }, []);
+    const iconStyle = {
+      marginRight: 8,
+      height: 20,
+      marginTop: -2,
+      color: text.paper,
+      "&.Mui-selected": {
+        color: text.light,
+      },
+    };
+
+    const handleToggle = (
+      event: React.MouseEvent<HTMLElement>,
+      newValue: string | null,
+    ) => {
+      if (newValue === null) return;
+      setIsYearsOfExperience(newValue === "experience");
+    };
 
     return (
       <Box
         component="section"
         id={id}
         sx={{
-          backgroundColor: backgroundColor,
+          backgroundColor,
           color: textColor,
           textAlign: "center",
           pt: 15,
@@ -56,42 +84,30 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
         ref={ref}
       >
         <Typography variant="h1" sx={{ mb: 4 }}>
-          {isYearsOfExperience ? "Experience" : "Skill Levels"}
+          Strengths
         </Typography>
-        <Button
-          id="skill_experience_toggle"
-          onClick={handleButtonClick}
+
+        <ToggleButtonGroup
+          exclusive
+          value={isYearsOfExperience ? "experience" : "skill"}
+          onChange={handleToggle}
           sx={{
-            mb: 15,
-            py: 2,
-            color: "white",
-            animation: hasClickedButton ? "" : `${buttonAnim} 2s infinite`,
-            backgroundColor: hasClickedButton
-              ? interactable.idle
-              : interactable.highlighted,
-            "&:hover": {
-              backgroundColor: hasClickedButton
-                ? interactable.hovered
-                : interactable.highlightHovered,
-            },
+            mb: 8,
+            backgroundColor: background.paper,
+            borderRadius: 2,
           }}
-          variant="contained"
+          className="pop-shadow"
         >
-          <Box
-            sx={{
-              animation: hasClickedButton ? "" : `${iconAnim} 2s infinite`,
-            }}
-          >
-            {isYearsOfExperience ? (
-              <StarIcon style={iconStyle} />
-            ) : (
-              <CalendarIcon style={iconStyle} />
-            )}
-          </Box>
-          <Typography variant="h6" fontWeight="bold">
-            {isYearsOfExperience ? "See Skill Levels" : "See Experience"}
-          </Typography>
-        </Button>
+          <ToggleButton value="experience" sx={buttonStyle}>
+            <CalendarIcon style={iconStyle} />
+            Experience
+          </ToggleButton>
+          <ToggleButton value="skill" sx={buttonStyle}>
+            <StarIcon style={iconStyle} />
+            Skill
+          </ToggleButton>
+        </ToggleButtonGroup>
+
         <Grid
           container
           rowSpacing={6}
@@ -110,6 +126,7 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
               xl={2.4}
               key={category.category}
             >
+              {/* Show ExperienceCategory if isYearsOfExperience is true */}
               <Box sx={{ display: isYearsOfExperience ? "block" : "none" }}>
                 <ExperienceCategory
                   skillCategory={category}
@@ -117,6 +134,8 @@ export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
                   useLight={useLight}
                 />
               </Box>
+
+              {/* Show SkillCategory if isYearsOfExperience is false */}
               <Box sx={{ display: !isYearsOfExperience ? "block" : "none" }}>
                 <SkillCategory
                   skillCategory={category}
