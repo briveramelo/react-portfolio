@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { useRef } from "react";
 import {
   Card,
   CardContent,
@@ -8,13 +8,9 @@ import {
 } from "@mui/material";
 import { Project } from "../../../data/projectData";
 import { useCustomPalette } from "../../../theme/theme";
-import { useAuth } from "../../../context/AuthContext";
 import { useIntersectionObserver } from "../../../utils/hooks/useIntersectionObserver";
 import InvertableImage from "../../components/InvertableImage";
 import FirebaseImage from "../../components/MediaCarousel/MediaItems/FirebaseImage";
-import FirebaseVideoAsGif from "../../components/MediaCarousel/MediaItems/FirebaseVideoAsGif";
-import { generateSinusoidalBorderColorKeyframes } from "../../../utils/keyframeGenerator";
-import { useDebouncedHoverTracking } from "../../../utils/tracking/hooks/useDebouncedHoverTracking.ts";
 import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking.ts";
 
 interface ProjectCardProps {
@@ -33,20 +29,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   isAnyHovered,
 }) => {
   const borderRadius = "8px";
-  const debouncedHover = useDebouncedHoverTracking(350, false);
   const instantHover = useHoverTracking(true);
-  const { user } = useAuth();
-  const { background, text, interactable } = useCustomPalette();
+  const { background, text } = useCustomPalette();
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
   const cardRef = useRef<HTMLDivElement>(null);
   const isCardVisible = useIntersectionObserver(cardRef, { threshold: 0.94 });
-  const revealDescription = isTouchDevice && isCardVisible;
-  const revealAnimation = user && project.gifSrc && revealDescription;
-  const pulseBorder = useMemo(
-    () =>
-      generateSinusoidalBorderColorKeyframes(interactable.highlighted, 20, 2),
-    [interactable.highlighted],
-  );
 
   return (
     <Box
@@ -54,11 +41,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         position: "relative",
         transition: "opacity 300ms ease-in-out",
         pointerEvents: "all",
-        opacity: isTouchDevice
-          ? 1
-          : isAnyHovered && !debouncedHover.isHovered
-            ? 0.075
-            : 1,
+        opacity: isTouchDevice ? 1 : isAnyHovered ? 0.075 : 1,
       }}
     >
       <Card
@@ -70,38 +53,20 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           cursor: "pointer",
           backgroundColor: background.paper,
           borderRadius,
-          "&::after": {
-            content: '""',
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            border: `4px solid transparent`,
-            borderRadius: borderRadius,
-            animation: instantHover.isHovered
-              ? `${pulseBorder} 2s infinite`
-              : undefined,
-            pointerEvents: "none",
-          },
         }}
         className="pop-shadow"
         id={`project_card_${project.title}`}
         onPointerEnter={() => {
           instantHover.trackPointerEnter();
-          debouncedHover.trackPointerEnter(() => {
-            onHover(project, true);
-          });
+          onHover(project, true);
         }}
         onPointerLeave={(event: React.MouseEvent<HTMLElement>) => {
           onHover(project, false);
           instantHover.trackPointerLeave(event);
-          debouncedHover.trackPointerLeave(event);
         }}
         onClick={(event) => {
           onHover(project, false);
           instantHover.trackPointerLeave(event);
-          debouncedHover.trackPointerLeave(event);
           onClick();
         }}
       >
@@ -111,7 +76,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           sx={{
             position: "relative",
             maxHeight: "600px",
-            aspectRatio: revealDescription ? undefined : "16 / 9",
+            aspectRatio: "16 / 9",
             borderRadius: `${borderRadius} ${borderRadius} 0 0`,
             overflow: "hidden",
             pointerEvents: "none",
@@ -127,37 +92,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               height: "auto",
               objectFit: "cover",
               borderRadius: `${borderRadius} ${borderRadius} 0 0`,
-              opacity: revealAnimation ? 0 : 1,
-              transition: "opacity 0.5s ease",
             }}
           />
-
-          {/* ANIMATED OVERLAY */}
-          {isTouchDevice && user && project.gifSrc && (
-            <Box
-              sx={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                opacity: revealAnimation ? 1 : 0,
-                transition: "opacity 0.5s ease",
-                pointerEvents: "none",
-                borderRadius: `${borderRadius} ${borderRadius} 0 0`,
-              }}
-            >
-              <FirebaseVideoAsGif
-                firebaseVideoPath={project.gifSrc}
-                height="100%"
-                alt={project.title}
-                style={{
-                  borderRadius: `${borderRadius} ${borderRadius} 0 0`,
-                  objectFit: "cover",
-                }}
-              />
-            </Box>
-          )}
 
           {/* Media Count */}
           <Box
