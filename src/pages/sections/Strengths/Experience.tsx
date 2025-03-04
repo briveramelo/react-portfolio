@@ -30,7 +30,7 @@ const ColorfulLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-const SIZE = "50px";
+const SIZE = "35px";
 
 const Experience: React.FC<{
   skill: SkillData;
@@ -69,14 +69,15 @@ const Experience: React.FC<{
   return (
     <Grid
       container
-      spacing={2}
       alignItems="center"
       sx={{
+        borderRadius: 2,
+        px: "5px",
+        py: "10px",
+        my: "-10px",
         mb: 1,
-        p: "5px",
         width: "100%",
         position: "relative",
-        borderRadius: 2,
         backgroundColor: combinedHovered
           ? useLight
             ? "rgba(255,255,255,0.2)"
@@ -97,6 +98,7 @@ const Experience: React.FC<{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          mr: 2.5,
         }}
       >
         <InvertableImage

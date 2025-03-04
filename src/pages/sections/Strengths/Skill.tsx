@@ -52,11 +52,14 @@ const Skill: React.FC<SkillProps> = ({
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
       sx={{
-        mb: 1,
+        borderRadius: 2,
         p: "5px",
+        px: "5px",
+        py: "10px",
+        my: "-10px",
+        mb: 1,
         width: "100%",
         position: "relative",
-        borderRadius: 2,
         backgroundColor: combinedHovered
           ? useLight
             ? "rgba(255,255,255,0.2)"
