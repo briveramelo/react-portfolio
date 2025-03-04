@@ -10,8 +10,6 @@ import { Project } from "../../../data/projectData";
 import FirebaseImage from "../../components/MediaCarousel/MediaItems/FirebaseImage";
 import FirebaseVideoAsGif from "../../components/MediaCarousel/MediaItems/FirebaseVideoAsGif";
 import { useCustomPalette } from "../../../theme/theme";
-import { useIntersectionObserver } from "../../../utils/hooks/useIntersectionObserver";
-import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import { HighlightedText } from "../../components/Markdown/HighlightedText.tsx";
@@ -19,21 +17,14 @@ import { HighlightedText } from "../../components/Markdown/HighlightedText.tsx";
 interface ProjectCardBackProps {
   project: Project;
   useLight: boolean;
-  onClick: () => void;
-  onHover: (project: Project, mouseEnter: boolean) => void;
 }
 
 export const ProjectCardBack: React.FC<ProjectCardBackProps> = ({
   project,
-  onClick,
-  onHover,
 }) => {
   const borderRadius = "8px";
-  const hoverTracker = useHoverTracking(true);
   const { background, text } = useCustomPalette();
-  const isTouchDevice = useMediaQuery("(pointer: coarse)");
   const cardRef = useRef<HTMLDivElement>(null);
-  const isCardVisible = useIntersectionObserver(cardRef, { threshold: 0.94 });
 
   return (
     <Box
@@ -53,21 +44,7 @@ export const ProjectCardBack: React.FC<ProjectCardBackProps> = ({
           backgroundColor: background.paper,
           borderRadius,
         }}
-        className="pop-shadow"
         id={`project_card_${project.title}`}
-        onPointerEnter={() => {
-          hoverTracker.trackPointerEnter();
-          onHover(project, true);
-        }}
-        onPointerLeave={(event) => {
-          onHover(project, false);
-          hoverTracker.trackPointerLeave(event);
-        }}
-        onClick={(event) => {
-          onHover(project, false);
-          hoverTracker.trackPointerLeave(event);
-          onClick();
-        }}
       >
         {/* Media Container */}
         <Box

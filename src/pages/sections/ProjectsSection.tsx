@@ -6,10 +6,7 @@ import { Project, allProjects } from "../../data/projectData";
 import { ThemeMode, useCustomPalette } from "../../theme/theme.ts";
 import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import { Collapsible } from "../components/Collapsible.tsx";
-import AnimatedCursor from "../components/AnimatedCursor.tsx";
 import { toSlug } from "../../utils/utils.ts";
-import { FocusedProjectCard } from "./Projects/FocusedProjectCard.tsx";
-import { useCursor } from "../../context/CursorContext.tsx";
 import { MediaControlProvider } from "../components/MediaCarousel/MediaControlContext.tsx";
 import ProjectGroup from "./Projects/ProjectGroup.tsx";
 import { useNavigate, useParams } from "react-router-dom";
@@ -29,18 +26,11 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
     const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
     const { projectSlug } = useParams<{ projectSlug?: string }>();
     const navigate = useNavigate();
-    const hoverKey = "project-card";
-    const { onHoverChange } = useCursor();
-    const onHoverProject = (project: Project, mouseEnter: boolean) => {
-      onHoverChange(hoverKey, mouseEnter);
-      setHoveredProject(mouseEnter ? project : null);
-    };
     const isXs = useMediaQuery(theme.breakpoints.down("sm"));
     const [selectedProject, setSelectedProject] = useState<Project | null>(
       null,
     );
     const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false);
-    const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
 
     const hasMediaNextBeenClickedRef = useRef<boolean>(false);
     const [isAnimationComplete, setIsAnimationComplete] =
@@ -212,8 +202,6 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                   isSectionVisibleLag={isSectionVisibleLag}
                   isAnimationComplete={isAnimationComplete}
                   slideDurationMs={slideDurationMs}
-                  onHoverProject={onHoverProject}
-                  hoveredProject={hoveredProject}
                   handleCardClick={handleCardClick}
                 />
                 <Box height={"40px"} />
@@ -228,8 +216,6 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                   isSectionVisibleLag={isSectionVisibleLag}
                   isAnimationComplete={isAnimationComplete}
                   slideDurationMs={slideDurationMs}
-                  onHoverProject={onHoverProject}
-                  hoveredProject={hoveredProject}
                   handleCardClick={handleCardClick}
                 />
               </Collapsible>

@@ -16,22 +16,15 @@ import { useHoverTracking } from "../../../utils/tracking/hooks/useHoverTracking
 interface ProjectCardFrontProps {
   project: Project;
   useLight: boolean;
-  onClick: () => void;
-  onHover: (project: Project, mouseEnter: boolean) => void;
 }
 
 export const ProjectCardFront: React.FC<ProjectCardFrontProps> = ({
   project,
   useLight,
-  onClick,
-  onHover,
 }) => {
   const borderRadius = "8px";
-  const instantHover = useHoverTracking(true);
   const { background, text } = useCustomPalette();
-  const isTouchDevice = useMediaQuery("(pointer: coarse)");
   const cardRef = useRef<HTMLDivElement>(null);
-  const isCardVisible = useIntersectionObserver(cardRef, { threshold: 0.94 });
 
   return (
     <Box

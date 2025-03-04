@@ -11,8 +11,6 @@ interface ProjectCardProps {
   project: Project;
   useLight: boolean;
   onClick: () => void;
-  onHover: (project: Project, mouseEnter: boolean) => void;
-  isAnyHovered: boolean;
   isSectionVisible: boolean;
 }
 
@@ -20,8 +18,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
   useLight,
   onClick,
-  onHover,
-  isAnyHovered,
   isSectionVisible,
 }) => {
   const [targetRotationDeg, setTargetRotationDeg] = useState<number>(0);
@@ -68,33 +64,16 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       imageHeight={imageHeight}
       borderRadius={borderRadius}
       onClickCard={(event) => {
-        onHover(project, false);
         trackPointerLeave(event);
         onClick();
       }}
-      onPointerEnterCard={(event) => {
-        trackPointerEnter();
-        onHover(project, true);
-      }}
-      onPointerLeaveCard={(event) => {
-        trackPointerLeave(event);
-        onHover(project, false);
-      }}
+      onPointerEnterCard={trackPointerEnter}
+      onPointerLeaveCard={trackPointerLeave}
       id={`project_card_${project.title}`}
     >
-      <ProjectCardFront
-        project={project}
-        useLight={useLight}
-        onClick={onClick}
-        onHover={onHover}
-      />
+      <ProjectCardFront project={project} useLight={useLight} />
       {isSectionVisible && (
-        <ProjectCardBack
-          project={project}
-          useLight={useLight}
-          onClick={onClick}
-          onHover={onHover}
-        />
+        <ProjectCardBack project={project} useLight={useLight} />
       )}
     </SpinningCard>
   );

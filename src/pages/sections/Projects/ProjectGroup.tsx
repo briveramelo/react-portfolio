@@ -12,8 +12,6 @@ interface ProjectGroupProps {
   isSectionVisibleLag: boolean;
   isAnimationComplete: boolean;
   slideDurationMs: number;
-  onHoverProject: (project: Project, mouseEnter: boolean) => void;
-  hoveredProject: Project | null;
   handleCardClick: (project: Project) => void;
 }
 
@@ -26,8 +24,6 @@ const ProjectGroup: React.FC<ProjectGroupProps> = ({
   isSectionVisibleLag,
   isAnimationComplete,
   slideDurationMs,
-  onHoverProject,
-  hoveredProject,
   handleCardClick,
 }) => {
   // Compute the slide offset for the entire group.
@@ -69,8 +65,6 @@ const ProjectGroup: React.FC<ProjectGroupProps> = ({
             project={project}
             useLight={useLight}
             onClick={() => handleCardClick(project)}
-            onHover={onHoverProject}
-            isAnyHovered={hoveredProject !== null}
             isSectionVisible={isSectionVisibleLag}
           />
         ))}
