@@ -12,16 +12,16 @@ import StarIcon from "@/assets/misc/star.svg?react";
 import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver";
 import { skillsData } from "../../data/skillsData";
 import { ThemeMode, useCustomPalette } from "../../theme/theme";
-import ExperienceCategory from "./Skills/ExperienceCategory";
-import SkillCategory from "./Skills/SkillCategory";
+import ExperienceCategory from "./Strengths/ExperienceCategory";
+import SkillCategory from "./Strengths/SkillCategory";
 
-interface SkillsSectionProps {
+interface StrengthsSectionProps {
   backgroundColor: string;
   id: string;
   textColor: string;
 }
 
-export const SkillsSection = forwardRef<HTMLElement, SkillsSectionProps>(
+export const StrengthsSection = forwardRef<HTMLElement, StrengthsSectionProps>(
   ({ backgroundColor, textColor, id }, ref) => {
     const [isYearsOfExperience, setIsYearsOfExperience] = useState(true);
 

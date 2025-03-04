@@ -2,7 +2,7 @@ import React from "react";
 import { useOutletContext } from "react-router-dom";
 import { HeroSection } from "./sections/HeroSection";
 import { InstitutionsSection } from "./sections/InstitutionsSection";
-import { SkillsSection } from "./sections/SkillsSection";
+import { StrengthsSection } from "./sections/StrengthsSection.tsx";
 import { ProjectsSection } from "./sections/ProjectsSection";
 import { TestimonialsSection } from "./sections/TestimonialsSection";
 import { ContactSection } from "./sections/ContactSection";
@@ -38,7 +38,7 @@ export function HomePage() {
         textColor={sectionStyles.institutions.textColor(cp)}
         invertImages={cp.mode !== ThemeMode.Dark}
       />
-      <SkillsSection
+      <StrengthsSection
         ref={getSectionRef("Strengths")}
         id="strengths"
         backgroundColor={sectionStyles.strengths.backgroundColor(cp)}

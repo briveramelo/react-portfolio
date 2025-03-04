@@ -78,7 +78,18 @@ const Experience: React.FC<ExperienceProps> = ({
       container
       spacing={2}
       alignItems="center"
-      sx={{ mb: 2, position: "relative" }}
+      sx={{
+        mb: 1,
+        p: "5px",
+        width: "100%",
+        position: "relative",
+        borderRadius: 2,
+        backgroundColor: isKeyHovered(hoverKey)
+          ? useLight
+            ? "rgba(255,255,255,0.2)"
+            : "rgba(0,0,0,0.2)"
+          : "transparent",
+      }}
       wrap="nowrap"
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
@@ -92,6 +103,7 @@ const Experience: React.FC<ExperienceProps> = ({
           height: SIZE,
           display: "flex",
           justifyContent: "center",
+          verticalAlign: "middle", // Ensures the SVG centers with the text
         }}
       >
         <InvertableImage
@@ -102,7 +114,7 @@ const Experience: React.FC<ExperienceProps> = ({
       </Grid>
 
       {/* Skill name / numeric text / progress bar */}
-      <Grid item xs sx={{ height: SIZE }}>
+      <Grid item xs>
         <Box>
           <Box
             display="flex"

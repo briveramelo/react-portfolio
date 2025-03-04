@@ -22,7 +22,7 @@ const Skill: React.FC<SkillProps> = ({
 }) => {
   const { name, starCount, srcLight, srcDark, invertIfLight } = skill;
   const src = useLight ? srcLight : srcDark;
-  const iconSize = "50px";
+  const iconSize = "35px";
   const fixedGap = "20px"; // Fixed space between icon and name
   const hoverKey = `${skill.name}_skill`;
   const { isKeyHovered, onHoverChange } = useCursor();
@@ -49,9 +49,16 @@ const Skill: React.FC<SkillProps> = ({
       alignItems="center"
       justifyContent="center"
       sx={{
-        mb: 2,
+        mb: 1,
+        p: "5px",
         width: "100%",
         position: "relative",
+        borderRadius: 2,
+        backgroundColor: isKeyHovered(hoverKey)
+          ? useLight
+            ? "rgba(255,255,255,0.2)"
+            : "rgba(0,0,0,0.2)"
+          : "transparent",
       }}
       wrap="nowrap"
       onPointerEnter={handlePointerEnter}
@@ -59,7 +66,14 @@ const Skill: React.FC<SkillProps> = ({
       id={hoverKey}
     >
       {/* Skill Icon - Center Aligned */}
-      <Box sx={{ position: "relative", display: "inline-block" }}>
+      <Box
+        sx={{
+          position: "relative",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <Grid
           item
           sx={{
@@ -67,6 +81,8 @@ const Skill: React.FC<SkillProps> = ({
             height: iconSize,
             flexShrink: 0,
             textAlign: "center",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <InvertableImage
@@ -83,10 +99,8 @@ const Skill: React.FC<SkillProps> = ({
           />
         )}
       </Box>
-
       {/* Fixed gap between icon and name */}
       <Box sx={{ width: fixedGap, flexShrink: 0 }} />
-
       {/* Skill Name - Left Aligned */}
       <Grid
         item
@@ -102,7 +116,6 @@ const Skill: React.FC<SkillProps> = ({
           {name}
         </Typography>
       </Grid>
-
       {/* Flexible space between name and stars */}
       <Grid
         item
@@ -110,7 +123,6 @@ const Skill: React.FC<SkillProps> = ({
           flexGrow: 1,
         }}
       />
-
       {/* Star Rating - Right Aligned */}
       <Grid
         item

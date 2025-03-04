@@ -20,9 +20,11 @@ const InvertableImage: React.FC<InvertableImageProps> = ({
       src={src}
       alt={alt}
       style={{
-        maxWidth: "100%",
-        maxHeight: "100%",
+        width: "100%",
+        height: "100%",
         objectFit: "contain",
+        alignItems: "center",
+        justifyContent: "center",
         filter: filterStyle,
       }}
     />

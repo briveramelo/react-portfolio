@@ -1,28 +1,25 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import SkillArc from "./SkillArc.tsx";
-import Skill from "./Skill.tsx";
+import ExperienceArc from "./ExperienceArc.tsx";
+import Experience from "./Experience.tsx";
 import { SkillCategoryData } from "../../../data/skillsData.ts";
 
-interface SkillCategoryProps {
+interface ExperienceCategoryProps {
   skillCategory: SkillCategoryData;
   isVisible: boolean;
-  isSectionVisible: boolean;
   useLight: boolean;
 }
 
-const SkillCategory: React.FC<SkillCategoryProps> = ({
+const ExperienceCategory: React.FC<ExperienceCategoryProps> = ({
   skillCategory,
   isVisible,
-  isSectionVisible,
   useLight,
 }) => {
   const { category, skills } = skillCategory;
 
-  const averageStars = React.useMemo(() => {
+  const maxYears = React.useMemo(() => {
     if (!skills || skills.length === 0) return 0;
-    const totalStars = skills.reduce((sum, skill) => sum + skill.starCount, 0);
-    return totalStars / skills.length;
+    return Math.max(...skills.map((skill) => skill.years.length));
   }, [skills]);
 
   return (
@@ -48,27 +45,19 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
           mb: 2,
         }}
       >
-        <SkillArc
-          key={`${category}-star-arc`}
-          starCount={averageStars}
+        <ExperienceArc
+          key={`${category}-exp`}
+          years={isVisible ? maxYears : 0}
           isVisible={isVisible}
-          isSectionVisible={isSectionVisible}
         />
       </Box>
-      <Box
-        sx={{
-          justifyContent: "center",
-          alignItems: "center",
-          mb: 2,
-        }}
-      >
+      <Box sx={{ pt: "30px" }}>
         {skills.map((skill) => (
-          <Skill
-            key={`${skill.name}-star`}
+          <Experience
+            key={`${skill.name}-exp`}
             skill={skill}
             useLight={useLight}
             isVisible={isVisible}
-            isSectionVisible={isSectionVisible}
           />
         ))}
       </Box>
@@ -76,4 +65,4 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({
   );
 };
 
-export default React.memo(SkillCategory);
+export default React.memo(ExperienceCategory);

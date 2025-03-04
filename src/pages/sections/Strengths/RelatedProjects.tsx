@@ -4,6 +4,7 @@ import { Project } from "../../../data/projectData";
 import { toSlug } from "../../../utils/utils";
 import { useCursor } from "../../../context/CursorContext";
 import { useCustomPalette } from "../../../theme/theme";
+import { useNavigate } from "react-router-dom";
 
 interface HoverOverlayProps {
   hoverKey: string;
@@ -19,19 +20,14 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
   const { onHoverChange } = useCursor();
   const { background, text } = useCustomPalette();
   const imgSize = 40;
+  const navigate = useNavigate();
 
   const handleProjectClick = useCallback(
     (e: React.MouseEvent<HTMLElement>, slug: string) => {
       e.preventDefault();
-      const targetHash = `#projects-${slug}`;
-      if (window.location.hash === targetHash) {
-        // If already selected, manually dispatch a hashchange event.
-        window.dispatchEvent(new HashChangeEvent("hashchange"));
-      } else {
-        window.location.hash = targetHash;
-      }
+      navigate(`/projects/${slug}`, { replace: false });
     },
-    [],
+    [navigate],
   );
 
   if (projects.length === 0 || !anchorEl) {
@@ -43,11 +39,23 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
       open={true}
       anchorEl={anchorEl}
       placement="bottom-start"
+      modifiers={[
+        {
+          name: "flip",
+          enabled: false,
+        },
+        {
+          name: "offset",
+          options: {
+            offset: [50, -10], // [skidding, distance]
+          },
+        },
+      ]}
       style={{ zIndex: 2 }}
+      onPointerEnter={() => onHoverChange(hoverKey, true)}
+      onPointerLeave={() => onHoverChange(hoverKey, false)}
     >
       <Box
-        onPointerEnter={() => onHoverChange(hoverKey, true)}
-        onPointerLeave={() => onHoverChange(hoverKey, false)}
         sx={{
           backgroundColor: background.paper,
           color: "white",
@@ -80,7 +88,7 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
               <Grid item key={project.title} xs={12}>
                 <Box
                   component={isHidden ? "div" : "a"}
-                  href={isHidden ? undefined : `#projects-${slug}`}
+                  href={isHidden ? undefined : `/projects/${slug}`}
                   sx={{
                     display: "block",
                     width: "100%",
