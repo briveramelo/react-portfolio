@@ -35,10 +35,8 @@ const HeroCard: React.FC<HeroCardProps> = ({
   const [isCardAnimating, setIsCardAnimating] = useState<boolean>(true);
   const [isFuseActive, setIsFuseActive] = useState<boolean>(false);
 
-  const { hasBeenHovered } = useHoverTracking(
-    true,
-    USER_TRANSITION_DURATION_MS,
-  );
+  const { trackPointerEnter, trackPointerLeave, hasBeenHovered } =
+    useHoverTracking(true, USER_TRANSITION_DURATION_MS);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const { interactable } = useCustomPalette();
 
@@ -47,7 +45,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
 
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
 
-  // Initial spin sequence for the card.
+  // Initial spin sequence.
   const runSpinSequence = (): ReturnType<typeof setTimeout>[] => {
     const timers: ReturnType<typeof setTimeout>[] = [];
     let accumulatedDelay = 0;
@@ -172,6 +170,8 @@ const HeroCard: React.FC<HeroCardProps> = ({
       imageWidth={imageWidth}
       imageHeight={imageHeight}
       borderRadius={borderRadius}
+      onPointerEnterCard={trackPointerEnter}
+      onPointerLeaveCard={trackPointerLeave}
     >
       {isFuseActive && (
         <FuseEffect

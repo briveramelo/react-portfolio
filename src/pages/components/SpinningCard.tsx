@@ -10,6 +10,8 @@ export interface SpinningCardProps {
   transitionDurationMs: number;
   isSectionVisible: boolean;
   isTouchDevice?: boolean;
+  onPointerEnterCard?: (event: MouseEvent<HTMLDivElement>) => void;
+  onPointerLeaveCard?: (event: MouseEvent<HTMLDivElement>) => void;
   onClickCard?: (event: MouseEvent<HTMLDivElement>) => void;
   imageWidth: any; // e.g. { sm: "400px", xs: "375px" }
   imageHeight: any;
@@ -33,6 +35,8 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
   borderRadius,
   children,
   containerProps,
+  onPointerEnterCard,
+  onPointerLeaveCard,
 }) => {
   const entrySideRef = useRef<"left" | "right" | null>(null);
   const transitionStartTimeMsRef = useRef<number>(performance.now());
@@ -54,8 +58,10 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
       entrySideRef.current = entrySide;
       onSpin(entrySide === "right" ? -180 : 180);
       transitionStartTimeMsRef.current = performance.now();
+      // Call the hover tracking callback provided by the parent
+      onPointerEnterCard?.(event);
     },
-    [isCardAnimating, isRight, onSpin],
+    [isCardAnimating, isRight, onSpin, onPointerEnterCard],
   );
 
   // Pointer leave: if not animating and an entry side exists, check if leaving the container
@@ -71,7 +77,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
           event.clientY >= rect.top &&
           event.clientY <= rect.bottom
         ) {
-          return; // still inside container—ignore leave event
+          return;
         }
       }
       const exitSide = isRight(event) ? "right" : "left";
@@ -81,11 +87,18 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
       onSpin(additional);
       transitionStartTimeMsRef.current = performance.now();
       entrySideRef.current = null;
+      // Call the hover tracking callback provided by the parent
+      onPointerLeaveCard?.(event);
     },
-    [isCardAnimating, isRight, onSpin, containerRef.current],
+    [
+      isCardAnimating,
+      isRight,
+      onSpin,
+      onPointerLeaveCard,
+      containerRef.current,
+    ],
   );
 
-  // Tap handler for mobile: if not animating and not in the middle of a transition, always flip 180°.
   const handleTap = useCallback(
     (event: MouseEvent<HTMLDivElement>): void => {
       const isFlipping =
