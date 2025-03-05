@@ -14,6 +14,10 @@ import {
 } from "./heroHelpers";
 import { useCustomPalette } from "../../../theme/theme";
 import { SpinningCard } from "../../components/SpinningCard.tsx";
+import {
+  SpinningCardProvider,
+  useSpinningCard,
+} from "../../components/SpinningCardContext.tsx";
 
 interface HeroCardProps {
   isSectionVisible: boolean;
@@ -26,10 +30,8 @@ const HeroCard: React.FC<HeroCardProps> = ({
   onHoveredChange,
   isFirstCardAnimationRef,
 }) => {
-  const [targetRotationDeg, setTargetRotationDeg] = useState<number>(0);
-  const [transitionDurationMs, setTransitionDurationMs] = useState<number>(
-    FIRST_ANIMATED_TRANSITION_DURATION_MS,
-  );
+  const { setTransitionDurationMs, setTargetRotationDeg, containerRef } =
+    useSpinningCard();
   const [hasBeenHovered, setHasBeenHovered] = useState<boolean>(false);
   const onHasBeenHovered = () => {
     setHasBeenHovered(true);
@@ -40,9 +42,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const { interactable } = useCustomPalette();
 
-  const containerRef = useRef<HTMLDivElement>(null);
   const transitionStartTimeMsRef = useRef<number>(performance.now());
-
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
 
   // Initial spin sequence.
@@ -118,68 +118,60 @@ const HeroCard: React.FC<HeroCardProps> = ({
     onHoveredChange(hasBeenHovered);
   }, [hasBeenHovered, onHoveredChange]);
 
-  // onSpin callback: updates the card's rotation
-  const handleSpin = (deltaDeg: number) => {
-    if (isCardAnimating) return;
-    setTargetRotationDeg((prev) => prev + deltaDeg);
-    transitionStartTimeMsRef.current = performance.now();
-  };
-
   const cardWidth = useMemo(() => ({ sm: "400px", xs: "375px" }), []);
   const cardHeight = useMemo(() => ({ sm: "600px", xs: "562.5px" }), []);
   const borderRadius = "20px";
   const borderRadiusPx = 20;
 
   return (
-    <SpinningCard
-      id={"home_avatar_card_enter"}
-      isListeningForEvents={!isCardAnimating && isSectionVisible}
-      onSpin={handleSpin}
-      containerRef={containerRef}
-      containerProps={{
-        sx: {
-          perspective: "1000px",
-          display: "block",
-          position: "relative",
-          width: cardWidth,
-          height: cardHeight,
-          borderRadius,
-        },
-      }}
-      onHasBeenHovered={onHasBeenHovered}
-      transitionDurationMs={transitionDurationMs}
-      isSectionVisible={isSectionVisible}
-      isTouchDevice={isTouchDevice}
-      cardWidth={cardWidth}
-      cardHeight={cardHeight}
-      borderRadius={borderRadius}
-    >
-      {isFuseActive && (
-        <FuseEffect
-          width={cardWidth}
-          height={cardHeight}
-          borderRadius={borderRadiusPx}
-          fuseHeadLoopDurationMs={3000}
-          sparksPerBurst={2}
-          burstIntervalMs={50}
-          sparkBurstDurationMs={PROJECTILE_DURATION_MS}
-          animationEnabled={!hasBeenHovered}
-          color={interactable.highlighted}
+    <SpinningCardProvider>
+      <SpinningCard
+        id={"home_avatar_card_enter"}
+        isListeningForEvents={!isCardAnimating && isSectionVisible}
+        containerProps={{
+          sx: {
+            perspective: "1000px",
+            display: "block",
+            position: "relative",
+            width: cardWidth,
+            height: cardHeight,
+            borderRadius,
+          },
+        }}
+        onHasBeenHovered={onHasBeenHovered}
+        isSectionVisible={isSectionVisible}
+        isTouchDevice={isTouchDevice}
+        cardWidth={cardWidth}
+        cardHeight={cardHeight}
+        borderRadius={borderRadius}
+      >
+        {isFuseActive && (
+          <FuseEffect
+            width={cardWidth}
+            height={cardHeight}
+            borderRadius={borderRadiusPx}
+            fuseHeadLoopDurationMs={3000}
+            sparksPerBurst={2}
+            burstIntervalMs={50}
+            sparkBurstDurationMs={PROJECTILE_DURATION_MS}
+            animationEnabled={!hasBeenHovered}
+            color={interactable.highlighted}
+          />
+        )}
+        <FlareEffect
+          containerRef={containerRef}
+          durationMs={15000}
+          phaseOffset={Math.PI * 0.275}
+          xOffset={-40}
+          yAmpFactor={0.65}
         />
-      )}
-      <FlareEffect
-        containerRef={containerRef}
-        durationMs={15000}
-        phaseOffset={Math.PI * 0.275}
-        xOffset={-40}
-        yAmpFactor={0.65}
-      />
-      <HeroCardFront
-        showRotationIcon={isSectionVisible && !isCardAnimating}
-        hasBeenHovered={hasBeenHovered}
-      />
-      {isSectionVisible && <HeroCardBack />}
-    </SpinningCard>
+        <HeroCardFront
+          showRotationIcon={isSectionVisible && !isCardAnimating}
+          hasBeenHovered={hasBeenHovered}
+        />
+        {isSectionVisible && <HeroCardBack />}
+      </SpinningCard>
+    </SpinningCardProvider>
   );
 };
 

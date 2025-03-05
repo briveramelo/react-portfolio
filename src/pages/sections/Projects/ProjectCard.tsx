@@ -1,13 +1,10 @@
 import React, { useState, useRef, useLayoutEffect, MouseEvent } from "react";
 import { useMediaQuery } from "@mui/material";
-import {
-  SpinningCard,
-  SpinningCardHandle,
-} from "../../components/SpinningCard.tsx";
+import { SpinningCard } from "../../components/SpinningCard.tsx";
 import { ProjectCardFront } from "./ProjectCardFront.tsx";
-import { USER_TRANSITION_DURATION_MS } from "../Hero/heroHelpers.ts";
 import { Project } from "../../../data/projectData.ts";
 import { ProjectCardBack } from "./ProjectCardBack.tsx";
+import { useSpinningCard } from "../../components/SpinningCardContext.tsx";
 
 interface ProjectCardProps {
   project: Project;
@@ -17,18 +14,18 @@ interface ProjectCardProps {
   isSliding: boolean;
 }
 
-export const ProjectCard = React.forwardRef<
-  SpinningCardHandle,
-  ProjectCardProps
->(({ project, useLight, isSliding, isSectionVisible, onClick }, ref) => {
-  const [transitionDurationMs] = useState<number>(USER_TRANSITION_DURATION_MS);
+export const ProjectCard: React.FC<ProjectCardProps> = ({
+  project,
+  useLight,
+  onClick,
+  isSectionVisible,
+  isSliding,
+}) => {
   const [cardHeight, setCardHeight] = useState<string | number>("100%");
-
-  const containerRef = useRef<HTMLDivElement>(null);
+  const { onClear } = useSpinningCard();
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
   const frontRef = useRef<HTMLDivElement>(null);
   const backRef = useRef<HTMLDivElement>(null);
-  const spinningCardRef = useRef<SpinningCardHandle>(null);
 
   const cardWidth = "100%";
   const borderRadius = "8px";
@@ -58,10 +55,8 @@ export const ProjectCard = React.forwardRef<
 
   return (
     <SpinningCard
-      ref={spinningCardRef}
       isListeningForEvents={!isSliding && isSectionVisible}
       visibleLagTimeMs={800}
-      containerRef={containerRef}
       containerProps={{
         sx: {
           perspective: "1000px",
@@ -72,7 +67,6 @@ export const ProjectCard = React.forwardRef<
           borderRadius,
         },
       }}
-      transitionDurationMs={transitionDurationMs}
       isSectionVisible={isSectionVisible}
       isTouchDevice={isTouchDevice}
       cardWidth={cardWidth}
@@ -87,7 +81,7 @@ export const ProjectCard = React.forwardRef<
         height={cardHeight}
         borderRadius={borderRadius}
         onClick={(event) => {
-          spinningCardRef?.current?.onClear(event);
+          onClear(event);
           onClick(event);
         }}
       />
@@ -100,6 +94,6 @@ export const ProjectCard = React.forwardRef<
       />
     </SpinningCard>
   );
-});
+};
 
 export default ProjectCard;
