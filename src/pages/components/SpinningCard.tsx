@@ -145,7 +145,6 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
         perspective: "1000px",
         display: "block",
         position: "relative",
-        backgroundColor: "rgba(0,0,255,0.5)",
         ...containerProps?.sx,
       }}
       id={`${id}_container`}
@@ -160,7 +159,6 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
             height: cardHeight,
             zIndex: isCardAnimating || isHovered ? -1 : 2,
             borderRadius,
-            backgroundColor: "rgba(255,0,0,0.5)",
             pointerEvents: isCardAnimating || isHovered ? "none" : "auto",
           }}
           id={id}

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
-import { useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { SpinningCard } from "../../components/SpinningCard.tsx";
 import { ProjectCardFront } from "./ProjectCardFront.tsx";
 import { USER_TRANSITION_DURATION_MS } from "../Hero/heroHelpers.ts";
@@ -35,15 +35,28 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const cardWidth = "100%";
   const borderRadius = "8px";
 
-  // Measure the front and back heights and choose the greater value
   useLayoutEffect(() => {
-    if (frontRef.current && backRef.current) {
-      const frontHeight = frontRef.current.getBoundingClientRect().height;
-      const backHeight = backRef.current.getBoundingClientRect().height;
-      const maxHeight = Math.max(frontHeight, backHeight);
-      setCardHeight(maxHeight);
-    }
-  }, [project, isSectionVisible]);
+    if (!frontRef.current || !backRef.current) return;
+
+    const measureHeights = () => {
+      if (cardHeight !== "100%") return;
+
+      const frontHeight = frontRef.current!.getBoundingClientRect().height;
+      const backHeight = backRef.current!.getBoundingClientRect().height;
+      const newHeight = Math.max(frontHeight, backHeight);
+      setCardHeight(newHeight);
+    };
+    const setFlexHeights = () => {
+      setCardHeight("100%");
+    };
+
+    measureHeights();
+    window.addEventListener("resize", setFlexHeights);
+
+    return () => {
+      window.removeEventListener("resize", setFlexHeights);
+    };
+  }, [project, isSectionVisible, cardHeight]);
 
   return (
     <SpinningCard

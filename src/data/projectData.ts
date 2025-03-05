@@ -147,7 +147,7 @@ export const allProjects: Project[] = [
     imageSrc: "tilt-tracker/josh-tilt-cropped.webp",
     gifSrc: "",
     gifWidth: "60vw",
-    description: `Tilt Tracker is **like FitBit for power wheelchair users**; it **prevents pressure ulcers** with real-time reminders and compliance reports for patients, family, and clinical care teams.
+    description: `Tilt Tracker is **like FitBit for power wheelchair users**; it **prevents pressure ulcers** with reminders and reports for patients, family, and clinical care teams.
 ${_}
 I served a Software Engineer and transitioned to Lead Engineer, Co-Inventor, and Lead Producer for over 4 years.`,
     skills: getSkills(
@@ -218,7 +218,7 @@ I served as the Lead Engineer for a team of 6 engineers in a 15-person game-deve
     imageSrc: "nrh-control/nrh-control-ipad.webp",
     gifSrc: "nrh-control/nrh-trimmed.mp4",
     gifWidth: "60vw",
-    description: `NRH Control is a hospital smartroom controller for patients, family, and staff at the Craig H. Neilsen Rehabilitation Hospital at the University of Utah. It supports touch, voice, and even 'sip-and-puff' breath control with custom hardware.
+    description: `NRH Control is a hospital smartroom controller for patients, family, and staff at the Craig H. Neilsen Rehabilitation Hospital at the University of Utah.
 ${_}
 I served as the UI/UX Coordinator for 2 years.`,
     skills: getSkills("Leadership", "iOS", "Android", "HIPAA", "Publishing"),
@@ -234,9 +234,9 @@ I served as the UI/UX Coordinator for 2 years.`,
     imageSrc: "ad-with-sam/adwithsam-cleaned.webp",
     gifSrc: "ad-with-sam/ad-lightning-vid1.mp4",
     gifWidth: "60vw",
-    description: `AD with Sam is a highly innovative augmented reality exhibit for people with spinal cord injury to learn about a life-threatening complication: Autonomic Dysreflexia. This is **currently on display at the Craig H. Neilsen Rehabilitation Hospital** at the University of Utah. It uses a custom blend of storytelling, 3D projection mapping onto a lifesize mannequin, animated anatomy, surround sound audio, and RGB lighting.
+    description: `AD with Sam is a highly innovative augmented reality exhibit for people with spinal cord injury to learn about a life-threatening complication: Autonomic Dysreflexia.
 ${_}
-I served as the Lead Producer from start to finish.`,
+I served as Lead Producer from start to finish.`,
     skills: getSkills("Leadership", "DevOps", "Bash", "Publishing"),
     institutions: getInstitutions("UHealth"),
     iconSrc: samIcon,
@@ -250,9 +250,9 @@ I served as the Lead Producer from start to finish.`,
     imageSrc: "bobby-the-bladder/sam-and-bobby-thumbnail.webp",
     gifSrc: "bobby-the-bladder/bobby-death.mp4",
     gifWidth: "50vw",
-    description: `Bobby the Bladder is an interactive, branching narrative game for people with spinal cord injury and their family to learn about bladder maintenance. This is **currently installed on all patient iPads at the Craig H. Neilsen Rehabilitation Hospital.**
+    description: `Bobby the Bladder is an interactive, branching narrative game for people with spinal cord injury and their family to learn about bladder maintenance.
 ${_}
-I served as the Lead Producer from start to finish.`,
+I served as Lead Producer from start to finish.`,
     skills: getSkills("Leadership", "Publishing"),
     institutions: getInstitutions("UHealth"),
     iconSrc: bobbyIcon,
@@ -266,9 +266,9 @@ I served as the Lead Producer from start to finish.`,
     imageSrc: "derpy-dinos/derpy-capsule.webp",
     gifSrc: "derpy-dinos/derpy-dinos-slow-down.mp4",
     gifWidth: "60vw",
-    description: `Derpy Dinos is a 2.5D side-scrolling arcade shooter published to Steam that challenges players to blast through dinosaurs and compete for global leaderboard rankings. We received **Mostly Positive reviews** (7/10) and **49,000+ downloads.**
+    description: `Derpy Dinos is a 2.5D side-scrolling arcade shooter published to Steam with **Mostly Positive reviews** (7/10) and **49,000+ downloads.**
 ${_}
-I served as the Lead Engineer and transitioned to Lead Producer after the prototyping phase and through to release.`,
+I served as Lead Producer and Engineer through release.`,
     skills: getSkills("Leadership", "Unity", "C#", "Publishing"),
     institutions: [],
     iconSrc: derpyDinosIcon,
@@ -282,9 +282,9 @@ I served as the Lead Engineer and transitioned to Lead Producer after the protot
     imageSrc: "mindkloud-journey/mk-journey-logo.webp",
     gifSrc: "",
     gifWidth: "60vw",
-    description: `MindKloud Journey is a mobile app for young adults to improve emotional self-awareness through journaling and for college institutions to facilitate a thriving social atmosphere.
+    description: `MindKloud Journey is a mobile app for young adults to improve emotional self-awareness through journaling and colleges to facilitate a thriving social atmosphere.
 ${_}
-I served as the Head of Engineering when porting an iOS-only app to Unity, adding support for Android, analytics, and a smart AWS backend.`,
+I served as Head of Engineering for Health Tech Apps.`,
     skills: getSkills(
       "Leadership",
       "Python",
@@ -310,7 +310,7 @@ I served as the Head of Engineering when porting an iOS-only app to Unity, addin
     imageSrc: "pocket-optimist/pessimistic-night2.webp",
     gifSrc: "pocket-optimist/pocket-opt-animals-compressed.mp4",
     gifWidth: "80vw",
-    description: `The Pocket Optimist is a science-based, personal development service for athletes, working professionals, and parents to break through hidden mental barriers. It turns everyday language into clear insights and offers straightforward workshops to mediate improvement.
+    description: `The Pocket Optimist is a science-based, personal development service for athletes, working professionals, and parents to break through hidden mental barriers.
 ${_}
 I served as the Inventor, Developer, and Coach when deploying the technology with family, friends, and clients.`,
     skills: getSkills("Leadership", "Python"),
@@ -326,9 +326,9 @@ I served as the Inventor, Developer, and Coach when deploying the technology wit
     imageSrc: "abductor/abductor.webp",
     gifSrc: "abductor/abductor4.mp4",
     gifWidth: "60vw",
-    description: `Offender is a 2D Arcade Style Shooter with a looping arena filled with endless carnage and destruction! Hurl unsuspecting humans into helicopters, tanks, and paratroopers as you invade Earth. How long can you survive? This is the precursor to Derpy Dinos, based on arcade classic: Defender.
+    description: `Offender is a 2D Arcade Style Shooter with a looping arena filled with endless carnage and destruction, published as a web game.
 ${_}
-I served as the Lead Engineer during prototyping and Production Co-Lead after and through publishing.`,
+I served as the Lead Engineer during prototyping and Production Co-Lead through publishing.`,
     skills: getSkills("Leadership", "HTML", "JS", "Publishing"),
     institutions: [],
     iconSrc: bobIcon,
@@ -342,7 +342,7 @@ I served as the Lead Engineer during prototyping and Production Co-Lead after an
     imageSrc: "talking-points/talking-points-cover.webp",
     gifSrc: "talking-points/talking-points-loop.mp4",
     gifWidth: "60vw",
-    description: `Talking Points is like Guitar Hero for speech; it's a rhythm-based game that helps children with dyslexia learn word pronunciation and reading comprehension. Talking Points utilizes the Orton-Gillingham method, the gold standard for teaching children with dyslexia, and timed speech recognition to make learning engaging and self-directed.
+    description: `Talking Points is like Guitar Hero for speech; it's a rhythm-based game that helps children with dyslexia learn word pronunciation and reading comprehension.
 ${_}
 I served as the Lead Engineer during prototyping.`,
     skills: getSkills("Leadership", "C#", "Unity"),
@@ -358,9 +358,9 @@ I served as the Lead Engineer during prototyping.`,
     imageSrc: "debug/debug-cover.webp",
     gifSrc: "debug/debug-loop.mp4",
     gifWidth: "60vw",
-    description: `Debug is an arcade, wave-based survival game. Bugs approach faster and faster from ALL angles threatening to destroy your ship. Fire energy pulses and a last ditch MEGA LASER to destroy these bugs before they can destroy you. Can you blast these bugs away fast and accurate enough to survive? Send in screenshots of your high scores!
+    description: `Debug is an arcade, wave-based survival game. Bugs approach faster and faster from ALL angles threatening to destroy your ship.
 ${_}
-I served as the Lead Engineer during prototyping and Production Co-Lead after and through publishing.`,
+I served as the Lead Engineer during prototyping and Production Co-Lead through publishing.`,
     skills: getSkills("Leadership", "C#", "Publishing"),
     institutions: [],
     iconSrc: debugIcon,
@@ -374,7 +374,7 @@ I served as the Lead Engineer during prototyping and Production Co-Lead after an
     imageSrc: "fruit-buddi/fruitmoney.jpg",
     gifSrc: "fruit-buddi/fruit-buddi-action.mp4",
     gifWidth: "60vw",
-    description: `Fruit Buddi is a shopping cart attachment for parents to engage their kids with healthy food choices in the grocery store. It is a simple, analog matching game.
+    description: `Fruit Buddi is a simple, analog matching game for parents to engage their kids with healthy food choices on shopping carts.
 ${_}
 I served as a Co-Inventor and Designer for this product.`,
     skills: [],

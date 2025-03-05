@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent, Typography, Box } from "@mui/material";
+import { Card, CardContent, Typography, Box, Button } from "@mui/material";
 import { Project } from "../../../data/projectData";
 import FirebaseImage from "../../components/MediaCarousel/MediaItems/FirebaseImage";
 import FirebaseVideoAsGif from "../../components/MediaCarousel/MediaItems/FirebaseVideoAsGif";
@@ -59,6 +59,7 @@ export const ProjectCardBack = React.forwardRef<
               firebaseVideoPath={project.gifSrc}
               height="100%"
               alt={project.title}
+              allowResizing={false}
               style={{
                 borderRadius: `${borderRadius} ${borderRadius} 0 0`,
                 objectFit: "cover",
@@ -118,6 +119,37 @@ export const ProjectCardBack = React.forwardRef<
             >
               {project.description}
             </ReactMarkdown>
+          </Box>
+
+          {/* Bottom Actions: Button and Media Count */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mt: 2,
+            }}
+          >
+            <Button variant="contained">Click to Learn More</Button>
+            <Box
+              sx={{
+                display: "inline-block",
+                px: 2,
+                py: 1,
+                borderRadius: "999px",
+                fontSize: "0.875rem",
+                fontWeight: "bold",
+                backgroundColor: "rgba(255,255,255,0.8)",
+                color: "black",
+                whiteSpace: "nowrap",
+                border: "2px solid black",
+              }}
+            >
+              {project.details.media.length}{" "}
+              {project.details.media.length === 1
+                ? "media item"
+                : "media items"}
+            </Box>
           </Box>
         </CardContent>
       </Card>
