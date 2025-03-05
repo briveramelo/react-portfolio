@@ -1,5 +1,5 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
-import { Box, useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 import { SpinningCard } from "../../components/SpinningCard.tsx";
 import { ProjectCardFront } from "./ProjectCardFront.tsx";
 import { USER_TRANSITION_DURATION_MS } from "../Hero/heroHelpers.ts";
@@ -81,24 +81,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       cardWidth={cardWidth}
       cardHeight={cardHeight}
       borderRadius={borderRadius}
-      onClickCard={(event) => {
-        onClick();
-      }}
       id={`project_card_${project.title}`}
     >
       <ProjectCardBack
+        ref={backRef}
         project={project}
         useLight={useLight}
         height={cardHeight}
         borderRadius={borderRadius}
-        ref={backRef}
+        onClick={onClick}
       />
       <ProjectCardFront
+        ref={frontRef}
         project={project}
         useLight={useLight}
         height={cardHeight}
         borderRadius={borderRadius}
-        ref={frontRef}
       />
     </SpinningCard>
   );

@@ -13,12 +13,13 @@ export interface ProjectCardBackProps {
   useLight: boolean;
   height: string | number;
   borderRadius: string;
+  onClick: () => void;
 }
 
 export const ProjectCardBack = React.forwardRef<
   HTMLDivElement,
   ProjectCardBackProps
->(({ project, useLight, height, borderRadius }, ref) => {
+>(({ project, useLight, height, borderRadius, onClick }, ref) => {
   const { background, text } = useCustomPalette();
 
   return (
@@ -26,7 +27,7 @@ export const ProjectCardBack = React.forwardRef<
       ref={ref}
       sx={{
         position: "absolute",
-        pointerEvents: "none",
+        // pointerEvents: "none",
         backfaceVisibility: "hidden",
         transform: "rotateY(180deg)",
       }}
@@ -36,7 +37,6 @@ export const ProjectCardBack = React.forwardRef<
           position: "relative",
           display: "flex",
           flexDirection: "column",
-          cursor: "pointer",
           backgroundColor: background.paper,
           borderRadius,
           height,
@@ -88,6 +88,7 @@ export const ProjectCardBack = React.forwardRef<
             mb: -1.5,
             px: 2,
             flexGrow: 1,
+            pointerEvents: "auto",
           }}
         >
           <Box
@@ -130,7 +131,9 @@ export const ProjectCardBack = React.forwardRef<
               mt: 2,
             }}
           >
-            <Button variant="contained">Click to Learn More</Button>
+            <Button variant="contained" onClick={onClick}>
+              Click to Learn More
+            </Button>
             <Box
               sx={{
                 display: "inline-block",

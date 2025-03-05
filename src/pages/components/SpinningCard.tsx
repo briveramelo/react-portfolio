@@ -136,7 +136,6 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
           ? handleTap
           : (event) => {
               onClickCard?.(event);
-              trackPointerLeave(event);
             }
       }
       onPointerLeave={!isTouchDevice ? handlePointerLeave : undefined}
@@ -176,7 +175,6 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
             : `transform ${transitionDurationMs}ms ease`,
           transform: `rotateY(${targetRotationDeg}deg)`,
           willChange: isSectionVisible ? "transform" : undefined,
-          pointerEvents: isCardAnimating || isHovered ? "none" : "auto",
         }}
       >
         {children}
