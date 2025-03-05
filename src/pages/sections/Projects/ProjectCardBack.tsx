@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 import { Card, CardContent, Typography, Box, Button } from "@mui/material";
 import { Project } from "../../../data/projectData";
 import FirebaseImage from "../../components/MediaCarousel/MediaItems/FirebaseImage";
@@ -13,7 +13,7 @@ export interface ProjectCardBackProps {
   useLight: boolean;
   height: string | number;
   borderRadius: string;
-  onClick: () => void;
+  onClick: (event: MouseEvent<HTMLElement>) => void;
 }
 
 export const ProjectCardBack = React.forwardRef<

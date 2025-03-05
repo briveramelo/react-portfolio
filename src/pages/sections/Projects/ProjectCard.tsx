@@ -1,6 +1,9 @@
-import React, { useState, useRef, useLayoutEffect } from "react";
+import React, { useState, useRef, useLayoutEffect, MouseEvent } from "react";
 import { useMediaQuery } from "@mui/material";
-import { SpinningCard } from "../../components/SpinningCard.tsx";
+import {
+  SpinningCard,
+  SpinningCardHandle,
+} from "../../components/SpinningCard.tsx";
 import { ProjectCardFront } from "./ProjectCardFront.tsx";
 import { USER_TRANSITION_DURATION_MS } from "../Hero/heroHelpers.ts";
 import { Project } from "../../../data/projectData.ts";
@@ -9,28 +12,23 @@ import { ProjectCardBack } from "./ProjectCardBack.tsx";
 interface ProjectCardProps {
   project: Project;
   useLight: boolean;
-  onClick: () => void;
+  onClick: (event: MouseEvent<HTMLElement>) => void;
   isSectionVisible: boolean;
+  isSliding: boolean;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({
-  project,
-  useLight,
-  onClick,
-  isSectionVisible,
-}) => {
-  const [targetRotationDeg, setTargetRotationDeg] = useState<number>(0);
-  const [instantFlip, setInstantFlip] = useState<boolean>(false);
+export const ProjectCard = React.forwardRef<
+  SpinningCardHandle,
+  ProjectCardProps
+>(({ project, useLight, isSliding, isSectionVisible, onClick }, ref) => {
   const [transitionDurationMs] = useState<number>(USER_TRANSITION_DURATION_MS);
   const [cardHeight, setCardHeight] = useState<string | number>("100%");
-  const handleSpin = (deltaDeg: number) => {
-    setTargetRotationDeg((prev) => prev + deltaDeg);
-  };
 
   const containerRef = useRef<HTMLDivElement>(null);
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
   const frontRef = useRef<HTMLDivElement>(null);
   const backRef = useRef<HTMLDivElement>(null);
+  const spinningCardRef = useRef<SpinningCardHandle>(null);
 
   const cardWidth = "100%";
   const borderRadius = "8px";
@@ -60,8 +58,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
   return (
     <SpinningCard
-      isCardAnimating={false}
-      onSpin={handleSpin}
+      ref={spinningCardRef}
+      isListeningForEvents={!isSliding && isSectionVisible}
+      visibleLagTimeMs={800}
       containerRef={containerRef}
       containerProps={{
         sx: {
@@ -73,8 +72,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           borderRadius,
         },
       }}
-      targetRotationDeg={targetRotationDeg}
-      instantFlip={instantFlip}
       transitionDurationMs={transitionDurationMs}
       isSectionVisible={isSectionVisible}
       isTouchDevice={isTouchDevice}
@@ -89,7 +86,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         useLight={useLight}
         height={cardHeight}
         borderRadius={borderRadius}
-        onClick={onClick}
+        onClick={(event) => {
+          spinningCardRef?.current?.onClear(event);
+          onClick(event);
+        }}
       />
       <ProjectCardFront
         ref={frontRef}
@@ -100,6 +100,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       />
     </SpinningCard>
   );
-};
+});
 
 export default ProjectCard;

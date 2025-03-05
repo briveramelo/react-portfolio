@@ -27,7 +27,6 @@ const HeroCard: React.FC<HeroCardProps> = ({
   isFirstCardAnimationRef,
 }) => {
   const [targetRotationDeg, setTargetRotationDeg] = useState<number>(0);
-  const [instantFlip, setInstantFlip] = useState<boolean>(false);
   const [transitionDurationMs, setTransitionDurationMs] = useState<number>(
     FIRST_ANIMATED_TRANSITION_DURATION_MS,
   );
@@ -71,23 +70,12 @@ const HeroCard: React.FC<HeroCardProps> = ({
           ? FIRST_ANIMATED_TRANSITION_DURATION_MS
           : ANIMATED_TRANSITION_DURATION_MS,
         action: () => {
-          setInstantFlip(true);
           transitionStartTimeMsRef.current = performance.now();
-          setTargetRotationDeg(0);
           setTransitionDurationMs(USER_TRANSITION_DURATION_MS);
-
-          // Force reflow to mitigate rendering issues.
-          requestAnimationFrame(() => {
-            containerRef.current?.getBoundingClientRect();
-            requestAnimationFrame(() => {
-              setInstantFlip(false);
-              setIsCardAnimating(false);
-              isFirstCardAnimationRef.current = false;
-              if (!hasBeenHovered) {
-                setIsFuseActive(true);
-              }
-            });
-          });
+          isFirstCardAnimationRef.current = false;
+          if (!hasBeenHovered) {
+            setIsFuseActive(true);
+          }
         },
       },
     ];
@@ -104,19 +92,12 @@ const HeroCard: React.FC<HeroCardProps> = ({
     if (isSectionVisible) {
       // Reset card state.
       setIsCardAnimating(true);
-      setInstantFlip(true);
-      setTargetRotationDeg(0);
-      requestAnimationFrame(() => setInstantFlip(false));
-
       timersRef.current.forEach((timer) => clearTimeout(timer));
       timersRef.current = runSpinSequence();
     } else {
       timersRef.current.forEach((timer) => clearTimeout(timer));
       timersRef.current = [];
       setIsCardAnimating(false);
-      setInstantFlip(true);
-      setTargetRotationDeg(0);
-      requestAnimationFrame(() => setInstantFlip(false));
     }
 
     return () => {
@@ -152,7 +133,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
   return (
     <SpinningCard
       id={"home_avatar_card_enter"}
-      isCardAnimating={isCardAnimating}
+      isListeningForEvents={!isCardAnimating && isSectionVisible}
       onSpin={handleSpin}
       containerRef={containerRef}
       containerProps={{
@@ -166,8 +147,6 @@ const HeroCard: React.FC<HeroCardProps> = ({
         },
       }}
       onHasBeenHovered={onHasBeenHovered}
-      targetRotationDeg={targetRotationDeg}
-      instantFlip={instantFlip}
       transitionDurationMs={transitionDurationMs}
       isSectionVisible={isSectionVisible}
       isTouchDevice={isTouchDevice}

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import ProjectCard from "./ProjectCard.tsx";
 import { Project } from "../../../data/projectData";
+import { SpinningCardHandle } from "../../components/SpinningCard.tsx";
 
 interface ProjectGroupProps {
   label: string;
@@ -9,8 +10,8 @@ interface ProjectGroupProps {
   direction: "left" | "right";
   useLight: boolean;
   isProjectSelected: boolean;
-  isSectionVisibleLag: boolean;
-  isAnimationComplete: boolean;
+  isSectionVisibleLead: boolean;
+  isAnimating: boolean;
   slideDurationMs: number;
   handleCardClick: (project: Project) => void;
 }
@@ -21,22 +22,33 @@ const ProjectGroup: React.FC<ProjectGroupProps> = ({
   direction,
   useLight,
   isProjectSelected,
-  isSectionVisibleLag,
-  isAnimationComplete,
+  isSectionVisibleLead,
+  isAnimating,
   slideDurationMs,
   handleCardClick,
 }) => {
-  // Compute the slide offset for the entire group.
-  const targetDestinationX =
-    isProjectSelected || !isSectionVisibleLag
+  const [targetDestinationX, setTargetDestinationX] = useState<string>(
+    isProjectSelected || !isSectionVisibleLead
       ? direction === "left"
         ? "-100vw"
         : "100vw"
-      : "0";
+      : "0",
+  );
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isHoverable, setIsHoverable] = useState<boolean>(false);
 
-  // Determine if the group is on screen.
-  const isOnScreen = targetDestinationX === "0";
-  const isHoverable = isOnScreen && isAnimationComplete;
+  useEffect(() => {
+    setTargetDestinationX(
+      isProjectSelected || !isSectionVisibleLead
+        ? direction === "left"
+          ? "-100vw"
+          : "100vw"
+        : "0",
+    );
+    const isOnScreen = targetDestinationX === "0";
+    setIsVisible(isOnScreen || isAnimating);
+    setIsHoverable(isOnScreen && !isAnimating);
+  }, [isAnimating, targetDestinationX]);
 
   return (
     <Box
@@ -44,7 +56,7 @@ const ProjectGroup: React.FC<ProjectGroupProps> = ({
         position: "relative",
         transition: `transform ${slideDurationMs}ms ease-in-out`,
         transform: `translate3d(${targetDestinationX}, 0, 0)`,
-        visibility: !isOnScreen && isAnimationComplete ? "hidden" : "visible",
+        visibility: isVisible ? "isVisible" : "hidden",
         pointerEvents: isHoverable ? "all" : "none",
       }}
     >
@@ -64,8 +76,9 @@ const ProjectGroup: React.FC<ProjectGroupProps> = ({
             key={project.title}
             project={project}
             useLight={useLight}
+            isSliding={isAnimating}
             onClick={() => handleCardClick(project)}
-            isSectionVisible={isSectionVisibleLag}
+            isSectionVisible={isSectionVisibleLead}
           />
         ))}
       </Box>

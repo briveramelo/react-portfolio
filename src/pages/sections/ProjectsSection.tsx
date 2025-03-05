@@ -33,8 +33,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
     const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false);
 
     const hasMediaNextBeenClickedRef = useRef<boolean>(false);
-    const [isAnimationComplete, setIsAnimationComplete] =
-      useState<boolean>(true);
+    const [isAnimating, setIsAnimating] = useState<boolean>(true);
     const slideDurationMs = 750;
     const sectionRef = ref as React.RefObject<HTMLElement>;
 
@@ -45,11 +44,11 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
       useState<boolean>(false);
 
     useEffect(() => {
-      setIsAnimationComplete(false);
+      setIsAnimating(true);
       setIsSectionVisibleLag(isSectionVisibleLead);
 
       const timeoutId = setTimeout(() => {
-        setIsAnimationComplete(true);
+        setIsAnimating(false);
       }, slideDurationMs);
 
       return () => clearTimeout(timeoutId);
@@ -59,22 +58,22 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
       setSelectedProject(project);
       setIsProjectSelected(true);
 
-      setIsAnimationComplete(false);
+      setIsAnimating(true);
       navigate(`/projects/${toSlug(project.title)}`);
       sectionRef.current!.scrollIntoView({ behavior: "smooth" });
       setTimeout(() => {
-        setIsAnimationComplete(true);
+        setIsAnimating(false);
       }, slideDurationMs);
     };
 
     const handleCloseProjectDetails = () => {
       setIsProjectSelected(false);
-      setIsAnimationComplete(false);
+      setIsAnimating(true);
       navigate("/projects");
       sectionRef.current?.scrollIntoView({ behavior: "smooth" });
       setTimeout(() => {
         setSelectedProject(null);
-        setIsAnimationComplete(true);
+        setIsAnimating(false);
       }, slideDurationMs);
     };
 
@@ -199,8 +198,8 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                   direction="left"
                   useLight={useLight}
                   isProjectSelected={isProjectSelected}
-                  isSectionVisibleLag={isSectionVisibleLag}
-                  isAnimationComplete={isAnimationComplete}
+                  isSectionVisibleLead={isSectionVisibleLag}
+                  isAnimating={isAnimating}
                   slideDurationMs={slideDurationMs}
                   handleCardClick={handleCardClick}
                 />
@@ -213,8 +212,8 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                   direction="right"
                   useLight={useLight}
                   isProjectSelected={isProjectSelected}
-                  isSectionVisibleLag={isSectionVisibleLag}
-                  isAnimationComplete={isAnimationComplete}
+                  isSectionVisibleLead={isSectionVisibleLag}
+                  isAnimating={isAnimating}
                   slideDurationMs={slideDurationMs}
                   handleCardClick={handleCardClick}
                 />
