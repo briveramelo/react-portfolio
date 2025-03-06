@@ -81,7 +81,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         height={cardHeight}
         borderRadius={borderRadius}
         onClick={(event) => {
-          onClear(event);
+          onClear();
           onClick(event);
         }}
       />

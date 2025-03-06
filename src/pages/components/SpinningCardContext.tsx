@@ -4,7 +4,7 @@ import React, {
   useState,
   useRef,
   ReactNode,
-  MouseEvent,
+  useMemo,
 } from "react";
 import { USER_TRANSITION_DURATION_MS } from "../sections/Hero/heroHelpers.ts";
 
@@ -13,43 +13,40 @@ interface SpinningCardContextProps {
   setTargetRotationDeg: React.Dispatch<React.SetStateAction<number>>;
   containerRef: React.RefObject<HTMLDivElement>;
   transitionDurationMs: number;
-  setTransitionDurationMs: (deg: number) => void;
-  onClear: (event: MouseEvent<HTMLElement>) => void;
-  setOnClear: (fn: (event: MouseEvent<HTMLElement>) => void) => void;
+  setTransitionDurationMs: React.Dispatch<React.SetStateAction<number>>;
+  onClear: () => void;
+  setOnClear: React.Dispatch<React.SetStateAction<() => void>>;
 }
 
 const SpinningCardContext = createContext<SpinningCardContextProps | undefined>(
   undefined,
 );
 
-export const SpinningCardProvider: React.FC<{
-  children: ReactNode;
-}> = ({ children }) => {
+export const SpinningCardProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [targetRotationDeg, setTargetRotationDeg] = useState<number>(0);
   const [transitionDurationMs, setTransitionDurationMs] = useState<number>(
     USER_TRANSITION_DURATION_MS,
   );
   const containerRef = useRef<HTMLDivElement>(null);
-  const [onClearFn, setOnClearFn] = useState<
-    (event: MouseEvent<HTMLElement>) => void
-  >(() => () => {});
+  const [onClear, setOnClear] = useState<() => void>(() => {});
 
-  const onClear = (event: MouseEvent<HTMLElement>) => {
-    onClearFn(event);
-  };
+  const contextValue = useMemo(
+    () => ({
+      targetRotationDeg,
+      setTargetRotationDeg,
+      containerRef,
+      transitionDurationMs,
+      setTransitionDurationMs,
+      onClear,
+      setOnClear,
+    }),
+    [targetRotationDeg, transitionDurationMs, containerRef, onClear],
+  );
 
   return (
-    <SpinningCardContext.Provider
-      value={{
-        targetRotationDeg,
-        setTargetRotationDeg,
-        containerRef,
-        transitionDurationMs,
-        setTransitionDurationMs,
-        onClear,
-        setOnClear: setOnClearFn,
-      }}
-    >
+    <SpinningCardContext.Provider value={contextValue}>
       {children}
     </SpinningCardContext.Provider>
   );

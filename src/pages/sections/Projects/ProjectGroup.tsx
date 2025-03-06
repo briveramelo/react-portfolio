@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import ProjectCard from "./ProjectCard.tsx";
 import { Project } from "../../../data/projectData";
-import { SpinningCardHandle } from "../../components/SpinningCard.tsx";
+import { SpinningCardProvider } from "../../components/SpinningCardContext.tsx";
+import ProjectCard from "./ProjectCard.tsx";
 
 interface ProjectGroupProps {
   label: string;
@@ -56,7 +56,7 @@ const ProjectGroup: React.FC<ProjectGroupProps> = ({
         position: "relative",
         transition: `transform ${slideDurationMs}ms ease-in-out`,
         transform: `translate3d(${targetDestinationX}, 0, 0)`,
-        visibility: isVisible ? "isVisible" : "hidden",
+        visibility: isVisible ? "visible" : "hidden",
         pointerEvents: isHoverable ? "all" : "none",
       }}
     >
@@ -72,14 +72,15 @@ const ProjectGroup: React.FC<ProjectGroupProps> = ({
         }}
       >
         {projects.map((project) => (
-          <ProjectCard
-            key={project.title}
-            project={project}
-            useLight={useLight}
-            isSliding={isAnimating}
-            onClick={() => handleCardClick(project)}
-            isSectionVisible={isSectionVisibleLead}
-          />
+          <SpinningCardProvider key={project.title}>
+            <ProjectCard
+              project={project}
+              useLight={useLight}
+              isSliding={isAnimating}
+              onClick={() => handleCardClick(project)}
+              isSectionVisible={isSectionVisibleLead}
+            />
+          </SpinningCardProvider>
         ))}
       </Box>
     </Box>

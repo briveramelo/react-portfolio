@@ -53,19 +53,15 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     setOnClear,
   } = useSpinningCard();
 
-  const clear = useCallback(
-    (event: MouseEvent<HTMLElement>) => {
-      entrySideRef.current = null;
-      exitSideRef.current = null;
-      transitionStartTimeMsRef.current = performance.now();
-      trackPointerLeave(event);
-    },
-    [trackPointerLeave],
-  );
+  const clear = useCallback(() => {
+    entrySideRef.current = null;
+    exitSideRef.current = null;
+    transitionStartTimeMsRef.current = performance.now();
+  }, []);
 
   useEffect(() => {
-    setOnClear(clear);
-  }, []);
+    setOnClear(() => clear);
+  }, [clear, setOnClear]);
 
   useEffect(() => {
     if (hasBeenHovered) {
@@ -152,13 +148,10 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     transitionStartTimeMsRef.current = performance.now();
   }, [isHovered]);
 
-  const handleTap = useCallback(
-    (event: MouseEvent<HTMLDivElement>): void => {
-      if (!isListeningForEvents || isFlipping()) return;
-      transitionStartTimeMsRef.current = performance.now();
-    },
-    [isListeningForEvents, isFlipping],
-  );
+  const handleTap = useCallback(() => {
+    if (!isListeningForEvents || isFlipping()) return;
+    transitionStartTimeMsRef.current = performance.now();
+  }, [isListeningForEvents, isFlipping]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {

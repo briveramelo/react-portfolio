@@ -5,6 +5,7 @@ import HeroCard from "./Hero/HeroCard.tsx";
 import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import ScrollDownIndicator from "../components/ScrollDownIndicator.tsx";
 import { useCustomPalette } from "../../theme/theme.ts";
+import { SpinningCardProvider } from "../components/SpinningCardContext.tsx";
 
 interface HeroProps {
   backgroundColor: string;
@@ -77,11 +78,13 @@ export const HeroSection = forwardRef<HTMLElement, HeroProps>(
           }}
         >
           <HeroText textColor={textColor} isSectionVisible={isSectionVisible} />
-          <HeroCard
-            isSectionVisible={isSectionVisible}
-            onHoveredChange={setHasCardBeenHovered}
-            isFirstCardAnimationRef={isFirstCardAnimationRef}
-          />
+          <SpinningCardProvider>
+            <HeroCard
+              isSectionVisible={isSectionVisible}
+              onHoveredChange={setHasCardBeenHovered}
+              isFirstCardAnimationRef={isFirstCardAnimationRef}
+            />
+          </SpinningCardProvider>
         </Container>
         {hasCardBeenHovered && (
           <ScrollDownIndicator
