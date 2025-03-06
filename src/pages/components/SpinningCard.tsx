@@ -152,7 +152,11 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     ],
   );
 
+  const prevHoveredRef = useRef<boolean>(isHovered);
+
   useEffect(() => {
+    if (prevHoveredRef.current === isHovered) return;
+
     const sideRef = isHovered ? entrySideRef : exitSideRef;
     if (!sideRef.current) return;
 
@@ -160,6 +164,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     addition *= isHovered ? 1 : -1;
     setTargetRotationDeg((prev) => prev + addition);
     transitionStartTimeMsRef.current = performance.now();
+    prevHoveredRef.current = isHovered;
   }, [isHovered]);
 
   const handleTap = useCallback(() => {
