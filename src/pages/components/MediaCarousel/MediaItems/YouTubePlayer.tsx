@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { MediaControlContext } from "../MediaControlContext";
+import { useIntersectionObserver } from "../../../../utils/hooks/useIntersectionObserver";
 
 interface YouTubePlayerProps {
   // Use a src format like this in conjunction with playAsGif = true:
@@ -34,7 +35,9 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const isFirstActivation = useRef(true);
   const [playerReady, setPlayerReady] = useState(false);
-
+  const isPlayerVisible = useIntersectionObserver(iframeRef, {
+    threshold: 0.9,
+  });
   const seekTo = useCallback((timeSec: number) => {
     if (!iframeRef.current) return;
     iframeRef.current.contentWindow?.postMessage(
@@ -60,27 +63,44 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
     setPlayerReady(true);
   };
 
+  const autoplayRef = useRef(autoplay);
   useEffect(() => {
-    if (!iframeRef.current || !playerReady || playAsGif) return;
+    autoplayRef.current = autoplay;
+  }, [autoplay]);
 
+  // Centralized callback for play/pause commands.
+  const triggerPlayPause = useCallback(
+    (play: boolean) => {
+      if (!iframeRef.current || !playerReady || playAsGif) return;
+      // Only send a play command if autoplay is on.
+      if (play && !autoplayRef.current) return;
+      const command = play ? "playVideo" : "pauseVideo";
+      iframeRef.current.contentWindow?.postMessage(
+        JSON.stringify({
+          event: "command",
+          func: command,
+          args: [],
+        }),
+        "*",
+      );
+    },
+    [playerReady, playAsGif],
+  );
+
+  // Effect for when the player's visibility changes.
+  useEffect(() => {
+    triggerPlayPause(isPlayerVisible);
+  }, [isPlayerVisible, triggerPlayPause]);
+
+  // Effect for when the active state changes.
+  useEffect(() => {
     // On first activation with a defined start time, seek to it.
     if (isActive && isFirstActivation.current && startTime !== undefined) {
       seekTo(startTime);
       isFirstActivation.current = false;
     }
-
-    const command = isActive ? "playVideo" : "pauseVideo";
-    if (!autoplay && command === "playVideo") return;
-
-    iframeRef.current.contentWindow?.postMessage(
-      JSON.stringify({
-        event: "command",
-        func: command,
-        args: [],
-      }),
-      "*",
-    );
-  }, [isActive, playerReady, startTime, playAsGif, seekTo]);
+    triggerPlayPause(isActive);
+  }, [isActive, playerReady, startTime, playAsGif, seekTo, triggerPlayPause]);
 
   const padding = "54.25%";
   const autoplayHeight = isMobile && playAsGif ? 0 : 30;
