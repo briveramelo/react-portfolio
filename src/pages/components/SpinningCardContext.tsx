@@ -23,6 +23,7 @@ interface SpinningCardContextProps {
   trackPointerLeave: (event: React.MouseEvent<HTMLElement>) => void;
   isHovered: boolean;
   hasBeenHovered: boolean;
+  resetHoverState: () => void;
 }
 
 const SpinningCardContext = createContext<SpinningCardContextProps | undefined>(
@@ -32,8 +33,13 @@ const SpinningCardContext = createContext<SpinningCardContextProps | undefined>(
 export const SpinningCardProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const { trackPointerEnter, trackPointerLeave, isHovered, hasBeenHovered } =
-    useHoverTracking(true, USER_TRANSITION_DURATION_MS);
+  const {
+    trackPointerEnter,
+    trackPointerLeave,
+    isHovered,
+    hasBeenHovered,
+    resetHoverState,
+  } = useHoverTracking(true, USER_TRANSITION_DURATION_MS);
   const [isCardAnimating, setIsCardAnimating] = useState<boolean>(false);
   const [targetRotationDeg, setTargetRotationDeg] = useState<number>(0);
   const [transitionDurationMs, setTransitionDurationMs] = useState<number>(
@@ -57,6 +63,7 @@ export const SpinningCardProvider: React.FC<{ children: ReactNode }> = ({
       trackPointerLeave,
       isHovered,
       hasBeenHovered,
+      resetHoverState,
     }),
     [
       targetRotationDeg,
@@ -68,6 +75,7 @@ export const SpinningCardProvider: React.FC<{ children: ReactNode }> = ({
       trackPointerLeave,
       isHovered,
       hasBeenHovered,
+      resetHoverState,
     ],
   );
 

@@ -41,6 +41,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     trackPointerEnter,
     trackPointerLeave,
     isHovered,
+    resetHoverState,
   } = useSpinningCard();
 
   const [isVisibleLag, setIsVisibleLag] = useState<boolean>(false);
@@ -88,7 +89,8 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     entrySideRef.current = null;
     exitSideRef.current = null;
     transitionStartTimeMsRef.current = performance.now();
-  }, []);
+    resetHoverState();
+  }, [resetHoverState]);
 
   // set the context clear function
   useEffect(() => {

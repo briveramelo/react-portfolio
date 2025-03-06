@@ -33,6 +33,11 @@ export const useHoverTracking = (
     setIsHovered(false);
   };
 
+  const resetHoverState = () => {
+    setHoverStartTimeMillis(null);
+    setIsHovered(false);
+  };
+
   // Effect to check if dwell time exceeds threshold while hovering
   useEffect(() => {
     if (!hasBeenHovered && isHovered && hoverStartTimeMillis !== null) {
@@ -66,5 +71,6 @@ export const useHoverTracking = (
     trackPointerLeave,
     hasBeenHovered,
     isHovered,
+    resetHoverState,
   };
 };

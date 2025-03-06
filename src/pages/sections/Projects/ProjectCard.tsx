@@ -27,7 +27,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   isSliding,
 }) => {
   const [cardHeight, setCardHeight] = useState<string | number>("100%");
-  const { onReset, setIsCardAnimating } = useSpinningCard();
+  const { onReset, setIsCardAnimating, setTargetRotationDeg } =
+    useSpinningCard();
   const frontRef = useRef<HTMLDivElement>(null);
   const backRef = useRef<HTMLDivElement>(null);
 
@@ -88,6 +89,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         borderRadius={borderRadius}
         onClick={(event) => {
           onReset();
+          setTargetRotationDeg((prev) => prev - 180);
           onClick(event);
         }}
       />
