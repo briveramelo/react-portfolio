@@ -79,7 +79,6 @@ export interface ProjectOptions {
   description: string;
   imageSrc: string;
   gifSrc?: string;
-  gifWidth?: string; //eg: "75vw"
   skills: SkillData[];
   institutions: InstitutionData[];
   iconSrc: string;
@@ -94,7 +93,6 @@ export class Project {
   public description: ProjectOptions["description"];
   public imageSrc: ProjectOptions["imageSrc"];
   public gifSrc?: ProjectOptions["gifSrc"];
-  public gifWidth?: ProjectOptions["gifWidth"];
   public skills: ProjectOptions["skills"];
   public institutions: ProjectOptions["institutions"];
   public iconSrc: ProjectOptions["iconSrc"];
@@ -108,7 +106,6 @@ export class Project {
     description,
     imageSrc,
     gifSrc,
-    gifWidth,
     skills,
     institutions,
     iconSrc,
@@ -121,7 +118,6 @@ export class Project {
     this.description = description;
     this.imageSrc = imageSrc;
     this.gifSrc = gifSrc;
-    this.gifWidth = gifWidth;
     this.skills = skills;
     this.institutions = institutions;
     this.iconSrc = iconSrc;
@@ -146,7 +142,6 @@ export const allProjects: Project[] = [
     focus: "Featured",
     imageSrc: "tilt-tracker/josh-tilt-cropped.webp",
     gifSrc: "",
-    gifWidth: "60vw",
     description: `Tilt Tracker is **like FitBit for power wheelchair users**; it **prevents pressure ulcers** with reminders and reports for patients, family, and clinical care teams.
 ${_}
 I served a Software Engineer and transitioned to Lead Engineer, Co-Inventor, and Lead Producer for over 4 years.`,
@@ -177,7 +172,6 @@ I served a Software Engineer and transitioned to Lead Engineer, Co-Inventor, and
     focus: "Featured",
     imageSrc: "abcmouse/abcmouse.webp",
     gifSrc: "abcmouse/abcmouse-learning-path.mp4",
-    gifWidth: "60vw",
     description: `ABCmouse is the **#1 learning app** for children ages 2–8, where over **18 million students** have completed more than **4 billion educational activities**, earning the trust of families worldwide.
 ${_}
 I served as a Software Engineer I and II on ABCmouse for 1.5 years.`,
@@ -201,7 +195,6 @@ I served as a Software Engineer I and II on ABCmouse for 1.5 years.`,
     focus: "Featured",
     imageSrc: "clawface/clawface-cover.webp",
     gifSrc: "clawface/clawface-bullethell-compressed.mp4",
-    gifWidth: "60vw",
     description: `Clawface is an indie, twin-stick, arcade-style bullet hell shooter published to Steam with **"Very Positive" reviews** and **over 70,000 downloads.**
 ${_}
 I served as the Lead Engineer for a team of 6 engineers in a 15-person game-development studio.`,
@@ -217,7 +210,6 @@ I served as the Lead Engineer for a team of 6 engineers in a 15-person game-deve
     focus: "Archived",
     imageSrc: "nrh-control/nrh-control-ipad.webp",
     gifSrc: "nrh-control/nrh-trimmed.mp4",
-    gifWidth: "60vw",
     description: `NRH Control is a hospital smartroom controller for patients, family, and staff at the Craig H. Neilsen Rehabilitation Hospital at the University of Utah.
 ${_}
 I served as the UI/UX Coordinator for 2 years.`,
@@ -233,7 +225,6 @@ I served as the UI/UX Coordinator for 2 years.`,
     focus: "Archived",
     imageSrc: "ad-with-sam/adwithsam-cleaned.webp",
     gifSrc: "ad-with-sam/ad-lightning-vid1.mp4",
-    gifWidth: "60vw",
     description: `AD with Sam is a highly innovative augmented reality exhibit for people with spinal cord injury to learn about a life-threatening complication: Autonomic Dysreflexia.
 ${_}
 I served as Lead Producer from start to finish.`,
@@ -249,7 +240,6 @@ I served as Lead Producer from start to finish.`,
     focus: "Archived",
     imageSrc: "bobby-the-bladder/sam-and-bobby-thumbnail.webp",
     gifSrc: "bobby-the-bladder/bobby-death.mp4",
-    gifWidth: "50vw",
     description: `Bobby the Bladder is an interactive, branching narrative game for people with spinal cord injury and their family to learn about bladder maintenance.
 ${_}
 I served as Lead Producer from start to finish.`,
@@ -265,7 +255,6 @@ I served as Lead Producer from start to finish.`,
     focus: "Archived",
     imageSrc: "derpy-dinos/derpy-capsule.webp",
     gifSrc: "derpy-dinos/derpy-dinos-slow-down.mp4",
-    gifWidth: "60vw",
     description: `Derpy Dinos is a 2.5D side-scrolling arcade shooter published to Steam with **Mostly Positive reviews** (7/10) and **49,000+ downloads.**
 ${_}
 I served as Lead Producer and Engineer through release.`,
@@ -281,7 +270,6 @@ I served as Lead Producer and Engineer through release.`,
     focus: "Archived",
     imageSrc: "mindkloud-journey/mk-journey-logo.webp",
     gifSrc: "",
-    gifWidth: "60vw",
     description: `MindKloud Journey is a mobile app for young adults to improve emotional self-awareness through journaling and colleges to facilitate a thriving social atmosphere.
 ${_}
 I served as Head of Engineering for Health Tech Apps.`,
@@ -309,7 +297,6 @@ I served as Head of Engineering for Health Tech Apps.`,
     focus: "Archived",
     imageSrc: "pocket-optimist/pessimistic-night2.webp",
     gifSrc: "pocket-optimist/pocket-opt-animals-compressed.mp4",
-    gifWidth: "80vw",
     description: `The Pocket Optimist is a science-based, personal development service for athletes, working professionals, and parents to break through hidden mental barriers.
 ${_}
 I served as the Inventor, Developer, and Coach.`,
@@ -325,7 +312,6 @@ I served as the Inventor, Developer, and Coach.`,
     focus: "Archived",
     imageSrc: "abductor/abductor.webp",
     gifSrc: "abductor/abductor4.mp4",
-    gifWidth: "60vw",
     description: `Offender is a 2D Arcade Style Shooter with a looping arena filled with endless carnage and destruction, published as a web game.
 ${_}
 I served as the Lead Engineer and Production Co-Lead.`,
@@ -341,7 +327,6 @@ I served as the Lead Engineer and Production Co-Lead.`,
     focus: "Archived",
     imageSrc: "talking-points/talking-points-cover.webp",
     gifSrc: "talking-points/talking-points-loop.mp4",
-    gifWidth: "60vw",
     description: `Talking Points is like Guitar Hero for speech; it's a rhythm-based game that helps children with dyslexia learn word pronunciation and reading comprehension.
 ${_}
 I served as the Lead Engineer during prototyping.`,
@@ -357,7 +342,6 @@ I served as the Lead Engineer during prototyping.`,
     focus: "Archived",
     imageSrc: "debug/debug-cover.webp",
     gifSrc: "debug/debug-loop.mp4",
-    gifWidth: "60vw",
     description: `Debug is an arcade, wave-based survival game. Bugs approach faster and faster from ALL angles threatening to destroy your ship.
 ${_}
 I served as the Lead Engineer and Production Co-Lead.`,
@@ -373,7 +357,6 @@ I served as the Lead Engineer and Production Co-Lead.`,
     focus: "Archived",
     imageSrc: "fruit-buddi/fruitmoney.jpg",
     gifSrc: "fruit-buddi/fruit-buddi-action.mp4",
-    gifWidth: "60vw",
     description: `Fruit Buddi is a simple, analog matching game for parents to engage their kids with healthy food choices on shopping carts.
 ${_}
 I served as a Co-Inventor and Designer for this product.`,
@@ -386,14 +369,16 @@ I served as a Co-Inventor and Designer for this product.`,
     title: "This Portfolio",
     year: 2025,
     category: undefined,
-    focus: "Hidden",
-    imageSrc: "",
+    focus: "Archived",
+    imageSrc: "this-portfolio/brandon-wide.webp",
     gifSrc: "",
-    gifWidth: "",
-    description: ``,
+    description: `This portfolio was built with React designed for use on desktop and mobile web platforms, and traffic analyzed using Plausible to protect your ad-exposure.
+${_}
+I built it in ~2.5 months.`,
     skills: getSkills(
       "Leadership",
       "GCP",
+      "AWS",
       "DevOps",
       "Python",
       "React",

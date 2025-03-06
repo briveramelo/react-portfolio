@@ -7,12 +7,15 @@ export const thisPortfolio = new ProjectDetail({
   media: [
     {
       chapterTitle: "This Portfolio",
-      src: `Take a look around you at.`,
+      src: `### Look around.`,
       alt: "",
       type: "quote",
-      text: `This portfolio was built with React, written in Typescript/Javascript, styled in CSS, templated with HTML, hosted on Google Cloud Platform (GCP), the DNS managed with Amazon Web Services AWS, the source code controlled with [Git](https://github.com/briveramelo/react-portfolio), designed for use on desktop and mobile web platforms, and traffic analyzed using Plausible to protect your ad-exposure.
+      text: `This portfolio was built with React designed for use on desktop and mobile web platforms, and traffic analyzed using Plausible to protect your ad-exposure.
 ${_}
-Even the embedded youtube links are crafted to ensure **no 3rd-party cookie tracking by default.**`,
+Even the embedded youtube links are crafted to ensure **no 3rd-party cookie tracking by default.**
+${_}
+Special thanks to the friends and family who have generously shared their time and attention for a more natural web experience.`,
+      quoteWidth: "auto",
     },
   ],
   links: [
