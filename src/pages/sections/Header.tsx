@@ -17,7 +17,7 @@ import { isColorDark } from "../../utils/utils.ts";
 import { ThemeMode, themes } from "../../theme/theme.ts";
 import { NavLink, sectionStyles } from "../../data/sectionStyles.ts";
 import { useNavigation } from "../../utils/hooks/useNavigation";
-import { useHeaderHeight } from "../../context/HeaderHeightContext.tsx";
+import { useHeaderContext } from "../../context/HeaderContext.tsx";
 
 interface HeaderProps {
   sectionRefs: (React.RefObject<HTMLElement> | undefined)[];
@@ -37,7 +37,11 @@ export function Header({
   defaultIsBackgroundDark,
 }: HeaderProps) {
   const headerRef = useRef<HTMLElement | null>(null);
-  const { setHeaderHeight } = useHeaderHeight();
+  const { setHeaderHeight, triggerOnEnterHeader } = useHeaderContext();
+
+  const handlePointerEnter = (event: React.PointerEvent<HTMLElement>) => {
+    triggerOnEnterHeader(event);
+  };
 
   useEffect(() => {
     if (headerRef.current) {
@@ -195,8 +199,9 @@ export function Header({
         top: 0,
         background: colors.header,
         zIndex: 3, //force top
-        overflow: "hidden", // ensure proper clipping
+        overflow: "hidden",
       }}
+      onPointerEnter={handlePointerEnter}
     >
       {/* Header Toolbar */}
       <Toolbar

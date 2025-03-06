@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { Box, BoxProps, useMediaQuery } from "@mui/material";
 import { useSpinningCard } from "./SpinningCardContext.tsx";
+import { useHeaderContext } from "../../context/HeaderContext.tsx";
 
 export interface SpinningCardProps {
   id?: string;
@@ -84,7 +85,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
   }, [reset]);
 
   const isLeft = useCallback(
-    (event: MouseEvent<HTMLDivElement>): boolean => {
+    (event: MouseEvent<HTMLElement>): boolean => {
       const rect = containerRef.current?.getBoundingClientRect();
       if (!rect) return false;
       return event.clientX < rect.right - rect.width / 2;
@@ -93,7 +94,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
   );
 
   const isInsideContainer = useCallback(
-    (event: MouseEvent<HTMLDivElement>): boolean => {
+    (event: MouseEvent<HTMLElement>): boolean => {
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
         return (
@@ -116,7 +117,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
   }, [transitionDurationMs]);
 
   const handlePointerEnter = useCallback(
-    (event: MouseEvent<HTMLDivElement>) => {
+    (event: MouseEvent<HTMLElement>) => {
       if (!isListeningForEvents || !isVisibleLag || entrySideRef.current) {
         return;
       }
@@ -130,12 +131,15 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
   );
 
   const handlePointerLeave = useCallback(
-    (event: MouseEvent<HTMLDivElement>) => {
-      if (!isListeningForEvents || !isVisibleLag || !entrySideRef.current) {
+    (event: MouseEvent<HTMLElement>, isForced: boolean = false) => {
+      if (
+        !isForced &&
+        (!isListeningForEvents || !isVisibleLag || !entrySideRef.current)
+      ) {
         return;
       }
 
-      if (isInsideContainer(event)) {
+      if (!isForced && isInsideContainer(event)) {
         return;
       }
 
@@ -151,6 +155,16 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
       isVisibleLag,
     ],
   );
+
+  const { subscribeOnEnterHeader } = useHeaderContext();
+  useEffect(() => {
+    const unsubscribe = subscribeOnEnterHeader((event) => {
+      handlePointerLeave(event, true);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [subscribeOnEnterHeader, handlePointerLeave]);
 
   const prevHoveredRef = useRef<boolean>(isHovered);
 

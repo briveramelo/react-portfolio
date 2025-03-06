@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useHeaderHeight } from "../../context/HeaderHeightContext";
+import { useHeaderContext } from "../../context/HeaderContext.tsx";
 
 export const useIntersectionObserver = (
   elementRef: React.RefObject<Element>,
@@ -7,7 +7,7 @@ export const useIntersectionObserver = (
   startingVisibility = false,
 ): boolean => {
   const [isVisible, setIsVisible] = useState(startingVisibility);
-  const { headerHeight } = useHeaderHeight();
+  const { headerHeight } = useHeaderContext();
   // Memoize the options within the hook.
   const memoizedOptions = useMemo(
     () => ({

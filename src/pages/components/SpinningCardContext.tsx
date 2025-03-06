@@ -40,7 +40,7 @@ export const SpinningCardProvider: React.FC<{ children: ReactNode }> = ({
     hasBeenHovered,
     resetHoverState,
   } = useHoverTracking(true, USER_TRANSITION_DURATION_MS);
-  const [isCardAnimating, setIsCardAnimating] = useState<boolean>(false);
+  const [isCardAnimating, setIsCardAnimating] = useState<boolean>(true);
   const [targetRotationDeg, setTargetRotationDeg] = useState<number>(0);
   const [transitionDurationMs, setTransitionDurationMs] = useState<number>(
     USER_TRANSITION_DURATION_MS,
