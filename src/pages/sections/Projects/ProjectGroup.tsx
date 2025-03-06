@@ -66,7 +66,10 @@ const ProjectGroup: React.FC<ProjectGroupProps> = ({
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(390px, 1fr))",
+          gridTemplateColumns: {
+            xs: "repeat(auto-fit, minmax(350px, 1fr))",
+            sm: "repeat(auto-fit, minmax(390px, 1fr))",
+          },
           gap: "20px",
           justifyContent: "center",
         }}
