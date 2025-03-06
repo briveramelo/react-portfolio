@@ -45,7 +45,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
 
   const [isVisibleLag, setIsVisibleLag] = useState<boolean>(false);
   const entrySideRef = useRef<"left" | "right" | null>(null);
-  const exitSideRef = useRef<"left" | "right" | null>(null);
+  const exitSideRef = useRef<"left" | "right" | null>("left");
   const transitionStartTimeMsRef = useRef<number>(performance.now());
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
 
@@ -77,6 +77,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     exitSideRef.current = null;
     transitionStartTimeMsRef.current = performance.now();
     resetHoverState();
+    prevHoveredRef.current = false;
   }, [resetHoverState]);
 
   // set the context clear function

@@ -4,6 +4,7 @@ import React, {
   useLayoutEffect,
   MouseEvent,
   useEffect,
+  useCallback,
 } from "react";
 import { SpinningCard } from "../../components/SpinningCard.tsx";
 import { ProjectCardFront } from "./ProjectCardFront.tsx";
@@ -31,13 +32,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
     useSpinningCard();
   const frontRef = useRef<HTMLDivElement>(null);
   const backRef = useRef<HTMLDivElement>(null);
+  const timeoutRef = useRef<number | null>(null);
 
   const cardWidth = "100%";
   const borderRadius = "8px";
 
   useEffect(() => {
     setIsCardAnimating(isSliding);
-  }, [isSliding]);
+  }, [isSliding, setIsCardAnimating]);
 
   useLayoutEffect(() => {
     if (!frontRef.current || !backRef.current) return;
@@ -62,11 +64,35 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
     };
   }, [project, isSectionVisible, cardHeight]);
 
+  // Cleanup timeout when component unmounts
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleCardClick = useCallback(
+    (event: MouseEvent<HTMLElement>) => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = window.setTimeout(() => {
+        onReset();
+        timeoutRef.current = null;
+      }, 1000);
+
+      setTargetRotationDeg((prev) => prev - 180);
+      onClick(event);
+    },
+    [onReset, onClick, setTargetRotationDeg],
+  );
+
   return (
     <SpinningCard
       id={`project_card_${project.title}`}
       isSectionVisible={isSectionVisible}
-      visibleLagTimeMs={800}
       cardWidth={cardWidth}
       cardHeight={cardHeight}
       borderRadius={borderRadius}
@@ -87,11 +113,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         useLight={useLight}
         height={cardHeight}
         borderRadius={borderRadius}
-        onClick={(event) => {
-          onReset();
-          setTargetRotationDeg((prev) => prev - 180);
-          onClick(event);
-        }}
+        onClick={handleCardClick}
       />
       <ProjectCardFront
         ref={frontRef}

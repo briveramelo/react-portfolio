@@ -149,7 +149,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                       display: "flex",
                     }}
                     id="close_project_button"
-                    onClick={handleCloseProjectDetails}
+                    onClick={() => handleCloseProjectDetails()}
                     className="pop-shadow"
                   >
                     <CloseIcon
