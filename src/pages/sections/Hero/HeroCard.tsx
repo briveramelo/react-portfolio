@@ -111,8 +111,8 @@ const HeroCard: React.FC<HeroCardProps> = ({
     onHoveredChange(hasBeenHovered);
   }, [hasBeenHovered, onHoveredChange]);
 
-  const cardWidth = useMemo(() => ({ sm: "400px", xs: "375px" }), []);
-  const cardHeight = useMemo(() => ({ sm: "600px", xs: "562.5px" }), []);
+  const cardWidth = useMemo(() => ({ xs: "350px", sm: "400px" }), []);
+  const cardHeight = useMemo(() => ({ xs: "525px", sm: "600px" }), []);
   const borderRadius = "20px";
   const borderRadiusPx = 20;
 
