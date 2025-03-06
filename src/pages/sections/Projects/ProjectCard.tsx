@@ -45,6 +45,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
     setIsCardAnimating(isSliding);
     if (isSliding && targetRotationDeg % 360 !== 0) {
       setTargetRotationDeg((prev) => prev + 180);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = window.setTimeout(() => {
+        onReset();
+        timeoutRef.current = null;
+      }, 500);
     }
   }, [isSliding, setIsCardAnimating]);
 
@@ -80,21 +87,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
     };
   }, []);
 
-  const handleCardClick = useCallback(
-    (event: MouseEvent<HTMLElement>) => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-      timeoutRef.current = window.setTimeout(() => {
-        onReset();
-        timeoutRef.current = null;
-      }, 1000);
-
-      onClick(event);
-    },
-    [onReset, onClick],
-  );
-
   return (
     <SpinningCard
       id={`project_card_${project.title}`}
@@ -119,7 +111,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         useLight={useLight}
         height={cardHeight}
         borderRadius={borderRadius}
-        onClick={handleCardClick}
+        onClick={onClick}
       />
       <ProjectCardFront
         ref={frontRef}

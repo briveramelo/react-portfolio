@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { trackMouseEvent } from "../plausibleHelpers.ts";
 
 export const useHoverTracking = (
@@ -10,10 +10,12 @@ export const useHoverTracking = (
   >(null);
   const [hasBeenHovered, setHasBeenHovered] = useState<boolean>(false);
   const [isHovered, setIsHovered] = useState<boolean>(false);
+  const isHoveredRef = useRef<boolean>(false);
 
   const trackPointerEnter = useCallback(() => {
     setHoverStartTimeMillis(performance.now());
     setIsHovered(true);
+    isHoveredRef.current = true;
   }, []);
 
   const trackPointerLeave = useCallback(
@@ -32,6 +34,7 @@ export const useHoverTracking = (
       }
       setHoverStartTimeMillis(null);
       setIsHovered(false);
+      isHoveredRef.current = false;
     },
     [],
   );
@@ -39,6 +42,7 @@ export const useHoverTracking = (
   const resetHoverState = useCallback(() => {
     setHoverStartTimeMillis(null);
     setIsHovered(false);
+    isHoveredRef.current = false;
   }, []);
 
   // Effect to check if dwell time exceeds threshold while hovering
@@ -74,6 +78,7 @@ export const useHoverTracking = (
     trackPointerLeave,
     hasBeenHovered,
     isHovered,
+    isHoveredRef,
     resetHoverState,
   };
 };

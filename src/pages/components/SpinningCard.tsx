@@ -40,6 +40,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     trackPointerEnter,
     trackPointerLeave,
     isHovered,
+    isHoveredRef,
     resetHoverState,
   } = useSpinningCard();
 
@@ -77,7 +78,6 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     exitSideRef.current = null;
     transitionStartTimeMsRef.current = performance.now();
     resetHoverState();
-    prevHoveredRef.current = false;
   }, [resetHoverState]);
 
   // set the context clear function
@@ -117,9 +117,26 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     );
   }, [transitionDurationMs]);
 
+  const flip = useCallback(
+    (side: "left" | "right" | null) => {
+      if (!side) return;
+
+      let addition = side === "left" ? 180 : -180;
+      addition *= isHovered ? 1 : -1;
+      setTargetRotationDeg((prev) => prev + addition);
+      transitionStartTimeMsRef.current = performance.now();
+    },
+    [isHovered, setTargetRotationDeg],
+  );
+
   const handlePointerEnter = useCallback(
     (event: MouseEvent<HTMLElement>) => {
-      if (!isListeningForEvents || !isVisibleLag || entrySideRef.current) {
+      if (
+        !isListeningForEvents ||
+        !isVisibleLag ||
+        entrySideRef.current ||
+        isHoveredRef.current
+      ) {
         return;
       }
 
@@ -127,15 +144,26 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
       exitSideRef.current = null;
       transitionStartTimeMsRef.current = performance.now();
       trackPointerEnter();
+      flip(entrySideRef.current);
     },
-    [isListeningForEvents, isLeft, trackPointerEnter, isVisibleLag],
+    [
+      isListeningForEvents,
+      isLeft,
+      trackPointerEnter,
+      isVisibleLag,
+      flip,
+      isHoveredRef.current,
+    ],
   );
 
   const handlePointerLeave = useCallback(
     (event: MouseEvent<HTMLElement>, isForced: boolean = false) => {
       if (
         !isForced &&
-        (!isListeningForEvents || !isVisibleLag || !entrySideRef.current)
+        (!isListeningForEvents ||
+          !isVisibleLag ||
+          !entrySideRef.current ||
+          !isHoveredRef.current)
       ) {
         return;
       }
@@ -147,6 +175,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
       entrySideRef.current = null;
       exitSideRef.current = isLeft(event) ? "left" : "right";
       trackPointerLeave(event);
+      flip(exitSideRef.current);
     },
     [
       isListeningForEvents,
@@ -154,33 +183,22 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
       trackPointerLeave,
       isInsideContainer,
       isVisibleLag,
+      flip,
+      isHoveredRef.current,
     ],
   );
 
   const { subscribeOnEnterHeader } = useHeaderContext();
   useEffect(() => {
     const unsubscribe = subscribeOnEnterHeader((event) => {
-      handlePointerLeave(event, true);
+      if (isHoveredRef.current) {
+        handlePointerLeave(event, true);
+      }
     });
     return () => {
       unsubscribe();
     };
   }, [subscribeOnEnterHeader, handlePointerLeave]);
-
-  const prevHoveredRef = useRef<boolean>(isHovered);
-
-  useEffect(() => {
-    if (prevHoveredRef.current === isHovered) return;
-
-    const sideRef = isHovered ? entrySideRef : exitSideRef;
-    if (!sideRef.current) return;
-
-    let addition = sideRef?.current === "left" ? 180 : -180;
-    addition *= isHovered ? 1 : -1;
-    setTargetRotationDeg((prev) => prev + addition);
-    transitionStartTimeMsRef.current = performance.now();
-    prevHoveredRef.current = isHovered;
-  }, [isHovered]);
 
   const handleTap = useCallback(() => {
     if (!isListeningForEvents || isFlipping()) return;
