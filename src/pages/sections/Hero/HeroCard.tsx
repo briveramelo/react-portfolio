@@ -59,7 +59,7 @@ const HeroCard: React.FC<HeroCardProps> = ({
               ? FIRST_ANIMATED_TRANSITION_DURATION_MS
               : ANIMATED_TRANSITION_DURATION_MS,
           );
-          setTargetRotationDeg(360);
+          setTargetRotationDeg((prev) => prev + 360);
         },
       },
       {
