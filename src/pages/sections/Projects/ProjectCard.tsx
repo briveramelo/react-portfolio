@@ -28,8 +28,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   isSliding,
 }) => {
   const [cardHeight, setCardHeight] = useState<string | number>("100%");
-  const { onReset, setIsCardAnimating, setTargetRotationDeg } =
-    useSpinningCard();
+  const {
+    onReset,
+    setIsCardAnimating,
+    targetRotationDeg,
+    setTargetRotationDeg,
+  } = useSpinningCard();
   const frontRef = useRef<HTMLDivElement>(null);
   const backRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<number | null>(null);
@@ -39,6 +43,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
   useEffect(() => {
     setIsCardAnimating(isSliding);
+    if (isSliding && targetRotationDeg % 360 !== 0) {
+      setTargetRotationDeg((prev) => prev + 180);
+    }
   }, [isSliding, setIsCardAnimating]);
 
   useLayoutEffect(() => {
@@ -83,10 +90,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         timeoutRef.current = null;
       }, 1000);
 
-      setTargetRotationDeg((prev) => prev - 180);
       onClick(event);
     },
-    [onReset, onClick, setTargetRotationDeg],
+    [onReset, onClick],
   );
 
   return (
