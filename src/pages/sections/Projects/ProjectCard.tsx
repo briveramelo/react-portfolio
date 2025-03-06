@@ -1,4 +1,10 @@
-import React, { useState, useRef, useLayoutEffect, MouseEvent } from "react";
+import React, {
+  useState,
+  useRef,
+  useLayoutEffect,
+  MouseEvent,
+  useEffect,
+} from "react";
 import { useMediaQuery } from "@mui/material";
 import { SpinningCard } from "../../components/SpinningCard.tsx";
 import { ProjectCardFront } from "./ProjectCardFront.tsx";
@@ -22,13 +28,17 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   isSliding,
 }) => {
   const [cardHeight, setCardHeight] = useState<string | number>("100%");
-  const { onClear } = useSpinningCard();
+  const { onClear, setIsCardAnimating } = useSpinningCard();
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
   const frontRef = useRef<HTMLDivElement>(null);
   const backRef = useRef<HTMLDivElement>(null);
 
   const cardWidth = "100%";
   const borderRadius = "8px";
+
+  useEffect(() => {
+    setIsCardAnimating(isSliding);
+  }, [isSliding]);
 
   useLayoutEffect(() => {
     if (!frontRef.current || !backRef.current) return;
@@ -55,8 +65,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
   return (
     <SpinningCard
-      isListeningForEvents={!isSliding && isSectionVisible}
+      id={`project_card_${project.title}`}
       visibleLagTimeMs={800}
+      isSectionVisible={isSectionVisible}
+      cardWidth={cardWidth}
+      cardHeight={cardHeight}
+      borderRadius={borderRadius}
       containerProps={{
         sx: {
           perspective: "1000px",
@@ -67,12 +81,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           borderRadius,
         },
       }}
-      isSectionVisible={isSectionVisible}
-      isTouchDevice={isTouchDevice}
-      cardWidth={cardWidth}
-      cardHeight={cardHeight}
-      borderRadius={borderRadius}
-      id={`project_card_${project.title}`}
     >
       <ProjectCardBack
         ref={backRef}

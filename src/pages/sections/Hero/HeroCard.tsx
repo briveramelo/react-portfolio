@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
-import { useMediaQuery } from "@mui/material";
 import FuseEffect from "./Fuse/FuseEffect";
 import { FlareEffect } from "./Flare/FlareEffect";
 import HeroCardBack from "./HeroCardBack";
@@ -27,23 +26,25 @@ const HeroCard: React.FC<HeroCardProps> = ({
   onHoveredChange,
   isFirstCardAnimationRef,
 }) => {
-  const { setTransitionDurationMs, setTargetRotationDeg, containerRef } =
-    useSpinningCard();
+  const {
+    setTransitionDurationMs,
+    setTargetRotationDeg,
+    containerRef,
+    isCardAnimating,
+    setIsCardAnimating,
+  } = useSpinningCard();
   const [hasBeenHovered, setHasBeenHovered] = useState<boolean>(false);
   const onHasBeenHovered = () => {
     setHasBeenHovered(true);
   };
-  const [isCardAnimating, setIsCardAnimating] = useState<boolean>(true);
   const [isFuseActive, setIsFuseActive] = useState<boolean>(false);
 
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const { interactable } = useCustomPalette();
 
-  const transitionStartTimeMsRef = useRef<number>(performance.now());
-  const isTouchDevice = useMediaQuery("(pointer: coarse)");
-
   // Initial spin sequence.
   const runSpinSequence = (): ReturnType<typeof setTimeout>[] => {
+    setIsCardAnimating(true);
     const timers: ReturnType<typeof setTimeout>[] = [];
     let accumulatedDelay = 0;
 
@@ -53,7 +54,6 @@ const HeroCard: React.FC<HeroCardProps> = ({
           ? FIRST_ANIMATION_START_DELAY_MS
           : ANIMATION_START_DELAY_MS,
         action: () => {
-          transitionStartTimeMsRef.current = performance.now();
           setTransitionDurationMs(
             isFirstCardAnimationRef.current
               ? FIRST_ANIMATED_TRANSITION_DURATION_MS
@@ -67,9 +67,9 @@ const HeroCard: React.FC<HeroCardProps> = ({
           ? FIRST_ANIMATED_TRANSITION_DURATION_MS
           : ANIMATED_TRANSITION_DURATION_MS,
         action: () => {
-          transitionStartTimeMsRef.current = performance.now();
           setTransitionDurationMs(USER_TRANSITION_DURATION_MS);
           isFirstCardAnimationRef.current = false;
+          setIsCardAnimating(false);
           if (!hasBeenHovered) {
             setIsFuseActive(true);
           }
@@ -123,7 +123,6 @@ const HeroCard: React.FC<HeroCardProps> = ({
   return (
     <SpinningCard
       id={"home_avatar_card_enter"}
-      isListeningForEvents={!isCardAnimating && isSectionVisible}
       containerProps={{
         sx: {
           perspective: "1000px",
@@ -136,7 +135,6 @@ const HeroCard: React.FC<HeroCardProps> = ({
       }}
       onHasBeenHovered={onHasBeenHovered}
       isSectionVisible={isSectionVisible}
-      isTouchDevice={isTouchDevice}
       cardWidth={cardWidth}
       cardHeight={cardHeight}
       borderRadius={borderRadius}

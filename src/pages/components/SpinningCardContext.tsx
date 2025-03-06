@@ -9,6 +9,8 @@ import React, {
 import { USER_TRANSITION_DURATION_MS } from "../sections/Hero/heroHelpers.ts";
 
 interface SpinningCardContextProps {
+  isCardAnimating: boolean;
+  setIsCardAnimating: React.Dispatch<React.SetStateAction<boolean>>;
   targetRotationDeg: number;
   setTargetRotationDeg: React.Dispatch<React.SetStateAction<number>>;
   containerRef: React.RefObject<HTMLDivElement>;
@@ -25,6 +27,7 @@ const SpinningCardContext = createContext<SpinningCardContextProps | undefined>(
 export const SpinningCardProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const [isCardAnimating, setIsCardAnimating] = useState<boolean>(false);
   const [targetRotationDeg, setTargetRotationDeg] = useState<number>(0);
   const [transitionDurationMs, setTransitionDurationMs] = useState<number>(
     USER_TRANSITION_DURATION_MS,
@@ -36,13 +39,21 @@ export const SpinningCardProvider: React.FC<{ children: ReactNode }> = ({
     () => ({
       targetRotationDeg,
       setTargetRotationDeg,
-      containerRef,
+      isCardAnimating,
+      setIsCardAnimating,
       transitionDurationMs,
       setTransitionDurationMs,
       onClear,
       setOnClear,
+      containerRef,
     }),
-    [targetRotationDeg, transitionDurationMs, containerRef, onClear],
+    [
+      targetRotationDeg,
+      isCardAnimating,
+      transitionDurationMs,
+      containerRef,
+      onClear,
+    ],
   );
 
   return (

@@ -5,17 +5,15 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { Box, BoxProps } from "@mui/material";
+import { Box, BoxProps, useMediaQuery } from "@mui/material";
 import { useHoverTracking } from "../../utils/tracking/hooks/useHoverTracking.ts";
 import { USER_TRANSITION_DURATION_MS } from "../sections/Hero/heroHelpers.ts";
 import { useSpinningCard } from "./SpinningCardContext.tsx";
 
 export interface SpinningCardProps {
   id?: string;
-  isListeningForEvents: boolean;
   visibleLagTimeMs?: number;
   isSectionVisible: boolean;
-  isTouchDevice?: boolean;
   onHasBeenHovered?: () => void;
   onClickCard?: (event: MouseEvent<HTMLDivElement>) => void;
   cardWidth: any; // e.g. { sm: "400px", xs: "375px" }
@@ -27,10 +25,8 @@ export interface SpinningCardProps {
 
 export const SpinningCard: React.FC<SpinningCardProps> = ({
   id,
-  isListeningForEvents,
   visibleLagTimeMs = 500,
   isSectionVisible,
-  isTouchDevice = false,
   onHasBeenHovered,
   onClickCard,
   cardWidth,
@@ -39,19 +35,44 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
   children,
   containerProps,
 }) => {
-  const { trackPointerEnter, trackPointerLeave, isHovered, hasBeenHovered } =
-    useHoverTracking(true, USER_TRANSITION_DURATION_MS);
-  const [isVisibleLag, setIsVisibleLag] = useState<boolean>(false);
-  const entrySideRef = useRef<"left" | "right" | null>(null);
-  const exitSideRef = useRef<"left" | "right" | null>(null);
-  const transitionStartTimeMsRef = useRef<number>(performance.now());
   const {
     targetRotationDeg,
     setTargetRotationDeg,
     containerRef,
     transitionDurationMs,
     setOnClear,
+    isCardAnimating,
   } = useSpinningCard();
+  const { trackPointerEnter, trackPointerLeave, isHovered, hasBeenHovered } =
+    useHoverTracking(true, USER_TRANSITION_DURATION_MS);
+  const [isVisibleLag, setIsVisibleLag] = useState<boolean>(false);
+  const entrySideRef = useRef<"left" | "right" | null>(null);
+  const exitSideRef = useRef<"left" | "right" | null>(null);
+  const transitionStartTimeMsRef = useRef<number>(performance.now());
+  const isTouchDevice = useMediaQuery("(pointer: coarse)");
+
+  const [isListeningForEvents, setIsListeningForEvents] =
+    useState<boolean>(false);
+  const [isSensorOn, setIsSensorOn] = useState<boolean>(
+    isListeningForEvents && isVisibleLag && !isHovered,
+  );
+  const isHero = useCallback(() => id === "home_avatar_card_enter", [id]);
+
+  useEffect(() => {
+    setIsSensorOn(
+      !isCardAnimating && isSectionVisible && isVisibleLag && !isHovered,
+    );
+    setIsListeningForEvents(!isCardAnimating && isSectionVisible);
+    if (isHero()) {
+      console.log(
+        "is Sensor on?",
+        !isCardAnimating,
+        isSectionVisible,
+        isVisibleLag,
+        !isHovered,
+      );
+    }
+  }, [isVisibleLag, isHovered, isCardAnimating, isSectionVisible]);
 
   const clear = useCallback(() => {
     entrySideRef.current = null;
@@ -103,6 +124,14 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
 
   const handlePointerEnter = useCallback(
     (event: MouseEvent<HTMLDivElement>) => {
+      if (isHero()) {
+        console.log(
+          "pointer enter state:",
+          !isListeningForEvents,
+          !isVisibleLag,
+          entrySideRef.current,
+        );
+      }
       if (!isListeningForEvents || !isVisibleLag || entrySideRef.current) {
         return;
       }
@@ -112,16 +141,27 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
       transitionStartTimeMsRef.current = performance.now();
       trackPointerEnter();
     },
-    [isListeningForEvents, isLeft, trackPointerEnter, isVisibleLag],
+    [isListeningForEvents, isLeft, trackPointerEnter, isVisibleLag, isHero],
   );
 
   const handlePointerLeave = useCallback(
     (event: MouseEvent<HTMLDivElement>) => {
+      if (isHero()) {
+        console.log(
+          "pointer leave state:",
+          !isListeningForEvents,
+          !isVisibleLag,
+          !entrySideRef.current,
+        );
+      }
       if (!isListeningForEvents || !isVisibleLag || !entrySideRef.current) {
         return;
       }
 
       if (isInsideContainer(event)) {
+        if (isHero()) {
+          console.log("isInsideContainer");
+        }
         return;
       }
 
@@ -135,6 +175,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
       trackPointerLeave,
       isInsideContainer,
       isVisibleLag,
+      isHero,
     ],
   );
 
@@ -146,6 +187,9 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     addition *= isHovered ? 1 : -1;
     setTargetRotationDeg((prev) => prev + addition);
     transitionStartTimeMsRef.current = performance.now();
+    if (isHero()) {
+      console.log("isHovered changed to:", isHovered);
+    }
   }, [isHovered]);
 
   const handleTap = useCallback(() => {
@@ -189,13 +233,9 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
             position: "absolute",
             width: cardWidth,
             height: cardHeight,
-            zIndex:
-              !isListeningForEvents || !isVisibleLag || isHovered ? -1 : 2,
+            zIndex: isSensorOn ? 2 : -1,
             borderRadius,
-            pointerEvents:
-              !isListeningForEvents || !isVisibleLag || isHovered
-                ? "none"
-                : "auto",
+            pointerEvents: isSensorOn ? "auto" : "none",
           }}
           id={id}
           onPointerEnter={handlePointerEnter}
