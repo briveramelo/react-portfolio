@@ -1,5 +1,5 @@
 import React from "react";
-import { _, dash, iconStyle, ProjectDetail } from "./projectDetails.tsx";
+import { _, dash, iconStyle, ProjectDetail } from "../projectDetails.tsx";
 import SteamIcon from "@/assets/skills/steam.svg?react";
 
 export const derpyDinos = new ProjectDetail({

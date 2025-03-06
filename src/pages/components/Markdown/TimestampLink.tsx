@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Typography } from "@mui/material";
-import { MediaControlContext } from "../MediaCarousel/MediaControlContext";
+import { MediaControlContext } from "../MediaCarousel/Controls/MediaControlContext.tsx";
 
 interface TimestampLinkProps {
   href: string;

@@ -4,7 +4,7 @@ import { Box, CircularProgress } from "@mui/material";
 import { useCustomPalette } from "../../../../theme/theme.ts";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
-import PdfControls from "../PdfControls.tsx";
+import PdfControls from "../Controls/PdfControls.tsx";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 

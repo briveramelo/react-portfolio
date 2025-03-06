@@ -1,7 +1,7 @@
 import GameJoltIcon from "@/assets/misc/gamejolt.svg?react";
 import GitHub from "@mui/icons-material/GitHub";
 import React from "react";
-import { _, iconStyle, ProjectDetail } from "./projectDetails.tsx";
+import { _, iconStyle, ProjectDetail } from "../projectDetails.tsx";
 
 export const abductor = new ProjectDetail({
   title: "Abductor",

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import IconButton from "@mui/material/IconButton";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
-import { MediaControlContext } from "../MediaControlContext";
+import { MediaControlContext } from "./MediaControlContext.tsx";
 import { Box, Typography } from "@mui/material";
 
 const AutoplayToggle: React.FC = () => {

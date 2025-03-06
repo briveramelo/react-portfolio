@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
-import { MediaItem } from "../../../data/projects/projectDetails.tsx";
-import ChangeMediaButton from "./ChangeMediaButton.tsx";
+import { MediaItem } from "../../../data/projectDetails.tsx";
+import ChangeMediaButton from "./Controls/ChangeMediaButton.tsx";
 import PdfViewer from "./MediaItems/PdfViewer.tsx";
 import YouTubePlayer from "./MediaItems/YouTubePlayer.tsx";
 import FirebaseImage from "./MediaItems/FirebaseImage.tsx";

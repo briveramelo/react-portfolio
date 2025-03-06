@@ -1,7 +1,7 @@
 import SteamIcon from "@/assets/skills/steam.svg?react";
 import GitHub from "@mui/icons-material/GitHub";
 import React from "react";
-import { _, dash, iconStyle, ProjectDetail } from "./projectDetails.tsx";
+import { _, dash, iconStyle, ProjectDetail } from "../projectDetails.tsx";
 
 export const clawface = new ProjectDetail({
   title: "Clawface",

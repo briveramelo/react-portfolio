@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Button } from "@mui/material";
-import { ProjectLink } from "../../../data/projects/projectDetails.tsx";
+import { ProjectLink } from "../../../data/projectDetails.tsx";
 import { useCustomPalette } from "../../../theme/theme";
 
 interface ProjectLiveLinksProps {

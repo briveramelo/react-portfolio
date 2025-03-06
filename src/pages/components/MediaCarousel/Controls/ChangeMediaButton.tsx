@@ -1,8 +1,8 @@
 import React from "react";
 import { IconButton } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import { generateGravityBounceScaleKeyframes } from "../../../utils/keyframeGenerator.ts";
-import { useCustomPalette } from "../../../theme/theme.ts";
+import { generateGravityBounceScaleKeyframes } from "../../../../utils/keyframeGenerator.ts";
+import { useCustomPalette } from "../../../../theme/theme.ts";
 
 interface ChangeMediaButtonProps {
   hasBeenClicked?: boolean;

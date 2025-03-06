@@ -1,4 +1,4 @@
-import { Project } from "../projectData.ts";
+import { Project } from "./projectData.ts";
 import React from "react";
 
 export interface AudioButtonData {

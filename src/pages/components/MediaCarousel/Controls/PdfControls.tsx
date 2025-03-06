@@ -9,8 +9,8 @@ import {
 } from "@mui/material";
 import FitScreenIcon from "@mui/icons-material/FitScreen";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { useCustomPalette } from "../../../theme/theme.ts";
-import { PdfViewerContext } from "./MediaItems/PdfViewer.tsx";
+import { useCustomPalette } from "../../../../theme/theme.ts";
+import { PdfViewerContext } from "../MediaItems/PdfViewer.tsx";
 import { MediaControlContext } from "./MediaControlContext.tsx";
 
 const PdfControls: React.FC = () => {

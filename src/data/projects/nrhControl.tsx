@@ -1,4 +1,4 @@
-import { _, iconStyle, ProjectDetail } from "./projectDetails.tsx";
+import { _, iconStyle, ProjectDetail } from "../projectDetails.tsx";
 import AndroidIcon from "@/assets/skills/android.svg?react";
 import AppleIcon from "@/assets/skills/apple.svg?react";
 import React from "react";

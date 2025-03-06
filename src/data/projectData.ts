@@ -16,7 +16,7 @@ import brmIcon from "@/assets/people/brm-head.webp";
 import { getSkills, SkillData } from "./skillsData";
 import { InstitutionData, getInstitutions } from "./institutionData.ts";
 import { getProjectsBySkill } from "./projectMapping.ts";
-import { ProjectDetail } from "./projects/projectDetails.tsx";
+import { ProjectDetail } from "./projectDetails.tsx";
 import { tiltTracker } from "./projects/tiltTracker.tsx";
 import { clawface } from "./projects/clawface.tsx";
 import { abcMouse } from "./projects/abcmouse.tsx";

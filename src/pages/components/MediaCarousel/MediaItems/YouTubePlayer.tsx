@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
-import { MediaControlContext } from "../MediaControlContext";
+import { MediaControlContext } from "../Controls/MediaControlContext.tsx";
 import { useIntersectionObserver } from "../../../../utils/hooks/useIntersectionObserver";
 
 interface YouTubePlayerProps {

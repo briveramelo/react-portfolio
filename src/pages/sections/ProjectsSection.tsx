@@ -7,7 +7,7 @@ import { ThemeMode, useCustomPalette } from "../../theme/theme.ts";
 import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import { Collapsible } from "../components/Collapsible.tsx";
 import { toSlug } from "../../utils/utils.ts";
-import { MediaControlProvider } from "../components/MediaCarousel/MediaControlContext.tsx";
+import { MediaControlProvider } from "../components/MediaCarousel/Controls/MediaControlContext.tsx";
 import ProjectGroup from "./Projects/ProjectGroup.tsx";
 import { useNavigate, useParams } from "react-router-dom";
 
