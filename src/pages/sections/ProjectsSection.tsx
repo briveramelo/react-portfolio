@@ -65,10 +65,12 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
       }, slideDurationMs);
     };
 
-    const handleCloseProjectDetails = () => {
+    const handleCloseProjectDetails = (useNav: boolean = true) => {
       setIsProjectSelected(false);
       setIsAnimating(true);
-      navigate("/projects");
+      if (useNav) {
+        navigate("/projects");
+      }
       sectionRef.current?.scrollIntoView({ behavior: "smooth" });
       setTimeout(() => {
         setSelectedProject(null);
@@ -78,7 +80,9 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
 
     // Deep Link Handling
     useEffect(() => {
-      if (projectSlug === undefined) return;
+      if (projectSlug === undefined) {
+        handleCloseProjectDetails(false);
+      }
 
       const matchingProject = allProjects.find(
         (project) => toSlug(project.title) === projectSlug,
