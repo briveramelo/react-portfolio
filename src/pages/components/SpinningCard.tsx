@@ -12,7 +12,6 @@ export interface SpinningCardProps {
   id?: string;
   isSectionVisible: boolean;
   visibleLagTimeMs?: number;
-  onClickCard?: (event: MouseEvent<HTMLDivElement>) => void;
   cardWidth: any; // e.g. { sm: "400px", xs: "375px" }
   cardHeight: any;
   borderRadius: string | number;
@@ -24,7 +23,6 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
   id,
   visibleLagTimeMs = 500,
   isSectionVisible,
-  onClickCard,
   cardWidth,
   cardHeight,
   borderRadius,
@@ -52,10 +50,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
 
   const [isListeningForEvents, setIsListeningForEvents] =
     useState<boolean>(false);
-  const [isSensorOn, setIsSensorOn] = useState<boolean>(
-    isListeningForEvents && isVisibleLag && !isHovered,
-  );
-  const isHero = useCallback(() => id === "project_card_Tilt Tracker", [id]);
+  const [isSensorOn, setIsSensorOn] = useState<boolean>(false);
 
   // set lagging section visibility state indicator
   useEffect(() => {
@@ -74,15 +69,6 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
       !isCardAnimating && isSectionVisible && isVisibleLag && !isHovered,
     );
     setIsListeningForEvents(!isCardAnimating && isSectionVisible);
-    if (isHero()) {
-      console.log(
-        "is Sensor on?",
-        !isCardAnimating,
-        isSectionVisible,
-        isVisibleLag,
-        !isHovered,
-      );
-    }
   }, [isVisibleLag, isHovered, isCardAnimating, isSectionVisible]);
 
   const reset = useCallback(() => {
@@ -95,7 +81,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
   // set the context clear function
   useEffect(() => {
     setOnReset(() => reset);
-  }, [reset, setOnReset]);
+  }, [reset]);
 
   const isLeft = useCallback(
     (event: MouseEvent<HTMLDivElement>): boolean => {
@@ -131,14 +117,6 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
 
   const handlePointerEnter = useCallback(
     (event: MouseEvent<HTMLDivElement>) => {
-      if (isHero()) {
-        console.log(
-          "pointer enter state:",
-          !isListeningForEvents,
-          !isVisibleLag,
-          entrySideRef.current,
-        );
-      }
       if (!isListeningForEvents || !isVisibleLag || entrySideRef.current) {
         return;
       }
@@ -148,27 +126,16 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
       transitionStartTimeMsRef.current = performance.now();
       trackPointerEnter();
     },
-    [isListeningForEvents, isLeft, trackPointerEnter, isVisibleLag, isHero],
+    [isListeningForEvents, isLeft, trackPointerEnter, isVisibleLag],
   );
 
   const handlePointerLeave = useCallback(
     (event: MouseEvent<HTMLDivElement>) => {
-      if (isHero()) {
-        console.log(
-          "pointer leave state:",
-          !isListeningForEvents,
-          !isVisibleLag,
-          !entrySideRef.current,
-        );
-      }
       if (!isListeningForEvents || !isVisibleLag || !entrySideRef.current) {
         return;
       }
 
       if (isInsideContainer(event)) {
-        if (isHero()) {
-          console.log("isInsideContainer");
-        }
         return;
       }
 
@@ -182,7 +149,6 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
       trackPointerLeave,
       isInsideContainer,
       isVisibleLag,
-      isHero,
     ],
   );
 
@@ -194,9 +160,6 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     addition *= isHovered ? 1 : -1;
     setTargetRotationDeg((prev) => prev + addition);
     transitionStartTimeMsRef.current = performance.now();
-    if (isHero()) {
-      console.log("isHovered changed to:", isHovered);
-    }
   }, [isHovered]);
 
   const handleTap = useCallback(() => {
@@ -206,13 +169,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
 
   return (
     <Box
-      onClick={
-        isTouchDevice
-          ? handleTap
-          : (event) => {
-              onClickCard?.(event);
-            }
-      }
+      onClick={isTouchDevice ? handleTap : undefined}
       onPointerLeave={!isTouchDevice ? handlePointerLeave : undefined}
       {...containerProps}
       sx={{

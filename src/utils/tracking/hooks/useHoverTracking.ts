@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { trackMouseEvent } from "../plausibleHelpers.ts";
 
 export const useHoverTracking = (
@@ -11,32 +11,35 @@ export const useHoverTracking = (
   const [hasBeenHovered, setHasBeenHovered] = useState<boolean>(false);
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
-  const trackPointerEnter = () => {
+  const trackPointerEnter = useCallback(() => {
     setHoverStartTimeMillis(performance.now());
     setIsHovered(true);
-  };
+  }, []);
 
-  const trackPointerLeave = (event: React.MouseEvent<HTMLElement>) => {
-    if (hoverStartTimeMillis !== null) {
-      const dwellTimeMs = performance.now() - hoverStartTimeMillis;
-      if (dwellTimeMs >= hasBeenHoveredTimeMs) {
-        setHasBeenHovered(true);
-        if (sendEvents) {
-          trackMouseEvent(event, "hover", {
-            event_version: "0.1.0",
-            hover_duration_ms: dwellTimeMs,
-          });
+  const trackPointerLeave = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      if (hoverStartTimeMillis !== null) {
+        const dwellTimeMs = performance.now() - hoverStartTimeMillis;
+        if (dwellTimeMs >= hasBeenHoveredTimeMs) {
+          setHasBeenHovered(true);
+          if (sendEvents) {
+            trackMouseEvent(event, "hover", {
+              event_version: "0.1.0",
+              hover_duration_ms: dwellTimeMs,
+            });
+          }
         }
       }
-    }
-    setHoverStartTimeMillis(null);
-    setIsHovered(false);
-  };
+      setHoverStartTimeMillis(null);
+      setIsHovered(false);
+    },
+    [],
+  );
 
-  const resetHoverState = () => {
+  const resetHoverState = useCallback(() => {
     setHoverStartTimeMillis(null);
     setIsHovered(false);
-  };
+  }, []);
 
   // Effect to check if dwell time exceeds threshold while hovering
   useEffect(() => {
