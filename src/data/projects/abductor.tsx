@@ -13,7 +13,7 @@ export const abductor = new ProjectDetail({
       type: "youtube",
       text: `Abductor is a 2D Arcade Style Shooter with a looping arena filled with endless carnage and destruction! Hurl unsuspecting humans into helicopters, tanks, and paratroopers as you invade Earth. How long can you survive?
 ${_}
-I architected the project in Typescript using the Phaser library, implemented the AI for helicopters, paratroopers, and tanks, implemented the ship shields, blaster, and difficulty ramp for AI spawning.
+I architected the project in Typescript using the Phaser library, implemented the AI for helicopters, paratroopers, and tanks, implemented the ship shields, blaster, and difficulty ramp for AI spawning. After prototyping, I co-led publishing to a [self hosted website](https://www.dasritemedia.com/games/abductor/) with temmate Josh Levenson.
 ${_}
 Made in the University of Utah Masters of Game Design Rapid Prototyping course 2016 with Alanna Carroll, Sarah Cotner, Brandon Rivera-Melo, Ajay Satish, Andy Sain, and Joshua Levenson.
 ${_}

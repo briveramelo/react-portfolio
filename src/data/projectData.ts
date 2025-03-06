@@ -180,7 +180,7 @@ I served a Software Engineer and transitioned to Lead Engineer, Co-Inventor, and
     gifWidth: "60vw",
     description: `ABCmouse is the **#1 learning app** for children ages 2–8, where over **18 million students** have completed more than **4 billion educational activities**, earning the trust of families worldwide.
 ${_}
-I served as a Software Engineer on the ABCmouse Core mobile development team for 1.5 years.`,
+I served as a Software Engineer I and II on ABCmouse for 1.5 years.`,
     skills: getSkills(
       "DevOps",
       "Unity",
@@ -312,7 +312,7 @@ I served as Head of Engineering for Health Tech Apps.`,
     gifWidth: "80vw",
     description: `The Pocket Optimist is a science-based, personal development service for athletes, working professionals, and parents to break through hidden mental barriers.
 ${_}
-I served as the Inventor, Developer, and Coach when deploying the technology with family, friends, and clients.`,
+I served as the Inventor, Developer, and Coach.`,
     skills: getSkills("Leadership", "Python"),
     institutions: getInstitutions("Digital Health"),
     iconSrc: pocketOptimistIcon,
@@ -328,7 +328,7 @@ I served as the Inventor, Developer, and Coach when deploying the technology wit
     gifWidth: "60vw",
     description: `Offender is a 2D Arcade Style Shooter with a looping arena filled with endless carnage and destruction, published as a web game.
 ${_}
-I served as the Lead Engineer during prototyping and Production Co-Lead through publishing.`,
+I served as the Lead Engineer and Production Co-Lead.`,
     skills: getSkills("Leadership", "HTML", "JS", "Publishing"),
     institutions: [],
     iconSrc: bobIcon,
@@ -360,7 +360,7 @@ I served as the Lead Engineer during prototyping.`,
     gifWidth: "60vw",
     description: `Debug is an arcade, wave-based survival game. Bugs approach faster and faster from ALL angles threatening to destroy your ship.
 ${_}
-I served as the Lead Engineer during prototyping and Production Co-Lead through publishing.`,
+I served as the Lead Engineer and Production Co-Lead.`,
     skills: getSkills("Leadership", "C#", "Publishing"),
     institutions: [],
     iconSrc: debugIcon,
