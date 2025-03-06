@@ -10,7 +10,7 @@ interface ProjectGroupProps {
   direction: "left" | "right";
   useLight: boolean;
   isProjectSelected: boolean;
-  isSectionVisibleLead: boolean;
+  isSectionVisible: boolean;
   isAnimating: boolean;
   slideDurationMs: number;
   handleCardClick: (project: Project) => void;
@@ -22,13 +22,13 @@ const ProjectGroup: React.FC<ProjectGroupProps> = ({
   direction,
   useLight,
   isProjectSelected,
-  isSectionVisibleLead,
+  isSectionVisible,
   isAnimating,
   slideDurationMs,
   handleCardClick,
 }) => {
   const [targetDestinationX, setTargetDestinationX] = useState<string>(
-    isProjectSelected || !isSectionVisibleLead
+    isProjectSelected || !isSectionVisible
       ? direction === "left"
         ? "-100vw"
         : "100vw"
@@ -39,7 +39,7 @@ const ProjectGroup: React.FC<ProjectGroupProps> = ({
 
   useEffect(() => {
     setTargetDestinationX(
-      isProjectSelected || !isSectionVisibleLead
+      isProjectSelected || !isSectionVisible
         ? direction === "left"
           ? "-100vw"
           : "100vw"
@@ -78,7 +78,7 @@ const ProjectGroup: React.FC<ProjectGroupProps> = ({
               useLight={useLight}
               isSliding={isAnimating}
               onClick={() => handleCardClick(project)}
-              isSectionVisible={isSectionVisibleLead}
+              isSectionVisible={isSectionVisible}
             />
           </SpinningCardProvider>
         ))}

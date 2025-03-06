@@ -195,7 +195,6 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
             display: "flex",
             flexDirection: "row",
             justifyContent: "center",
-            alignContent: "center",
             flexWrap: "wrap",
             gap: 3,
             mt: 3,
@@ -203,28 +202,45 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
           }}
         >
           <Typography
-            sx={{ position: "absolute", textAlign: "center", mt: -3 }}
+            sx={{
+              position: "absolute",
+              textAlign: "center",
+              top: -24,
+              width: "100%",
+            }}
           >
-            Built With:{" "}
+            Built With:
           </Typography>
           {skills.map((skill) => (
             <Box
               key={skill.name}
               sx={{
-                width: "40px",
-                height: "40px",
                 display: "flex",
-                justifyContent: "center",
+                flexDirection: "column",
                 alignItems: "center",
+                justifyContent: "space-between",
                 flexShrink: 0,
+                height: "65px",
               }}
             >
-              <InvertableImage
-                id={`${project.title}_skills_${skill.name}`}
-                src={useLight ? skill.srcLight : skill.srcDark}
-                alt={skill.name}
-                invert={useLight && !!skill.invertIfLight}
-              />
+              {/* Image container: center the image vertically */}
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "40px",
+                }}
+              >
+                <InvertableImage
+                  id={`${project.title}_skills_${skill.name}`}
+                  src={useLight ? skill.srcLight : skill.srcDark}
+                  alt={skill.name}
+                  invert={useLight && !!skill.invertIfLight}
+                />
+              </Box>
+              {/* Text container: always at the bottom */}
+              <Typography sx={{ textAlign: "center" }}>{skill.name}</Typography>
             </Box>
           ))}
         </Box>

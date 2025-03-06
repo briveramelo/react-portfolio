@@ -32,13 +32,9 @@ const HeroCard: React.FC<HeroCardProps> = ({
     containerRef,
     isCardAnimating,
     setIsCardAnimating,
+    hasBeenHovered,
   } = useSpinningCard();
-  const [hasBeenHovered, setHasBeenHovered] = useState<boolean>(false);
-  const onHasBeenHovered = () => {
-    setHasBeenHovered(true);
-  };
   const [isFuseActive, setIsFuseActive] = useState<boolean>(false);
-
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const { interactable } = useCustomPalette();
 
@@ -133,7 +129,6 @@ const HeroCard: React.FC<HeroCardProps> = ({
           borderRadius,
         },
       }}
-      onHasBeenHovered={onHasBeenHovered}
       isSectionVisible={isSectionVisible}
       cardWidth={cardWidth}
       cardHeight={cardHeight}

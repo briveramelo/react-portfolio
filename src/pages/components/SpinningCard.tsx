@@ -6,15 +6,12 @@ import React, {
   useState,
 } from "react";
 import { Box, BoxProps, useMediaQuery } from "@mui/material";
-import { useHoverTracking } from "../../utils/tracking/hooks/useHoverTracking.ts";
-import { USER_TRANSITION_DURATION_MS } from "../sections/Hero/heroHelpers.ts";
 import { useSpinningCard } from "./SpinningCardContext.tsx";
 
 export interface SpinningCardProps {
   id?: string;
-  visibleLagTimeMs?: number;
   isSectionVisible: boolean;
-  onHasBeenHovered?: () => void;
+  visibleLagTimeMs?: number;
   onClickCard?: (event: MouseEvent<HTMLDivElement>) => void;
   cardWidth: any; // e.g. { sm: "400px", xs: "375px" }
   cardHeight: any;
@@ -27,7 +24,6 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
   id,
   visibleLagTimeMs = 500,
   isSectionVisible,
-  onHasBeenHovered,
   onClickCard,
   cardWidth,
   cardHeight,
@@ -40,11 +36,13 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     setTargetRotationDeg,
     containerRef,
     transitionDurationMs,
-    setOnClear,
+    setOnReset,
     isCardAnimating,
+    trackPointerEnter,
+    trackPointerLeave,
+    isHovered,
   } = useSpinningCard();
-  const { trackPointerEnter, trackPointerLeave, isHovered, hasBeenHovered } =
-    useHoverTracking(true, USER_TRANSITION_DURATION_MS);
+
   const [isVisibleLag, setIsVisibleLag] = useState<boolean>(false);
   const entrySideRef = useRef<"left" | "right" | null>(null);
   const exitSideRef = useRef<"left" | "right" | null>(null);
@@ -56,8 +54,20 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
   const [isSensorOn, setIsSensorOn] = useState<boolean>(
     isListeningForEvents && isVisibleLag && !isHovered,
   );
-  const isHero = useCallback(() => id === "home_avatar_card_enter", [id]);
+  const isHero = useCallback(() => id === "project_card_Tilt Tracker", [id]);
 
+  // set lagging section visibility state indicator
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setIsVisibleLag(isSectionVisible);
+    }, visibleLagTimeMs);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [isSectionVisible, visibleLagTimeMs]);
+
+  //set derivative state variables
   useEffect(() => {
     setIsSensorOn(
       !isCardAnimating && isSectionVisible && isVisibleLag && !isHovered,
@@ -74,21 +84,16 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     }
   }, [isVisibleLag, isHovered, isCardAnimating, isSectionVisible]);
 
-  const clear = useCallback(() => {
+  const reset = useCallback(() => {
     entrySideRef.current = null;
     exitSideRef.current = null;
     transitionStartTimeMsRef.current = performance.now();
   }, []);
 
+  // set the context clear function
   useEffect(() => {
-    setOnClear(() => clear);
-  }, [clear, setOnClear]);
-
-  useEffect(() => {
-    if (hasBeenHovered) {
-      onHasBeenHovered?.();
-    }
-  }, [hasBeenHovered, onHasBeenHovered]);
+    setOnReset(() => reset);
+  }, [reset, setOnReset]);
 
   const isLeft = useCallback(
     (event: MouseEvent<HTMLDivElement>): boolean => {
@@ -196,16 +201,6 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     if (!isListeningForEvents || isFlipping()) return;
     transitionStartTimeMsRef.current = performance.now();
   }, [isListeningForEvents, isFlipping]);
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setIsVisibleLag(isSectionVisible);
-    }, visibleLagTimeMs);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [isSectionVisible, visibleLagTimeMs]);
 
   return (
     <Box

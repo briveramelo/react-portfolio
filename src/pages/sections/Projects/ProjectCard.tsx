@@ -5,7 +5,6 @@ import React, {
   MouseEvent,
   useEffect,
 } from "react";
-import { useMediaQuery } from "@mui/material";
 import { SpinningCard } from "../../components/SpinningCard.tsx";
 import { ProjectCardFront } from "./ProjectCardFront.tsx";
 import { Project } from "../../../data/projectData.ts";
@@ -28,8 +27,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   isSliding,
 }) => {
   const [cardHeight, setCardHeight] = useState<string | number>("100%");
-  const { onClear, setIsCardAnimating } = useSpinningCard();
-  const isTouchDevice = useMediaQuery("(pointer: coarse)");
+  const { onReset, setIsCardAnimating } = useSpinningCard();
   const frontRef = useRef<HTMLDivElement>(null);
   const backRef = useRef<HTMLDivElement>(null);
 
@@ -66,8 +64,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   return (
     <SpinningCard
       id={`project_card_${project.title}`}
-      visibleLagTimeMs={800}
       isSectionVisible={isSectionVisible}
+      visibleLagTimeMs={800}
       cardWidth={cardWidth}
       cardHeight={cardHeight}
       borderRadius={borderRadius}
@@ -89,7 +87,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         height={cardHeight}
         borderRadius={borderRadius}
         onClick={(event) => {
-          onClear();
+          onReset();
           onClick(event);
         }}
       />

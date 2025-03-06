@@ -7,6 +7,7 @@ import React, {
   useMemo,
 } from "react";
 import { USER_TRANSITION_DURATION_MS } from "../sections/Hero/heroHelpers.ts";
+import { useHoverTracking } from "../../utils/tracking/hooks/useHoverTracking.ts";
 
 interface SpinningCardContextProps {
   isCardAnimating: boolean;
@@ -16,8 +17,12 @@ interface SpinningCardContextProps {
   containerRef: React.RefObject<HTMLDivElement>;
   transitionDurationMs: number;
   setTransitionDurationMs: React.Dispatch<React.SetStateAction<number>>;
-  onClear: () => void;
-  setOnClear: React.Dispatch<React.SetStateAction<() => void>>;
+  onReset: () => void;
+  setOnReset: React.Dispatch<React.SetStateAction<() => void>>;
+  trackPointerEnter: () => void;
+  trackPointerLeave: (event: React.MouseEvent<HTMLElement>) => void;
+  isHovered: boolean;
+  hasBeenHovered: boolean;
 }
 
 const SpinningCardContext = createContext<SpinningCardContextProps | undefined>(
@@ -27,13 +32,15 @@ const SpinningCardContext = createContext<SpinningCardContextProps | undefined>(
 export const SpinningCardProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const { trackPointerEnter, trackPointerLeave, isHovered, hasBeenHovered } =
+    useHoverTracking(true, USER_TRANSITION_DURATION_MS);
   const [isCardAnimating, setIsCardAnimating] = useState<boolean>(false);
   const [targetRotationDeg, setTargetRotationDeg] = useState<number>(0);
   const [transitionDurationMs, setTransitionDurationMs] = useState<number>(
     USER_TRANSITION_DURATION_MS,
   );
   const containerRef = useRef<HTMLDivElement>(null);
-  const [onClear, setOnClear] = useState<() => void>(() => {});
+  const [onReset, setOnReset] = useState<() => void>(() => {});
 
   const contextValue = useMemo(
     () => ({
@@ -43,16 +50,24 @@ export const SpinningCardProvider: React.FC<{ children: ReactNode }> = ({
       setIsCardAnimating,
       transitionDurationMs,
       setTransitionDurationMs,
-      onClear,
-      setOnClear,
+      onReset,
+      setOnReset,
       containerRef,
+      trackPointerEnter,
+      trackPointerLeave,
+      isHovered,
+      hasBeenHovered,
     }),
     [
       targetRotationDeg,
       isCardAnimating,
       transitionDurationMs,
       containerRef,
-      onClear,
+      onReset,
+      trackPointerEnter,
+      trackPointerLeave,
+      isHovered,
+      hasBeenHovered,
     ],
   );
 
