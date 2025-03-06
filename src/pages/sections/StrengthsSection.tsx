@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useState } from "react";
+import React, { forwardRef, useRef, useState, useMemo } from "react";
 import {
   Box,
   Typography,
@@ -24,7 +24,6 @@ interface StrengthsSectionProps {
 export const StrengthsSection = forwardRef<HTMLElement, StrengthsSectionProps>(
   ({ backgroundColor, textColor, id }, ref) => {
     const [isYearsOfExperience, setIsYearsOfExperience] = useState(true);
-
     const sectionRef = useRef<HTMLDivElement>(null);
     const isSectionVisible = useIntersectionObserver(sectionRef, {
       threshold: 0.1,
@@ -33,41 +32,47 @@ export const StrengthsSection = forwardRef<HTMLElement, StrengthsSectionProps>(
     const { mode, interactable, background, text } = useCustomPalette();
     const useLight = mode !== ThemeMode.Light;
 
-    const buttonStyle = {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      width: 200,
-      backgroundColor: background.paper,
-      color: text.paper,
-      outline: "none",
-      margin: 0.5,
-      "&:hover": {
-        backgroundColor: darken(background.paper, 0.2),
-      },
-      "&.Mui-selected": {
-        backgroundColor: interactable.hovered,
-        color: text.light,
+    const buttonStyle = useMemo(
+      () => ({
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: { xs: 160, sm: 200 },
+        backgroundColor: background.paper,
+        color: text.paper,
+        outline: "none",
+        margin: 0.5,
         "&:hover": {
-          backgroundColor: darken(interactable.hovered, 0.2),
+          backgroundColor: darken(background.paper, 0.2),
+        },
+        "&.Mui-selected": {
+          backgroundColor: interactable.hovered,
+          color: text.light,
+          "&:hover": {
+            backgroundColor: darken(interactable.hovered, 0.2),
+          },
+          "& svg": {
+            color: text.light,
+          },
+          "&:hover svg": {
+            color: text.light,
+          },
         },
         "& svg": {
-          color: text.light,
+          color: text.paper,
         },
-        "&:hover svg": {
-          color: text.light,
-        },
-      },
-      "& svg": {
-        color: text.paper,
-      },
-    };
+      }),
+      [background.paper, text.paper, interactable.hovered, text.light],
+    );
 
-    const iconStyle = {
-      marginRight: 8,
-      height: 20,
-      marginTop: -2,
-    };
+    const iconStyle = useMemo(
+      () => ({
+        marginRight: 8,
+        height: 20,
+        marginTop: -2,
+      }),
+      [],
+    );
 
     const handleToggle = (
       event: React.MouseEvent<HTMLElement>,
