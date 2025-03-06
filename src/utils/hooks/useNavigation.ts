@@ -1,15 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
-import { NavLink } from "../../data/sectionStyles";
+import { useHeaderContext } from "../../context/HeaderContext";
 
 export interface UseNavigationOptions {
   onNavigate?: () => void;
 }
 
-export function useNavigation(
-  navigationLinks: NavLink[],
-  options?: UseNavigationOptions,
-) {
+export function useNavigation(options?: UseNavigationOptions) {
+  const { navLinks } = useHeaderContext();
   const navigate = useNavigate();
 
   const handleNavClick = useCallback(
@@ -18,7 +16,7 @@ export function useNavigation(
       options?.onNavigate?.();
 
       // Find the nav link with the matching href
-      const navLink = navigationLinks.find((nav) => nav.href === href);
+      const navLink = navLinks.find((nav) => nav.href === href);
       if (!navLink?.ref?.current) return;
 
       // Scroll to the section
@@ -29,7 +27,7 @@ export function useNavigation(
 
       navigate(href, { replace: false });
     },
-    [navigationLinks, options, navigate],
+    [navLinks, options, navigate],
   );
 
   return handleNavClick;

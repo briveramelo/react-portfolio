@@ -6,6 +6,7 @@ import React, {
   ReactNode,
   useCallback,
 } from "react";
+import { NavLink } from "../data/sectionStyles"; // adjust the path as needed
 
 interface HeaderContextType {
   headerHeight: number;
@@ -14,6 +15,8 @@ interface HeaderContextType {
     callback: (event: React.PointerEvent<HTMLElement>) => void,
   ) => () => void;
   triggerOnEnterHeader: (event: React.PointerEvent<HTMLElement>) => void;
+  navLinks: NavLink[];
+  setNavLinks: (links: NavLink[]) => void;
 }
 
 const HeaderContext = createContext<HeaderContextType | undefined>(undefined);
@@ -28,6 +31,7 @@ export const useHeaderContext = () => {
 
 export const HeaderProvider = ({ children }: { children: ReactNode }) => {
   const [headerHeight, setHeaderHeight] = useState(0);
+  const [navLinks, setNavLinks] = useState<NavLink[]>([]);
   const subscribers = useRef<
     ((event: React.PointerEvent<HTMLElement>) => void)[]
   >([]);
@@ -58,6 +62,8 @@ export const HeaderProvider = ({ children }: { children: ReactNode }) => {
         setHeaderHeight,
         subscribeOnEnterHeader,
         triggerOnEnterHeader,
+        navLinks,
+        setNavLinks,
       }}
     >
       {children}

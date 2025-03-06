@@ -22,7 +22,6 @@ import { useHeaderContext } from "../../context/HeaderContext.tsx";
 interface HeaderProps {
   sectionRefs: (React.RefObject<HTMLElement> | undefined)[];
   desktopHiddenNavigationLinks: string[];
-  navigationLinks: NavLink[];
   defaultBackgroundColor: string;
   defaultTextColor: string;
   defaultIsBackgroundDark: boolean;
@@ -31,13 +30,13 @@ interface HeaderProps {
 export function Header({
   sectionRefs,
   desktopHiddenNavigationLinks,
-  navigationLinks,
   defaultBackgroundColor,
   defaultTextColor,
   defaultIsBackgroundDark,
 }: HeaderProps) {
   const headerRef = useRef<HTMLElement | null>(null);
-  const { setHeaderHeight, triggerOnEnterHeader } = useHeaderContext();
+  const { setHeaderHeight, triggerOnEnterHeader, navLinks } =
+    useHeaderContext();
 
   const handlePointerEnter = (event: React.PointerEvent<HTMLElement>) => {
     triggerOnEnterHeader(event);
@@ -61,7 +60,7 @@ export function Header({
   const [activeSectionLabel, setActiveSectionLabel] = useState("Home");
   const linkedInUrl = "https://www.linkedin.com/in/briveramelo";
 
-  const handleNavClick = useNavigation(navigationLinks, {
+  const handleNavClick = useNavigation({
     onNavigate: () => setDrawerOpen(false),
   });
 
@@ -130,7 +129,7 @@ export function Header({
 
   const desktopNavLinks = (
     <>
-      {navigationLinks
+      {navLinks
         .filter((link) => !desktopHiddenNavigationLinks.includes(link.href))
         .map((link) => (
           <Button
@@ -288,7 +287,7 @@ export function Header({
       >
         <Box>
           <List>
-            {navigationLinks.map((link) => (
+            {navLinks.map((link) => (
               <ListItemButton
                 sx={{ pr: 10 }}
                 key={link.href}

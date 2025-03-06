@@ -12,7 +12,7 @@ import withDwellTimeTracking from "../../../utils/tracking/withDwellTimeTracking
 import ProjectLiveLinks from "./ProjectLiveLinks.tsx";
 import { Project } from "../../../data/projectData.ts";
 import { toSlug } from "../../../utils/utils.ts";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 interface ProjectDetailsProps {
   project: Project;
@@ -28,6 +28,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const location = useLocation();
 
   const { details, skills } = project;
   const { media, links } = details;
@@ -89,6 +90,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 
     navigate(`/projects/${toSlug(project.title)}/${newMediaIndex}`, {
       replace: true,
+      state: location.state,
     });
 
     trackCustomEvent("project_media_change", {

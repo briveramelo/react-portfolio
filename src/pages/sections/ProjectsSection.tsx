@@ -9,7 +9,9 @@ import { Collapsible } from "../components/Collapsible.tsx";
 import { toSlug } from "../../utils/utils.ts";
 import { MediaControlProvider } from "../components/MediaCarousel/Controls/MediaControlContext.tsx";
 import ProjectGroup from "./Projects/ProjectGroup.tsx";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigation } from "../../utils/hooks/useNavigation.ts";
+import { NavLink } from "../../data/sectionStyles.ts";
 
 interface ProjectsProps {
   backgroundColor: string;
@@ -22,9 +24,12 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
     const { mode, interactable } = useCustomPalette();
     const useLight = mode === ThemeMode.Dark;
     const theme = useTheme();
+    const location = useLocation();
     const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
     const { projectSlug } = useParams<{ projectSlug?: string }>();
     const navigate = useNavigate();
+    const handleNavClick = useNavigation();
+
     const isXs = useMediaQuery(theme.breakpoints.down("sm"));
     const [selectedProject, setSelectedProject] = useState<Project | null>(
       null,
@@ -58,7 +63,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
       setIsProjectSelected(true);
 
       setIsAnimating(true);
-      navigate(`/projects/${toSlug(project.title)}`);
+      navigate(`/projects/${toSlug(project.title)}`, { state: location.state });
       sectionRef.current!.scrollIntoView({ behavior: "smooth" });
       setTimeout(() => {
         setIsAnimating(false);
@@ -68,10 +73,11 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
     const handleCloseProjectDetails = (useNav: boolean = true) => {
       setIsProjectSelected(false);
       setIsAnimating(true);
-      if (useNav) {
-        navigate("/projects");
+      if (location.state?.returnTo) {
+        handleNavClick(location.state.returnTo);
+      } else if (useNav) {
+        handleNavClick("/projects");
       }
-      sectionRef.current?.scrollIntoView({ behavior: "smooth" });
       setTimeout(() => {
         setSelectedProject(null);
         setIsAnimating(false);

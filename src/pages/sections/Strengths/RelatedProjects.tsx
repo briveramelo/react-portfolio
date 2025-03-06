@@ -25,7 +25,10 @@ const RelatedProjects: React.FC<HoverOverlayProps> = ({
   const handleProjectClick = useCallback(
     (e: React.MouseEvent<HTMLElement>, slug: string) => {
       e.preventDefault();
-      navigate(`/projects/${slug}`, { replace: false });
+      navigate(`/projects/${slug}`, {
+        replace: false,
+        state: { returnTo: "/strengths" },
+      });
     },
     [navigate],
   );
