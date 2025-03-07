@@ -296,7 +296,7 @@ I served as Head of Engineering for Health Tech Apps.`,
     category: getCategory("Health Tech"),
     focus: "Archived",
     imageSrc: "pocket-optimist/pessimistic-night2.webp",
-    gifSrc: "pocket-optimist/pocket-opt-animals-compressed.mp4",
+    gifSrc: "pocket-optimist/all-animated.mp4",
     description: `The Pocket Optimist is a science-based, personal development service for athletes, working professionals, and parents to break through hidden mental barriers.
 ${_}
 I served as the Inventor, Developer, and Coach.`,
