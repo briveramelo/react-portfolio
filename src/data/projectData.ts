@@ -12,6 +12,7 @@ import fruitBuddiIcon from "@/assets/orgs/dfa/fruit-buddi-logo.webp";
 import debugIcon from "@/assets/projects/debug/debug-ship.webp";
 import talkingPointsIcon from "@/assets/projects/talking-points/tp-flower.webp";
 import brmIcon from "@/assets/people/brm-head.webp";
+import smartChartIcon from "@/assets/orgs/digital-health/digital-health-logo.webp";
 
 import { getSkills, SkillData } from "./skillsData";
 import { InstitutionData, getInstitutions } from "./institutionData.ts";
@@ -31,6 +32,7 @@ import { fruitBuddi } from "./projects/fruitBuddi.tsx";
 import { debug } from "./projects/debug.tsx";
 import { talkingPoints } from "./projects/talkingPoints.tsx";
 import { thisPortfolio } from "./projects/thisPortfolio.tsx";
+import { smartChart } from "./projects/smartChart.tsx";
 
 export interface ProjectCategory {
   name: "Health Tech" | "Game Dev" | "Health Game";
@@ -73,6 +75,7 @@ export interface ProjectOptions {
     | "Debug"
     | "Talking Points"
     | "This Portfolio"
+    | "Smart Chart"
     | "AD with Sam";
   category: ProjectCategory | undefined;
   focus: Focus | undefined;
@@ -366,13 +369,38 @@ I served as a Co-Inventor and Designer for this product.`,
     details: fruitBuddi,
   }),
   new Project({
+    title: "Smart Chart",
+    year: 2025,
+    category: getCategory("Health Tech"),
+    focus: "Archived",
+    imageSrc: "smart-chart/digital-health-wide.webp",
+    gifSrc: "",
+    description: `Smart Chart is an AI-powered, HIPAA-compliant patient management web service for small clinics to reduce administrative work.
+${_}
+I serve as the Founder and Developer of the service.`,
+    skills: getSkills(
+      "Leadership",
+      "GCP",
+      "Python",
+      "React",
+      "JS",
+      "HTML",
+      "CSS",
+      "Bash",
+      "HIPAA",
+    ),
+    institutions: getInstitutions("Digital Health"),
+    iconSrc: smartChartIcon,
+    details: smartChart,
+  }),
+  new Project({
     title: "This Portfolio",
     year: 2025,
     category: undefined,
     focus: "Archived",
     imageSrc: "this-portfolio/brandon-wide.webp",
     gifSrc: "",
-    description: `This portfolio was built with React, designed for use on desktop and mobile web browsers, and the traffic analyzed using Plausible to protect your ad-exposure.
+    description: `This portfolio was custom built with React, designed for use on desktop and mobile web browsers, and the traffic analyzed using Plausible to protect your ad-exposure.
 ${_}
 I designed, built, and tested it in ~2.5 months.`,
     skills: getSkills(

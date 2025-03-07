@@ -68,11 +68,13 @@ const NavigationControls: React.FC<NavigationControlsProps> = ({
         <Typography sx={{ fontSize: 14, mx: 2, mt: -2, color: text.paper }}>
           {selectedMediaIndex + 1} / {media.length}
         </Typography>
-        <ChangeMediaButton
-          hasBeenClicked={hasBeenClicked}
-          next={true}
-          onClick={onNext}
-        />
+        <Box sx={{ visibility: media.length === 1 ? "hidden" : "visible" }}>
+          <ChangeMediaButton
+            hasBeenClicked={hasBeenClicked}
+            next={true}
+            onClick={onNext}
+          />
+        </Box>
       </Box>
 
       {/* Dotted Media Selector */}
