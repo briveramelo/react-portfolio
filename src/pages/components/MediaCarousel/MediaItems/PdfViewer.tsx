@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Box, CircularProgress } from "@mui/material";
 import { useCustomPalette } from "../../../../theme/theme.ts";
@@ -23,7 +23,8 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
   borderRadius,
   startPage = 1,
 }) => {
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [isPageLoaded, setIsPageLoaded] = useState<boolean>(false);
+  const [isDocLoaded, setIsDocLoaded] = useState<boolean>(false);
   const [numPages, setNumPages] = useState<number>(0);
   const [pageNumber, setPageNumber] = useState<number>(startPage);
   const [scale, setScale] = useState<number>(1);
@@ -33,40 +34,58 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
   const controlBarHeight = "40px";
   const isMountedRef = useRef(true);
 
-  const recalcScaleForPage = (pageNum: number) => {
-    if (
-      !isMountedRef.current ||
-      !isActive ||
-      !pdfInstanceRef.current ||
-      !containerRef.current
-    ) {
-      return;
-    }
+  const recalcScaleForPage = useCallback(
+    (pageNum: number) => {
+      const tryRecalc = () => {
+        if (
+          !isMountedRef.current ||
+          !isActive ||
+          !pdfInstanceRef.current ||
+          !containerRef.current ||
+          !isDocLoaded
+        ) {
+          return;
+        }
 
-    pdfInstanceRef.current.getPage(pageNum).then((page: any) => {
-      if (!isMountedRef.current || !containerRef.current) return;
+        // try again repeatedly until the worker is loaded
+        if (typeof pdfInstanceRef.current.getPage !== "function") {
+          setTimeout(tryRecalc, 100);
+          return;
+        }
 
-      const viewport = page.getViewport({ scale: 1 });
-      const containerRect = containerRef.current.getBoundingClientRect();
-      const controlBarHeightValue = parseFloat(controlBarHeight) || 40;
-      const availableHeight = containerRect.height - controlBarHeightValue;
-      const newScale = Math.min(
-        containerRect.width / viewport.width,
-        availableHeight / viewport.height,
-      );
-      setScale(newScale);
-    });
-  };
+        pdfInstanceRef.current.getPage(pageNum).then((page: any) => {
+          if (!isMountedRef.current || !containerRef.current) return;
 
-  const onDocumentLoadSuccess = (pdf: any) => {
-    pdfInstanceRef.current = pdf;
-    setNumPages(pdf.numPages);
-    setPageNumber(Math.min(startPage, pdf.numPages));
-  };
+          const viewport = page.getViewport({ scale: 1 });
+          const containerRect = containerRef.current.getBoundingClientRect();
+          const controlBarHeightValue = parseFloat(controlBarHeight) || 40;
+          const availableHeight = containerRect.height - controlBarHeightValue;
+          const newScale = Math.min(
+            containerRect.width / viewport.width,
+            availableHeight / viewport.height,
+          );
+          setScale(newScale);
+        });
+      };
 
-  const onPageLoadSuccess = () => {
-    setIsLoaded(true);
-  };
+      tryRecalc();
+    },
+    [isActive, isDocLoaded],
+  );
+
+  const onDocumentLoadSuccess = useCallback(
+    (pdf: any) => {
+      pdfInstanceRef.current = pdf;
+      setNumPages(pdf.numPages);
+      setPageNumber(Math.min(startPage, pdf.numPages));
+      setIsDocLoaded(true);
+    },
+    [startPage],
+  );
+
+  const onPageLoadSuccess = useCallback(() => {
+    setIsPageLoaded(true);
+  }, []);
 
   // Rescale on displaying a new page
   useEffect(() => {
@@ -116,7 +135,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
             minWidth: "max-content",
           }}
         >
-          {!isLoaded && (
+          {!isPageLoaded && (
             <Box
               sx={{
                 position: "absolute",
