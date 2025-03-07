@@ -11,7 +11,9 @@ const HeroCardBack: React.FC = () => {
   const { background, text } = useCustomPalette();
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
-  const philosophyFontSize = isXs ? "1rem" : "1.1rem";
+  const philosophyFontSize = isXs ? ".95rem" : "1.1rem";
+  const fontSize = isXs ? "1.05rem" : "1.15rem";
+
   const createMarkdownComponents = useCallback(
     (fontSize: string, strongFontSize: string) => ({
       p: ({ children }: { children?: React.ReactNode }) => (
@@ -53,7 +55,7 @@ const HeroCardBack: React.FC = () => {
     >
       <ReactMarkdown
         remarkPlugins={[remarkBreaks]}
-        components={createMarkdownComponents("1.15rem", "1.15rem")}
+        components={createMarkdownComponents(fontSize, fontSize)}
       >
         {`**Professional Mission**
 Restore 1,000,000 quality-adjusted life years (QALYs) for people using digital solutions like video games, apps, web services, and biometric sensors.
@@ -78,7 +80,7 @@ Peruse the portfolio and see how we might build a healthier world.
       )}
       <ReactMarkdown
         remarkPlugins={[remarkBreaks]}
-        components={createMarkdownComponents(philosophyFontSize, "1.15rem")}
+        components={createMarkdownComponents(philosophyFontSize, fontSize)}
       >
         {`**Philosophy**
 We are all interconnected in the web of cause and effect; every thought, word, and action stems from our genes and environment. This recognition calls me to create compassionate environments that nurture human flourishing at every scale - from conversations to global apps.`}

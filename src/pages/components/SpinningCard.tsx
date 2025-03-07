@@ -122,7 +122,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     (side: "left" | "right" | null) => {
       if (!side) return;
 
-      let addition = side === "left" ? 180 : -180;
+      let addition = side === "left" ? -180 : 180;
       addition *= isHovered ? 1 : -1;
       setTargetRotationDeg((prev) => prev + addition);
       transitionStartTimeMsRef.current = performance.now();
