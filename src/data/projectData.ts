@@ -86,7 +86,9 @@ export interface ProjectOptions {
   institutions: InstitutionData[];
   iconSrc: string;
   year: number;
+  month: number;
   details: ProjectDetail;
+  impact: number;
 }
 
 export class Project {
@@ -100,7 +102,9 @@ export class Project {
   public institutions: ProjectOptions["institutions"];
   public iconSrc: ProjectOptions["iconSrc"];
   public year: ProjectOptions["year"];
+  public month: ProjectOptions["month"];
   public details: ProjectOptions["details"];
+  public impact: ProjectOptions["impact"];
 
   constructor({
     title,
@@ -113,7 +117,9 @@ export class Project {
     institutions,
     iconSrc,
     year,
+    month,
     details,
+    impact,
   }: ProjectOptions) {
     this.title = title;
     this.category = category;
@@ -125,7 +131,9 @@ export class Project {
     this.institutions = institutions;
     this.iconSrc = iconSrc;
     this.year = year;
+    this.month = month;
     this.details = details;
+    this.impact = impact;
   }
 }
 
@@ -141,6 +149,7 @@ export const allProjects: Project[] = [
   new Project({
     title: "Tilt Tracker",
     year: 2023,
+    month: 12,
     category: getCategory("Health Tech"),
     focus: "Featured",
     imageSrc: "tilt-tracker/josh-tilt-cropped.webp",
@@ -167,10 +176,12 @@ I served a Software Engineer and transitioned to Lead Engineer, Co-Inventor, and
     institutions: getInstitutions("UHealth", "The GApp Lab"),
     iconSrc: tiltIcon,
     details: tiltTracker,
+    impact: 80,
   }),
   new Project({
     title: "ABCmouse",
     year: 2019,
+    month: 9,
     category: getCategory("Game Dev"),
     focus: "Featured",
     imageSrc: "abcmouse/abcmouse.webp",
@@ -190,10 +201,12 @@ I served as a Software Engineer I and II on ABCmouse for 1.5 years.`,
     institutions: getInstitutions("Age of Learning"),
     iconSrc: abcmouseIcon,
     details: abcMouse,
+    impact: 90,
   }),
   new Project({
     title: "Clawface",
     year: 2018,
+    month: 5,
     category: getCategory("Game Dev"),
     focus: "Featured",
     imageSrc: "clawface/clawface-cover.webp",
@@ -205,10 +218,12 @@ I served as the Lead Engineer for a team of 6 engineers in a 15-person game-deve
     institutions: getInstitutions("Hathos Interactive"),
     iconSrc: clawfaceIcon,
     details: clawface,
+    impact: 70,
   }),
   new Project({
     title: "NRH Control",
-    year: 2022,
+    year: 2023,
+    month: 5,
     category: getCategory("Health Tech"),
     focus: "Archived",
     imageSrc: "nrh-control/nrh-control-ipad.webp",
@@ -220,10 +235,12 @@ I served as the UI/UX Coordinator for 2 years.`,
     institutions: getInstitutions("UHealth"),
     iconSrc: nrhControlIcon,
     details: nrhControl,
+    impact: 90,
   }),
   new Project({
     title: "AD with Sam",
     year: 2021,
+    month: 6,
     category: getCategory("Health Tech"),
     focus: "Archived",
     imageSrc: "ad-with-sam/adwithsam-cleaned.webp",
@@ -235,10 +252,12 @@ I served as Lead Producer from start to finish.`,
     institutions: getInstitutions("UHealth"),
     iconSrc: samIcon,
     details: adWithSam,
+    impact: 80,
   }),
   new Project({
     title: "Bobby The Bladder",
-    year: 2022,
+    year: 2021,
+    month: 10,
     category: getCategory("Health Game"),
     focus: "Archived",
     imageSrc: "bobby-the-bladder/sam-and-bobby-thumbnail.webp",
@@ -250,10 +269,12 @@ I served as Lead Producer from start to finish.`,
     institutions: getInstitutions("UHealth"),
     iconSrc: bobbyIcon,
     details: bobbyTheBladder,
+    impact: 79,
   }),
   new Project({
     title: "Derpy Dinos",
     year: 2017,
+    month: 11,
     category: getCategory("Game Dev"),
     focus: "Archived",
     imageSrc: "derpy-dinos/derpy-capsule.webp",
@@ -265,10 +286,12 @@ I served as Lead Producer and Engineer through release.`,
     institutions: [],
     iconSrc: derpyDinosIcon,
     details: derpyDinos,
+    impact: 75,
   }),
   new Project({
     title: "MindKloud",
-    year: 2023,
+    year: 2024,
+    month: 1,
     category: getCategory("Health Tech"),
     focus: "Archived",
     imageSrc: "mindkloud-journey/mk-journey-logo.webp",
@@ -292,10 +315,12 @@ I served as Head of Engineering for Health Tech Apps.`,
     institutions: getInstitutions("Health Tech Apps"),
     iconSrc: mkJourneyIcon,
     details: mindkloud,
+    impact: 50,
   }),
   new Project({
     title: "The Pocket Optimist",
     year: 2024,
+    month: 10,
     category: getCategory("Health Tech"),
     focus: "Archived",
     imageSrc: "pocket-optimist/pessimistic-night2.webp",
@@ -307,10 +332,12 @@ I serve as the Inventor, Developer, and Coach.`,
     institutions: getInstitutions("Digital Health"),
     iconSrc: pocketOptimistIcon,
     details: pocketOptimist,
+    impact: 40,
   }),
   new Project({
     title: "Abductor",
     year: 2016,
+    month: 10,
     category: getCategory("Game Dev"),
     focus: "Archived",
     imageSrc: "abductor/abductor.webp",
@@ -322,10 +349,12 @@ I served as the Lead Engineer and Production Co-Lead.`,
     institutions: [],
     iconSrc: bobIcon,
     details: abductor,
+    impact: 30,
   }),
   new Project({
     title: "Talking Points",
-    year: 2017,
+    year: 2016,
+    month: 10.5,
     category: getCategory("Health Game"),
     focus: "Archived",
     imageSrc: "talking-points/talking-points-cover.webp",
@@ -337,10 +366,12 @@ I served as the Lead Engineer during prototyping.`,
     institutions: [],
     iconSrc: talkingPointsIcon,
     details: talkingPoints,
+    impact: 20,
   }),
   new Project({
     title: "Debug",
     year: 2016,
+    month: 9,
     category: getCategory("Game Dev"),
     focus: "Archived",
     imageSrc: "debug/debug-cover.webp",
@@ -352,10 +383,12 @@ I served as the Lead Engineer and Production Co-Lead.`,
     institutions: [],
     iconSrc: debugIcon,
     details: debug,
+    impact: 15,
   }),
   new Project({
     title: "Fruit Buddi",
     year: 2013,
+    month: 8,
     category: getCategory("Health Game"),
     focus: "Archived",
     imageSrc: "fruit-buddi/fruitmoney.jpg",
@@ -367,10 +400,12 @@ I served as a Co-Inventor and Designer for this product.`,
     institutions: getInstitutions("Design for America"),
     iconSrc: fruitBuddiIcon,
     details: fruitBuddi,
+    impact: 14,
   }),
   new Project({
     title: "Smart Chart",
     year: 2025,
+    month: 1,
     category: getCategory("Health Tech"),
     focus: "Archived",
     imageSrc: "smart-chart/digital-health-wide.webp",
@@ -392,10 +427,12 @@ I serve as the Founder and Developer of the service.`,
     institutions: getInstitutions("Digital Health"),
     iconSrc: smartChartIcon,
     details: smartChart,
+    impact: 30,
   }),
   new Project({
     title: "This Portfolio",
     year: 2025,
+    month: 3,
     category: undefined,
     focus: "Archived",
     imageSrc: "this-portfolio/brandon-wide.webp",
@@ -422,6 +459,7 @@ I designed, built, and tested it in ~2.5 months.`,
     institutions: [],
     iconSrc: brmIcon,
     details: thisPortfolio,
+    impact: 5,
   }),
 ];
 

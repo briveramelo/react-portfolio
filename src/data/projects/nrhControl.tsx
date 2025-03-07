@@ -58,7 +58,7 @@ A key aspect of this was maintaining adherence to the University of Utah's color
       src: "nrh-control/nrh-control-style-guide.pdf",
       alt: "",
       type: "firebasePdf",
-      text: `Brent Elieson (University IT Director), Dr. Ahmad Alsaleem, Dr. Jason Wiese, Tamanna Mo (Human-Computer Interaction Researcher), Karthi Jeyabalan, Andrae Meyer, Brantly Walker, Aaron Behunin (Software Developers), Brandon Rivera-Melo (UI/UX Coordinator), Jeff Jackman, Jess Adamson, Yuyan Yao (UI Artists), James Gardner (Occupational Therapist, IT), `,
+      text: `Brent Elieson (University IT Director), Dr. Ahmad Alsaleem, Dr. Jason Wiese, Tamanna Mo (Human-Computer Interaction Researcher), Karthi Jeyabalan, Andrae Meyer, Brantly Walker, Aaron Behunin (Software Developers), Brandon Rivera-Melo (UI/UX Coordinator), Junhao Fu, Yuyan Yao, Jess Adamson, Jeff Jackman, Rebekah Huang, (UI Artists), James Gardner (Occupational Therapist, IT), `,
     },
   ],
   links: [

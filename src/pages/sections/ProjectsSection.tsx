@@ -1,4 +1,11 @@
-import React, { forwardRef, useEffect, useRef, useState } from "react";
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Typography, Box, useTheme, useMediaQuery } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ProjectDetails from "./Projects/ProjectDetails.tsx";
@@ -11,6 +18,9 @@ import { MediaControlProvider } from "../components/MediaCarousel/Controls/Media
 import ProjectGroup from "./Projects/ProjectGroup.tsx";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useNavigation } from "../../utils/hooks/useNavigation.ts";
+import CalendarIcon from "@/assets/misc/calendar-check.svg?react";
+import StarIcon from "@/assets/misc/star.svg?react";
+import ToggleGroup, { ToggleOption } from "../components/ToggleGroup.tsx";
 
 interface ProjectsProps {
   backgroundColor: string;
@@ -34,6 +44,11 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
       null,
     );
     const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false);
+    const [toggleValue, setToggleValue] = useState<string>("impact");
+    const handleToggle = (newValue: string | null) => {
+      if (newValue === null) return;
+      setToggleValue(newValue);
+    };
 
     const [isAnimating, setIsAnimating] = useState<boolean>(true);
     const slideDurationMs = 750;
@@ -96,6 +111,44 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
         handleCardClick(matchingProject);
       }
     }, [projectSlug]);
+
+    const getSortedProjects = useCallback(
+      (focusType: string) => {
+        const filteredProjects = allProjects.filter(
+          (project) => project.focus === focusType,
+        );
+        return toggleValue === "year"
+          ? [...filteredProjects].sort(
+              (a, b) => -(a.year + a.month / 12 - (b.year + b.month / 12)),
+            )
+          : [...filteredProjects].sort((a, b) => -(a.impact - b.impact));
+      },
+      [toggleValue],
+    );
+
+    const sortedFeaturedProjects = useMemo(() => {
+      return getSortedProjects("Featured");
+    }, [getSortedProjects]);
+
+    const sortedArchivedProjects = useMemo(() => {
+      return getSortedProjects("Archived");
+    }, [getSortedProjects]);
+
+    const toggleOptions: ToggleOption[] = useMemo(
+      () => [
+        {
+          value: "impact",
+          label: "Impact",
+          icon: <StarIcon />,
+        },
+        {
+          value: "year",
+          label: "Year",
+          icon: <CalendarIcon />,
+        },
+      ],
+      [],
+    );
 
     return (
       <MediaControlProvider>
@@ -197,11 +250,34 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                 durationMs={slideDurationMs}
                 isOpen={!isProjectSelected}
               >
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    opacity: isProjectSelected ? 0 : 1,
+                    transition: "opacity 1s ease",
+                    mt: { xs: -5, sm: 0 },
+                    pb: { xs: 4, sm: 0 },
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Typography>Sort by:</Typography>
+                    <ToggleGroup
+                      onChange={handleToggle}
+                      options={toggleOptions}
+                      value={toggleValue}
+                    />
+                  </Box>
+                </Box>
                 <ProjectGroup
                   label="Featured"
-                  projects={allProjects.filter(
-                    (project) => project.focus === "Featured",
-                  )}
+                  projects={sortedFeaturedProjects}
                   direction="left"
                   useLight={useLight}
                   isProjectSelected={isProjectSelected}
@@ -213,9 +289,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                 <Box height={"40px"} />
                 <ProjectGroup
                   label="Archived"
-                  projects={allProjects.filter(
-                    (project) => project.focus === "Archived",
-                  )}
+                  projects={sortedArchivedProjects}
                   direction="right"
                   useLight={useLight}
                   isProjectSelected={isProjectSelected}

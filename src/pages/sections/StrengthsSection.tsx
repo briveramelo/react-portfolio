@@ -1,12 +1,5 @@
 import React, { forwardRef, useRef, useState, useMemo } from "react";
-import {
-  Box,
-  Typography,
-  Grid,
-  ToggleButtonGroup,
-  ToggleButton,
-} from "@mui/material";
-import { darken } from "@mui/material/styles";
+import { Box, Typography, Grid } from "@mui/material";
 import CalendarIcon from "@/assets/misc/calendar-check.svg?react";
 import StarIcon from "@/assets/misc/star.svg?react";
 import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver";
@@ -14,6 +7,7 @@ import { skillsData } from "../../data/skillsData";
 import { ThemeMode, useCustomPalette } from "../../theme/theme";
 import ExperienceCategory from "./Strengths/ExperienceCategory";
 import SkillCategory from "./Strengths/SkillCategory";
+import ToggleGroup, { ToggleOption } from "../components/ToggleGroup";
 
 interface StrengthsSectionProps {
   backgroundColor: string;
@@ -23,64 +17,30 @@ interface StrengthsSectionProps {
 
 export const StrengthsSection = forwardRef<HTMLElement, StrengthsSectionProps>(
   ({ backgroundColor, textColor, id }, ref) => {
-    const [isYearsOfExperience, setIsYearsOfExperience] = useState(true);
+    const [selectedToggle, setSelectedToggle] = useState<string>("experience");
     const sectionRef = useRef<HTMLDivElement>(null);
     const isSectionVisible = useIntersectionObserver(sectionRef, {
       threshold: 0.1,
     });
 
-    const { mode, interactable, background, text } = useCustomPalette();
+    const { mode } = useCustomPalette();
     const useLight = mode !== ThemeMode.Light;
 
-    const buttonStyle = useMemo(
-      () => ({
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: { xs: 160, sm: 200 },
-        backgroundColor: background.paper,
-        color: text.paper,
-        outline: "none",
-        margin: 0.5,
-        "&:hover": {
-          backgroundColor: darken(background.paper, 0.2),
+    const toggleOptions: ToggleOption[] = useMemo(
+      () => [
+        {
+          value: "experience",
+          label: "Experience",
+          icon: <CalendarIcon />,
         },
-        "&.Mui-selected": {
-          backgroundColor: interactable.hovered,
-          color: text.light,
-          "&:hover": {
-            backgroundColor: darken(interactable.hovered, 0.2),
-          },
-          "& svg": {
-            color: text.light,
-          },
-          "&:hover svg": {
-            color: text.light,
-          },
+        {
+          value: "skill",
+          label: "Skill",
+          icon: <StarIcon />,
         },
-        "& svg": {
-          color: text.paper,
-        },
-      }),
-      [background.paper, text.paper, interactable.hovered, text.light],
-    );
-
-    const iconStyle = useMemo(
-      () => ({
-        marginRight: 8,
-        height: 20,
-        marginTop: -2,
-      }),
+      ],
       [],
     );
-
-    const handleToggle = (
-      event: React.MouseEvent<HTMLElement>,
-      newValue: string | null,
-    ) => {
-      if (newValue === null) return;
-      setIsYearsOfExperience(newValue === "experience");
-    };
 
     return (
       <Box
@@ -100,26 +60,12 @@ export const StrengthsSection = forwardRef<HTMLElement, StrengthsSectionProps>(
           Strengths
         </Typography>
 
-        <ToggleButtonGroup
-          exclusive
-          value={isYearsOfExperience ? "experience" : "skill"}
-          onChange={handleToggle}
-          sx={{
-            mb: 8,
-            backgroundColor: background.paper,
-            borderRadius: 2,
-          }}
-          className="pop-shadow"
-        >
-          <ToggleButton value="experience" sx={buttonStyle}>
-            <CalendarIcon style={iconStyle} />
-            Experience
-          </ToggleButton>
-          <ToggleButton value="skill" sx={buttonStyle}>
-            <StarIcon style={iconStyle} />
-            Skill
-          </ToggleButton>
-        </ToggleButtonGroup>
+        <ToggleGroup
+          options={toggleOptions}
+          value={selectedToggle}
+          onChange={setSelectedToggle}
+        />
+        <Box sx={{ mb: 8 }} />
 
         <Grid
           container
@@ -139,20 +85,25 @@ export const StrengthsSection = forwardRef<HTMLElement, StrengthsSectionProps>(
               xl={2.4}
               key={category.category}
             >
-              {/* Show ExperienceCategory if isYearsOfExperience is true */}
-              <Box sx={{ display: isYearsOfExperience ? "block" : "none" }}>
+              <Box
+                sx={{
+                  display: selectedToggle === "experience" ? "block" : "none",
+                }}
+              >
                 <ExperienceCategory
                   skillCategory={category}
-                  isVisible={isSectionVisible && isYearsOfExperience}
+                  isVisible={
+                    isSectionVisible && selectedToggle === "experience"
+                  }
                   useLight={useLight}
                 />
               </Box>
-
-              {/* Show SkillCategory if isYearsOfExperience is false */}
-              <Box sx={{ display: !isYearsOfExperience ? "block" : "none" }}>
+              <Box
+                sx={{ display: selectedToggle === "skill" ? "block" : "none" }}
+              >
                 <SkillCategory
                   skillCategory={category}
-                  isVisible={isSectionVisible && !isYearsOfExperience}
+                  isVisible={isSectionVisible && selectedToggle === "skill"}
                   isSectionVisible={isSectionVisible}
                   useLight={useLight}
                 />

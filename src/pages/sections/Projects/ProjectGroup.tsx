@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { Project } from "../../../data/projectData";
 import { SpinningCardProvider } from "../../components/SpinningCardContext.tsx";
 import ProjectCard from "./ProjectCard.tsx";
+import { Flipper, Flipped } from "react-flip-toolkit";
 
 interface ProjectGroupProps {
   label: string;
@@ -48,7 +49,13 @@ const ProjectGroup: React.FC<ProjectGroupProps> = ({
     const isOnScreen = targetDestinationX === "0";
     setIsVisible(isOnScreen || isAnimating);
     setIsHoverable(isOnScreen && !isAnimating);
-  }, [isAnimating, targetDestinationX]);
+  }, [
+    isAnimating,
+    targetDestinationX,
+    isProjectSelected,
+    isSectionVisible,
+    direction,
+  ]);
 
   return (
     <Box
@@ -63,29 +70,36 @@ const ProjectGroup: React.FC<ProjectGroupProps> = ({
       <Typography variant="h2" sx={{ textAlign: "left", margin: 0, mb: 1 }}>
         {label}
       </Typography>
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: {
-            xs: "repeat(auto-fit, minmax(350px, 1fr))",
-            sm: "repeat(auto-fit, minmax(390px, 1fr))",
-          },
-          gap: "20px",
-          justifyContent: "center",
-        }}
-      >
-        {projects.map((project) => (
-          <SpinningCardProvider key={project.title}>
-            <ProjectCard
-              project={project}
-              useLight={useLight}
-              isSliding={isAnimating}
-              onClick={() => handleCardClick(project)}
-              isSectionVisible={isSectionVisible}
-            />
-          </SpinningCardProvider>
-        ))}
-      </Box>
+      <Flipper flipKey={projects.map((p) => p.title).join("-")}>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "repeat(auto-fit, minmax(350px, 1fr))",
+              sm: "repeat(auto-fit, minmax(390px, 1fr))",
+            },
+            gap: "20px",
+            justifyContent: "center",
+          }}
+        >
+          {projects.map((project) => (
+            <Flipped key={project.title} flipId={project.title}>
+              {/* this div is key for effective animation */}
+              <div>
+                <SpinningCardProvider>
+                  <ProjectCard
+                    project={project}
+                    useLight={useLight}
+                    isSliding={isAnimating}
+                    onClick={() => handleCardClick(project)}
+                    isSectionVisible={isSectionVisible}
+                  />
+                </SpinningCardProvider>
+              </div>
+            </Flipped>
+          ))}
+        </Box>
+      </Flipper>
     </Box>
   );
 };
