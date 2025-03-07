@@ -132,7 +132,7 @@ export const ProjectCardBack = React.forwardRef<
             }}
           >
             <Button variant="contained" onClick={onClick}>
-              Click to Learn More
+              Learn More
             </Button>
             <Box
               sx={{

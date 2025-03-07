@@ -42,6 +42,7 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
     isHovered,
     isHoveredRef,
     resetHoverState,
+    setHasBeenHovered,
   } = useSpinningCard();
 
   const [isVisibleLag, setIsVisibleLag] = useState<boolean>(false);
@@ -202,8 +203,11 @@ export const SpinningCard: React.FC<SpinningCardProps> = ({
 
   const handleTap = useCallback(() => {
     if (!isListeningForEvents || isFlipping()) return;
+
+    flip("left");
+    setHasBeenHovered(true);
     transitionStartTimeMsRef.current = performance.now();
-  }, [isListeningForEvents, isFlipping]);
+  }, [isListeningForEvents, isFlipping, flip, setHasBeenHovered]);
 
   return (
     <Box

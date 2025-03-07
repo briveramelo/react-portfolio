@@ -5,7 +5,10 @@ import HeroCard from "./Hero/HeroCard.tsx";
 import { useIntersectionObserver } from "../../utils/hooks/useIntersectionObserver.ts";
 import ScrollDownIndicator from "../components/ScrollDownIndicator.tsx";
 import { useCustomPalette } from "../../theme/theme.ts";
-import { SpinningCardProvider } from "../components/SpinningCardContext.tsx";
+import {
+  SpinningCardProvider,
+  useSpinningCard,
+} from "../components/SpinningCardContext.tsx";
 
 interface HeroProps {
   backgroundColor: string;
@@ -16,6 +19,7 @@ interface HeroProps {
 
 export const HeroSection = forwardRef<HTMLElement, HeroProps>(
   ({ backgroundColor, textColor, id, homeLinkRef }, ref) => {
+    const { hasBeenHovered } = useSpinningCard();
     const isSectionVisible = useIntersectionObserver(
       ref as React.RefObject<HTMLElement>,
       { threshold: 0.1 },
@@ -24,8 +28,6 @@ export const HeroSection = forwardRef<HTMLElement, HeroProps>(
 
     const [isSectionVisibleDelayed, setIsSectionVisibleDelayed] =
       useState<boolean>(true);
-    const [hasCardBeenHovered, setHasCardBeenHovered] =
-      useState<boolean>(false);
     const [hasSectionLostVisibility, setHasSectionLostVisibility] =
       useState<boolean>(false);
     const isFirstCardAnimationRef = useRef<boolean>(true);
@@ -78,15 +80,12 @@ export const HeroSection = forwardRef<HTMLElement, HeroProps>(
           }}
         >
           <HeroText textColor={textColor} isSectionVisible={isSectionVisible} />
-          <SpinningCardProvider>
-            <HeroCard
-              isSectionVisible={isSectionVisible}
-              onHoveredChange={setHasCardBeenHovered}
-              isFirstCardAnimationRef={isFirstCardAnimationRef}
-            />
-          </SpinningCardProvider>
+          <HeroCard
+            isSectionVisible={isSectionVisible}
+            isFirstCardAnimationRef={isFirstCardAnimationRef}
+          />
         </Container>
-        {hasCardBeenHovered && (
+        {hasBeenHovered && (
           <ScrollDownIndicator
             color={
               hasSectionLostVisibility

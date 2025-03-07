@@ -9,6 +9,7 @@ import { ContactSection } from "./sections/ContactSection";
 import { ThemeMode, useCustomPalette } from "../theme/theme";
 import { sectionStyles } from "../data/sectionStyles";
 import { SectionRef } from "./MainLayout";
+import { SpinningCardProvider } from "./components/SpinningCardContext.tsx";
 
 interface LayoutContext {
   sections: SectionRef[];
@@ -24,13 +25,15 @@ export function HomePage() {
 
   return (
     <>
-      <HeroSection
-        ref={getSectionRef("Home")}
-        homeLinkRef={getSectionRef("HomeLink")}
-        id="home"
-        backgroundColor={sectionStyles.home.backgroundColor(cp)}
-        textColor={sectionStyles.home.textColor(cp)}
-      />
+      <SpinningCardProvider>
+        <HeroSection
+          ref={getSectionRef("Home")}
+          homeLinkRef={getSectionRef("HomeLink")}
+          id="home"
+          backgroundColor={sectionStyles.home.backgroundColor(cp)}
+          textColor={sectionStyles.home.textColor(cp)}
+        />
+      </SpinningCardProvider>
       <InstitutionsSection
         ref={getSectionRef("Institutions")}
         id="institutions"

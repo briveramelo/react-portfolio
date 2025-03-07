@@ -77,6 +77,7 @@ export const useHoverTracking = (
     trackPointerEnter,
     trackPointerLeave,
     hasBeenHovered,
+    setHasBeenHovered,
     isHovered,
     isHoveredRef,
     resetHoverState,

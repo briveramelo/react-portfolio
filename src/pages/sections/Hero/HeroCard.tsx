@@ -17,13 +17,11 @@ import { useSpinningCard } from "../../components/SpinningCardContext.tsx";
 
 interface HeroCardProps {
   isSectionVisible: boolean;
-  onHoveredChange: (value: boolean) => void;
   isFirstCardAnimationRef: React.MutableRefObject<boolean>;
 }
 
 const HeroCard: React.FC<HeroCardProps> = ({
   isSectionVisible,
-  onHoveredChange,
   isFirstCardAnimationRef,
 }) => {
   const {
@@ -106,10 +104,6 @@ const HeroCard: React.FC<HeroCardProps> = ({
       }
     }, PROJECTILE_DURATION_MS);
   }, [hasBeenHovered, isSectionVisible]);
-
-  useEffect(() => {
-    onHoveredChange(hasBeenHovered);
-  }, [hasBeenHovered, onHoveredChange]);
 
   const cardWidth = useMemo(() => ({ xs: "350px", sm: "400px" }), []);
   const cardHeight = useMemo(() => ({ xs: "525px", sm: "600px" }), []);
