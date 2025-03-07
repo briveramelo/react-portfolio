@@ -96,12 +96,13 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
         <ConfettiEffect trigger={formSubmitted} />
 
         <Container
-          maxWidth="sm"
+          maxWidth="md"
           sx={{
             display: "flex",
             flexDirection: "column",
+            justifyContent: "center",
             gap: 4,
-            mb: formSubmitted ? 44 : 8,
+            mb: formSubmitted ? 38 : 8,
           }}
         >
           {/* Section Title */}
@@ -115,23 +116,36 @@ export const ContactSection = forwardRef<HTMLElement, ContactSectionProps>(
           >
             {!formSubmitted ? "Your Move" : "Nice Move"}
           </Typography>
-          <Typography variant="h6" sx={{ color: textColor }}>
-            You don't have to say hi, but a fun surprise happens when you do...
-          </Typography>
+          <Box sx={{ display: formSubmitted ? "none" : "visible" }}>
+            <Typography variant="h6" sx={{ color: textColor }}>
+              You don't have to say hi, and there's no newsletter, but you will
+              unlock a small gift...
+            </Typography>
+          </Box>
 
           {/* Render the Form or Confirmation */}
-          {formSubmitted ? (
-            <ConfirmationMessage />
-          ) : (
-            <ContactForm
-              errors={errors}
-              onChange={handleChange}
-              onSubmit={handleSubmit}
-              isSending={isSending}
-              errorMessage={errorMessage}
-              heartTriggerRef={heartTriggerRef}
-            />
-          )}
+          <Box
+            width="sm"
+            sx={{
+              mx: "auto",
+              maxWidth: "sm",
+              width: "100%",
+              justifyContent: "center",
+            }}
+          >
+            {formSubmitted ? (
+              <ConfirmationMessage />
+            ) : (
+              <ContactForm
+                errors={errors}
+                onChange={handleChange}
+                onSubmit={handleSubmit}
+                isSending={isSending}
+                errorMessage={errorMessage}
+                heartTriggerRef={heartTriggerRef}
+              />
+            )}
+          </Box>
         </Container>
 
         {/* Footer Component */}

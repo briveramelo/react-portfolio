@@ -299,7 +299,7 @@ I served as Head of Engineering for Health Tech Apps.`,
     gifSrc: "pocket-optimist/all-animated.mp4",
     description: `The Pocket Optimist is a science-based, personal development service for athletes, working professionals, and parents to break through hidden mental barriers.
 ${_}
-I served as the Inventor, Developer, and Coach.`,
+I serve as the Inventor, Developer, and Coach.`,
     skills: getSkills("Leadership", "Python"),
     institutions: getInstitutions("Digital Health"),
     iconSrc: pocketOptimistIcon,
@@ -372,9 +372,9 @@ I served as a Co-Inventor and Designer for this product.`,
     focus: "Archived",
     imageSrc: "this-portfolio/brandon-wide.webp",
     gifSrc: "",
-    description: `This portfolio was built with React designed for use on desktop and mobile web platforms, and traffic analyzed using Plausible to protect your ad-exposure.
+    description: `This portfolio was built with React, designed for use on desktop and mobile web browsers, and the traffic analyzed using Plausible to protect your ad-exposure.
 ${_}
-I built it in ~2.5 months.`,
+I designed, built, and tested it in ~2.5 months.`,
     skills: getSkills(
       "Leadership",
       "GCP",
