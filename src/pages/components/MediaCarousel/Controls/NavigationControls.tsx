@@ -60,7 +60,11 @@ const NavigationControls: React.FC<NavigationControlsProps> = ({
           width: "100%",
         }}
       >
-        <ChangeMediaButton next={false} onClick={onPrev} />
+        <Box
+          sx={{ visibility: selectedMediaIndex === 0 ? "hidden" : "visible" }}
+        >
+          <ChangeMediaButton next={false} onClick={onPrev} />
+        </Box>
         <Typography sx={{ fontSize: 14, mx: 2, mt: -2, color: text.paper }}>
           {selectedMediaIndex + 1} / {media.length}
         </Typography>
@@ -77,7 +81,7 @@ const NavigationControls: React.FC<NavigationControlsProps> = ({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          gap: 0.5,
+          gap: "clamp(0rem, .1vw, 0.5rem)",
           mt: -2,
         }}
       >
