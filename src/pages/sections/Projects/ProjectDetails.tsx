@@ -215,10 +215,10 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
               key={skill.name}
               sx={{
                 display: "flex",
+                maxWidth: "70px",
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "space-between",
-                flexShrink: 0,
                 height: "65px",
               }}
             >
