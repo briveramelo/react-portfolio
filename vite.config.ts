@@ -8,9 +8,9 @@ export default defineConfig({
   // auto is more permissive, and setting an explicit array is more limiting
   // I'd rather keep this flexible post-deployment and leave it as 'auto'
   // it's a good reference in case I want to do a semi-local test though
-  server: {
-    allowedHosts: ["ca4f-209-122-135-213.ngrok-free.app"],
-  },
+  // server: {
+  //   allowedHosts: ["ca4f-209-122-135-213.ngrok-free.app"],
+  // },
   plugins: [
     react(),
     visualizer({
