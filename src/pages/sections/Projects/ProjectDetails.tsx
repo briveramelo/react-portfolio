@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { MediaItem } from "../../../data/projectDetails.tsx";
 import { Box, Typography, Grid, useMediaQuery } from "@mui/material";
 import MediaCarousel from "../../components/MediaCarousel/MediaCarousel";
@@ -16,13 +16,9 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 interface ProjectDetailsProps {
   project: Project;
-  hasMediaNextBeenClickedRef: React.MutableRefObject<boolean>;
 }
 
-const ProjectDetails: React.FC<ProjectDetailsProps> = ({
-  project,
-  hasMediaNextBeenClickedRef,
-}) => {
+const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
   const { mode } = useCustomPalette();
   const useLight = mode === ThemeMode.Dark;
   const theme = useTheme();
@@ -35,6 +31,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   const [chapterTitleIndex, setChapterTitleIndex] = useState<number>(0);
   const [selectedMediaIndex, setSelectedMediaIndex] = useState<number>(0);
   const { mediaIndex: routeMediaIndex } = useParams<{ mediaIndex?: string }>();
+  const hasMediaNextBeenClickedRef = useRef<boolean>(false);
 
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmMd = useMediaQuery(theme.breakpoints.between("sm", "md"));

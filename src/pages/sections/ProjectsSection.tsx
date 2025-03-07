@@ -35,7 +35,6 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
     );
     const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false);
 
-    const hasMediaNextBeenClickedRef = useRef<boolean>(false);
     const [isAnimating, setIsAnimating] = useState<boolean>(true);
     const slideDurationMs = 750;
     const sectionRef = ref as React.RefObject<HTMLElement>;
@@ -244,10 +243,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
                 }}
               >
                 {selectedProject && (
-                  <ProjectDetails
-                    project={selectedProject}
-                    hasMediaNextBeenClickedRef={hasMediaNextBeenClickedRef}
-                  />
+                  <ProjectDetails project={selectedProject} />
                 )}
               </Box>
             </Collapsible>
