@@ -11,7 +11,6 @@ import { MediaControlProvider } from "../components/MediaCarousel/Controls/Media
 import ProjectGroup from "./Projects/ProjectGroup.tsx";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useNavigation } from "../../utils/hooks/useNavigation.ts";
-import { NavLink } from "../../data/sectionStyles.ts";
 
 interface ProjectsProps {
   backgroundColor: string;
@@ -42,7 +41,7 @@ export const ProjectsSection = forwardRef<HTMLElement, ProjectsProps>(
     const sectionRef = ref as React.RefObject<HTMLElement>;
 
     const isSectionVisibleLead = useIntersectionObserver(sectionRef, {
-      threshold: 0.1,
+      threshold: [0.025],
     });
     const [isSectionVisibleLag, setIsSectionVisibleLag] =
       useState<boolean>(false);
