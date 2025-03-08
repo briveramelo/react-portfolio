@@ -196,7 +196,7 @@ As the team downsized, I gradually took on the entire tech stack and client meet
       src: "tilt-tracker/ingenta-article.pdf",
       alt: "tilt tracker logo",
       type: "firebasePdf",
-      text: "In 2018, we **published a journal article** to Technology and Innovation with the high level details of our approach.",
+      text: "In 2018, we [published a journal article](https://www.ingentaconnect.com/content/nai/ti/2018/00000020/f0020001/art00002) to Technology and Innovation with the high level details of our approach.",
     },
     {
       src: "tilt-tracker/TiltTracker_MarketingPlan_Executive_Summary.pdf",
@@ -211,10 +211,10 @@ As the team downsized, I gradually took on the entire tech stack and client meet
       text: "In 2022, we were invited to apply for SBIR (Small Business Innovation Research) funding, and we did. The full proposal is a 79-page pdf document with the full support of the Craig H. Neilsen Rehabilitation Hospital, a team of clinical staff, researchers, and business professionals. Like 90% of other applications, Tilt Tracker was denied an award. This is just the elevator pitch.",
     },
     {
-      src: "tilt-tracker/design-and-eval-article-working-copy.pdf",
-      alt: "tilt tracker logo",
+      src: "tilt-tracker/tilt-tracker-acm-paper.pdf",
+      alt: "tilt tracker ACM Journal Article",
       type: "firebasePdf",
-      text: 'In January 2025, another article was accepted for publication in IMWUT, a high-impact ACM journal on Interactive, Mobile, Wearable, and Ubiquitous Technologies. The paper received **"very significant impact" scores from all reviewers.** We evaluated the feasibility of the aforementioned reminder and notification modalities to improve PR adherence and identified opportunities to facilitate reflection on personal data through data exploration.',
+      text: 'In March 2025, another article was [published in IMWUT](https://dl.acm.org/doi/10.1145/3712273), a high-impact ACM journal on Interactive, Mobile, Wearable, and Ubiquitous Technologies. The paper received **"very significant impact" scores from all reviewers.** We evaluated the feasibility of the aforementioned reminder and notification modalities to improve PR adherence and identified opportunities to facilitate reflection on personal data through data exploration.',
     },
     {
       src: `### "I think it would be **very beneficial to me to have this reminder** because in any situation, I would have the reminder to help me to go back to help **to not get pressures sores.**"
@@ -228,10 +228,8 @@ ${dash} Tilt Tracker user`,
       src: "tilt-tracker/logo.svg",
       alt: "tilt tracker logo",
       type: "firebaseImage",
-      text: `Tilt Tracker: where rehab is a relief.
-${_}
-Contributors:
-Brandon Rivera-Melo (Project Manager, Lead Engineer), Dr. Jeffrey Rosenbluth (Clinical Director), Stephen Trapp (Rehabilitation Psychologist), Venessa Lee, Daniel Shelly, Carolyn Campbell, Tanja Kari, Sue Sandwick, Casey Fenger (Clinical Researchers), Roger Altizer (GApp Lab Director), Jesse Ferraro (Project Manager), Ben Steele (Producer), Suwas Walve (Software Developer), Vega Bai, Andrew Liu (Front-End Developers), Mark Smith (Back-End Developer), Mitch Colina (Researcher), Ross Imburgia (Electrical Engineer), Mateo Godinez (Intern Data Curator), Abdullah Kareem (Intern Web Developer)`,
+      text: `Contributors:
+Brandon Rivera-Melo (Project Manager, Lead Engineer), Dr. Jeffrey Rosenbluth (Clinical Director), Dr. Stephen Trapp (Rehabilitation Psychologist), Dr. Jason Wiese, Dr. Tamanna Motahar, Dr. Ahmad Alsaleem, YeonJae Kim (HCI Researchers), Dr. Venessa Lee, Daniel Shelly, Carolyn Campbell, Tanja Kari, Sue Sandwick, Casey Fenger (Clinical Researchers), Dr. Roger Altizer (GApp Lab Director), Jesse Ferraro (Project Manager), Ben Steele (Producer), Suwas Walve (Software Developer), Vega Bai, Andrew Liu (Front-End Developers), Mark Smith (Back-End Developer), Mitch Colina (Researcher), Ross Imburgia (Electrical Engineer), Mateo Godinez (Intern Data Curator), Abdullah Kareem (Intern Web Developer)`,
     },
   ],
   links: [],

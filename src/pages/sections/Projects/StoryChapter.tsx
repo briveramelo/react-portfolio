@@ -68,6 +68,8 @@ const MemoizedMarkdown = React.memo(
                   color: interactable.idle,
                 }}
                 href={href}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 {children}
               </Typography>

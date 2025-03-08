@@ -5,6 +5,7 @@ import { useCustomPalette } from "../../../../theme/theme.ts";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import PdfControls from "../Controls/PdfControls.tsx";
+import { v4 as uuidv4 } from "uuid";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -33,6 +34,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
   const { background } = useCustomPalette();
   const controlBarHeight = "40px";
   const isMountedRef = useRef(true);
+  const key = uuidv4();
 
   const recalcScaleForPage = useCallback(
     (pageNum: number) => {
@@ -44,12 +46,6 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
           !containerRef.current ||
           !isDocLoaded
         ) {
-          return;
-        }
-
-        // try again repeatedly until the worker is loaded
-        if (typeof pdfInstanceRef.current.getPage !== "function") {
-          setTimeout(tryRecalc, 100);
           return;
         }
 
@@ -149,6 +145,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
             </Box>
           )}
           <Document
+            key={key}
             file={pdfUrl}
             onLoadSuccess={onDocumentLoadSuccess}
             onLoadError={(error) =>
@@ -167,4 +164,4 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
   );
 };
 
-export default PdfViewer;
+export default React.memo(PdfViewer);
