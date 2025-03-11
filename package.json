@@ -1,0 +1,59 @@
+{
+  "name": "react-portfolio",
+  "private": true,
+  "version": "0.1.22",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "tsc": "tsc -b",
+    "build": "node scripts/updateAppVersion.cjs && vite build && ./scripts/printBuildSize.sh",
+    "deploy": "firebase deploy --only hosting --project brandon-portfolio-448520",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "format": "prettier --write .",
+    "concat": "scripts/concat.sh",
+    "sync-version": "node scripts/updateAppVersion.cjs"
+  },
+  "lint-staged": {
+    "*.{js,jsx,cjs,ts,tsx,css,md}": "prettier --write"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.3.1",
+    "@mui/material": "^6.3.1",
+    "firebase": "^11.2.0",
+    "plausible-tracker": "^0.3.9",
+    "react": "^18.3.1",
+    "react-confetti": "^6.2.2",
+    "react-dom": "^18.3.1",
+    "react-flip-toolkit": "^7.2.4",
+    "react-markdown": "^9.0.3",
+    "react-pdf": "^9.2.1",
+    "react-router-dom": "^7.2.0",
+    "react-use": "^17.6.0",
+    "remark-breaks": "^4.0.0",
+    "uuid": "^11.0.5",
+    "web-vitals": "^4.2.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "autoprefixer": "^10.4.20",
+    "dotenv": "^16.4.7",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "globals": "^15.14.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.1",
+    "prettier": "^3.4.2",
+    "rollup-plugin-visualizer": "^5.14.0",
+    "typescript": "~5.6.2",
+    "typescript-eslint": "^8.18.2",
+    "vite": "^6.0.5",
+    "vite-plugin-svgr": "^4.3.0"
+  }
+}
