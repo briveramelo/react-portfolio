@@ -70,10 +70,10 @@ Peruse the portfolio and see how we might build a healthier world.
       {user && (
         <Box mb={2}>
           <FirebaseDownloadLink
-            downloadFilename={"Brandon Rivera-Melo Resume 2025.03.pdf"}
+            downloadFilename={"Brandon Rivera-Melo Resume 2025.04.pdf"}
             height={20}
             linkSx={{ fontSize: "1.15rem", fontWeight: "bold" }}
-            firebasePath="resumes/brm-resume-portfolio-2025.03.pdf"
+            firebasePath="resumes/BrandonRivera-Melo-resume-2025.04.pdf"
             linkText="Resumé"
           />
         </Box>
