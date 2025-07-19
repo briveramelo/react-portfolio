@@ -12,7 +12,8 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "concat": "scripts/concat.sh",
-    "sync-version": "node scripts/updateAppVersion.cjs"
+    "sync-version": "node scripts/updateAppVersion.cjs",
+    "update:embedpdf": "curl -L https://snippet.embedpdf.com/embedpdf.js -o src/vendor/embedpdf.js"
   },
   "lint-staged": {
     "*.{js,jsx,cjs,ts,tsx,css,md}": "prettier --write"

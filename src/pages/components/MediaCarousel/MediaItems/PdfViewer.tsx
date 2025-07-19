@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import EmbedPDF from "/src/vendor/embedpdf.bundle.js";
 
 interface PdfViewerProps {
   pdfUrl: string;
@@ -16,34 +17,6 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const viewerRef = useRef<any>(null); // EmbedPDF instance
 
-  // Dynamic loader for EmbedPDF
-  const loadEmbedPDF = (() => {
-    let loadingPromise: Promise<any> | null = null;
-    return () => {
-      if (window.EmbedPDF) {
-        return Promise.resolve(window.EmbedPDF);
-      }
-      if (loadingPromise) {
-        return loadingPromise;
-      }
-      loadingPromise = import("https://snippet.embedpdf.com/embedpdf.js")
-        .then((mod: any) => {
-          const ep = mod.default || mod;
-          if (!ep || typeof ep !== "object") {
-            console.warn("EmbedPDF module shape unexpected", mod);
-          } else {
-            console.log("dynamic import success. Keys:", Object.keys(ep));
-          }
-          (window as any).EmbedPDF = ep;
-          return ep;
-        })
-        .catch((e) => {
-          console.error("dynamic import failed", e);
-          throw e;
-        });
-      return loadingPromise;
-    };
-  })();
 
   // Initialize / teardown the viewer
   useEffect(() => {
@@ -70,8 +43,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
 
     (async () => {
       try {
-        const EmbedPDF = await loadEmbedPDF();
-        const instance = await EmbedPDF?.init({
+        const instance = await EmbedPDF.init({
           type: "container",
           target: containerRef.current!,
           src: pdfUrl,
