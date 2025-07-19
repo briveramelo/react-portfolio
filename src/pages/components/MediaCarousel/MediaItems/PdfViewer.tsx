@@ -1,15 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
-import { Box, CircularProgress } from "@mui/material";
-import { useCustomPalette } from "../../../../theme/theme.ts";
-import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import "react-pdf/dist/esm/Page/TextLayer.css";
-import PdfControls from "../Controls/PdfControls.tsx";
-import { v4 as uuidv4 } from "uuid";
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
-
-export const PdfViewerContext = React.createContext<any>({});
+import React, { useEffect, useRef } from "react";
 
 interface PdfViewerProps {
   pdfUrl: string;
@@ -24,143 +13,121 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
   borderRadius,
   startPage = 1,
 }) => {
-  const [isPageLoaded, setIsPageLoaded] = useState<boolean>(false);
-  const [isDocLoaded, setIsDocLoaded] = useState<boolean>(false);
-  const [numPages, setNumPages] = useState<number>(0);
-  const [pageNumber, setPageNumber] = useState<number>(startPage);
-  const [scale, setScale] = useState<number>(1);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const pdfInstanceRef = useRef<any>(null);
-  const { background } = useCustomPalette();
-  const controlBarHeight = "40px";
-  const isMountedRef = useRef(true);
-  const key = uuidv4();
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const viewerRef = useRef<any>(null); // EmbedPDF instance
 
-  const recalcScaleForPage = useCallback(
-    (pageNum: number) => {
-      const tryRecalc = () => {
-        if (
-          !isMountedRef.current ||
-          !isActive ||
-          !pdfInstanceRef.current ||
-          !containerRef.current ||
-          !isDocLoaded
-        ) {
-          return;
+  // Dynamic loader for EmbedPDF
+  const loadEmbedPDF = (() => {
+    let loadingPromise: Promise<any> | null = null;
+    return () => {
+      if (window.EmbedPDF) {
+        return Promise.resolve(window.EmbedPDF);
+      }
+      if (loadingPromise) {
+        return loadingPromise;
+      }
+      loadingPromise = import("https://snippet.embedpdf.com/embedpdf.js")
+        .then((mod: any) => {
+          const ep = mod.default || mod;
+          if (!ep || typeof ep !== "object") {
+            console.warn("EmbedPDF module shape unexpected", mod);
+          } else {
+            console.log("dynamic import success. Keys:", Object.keys(ep));
+          }
+          (window as any).EmbedPDF = ep;
+          return ep;
+        })
+        .catch((e) => {
+          console.error("dynamic import failed", e);
+          throw e;
+        });
+      return loadingPromise;
+    };
+  })();
+
+  // Initialize / teardown the viewer
+  useEffect(() => {
+    if (!isActive) {
+      return;
+    }
+    if (!containerRef.current) {
+      return;
+    }
+
+    // If we already have a viewer for a previous pdfUrl, clear it.
+    if (viewerRef.current) {
+      try {
+        // Best-effort cleanup if the instance exposes a destroy method
+        viewerRef.current.destroy?.();
+      } catch {
+        /* no-op */
+      }
+      viewerRef.current = null;
+      containerRef.current.innerHTML = "";
+    }
+
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const EmbedPDF = await loadEmbedPDF();
+        const instance = await EmbedPDF?.init({
+          type: "container",
+          target: containerRef.current!,
+          src: pdfUrl,
+          // You can configure additional UI options here:
+          // e.g. hideToolbar: false, initialZoom: "fitWidth"
+        });
+
+        // Navigate to startPage if provided (>1) and API supports it
+        if (!cancelled && startPage > 1 && instance && typeof instance.goToPage === "function") {
+          try {
+            instance.goToPage(startPage);
+          } catch {
+            /* ignore if method signature differs */
+          }
         }
 
-        pdfInstanceRef.current.getPage(pageNum).then((page: any) => {
-          if (!isMountedRef.current || !containerRef.current) return;
+        if (!cancelled) {
+          viewerRef.current = instance;
+        }
+      } catch (e) {
+        // You might want to surface this via an error boundary or toast
+        // For now we silently fail to avoid crashing the app
+        // console.error("Failed to initialize PDF viewer", e);
+      }
+    })();
 
-          const viewport = page.getViewport({ scale: 1 });
-          const containerRect = containerRef.current.getBoundingClientRect();
-          const controlBarHeightValue = parseFloat(controlBarHeight) || 40;
-          const availableHeight = containerRect.height - controlBarHeightValue;
-          const newScale = Math.min(
-            containerRect.width / viewport.width,
-            availableHeight / viewport.height,
-          );
-          setScale(newScale);
-        });
-      };
-
-      tryRecalc();
-    },
-    [isActive, isDocLoaded],
-  );
-
-  const onDocumentLoadSuccess = useCallback(
-    (pdf: any) => {
-      pdfInstanceRef.current = pdf;
-      setNumPages(pdf.numPages);
-      setPageNumber(Math.min(startPage, pdf.numPages));
-      setIsDocLoaded(true);
-    },
-    [startPage],
-  );
-
-  const onPageLoadSuccess = useCallback(() => {
-    setIsPageLoaded(true);
-  }, []);
-
-  // Rescale on displaying a new page
-  useEffect(() => {
-    recalcScaleForPage(pageNumber);
-  }, [isActive, pageNumber]);
-
-  // mark as unmounted to avoid null refs in callbacks when dismounted
-  useEffect(() => {
-    isMountedRef.current = true;
     return () => {
-      isMountedRef.current = false;
+      cancelled = true;
+      if (viewerRef.current) {
+        try {
+          viewerRef.current.destroy?.();
+        } catch {
+          /* no-op */
+        }
+        viewerRef.current = null;
+      }
     };
-  }, []);
+  }, [pdfUrl, isActive, startPage]);
 
-  const contextValue = {
-    pdfUrl,
-    containerRef,
-    pdfInstanceRef,
-    pageNumber,
-    setPageNumber,
-    numPages,
-    scale,
-    setScale,
-    recalcScaleForPage,
-  };
+  if (!isActive) {
+    return null;
+  }
 
   return (
-    <PdfViewerContext.Provider value={contextValue}>
-      <Box
-        ref={containerRef}
-        sx={{
-          width: "100%",
-          height: "100%",
-          overflow: "auto",
-          position: "relative",
-          borderRadius,
-        }}
-      >
-        <PdfControls />
-
-        {/* PDF Document */}
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            backgroundColor: background.dark,
-            minWidth: "max-content",
-          }}
-        >
-          {!isPageLoaded && (
-            <Box
-              sx={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                zIndex: 2,
-              }}
-            >
-              <CircularProgress />
-            </Box>
-          )}
-          <Document
-            key={key}
-            file={pdfUrl}
-            onLoadSuccess={onDocumentLoadSuccess}
-            onLoadError={(error) =>
-              console.error("Error while loading document:", error)
-            }
-          >
-            <Page
-              onRenderSuccess={onPageLoadSuccess}
-              pageNumber={pageNumber}
-              scale={scale}
-            />
-          </Document>
-        </Box>
-      </Box>
-    </PdfViewerContext.Provider>
+    <div
+      ref={containerRef}
+      style={{
+        width: "100%",
+        height: "100%",
+        borderRadius,
+        overflow: "hidden",
+        position: "relative",
+        background: "#fff",
+      }}
+      data-pdf-url={pdfUrl}
+    />
   );
 };
 
