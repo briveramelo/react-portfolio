@@ -7,10 +7,10 @@ ROOT_DIR="src/vendor/embedpdf"
 ENTRY_JS="$ROOT_DIR/embedpdf.js"
 BUNDLE_OUT="src/vendor/embedpdf.bundle.js"
 
-echo "[1/4] Preparing directory: $ROOT_DIR"
+echo "[1/5] Preparing directory: $ROOT_DIR"
 mkdir -p "$ROOT_DIR"
 
-echo "[2/4] Download entry snippet"
+echo "[2/5] Download entry snippet"
 curl -sSL https://snippet.embedpdf.com/embedpdf.js -o "$ENTRY_JS"
 
 # Pattern now captures ANY hashed relative asset, not just those starting with embedpdf-
@@ -42,17 +42,22 @@ if ls "$ROOT_DIR"/*.wasm >/dev/null 2>&1; then
   WASM_LOADER_FLAG="--loader:.wasm=file"
 fi
 
-echo "[3/4] Bundling with esbuild -> $BUNDLE_OUT"
+echo "[3/5] Bundling with esbuild -> $BUNDLE_OUT"
 npx esbuild "$ENTRY_JS" \
   --bundle --format=esm --platform=browser \
   $WASM_LOADER_FLAG \
+  --minify --target=es2024 --legal-comments=none --define:process.env.NODE_ENV='"production"' --pure:console.debug --pure:console.log \
   --outfile="$BUNDLE_OUT"
 
-echo "[4/4] SHA256 of bundle:"
+echo "[4/5] SHA256 of bundle:"
 if command -v shasum >/dev/null 2>&1; then
   shasum -a 256 "$BUNDLE_OUT"
 elif command -v sha256sum >/dev/null 2>&1; then
   sha256sum "$BUNDLE_OUT"
 fi
 
-echo "Done. Import from: import EmbedPDF from 'src/vendor/embedpdf.bundle.js';"
+echo "[5/5] Cleaning up downloaded snippet sources (leaving only bundle)"
+rm -rf "$ROOT_DIR"
+
+echo "Done. Bundle ready: src/vendor/embedpdf.bundle.js (minified, target=es2024)."
+echo "Import with: import EmbedPDF from '@/vendor/embedpdf.bundle.js'; (adjust alias/path)."

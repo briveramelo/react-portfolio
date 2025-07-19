@@ -31,6 +31,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
+          if (id.includes('embedpdf.bundle.js')) return 'vendor-embedpdf';
           if (id.includes("node_modules")) {
             if (id.includes("firebase")) return "vendor-firebase";
             if (
