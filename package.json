@@ -1,7 +1,7 @@
 {
   "name": "react-portfolio",
   "private": true,
-  "version": "0.1.23",
+  "version": "0.1.24",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,7 +12,8 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "concat": "scripts/concat.sh",
-    "sync-version": "node scripts/updateAppVersion.cjs"
+    "sync-version": "node scripts/updateAppVersion.cjs",
+    "update:embedpdf": "scripts/get-embedpdf.sh"
   },
   "lint-staged": {
     "*.{js,jsx,cjs,ts,tsx,css,md}": "prettier --write"
