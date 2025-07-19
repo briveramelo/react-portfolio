@@ -1,0 +1,8 @@
+{
+  "name": "Session Time by UTM Source",
+  "query": {
+    "kind": "HogQLQuery",
+    "query": "SELECT properties.utm_source AS utm_source, quantile(0.05)(properties.session_time_ms) AS p5, quantile(0.25)(properties.session_time_ms) AS p25, quantile(0.50)(properties.session_time_ms) AS p50, quantile(0.75)(properties.session_time_ms) AS p75, quantile(0.95)(properties.session_time_ms) AS p95 FROM events WHERE event = 'custom_pageview' GROUP BY utm_source ORDER BY utm_source"
+  },
+  "display": "horizontal-whisker"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "Scroll Depth Map",
+  "filters": {
+    "insight": "TRENDS",
+    "events": [{"id": "scroll_milestone"}],
+    "display": "WORLD_MAP",
+    "date_from": "-7d"
+  }
+}

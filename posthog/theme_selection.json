@@ -1,0 +1,10 @@
+{
+  "name": "Theme Selection Distribution",
+  "filters": {
+    "insight": "TRENDS",
+    "events": [{"id": "theme_selected"}],
+    "breakdown": "selected_theme",
+    "display": "ActionsTable",
+    "date_from": "-30d"
+  }
+}

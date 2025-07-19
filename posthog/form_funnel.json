@@ -1,0 +1,12 @@
+{
+  "name": "Contact Form Completion",
+  "filters": {
+    "insight": "FUNNELS",
+    "events": [
+      {"id": "form_start", "order": 0},
+      {"id": "form_submit", "order": 1}
+    ],
+    "date_from": "-30d",
+    "interval": "day"
+  }
+}

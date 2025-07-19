@@ -1,0 +1,9 @@
+{
+  "name": "Page Heatmap",
+  "filters": {
+    "insight": "TRENDS",
+    "events": [{"id": "general_click"}],
+    "display": "HEATMAP",
+    "date_from": "-7d"
+  }
+}

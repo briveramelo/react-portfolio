@@ -1,0 +1,12 @@
+{
+  "name": "Conversion Funnel",
+  "filters": {
+    "insight": "FUNNELS",
+    "events": [
+      {"id": "custom_pageview", "order": 0},
+      {"id": "outbound_link_click", "order": 1}
+    ],
+    "date_from": "-30d",
+    "interval": "day"
+  }
+}

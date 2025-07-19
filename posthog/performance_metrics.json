@@ -1,0 +1,8 @@
+{
+  "name": "Average Web Vitals",
+  "query": {
+    "kind": "HogQLQuery",
+    "query": "SELECT replaceRegexpAll(event, 'Performance: ', '') AS metric, avg(toFloat64(properties.value)) AS avg_value FROM events WHERE event LIKE 'Performance:%' AND timestamp > now() - INTERVAL 30 DAY GROUP BY metric ORDER BY metric"
+  },
+  "display": "table"
+}

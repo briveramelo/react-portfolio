@@ -1,0 +1,9 @@
+{
+  "name": "Click Map",
+  "filters": {
+    "insight": "TRENDS",
+    "events": [{"id": "general_click"}],
+    "display": "WORLD_MAP",
+    "date_from": "-7d"
+  }
+}
