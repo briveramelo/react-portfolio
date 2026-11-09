@@ -1,3 +1,4 @@
+import medcallsLogo from "@/assets/projects/medcalls/logo.png";
 import uhealthW from "@/assets/orgs/uhealth/uhealth-w.webp";
 import uhealth from "@/assets/orgs/uhealth/uhealth.webp";
 import uhealthLogo from "@/assets/orgs/uhealth/uhealth-logo.webp";
@@ -32,6 +33,7 @@ import digitalHealthLogo from "@/assets/orgs/digital-health/digital-health-logo.
 
 export interface InstitutionData {
   name:
+    | "MedCalls AI"
     | "UHealth"
     | "Age of Learning"
     | "The GApp Lab"
@@ -74,6 +76,13 @@ Full-Stack Web Developer`,
   },
 ];
 export const otherEmployerData: InstitutionData[] = [
+  {
+    name: "MedCalls AI",
+    colorSrc: medcallsLogo,
+    logoSrc: medcallsLogo,
+    text: `2025 - Present
+CTO`,
+  },
   {
     name: "Health Tech Apps",
     whiteSrc: "",

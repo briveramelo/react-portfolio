@@ -1,3 +1,5 @@
+import medcallsIcon from "@/assets/projects/medcalls/logo.png";
+import { medcalls } from "./projects/medcalls.tsx";
 import tiltIcon from "@/assets/projects/tilt/original/icon.svg";
 import abcmouseIcon from "@/assets/projects/abcmouse/compressed/abcmouse-icon2.webp";
 import clawfaceIcon from "@/assets/projects/clawface/compressed/icon.webp";
@@ -62,6 +64,7 @@ type Focus = "Featured" | "Archived" | "Hidden";
 
 export interface ProjectOptions {
   title:
+    | "MedCalls AI"
     | "Tilt Tracker"
     | "Clawface"
     | "ABCmouse"
@@ -147,6 +150,40 @@ const _ = "&nbsp;"; //whitespace character. When on its own line, produces a lin
 
 export const allProjects: Project[] = [
   new Project({
+    title: "MedCalls AI",
+    year: 2025,
+    month: 11,
+    category: getCategory("Health Tech"),
+    focus: "Featured",
+    imageSrc: "medcalls/card-still.png",
+    gifSrc: "medcalls/card-loop.mp4",
+    description: `MedCalls AI connects **healthcare conversations to completed front-desk work**, from appointment scheduling to staff follow-through.
+${_}
+As **CTO**, I build the platform and manage financial planning, compensation, and HIPAA compliance.`,
+    skills: getSkills(
+      "HTML",
+      "CSS",
+      "JS",
+      "React",
+      "GCP",
+      "Docker",
+      "Analytics",
+      "Python",
+      "Go",
+      "SQL",
+      "NoSQL",
+      "Bash",
+      "DevOps",
+      "HIPAA",
+      "Leadership",
+      "Publishing",
+    ),
+    institutions: getInstitutions("MedCalls AI"),
+    iconSrc: medcallsIcon,
+    details: medcalls,
+    impact: 100,
+  }),
+  new Project({
     title: "Tilt Tracker",
     year: 2023,
     month: 12,
@@ -208,7 +245,7 @@ I served as a Software Engineer I and II on ABCmouse for 1.5 years.`,
     year: 2018,
     month: 5,
     category: getCategory("Game Dev"),
-    focus: "Featured",
+    focus: "Archived",
     imageSrc: "clawface/clawface-cover.webp",
     gifSrc: "clawface/clawface-bullethell-compressed.mp4",
     description: `Clawface is an indie, twin-stick, arcade-style bullet hell shooter published to Steam with **"Very Positive" reviews** and **over 70,000 downloads.**
@@ -218,7 +255,7 @@ I served as the Lead Engineer for a team of 6 engineers in a 15-person game-deve
     institutions: getInstitutions("Hathos Interactive"),
     iconSrc: clawfaceIcon,
     details: clawface,
-    impact: 70,
+    impact: 95,
   }),
   new Project({
     title: "NRH Control",
