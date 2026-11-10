@@ -1,5 +1,6 @@
-import React, { useState, useRef, useLayoutEffect } from "react";
+import React, { useState, useRef, useLayoutEffect, useEffect } from "react";
 import { Box, IconButton } from "@mui/material";
+import PauseIcon from "@mui/icons-material/Pause";
 import SpeakerIcon from "@mui/icons-material/VolumeUp";
 import { getStorage } from "firebase/storage";
 import FirebaseAsset from "./FirebaseAsset.tsx";
@@ -46,6 +47,12 @@ const FirebaseImageWithAudioButtons: React.FC<
   const [imgDimensions, setImgDimensions] = useState<ImgDimensions | null>(
     null,
   );
+  const [playingPath, setPlayingPath] = useState<string | null>(null);
+  const [loadingPath, setLoadingPath] = useState<string | null>(null);
+  const [audioError, setAudioError] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const requestRef = useRef(0);
+  const loadedPathRef = useRef<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const { urlCache, setUrlCache } = useFirebaseCache();
@@ -105,18 +112,62 @@ const FirebaseImageWithAudioButtons: React.FC<
     return () => window.removeEventListener("resize", handleResize);
   }, [isSelected, height, firebaseImagePath]);
 
+  useEffect(() => {
+    if (!isSelected) {
+      requestRef.current += 1;
+      audioRef.current?.pause();
+      setPlayingPath(null);
+      setLoadingPath(null);
+    }
+    return () => {
+      requestRef.current += 1;
+      audioRef.current?.pause();
+    };
+  }, [isSelected]);
+
   const handlePlayAudio = async (audioPath: string) => {
     setHasClickedButton(true);
-    const blobUrl = await getCachedFirebaseAsset(
-      audioPath,
-      storage,
-      firebaseAssetCacheKey,
-      urlCache,
-      setUrlCache,
-    );
-    if (blobUrl) {
-      const audio = new Audio(blobUrl);
+    setAudioError(false);
+    const request = ++requestRef.current;
+    audioRef.current?.pause();
+    if (playingPath === audioPath) {
+      setPlayingPath(null);
+      return;
+    }
+    setPlayingPath(null);
+    setLoadingPath(audioPath);
+    try {
+      const blobUrl = await getCachedFirebaseAsset(
+        audioPath,
+        storage,
+        firebaseAssetCacheKey,
+        urlCache,
+        setUrlCache,
+      );
+      if (request !== requestRef.current) return;
+      if (!blobUrl) throw new Error("Audio unavailable");
+      // Resume the current clip; selecting another clip starts it from the beginning.
+      const audio =
+        loadedPathRef.current === audioPath && audioRef.current
+          ? audioRef.current
+          : new Audio(blobUrl);
+      audioRef.current = audio;
+      loadedPathRef.current = audioPath;
+      audio.onended = () => setPlayingPath(null);
+      audio.onerror = () => {
+        setPlayingPath(null);
+        setAudioError(true);
+      };
       await audio.play();
+      if (request !== requestRef.current) {
+        audio.pause();
+        return;
+      }
+      setPlayingPath(audioPath);
+    } catch {
+      if (request === requestRef.current) setAudioError(true);
+    } finally {
+      if (request === requestRef.current) setLoadingPath(null);
     }
   };
 
@@ -139,6 +190,7 @@ const FirebaseImageWithAudioButtons: React.FC<
               ref={imageRef}
               src={url}
               alt={alt}
+              onLoad={calculateDimensions}
               style={{
                 objectFit: "contain",
                 width: "100%",
@@ -162,6 +214,9 @@ const FirebaseImageWithAudioButtons: React.FC<
                   <IconButton
                     key={idx}
                     id={button.audioPath}
+                    aria-label={`${playingPath === button.audioPath ? "Pause" : "Play"} audio ${idx + 1}`}
+                    aria-pressed={playingPath === button.audioPath}
+                    disabled={loadingPath !== null}
                     onClick={() => handlePlayAudio(button.audioPath)}
                     sx={{
                       position: "absolute",
@@ -187,19 +242,38 @@ const FirebaseImageWithAudioButtons: React.FC<
                           : `${buttonAnim} 2s infinite`,
                     }}
                   >
-                    <SpeakerIcon
-                      sx={{
-                        // Scale the icon's font size relative to the button size.
-                        fontSize: buttonSize * 0.7,
-                        animation:
-                          hasClickedButton || idx !== 0
-                            ? undefined
-                            : `${iconAnim} 2s infinite`,
-                      }}
-                    />
+                    {loadingPath === button.audioPath ? (
+                      <CircularProgress size={20} color="inherit" />
+                    ) : playingPath === button.audioPath ? (
+                      <PauseIcon />
+                    ) : (
+                      <SpeakerIcon
+                        sx={{
+                          // Scale the icon's font size relative to the button size.
+                          fontSize: buttonSize * 0.7,
+                          animation:
+                            hasClickedButton || idx !== 0
+                              ? undefined
+                              : `${iconAnim} 2s infinite`,
+                        }}
+                      />
+                    )}
                   </IconButton>
                 );
               })}
+            {audioError && (
+              <Box
+                role="status"
+                sx={{
+                  position: "absolute",
+                  bottom: 0,
+                  p: 1,
+                  bgcolor: "background.paper",
+                }}
+              >
+                Audio could not play. Please try again.
+              </Box>
+            )}
           </Box>
         ) : (
           <CircularProgress />

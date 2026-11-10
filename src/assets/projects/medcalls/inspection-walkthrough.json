@@ -1,0 +1,591 @@
+{
+  "report": {
+    "schema_version": 1,
+    "graphs": {
+      "booking": {
+        "schema_version": 1,
+        "flow_definition_id": "6f2ab7931df0c1cffc887cc5189ffdf895e7704d86fbbc348640200abad954b8",
+        "definition": {
+          "id": "booking_walkthrough",
+          "flows": [
+            {
+              "id": "booking",
+              "entry": "request",
+              "nodes": [
+                {
+                  "id": "request",
+                  "kind": "conversation",
+                  "label": "Understand request",
+                  "speech": {
+                    "mode": "static",
+                    "content": "How can I help you today?"
+                  },
+                  "edges": [
+                    {
+                      "id": "request_next",
+                      "to": "preferences",
+                      "condition": {
+                        "kind": "llm",
+                        "prompt": "Caller wants to schedule an appointment."
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "preferences",
+                  "kind": "conversation",
+                  "label": "Collect preferences",
+                  "speech": {
+                    "mode": "static",
+                    "content": "Which location and time work for you?"
+                  },
+                  "edges": [
+                    {
+                      "id": "preferences_next",
+                      "to": "availability",
+                      "condition": {
+                        "kind": "llm",
+                        "prompt": "Location and time preference are available."
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "availability",
+                  "kind": "action",
+                  "label": "Search availability",
+                  "handler": "searchAvailability",
+                  "writes": false,
+                  "edges": [
+                    {
+                      "id": "availability_next",
+                      "to": "offer",
+                      "condition": {
+                        "kind": "logic",
+                        "code": {
+                          "text": "result.status == \"completed\""
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "offer",
+                  "kind": "conversation",
+                  "label": "Offer appointment",
+                  "speech": {
+                    "mode": "static",
+                    "content": "Tuesday at 10:30 or Wednesday at 2:00?"
+                  },
+                  "edges": [
+                    {
+                      "id": "offer_next",
+                      "to": "confirm",
+                      "condition": {
+                        "kind": "llm",
+                        "prompt": "Caller selects an offered appointment."
+                      }
+                    }
+                  ],
+                  "no_match": {
+                    "id": "offer_clarify",
+                    "to": "offer"
+                  }
+                },
+                {
+                  "id": "confirm",
+                  "kind": "conversation",
+                  "label": "Confirm details",
+                  "speech": {
+                    "mode": "static",
+                    "content": "Wednesday at 2:00, Northside. Shall I book it?"
+                  },
+                  "edges": [
+                    {
+                      "id": "confirm_next",
+                      "to": "book",
+                      "condition": {
+                        "kind": "llm",
+                        "prompt": "Caller explicitly confirms the appointment."
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "book",
+                  "kind": "action",
+                  "label": "Book appointment",
+                  "handler": "bookAppointment",
+                  "writes": true,
+                  "edges": [
+                    {
+                      "id": "book_next",
+                      "to": "complete",
+                      "condition": {
+                        "kind": "logic",
+                        "code": {
+                          "text": "result.status == \"completed\""
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "complete",
+                  "kind": "finish",
+                  "label": "Appointment confirmed",
+                  "result": "appointment_booked"
+                }
+              ]
+            }
+          ]
+        },
+        "layout": {
+          "algorithm": "positions-v1",
+          "flows": [
+            {
+              "flow_id": "booking",
+              "nodes": [
+                {
+                  "node_id": "request",
+                  "x": 320,
+                  "y": 60
+                },
+                {
+                  "node_id": "preferences",
+                  "x": 760,
+                  "y": 60
+                },
+                {
+                  "node_id": "availability",
+                  "x": 1200,
+                  "y": 60
+                },
+                {
+                  "node_id": "offer",
+                  "x": 1640,
+                  "y": 60
+                },
+                {
+                  "node_id": "confirm",
+                  "x": 2080,
+                  "y": 60
+                },
+                {
+                  "node_id": "book",
+                  "x": 2520,
+                  "y": 60
+                },
+                {
+                  "node_id": "complete",
+                  "x": 2960,
+                  "y": 60
+                }
+              ]
+            }
+          ]
+        },
+        "overview": {
+          "root_flow_id": "booking",
+          "nodes": [
+            {
+              "flow_id": "booking",
+              "x": 320,
+              "y": 48
+            }
+          ],
+          "edges": []
+        }
+      }
+    },
+    "results": [
+      {
+        "case_id": "Appointment booking",
+        "repetition": 1,
+        "passed": true,
+        "opening": {
+          "input": "",
+          "output": "Thanks for calling. How can I help you today?",
+          "node_id": "request"
+        },
+        "turns": [
+          {
+            "input": "I'd like to book a follow-up appointment.",
+            "output": "Of course. Do you prefer Northside or Downtown, and a morning or afternoon visit?",
+            "node_id": "preferences",
+            "generations": [
+              {
+                "request_id": "response_0",
+                "instructions": "Illustrative booking walkthrough",
+                "output": "Of course. Do you prefer Northside or Downtown, and a morning or afternoon visit?"
+              }
+            ],
+            "passed": true
+          },
+          {
+            "input": "Northside, please. Do you have anything next week?",
+            "output": "I can offer Tuesday at 10:30 in the morning or Wednesday at 2:00 in the afternoon.",
+            "node_id": "offer",
+            "generations": [
+              {
+                "request_id": "response_1",
+                "instructions": "Illustrative booking walkthrough",
+                "output": "I can offer Tuesday at 10:30 in the morning or Wednesday at 2:00 in the afternoon."
+              }
+            ],
+            "passed": true,
+            "actions": [
+              {
+                "id": "lookup",
+                "handler": "searchAvailability",
+                "outcome": "completed"
+              }
+            ],
+            "tool_invocations": [
+              {
+                "id": "lookup",
+                "operation": "searchAvailability",
+                "started_at": "2026-11-09T12:00:00Z",
+                "finished_at": "2026-11-09T12:00:01Z",
+                "elapsed_ms": 1000,
+                "status": "completed",
+                "request": {
+                  "location": "Northside",
+                  "visit_type": "Follow-up",
+                  "window": "Next week"
+                },
+                "output": {
+                  "slots": [
+                    "Tuesday 10:30",
+                    "Wednesday 14:00"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "input": "Is there a later time on Tuesday?",
+            "output": "The available Tuesday slot is 10:30. Wednesday at 2:00 is the afternoon option. Would that work?",
+            "node_id": "offer",
+            "generations": [
+              {
+                "request_id": "response_2",
+                "instructions": "Illustrative booking walkthrough",
+                "output": "The available Tuesday slot is 10:30. Wednesday at 2:00 is the afternoon option. Would that work?"
+              }
+            ],
+            "passed": true
+          },
+          {
+            "input": "Wednesday afternoon works.",
+            "output": "That is Wednesday at 2:00 at Northside for a follow-up visit. Would you like me to book it?",
+            "node_id": "confirm",
+            "generations": [
+              {
+                "request_id": "response_3",
+                "instructions": "Illustrative booking walkthrough",
+                "output": "That is Wednesday at 2:00 at Northside for a follow-up visit. Would you like me to book it?"
+              }
+            ],
+            "passed": true
+          },
+          {
+            "input": "Yes, please book that.",
+            "output": "You're booked for Wednesday at 2:00 at Northside. Is there anything else I can help with?",
+            "node_id": "complete",
+            "generations": [
+              {
+                "request_id": "response_4",
+                "instructions": "Illustrative booking walkthrough",
+                "output": "You're booked for Wednesday at 2:00 at Northside. Is there anything else I can help with?"
+              }
+            ],
+            "passed": true,
+            "actions": [
+              {
+                "id": "booking",
+                "handler": "bookAppointment",
+                "outcome": "completed"
+              }
+            ],
+            "tool_invocations": [
+              {
+                "id": "booking",
+                "operation": "bookAppointment",
+                "started_at": "2026-11-09T12:00:00Z",
+                "finished_at": "2026-11-09T12:00:01Z",
+                "elapsed_ms": 1000,
+                "status": "completed",
+                "request": {
+                  "location": "Northside",
+                  "visit_type": "Follow-up",
+                  "slot": "Wednesday 14:00",
+                  "confirmed": true
+                },
+                "output": {
+                  "status": "booked",
+                  "reference": "DEMO-BOOKING"
+                }
+              }
+            ]
+          }
+        ],
+        "session": {
+          "flow_definition_id": "6f2ab7931df0c1cffc887cc5189ffdf895e7704d86fbbc348640200abad954b8",
+          "flow_trace_status": "complete",
+          "flow_events": [
+            {
+              "sequence": 1,
+              "offset_ms": 0,
+              "kind": "node_entered",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "request",
+              "visit_id": "request_visit"
+            },
+            {
+              "sequence": 2,
+              "offset_ms": 1300,
+              "kind": "edge_accepted",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "request",
+              "visit_id": "request_visit",
+              "edge_id": "request_next"
+            },
+            {
+              "sequence": 3,
+              "offset_ms": 2600,
+              "kind": "node_entered",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "preferences",
+              "visit_id": "preferences_visit"
+            },
+            {
+              "sequence": 4,
+              "offset_ms": 3900,
+              "kind": "conversation_continued",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "preferences",
+              "visit_id": "preferences_visit",
+              "llm_request_id": "response_0"
+            },
+            {
+              "sequence": 5,
+              "offset_ms": 5200,
+              "kind": "edge_accepted",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "preferences",
+              "visit_id": "preferences_visit",
+              "edge_id": "preferences_next"
+            },
+            {
+              "sequence": 6,
+              "offset_ms": 6500,
+              "kind": "node_entered",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "availability",
+              "visit_id": "availability_visit"
+            },
+            {
+              "sequence": 7,
+              "offset_ms": 7800,
+              "kind": "action_started",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "availability",
+              "visit_id": "availability_visit",
+              "action_id": "lookup"
+            },
+            {
+              "sequence": 8,
+              "offset_ms": 9100,
+              "kind": "action_finished",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "availability",
+              "visit_id": "availability_visit",
+              "action_id": "lookup",
+              "outcome": "completed"
+            },
+            {
+              "sequence": 9,
+              "offset_ms": 10400,
+              "kind": "edge_accepted",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "availability",
+              "visit_id": "availability_visit",
+              "edge_id": "availability_next"
+            },
+            {
+              "sequence": 10,
+              "offset_ms": 11700,
+              "kind": "node_entered",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "offer",
+              "visit_id": "offer_visit"
+            },
+            {
+              "sequence": 11,
+              "offset_ms": 13000,
+              "kind": "conversation_continued",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "offer",
+              "visit_id": "offer_visit",
+              "llm_request_id": "response_1"
+            },
+            {
+              "sequence": 12,
+              "offset_ms": 14300,
+              "kind": "conversation_continued",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "offer",
+              "visit_id": "offer_visit",
+              "llm_request_id": "response_2",
+              "outcome": "no_match"
+            },
+            {
+              "sequence": 13,
+              "offset_ms": 15600,
+              "kind": "edge_accepted",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "offer",
+              "visit_id": "offer_visit",
+              "edge_id": "offer_next"
+            },
+            {
+              "sequence": 14,
+              "offset_ms": 16900,
+              "kind": "node_entered",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "confirm",
+              "visit_id": "confirm_visit"
+            },
+            {
+              "sequence": 15,
+              "offset_ms": 18200,
+              "kind": "conversation_continued",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "confirm",
+              "visit_id": "confirm_visit",
+              "llm_request_id": "response_3"
+            },
+            {
+              "sequence": 16,
+              "offset_ms": 19500,
+              "kind": "edge_accepted",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "confirm",
+              "visit_id": "confirm_visit",
+              "edge_id": "confirm_next"
+            },
+            {
+              "sequence": 17,
+              "offset_ms": 20800,
+              "kind": "node_entered",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "book",
+              "visit_id": "book_visit"
+            },
+            {
+              "sequence": 18,
+              "offset_ms": 22100,
+              "kind": "action_started",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "book",
+              "visit_id": "book_visit",
+              "action_id": "booking"
+            },
+            {
+              "sequence": 19,
+              "offset_ms": 23400,
+              "kind": "action_finished",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "book",
+              "visit_id": "book_visit",
+              "action_id": "booking",
+              "outcome": "completed"
+            },
+            {
+              "sequence": 20,
+              "offset_ms": 24700,
+              "kind": "edge_accepted",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "book",
+              "visit_id": "book_visit",
+              "edge_id": "book_next"
+            },
+            {
+              "sequence": 21,
+              "offset_ms": 26000,
+              "kind": "node_entered",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "complete",
+              "visit_id": "complete_visit"
+            },
+            {
+              "sequence": 22,
+              "offset_ms": 27300,
+              "kind": "conversation_continued",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "complete",
+              "visit_id": "complete_visit",
+              "llm_request_id": "response_4"
+            },
+            {
+              "sequence": 23,
+              "offset_ms": 28600,
+              "kind": "flow_finished",
+              "task_id": "appointment",
+              "flow_id": "booking",
+              "invocation_id": "booking_1",
+              "node_id": "complete",
+              "visit_id": "complete_visit",
+              "outcome": "appointment_booked"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
